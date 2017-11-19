@@ -32,6 +32,7 @@ class Vote extends ActiveRecord
             ['startDate','required','message'=>'开始时间不能为空','on'=>'add'],
             ['endDate','required','message'=>'结束时间不能为空','on'=>'add'],
             ['selectType','required','message'=>'投票类型不能为空','on'=>'add'],
+            ['selectCount','default','value'=>1],
             ['voteoptions','required','message'=>'投票选项不能为空','on'=>'add'],
             ['voteoptions','validVoteoptions'],
             [['isClose','isDelete','createUserId'],'safe'],
@@ -54,7 +55,7 @@ class Vote extends ActiveRecord
      * @param int pageIndex
      * @param int pageSize
      * @param array search
-     * 
+     * @return array
      */
     public function votes()
     {
@@ -64,14 +65,25 @@ class Vote extends ActiveRecord
     /**
      * 添加投票
      * @param array $data
+     * @return boolean
      */
     public function add(array $data)
     {
         $this->scenario = 'add';
         if($this->load($data) && $this->validate()){
-            
-            
-            return $this->save(false);
+            if($this->save(false)){
+                $options = [];
+                foreach ($this->voteoptions as $op){
+                    $options[] = [
+                        'text'   => $op,
+                        'voteId' => $this->id,
+                        'createTime' => TIMESTAMP,
+                        'modifyTime' => TIMESTAMP
+                    ];
+                }
+                $voteOptions = new VoteOptions();
+                return (bool)$voteOptions->batchAdd($options);
+            }
         }
         return false;
     }
