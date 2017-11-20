@@ -1,4 +1,4 @@
-*{font-family: "微软雅黑";}
+*{font-family: "微软雅黑";font-size:14px;}
 ul{list-style: none;padding: 0;margin: 0;}
 a{text-decoration: none;}
 /*top start*/
@@ -174,7 +174,7 @@ a{text-decoration: none;}
 .btn-success{background: #419641;color: #FFF;}
 .btn-primary{background: #318BD4;color: #FFF;}
 
-/**弹出框**/
+/*弹出层*/
 .modal{position: absolute;top:0;left: 0;right: 0;bottom: 0;/*background: #F9F2F4;*/filter:alpha(Opacity=10);-moz-opacity:0.1;opacity: 0.1;}
 .modal-body{position: absolute;background: #FFFFFF;top:50%;left:50%;border-radius:5px ;}
 .modal-header{background: #FAF2CC;height: 40px;text-align: center;line-height: 40px;cursor: move;}
@@ -182,5 +182,11 @@ a{text-decoration: none;}
 .modal-divider{border: 0px;border-top:1px solid #F1F1F1}
 .modal-footer{height: 20px;background: #318bd4;text-align: center;line-height: 20px;font-size: 12px;margin-bottom: 0px;}
 .modal-close{position: absolute;margin: 0px;padding: 0px;top:3px;right: 3px;cursor: pointer;}
+/**input placeholder样式*/
+::-webkit-input-placeholder{font-size:12px}    /* 使用webkit内核的浏览器 */
+:-moz-placeholder{font-size:12px}                  /* Firefox版本4-18 */
+::-moz-placeholder{font-size:12px}                  /* Firefox版本19+ */
+:-ms-input-placeholder{font-size:12px}           /* IE浏览器 */
+
 
 

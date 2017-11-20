@@ -31,6 +31,7 @@ class VoteController extends CommonController
 //         if(!$result){
 //             var_dump($vote->getErrors());
 //         }
+        $vote->selectType = 'single';
         return $this->render('add',['model'=>$vote]);
     }
 }
