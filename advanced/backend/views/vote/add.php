@@ -1,9 +1,12 @@
 <?php 
+
 use yii\helpers\Html;
 use backend\assets\AppAsset;
-use common\publics\MyHelper;
+use yii\helpers\Url;
+
+$this->title="添加投票";
 ?>
-<?php echo Html::beginForm('vote/add');?>
+<?php echo Html::beginForm(Url::to(['vote/add']));?>
 <div class="form-group form-subject">
 	<div class="form-lable"><?php echo Html::label('投票主题：','subject');?></div>
 	<div class="form-input">
@@ -17,8 +20,15 @@ use common\publics\MyHelper;
 <div class="form-group form-voteoptions">
 	<div class="form-lable"><?php echo Html::label('投票选项：','voteoptions')?></div>
 	<div class="form-input">
-    	<p><?php echo Html::activeTextInput($model, 'voteoptions',['placeholder'=>'选项一']);?></p>
-    	<p><?php echo Html::activeTextInput($model, 'voteoptions',['placeholder'=>'选项二']);?></p>
+		<?php for ($i = 0;$i < count($model->voteoptions);$i++ ){?>
+        	<p>
+        		<?php echo Html::activeTextInput($model, 'voteoptions['.$i.']',['placeholder'=>'选项'.($i+1)]);?>
+        		<?php if($i>=2){?>
+        			<a class="delete-btn" href="javascript:;" title="删除"><i>✖</i></a>
+        		<?php }?>
+        	</p>
+    	<?php }?>
+    	
     	<a id="addoptions"  href="javascript:;"><i>✚</i>添加选项</a>
 	</div>
 </div>
@@ -37,6 +47,14 @@ use common\publics\MyHelper;
         ?>
 	</div>
 </div>
+<div>
+	<?php if(Yii::$app->session->hasFlash('error')){ echo Yii::$app->session->getFlash('error');} ?>
+</div>
+
+<div class="form-group form-btn">
+	<?php echo Html::submitInput('确认保存',['class'=>'btn btn-primary']);?>
+	<?php echo Html::resetInput('清空重置',['class'=>'btn'])?>
+</div>
 
 <?php echo Html::endForm();?>
 
@@ -44,13 +62,14 @@ use common\publics\MyHelper;
     AppAsset::addCss($this, 'admin/css/voteAdd.css');
     AppAsset::addCss($this, 'admin/jquery-ui-1.12.1/jquery-ui.min.css');
     AppAsset::addScript($this, 'admin/jquery-ui-1.12.1/jquery-ui.min.js');
+    $optionCount = count($model->voteoptions) + 1 ;
     $js = <<<JS
-var optionCount = 3;
+var optionCount = $optionCount;
 $(document).on('click','.delete-btn',function(e){
 	$(this).parent().parent('div').find('p:last').remove();
 });
 $(document).on('click','#addoptions',function(e){
-    var optionHtml = '<p><input type="text" id="vote-voteoptions" name="Vote[voteoptions]" placeholder="选项'+Arabia_To_SimplifiedChinese(optionCount)+'"><a class="delete-btn" href="javascript:;" title="删除"><i>✖</i></a></p>';
+    var optionHtml = '<p><input type="text" id="vote-voteoptions" name="Vote[voteoptions][]" placeholder="选项'+optionCount+'"><a class="delete-btn" href="javascript:;" title="删除"><i>✖</i></a></p>';
     $(this).parent('div').find('p:last').after(optionHtml);
     optionCount ++;
 });

@@ -168,7 +168,7 @@ a{text-decoration: none;}
 	background: #cbd9f3;
 }
 
-.btn{padding: 3px 15px;text-align: center;height: 40px;line-height: 40px;font-size: 14px;}
+.btn{padding: 3px 15px;text-align: center;/* height: 40px;line-height: 40px; */font-size: 14px;}
 .btn-default{border: 1px solid #cac8c8;color: #333333;}
 .btn-danger{background: red;color: #fff;}
 .btn-success{background: #419641;color: #FFF;}

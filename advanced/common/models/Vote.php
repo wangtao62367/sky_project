@@ -4,6 +4,7 @@ namespace common\models;
 
 use yii\db\ActiveRecord;
 use phpDocumentor\Reflection\Types\This;
+use common\publics\MyHelper;
 /**
  * 投票
  * @author WT by 2017-11-17
@@ -17,8 +18,8 @@ class Vote extends ActiveRecord
     const VOTE_DELETE = 1;
     const VOTE_UNDELETE = 0;
     
-    //投票选项
-    public $voteoptions;
+    //投票选项  默认2个选项，值为空
+    public $voteoptions = ['',''];
     
     public static function tableName()
     {
@@ -46,6 +47,12 @@ class Vote extends ActiveRecord
         if(!$this->hasErrors()){
             if(!is_array($this->voteoptions) || count($this->voteoptions) < 2){
                 $this->addError('error','投票选项不能少于2项');
+            }
+            foreach ($this->voteoptions as $k=>$op){
+                if(empty($op)){
+                    $this->addError('voteoptions','投票选项'.($k+1).',不能为空');
+                    break;
+                }
             }
         }
     }
