@@ -54,7 +54,7 @@ AppAsset::register($this);
 <div class="content">
 	<?php echo $content; ?>
 </div>
-
+<?php ;?>
 <?php $this->endBody() ?>
 </body>
 </html>

@@ -28,8 +28,7 @@ $(function(){
 	});
 	
 	$(document).on('click','input[type=reset]',function(){
-		console.log($(this).parents('form'));
-		$(this).parents('form').find('input').not(':button,:submit,:reset,:hidden').val('').removeAttr('checked').removeAttr('selected');
+		
 	})
 	
 })

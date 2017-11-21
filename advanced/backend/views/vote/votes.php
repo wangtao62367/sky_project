@@ -2,11 +2,12 @@
 use backend\assets\AppAsset;
 use yii\helpers\Html;
 use yii\helpers\Url;
+
 $this->title="投票列表";
 ?>
 <div class="searchform">
 <?php echo Html::beginForm(Url::to(['vote/votes']));?>
-	<div class = "form-group">
+ 	<div class = "form-group"> 
 		<?php echo Html::label('投票主题：','subject');?>
 		<?php echo Html::activeTextInput($model, 'search[subject]');?>
 		
@@ -16,9 +17,11 @@ $this->title="投票列表";
 		<?php echo Html::label('投票状态：','isClose');?>
 		<?php echo Html::activeDropDownList($model, 'search[isClose]', ['unknow'=>'请选择','0'=>'正常','1'=>'关闭']);?>
 		
-		<?php echo Html::submitInput('搜索',['class'=>'btn btn-success'])?>
-		<?php echo Html::resetInput('清空',['class'=>'btn'])?>
-	</div>
+		<?php echo Html::submitInput('搜 索',['class'=>'btn btn-success'])?>
+		<?php echo Html::resetInput('重 置',['class'=>'btn'])?>
+		
+		<?php echo Html::a('添 加',Url::to(['vote/add']),['class'=>'btn btn-primary']);?>
+ 	</div> 
 <?php echo Html::endForm();?>
 </div>
 
