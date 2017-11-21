@@ -3,9 +3,8 @@ namespace common\models;
 
 
 use Yii;
-use yii\db\ActiveRecord;
 
-class VoteOptions extends ActiveRecord
+class VoteOptions extends BaseModel
 {
     
     public static function tableName()

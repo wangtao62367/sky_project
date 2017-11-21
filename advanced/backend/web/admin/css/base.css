@@ -68,7 +68,6 @@ a{text-decoration: none;}
     color: #fff;
 }
 .nav-memu-item{height: 50px;text-indent: 40px;}
-
 .nav-memu .ico_down{
 	position : absolute;
 	right: 50px;
@@ -106,6 +105,7 @@ a{text-decoration: none;}
  margin: 0;
  border-spacing: 0px;
  word-wrap: break-word; word-break: break-all;
+ margin-top:20px;
 }
 
 .table caption {
@@ -113,12 +113,10 @@ a{text-decoration: none;}
  width: 100%;  
  text-align: center;
 }
-.theader .checkbox{
-	background: #CAE8EA;
-}
 
-.table .theader .spec {
- color: #4f6b72;
+
+.table .theader .spec,.theader .checkbox {
+ color: #FFF;
  border-right: 1px solid #C1DAD7;
  border-bottom: 1px solid #C1DAD7;
  border-top: 1px solid #C1DAD7;
@@ -126,9 +124,12 @@ a{text-decoration: none;}
  text-transform: uppercase;
  text-align: left;
  padding: 6px 6px 6px 12px;
- background: #CAE8EA;
+ background: #318bd4;
  font-size: 14px;
  font-weight: bold;
+}
+.theader .checkbox{
+	padding: 0px;
 }
 
 .table td {
@@ -168,11 +169,15 @@ a{text-decoration: none;}
 	background: #cbd9f3;
 }
 
-.btn{padding: 3px 15px;text-align: center;/* height: 40px;line-height: 40px; */font-size: 14px;}
+.btn{padding: 3px 15px;text-align: center;/* height: 40px;line-height: 40px; */font-size: 14px;border: 0px;}
 .btn-default{border: 1px solid #cac8c8;color: #333333;}
 .btn-danger{background: red;color: #fff;}
 .btn-success{background: #419641;color: #FFF;}
 .btn-primary{background: #318BD4;color: #FFF;}
+
+.pagination{text-align:right;margin-top:30px;margin-bottom:10px}
+.pagination a,.pagination .jump-ipt{margin:5px 8px;color:#6b6969}
+.pagination .jump-ipt{width:20px;}
 
 /*弹出层*/
 .modal{position: absolute;top:0;left: 0;right: 0;bottom: 0;/*background: #F9F2F4;*/filter:alpha(Opacity=10);-moz-opacity:0.1;opacity: 0.1;}

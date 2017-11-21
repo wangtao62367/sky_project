@@ -12,8 +12,11 @@ class VoteController extends CommonController
     
     public function actionVotes()
     {
-        
-        return $this->render('votes');
+        $vote = new Vote();
+        $get = Yii::$app->request->get();
+        $search = Yii::$app->request->post();
+        $data = $vote->votes($get,$search);
+        return $this->render('votes',['model'=>$vote,'list'=>$data]);
     }
     
     public function actionAdd()

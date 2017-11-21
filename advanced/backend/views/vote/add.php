@@ -19,7 +19,7 @@ $this->title="添加投票";
 </div>
 <div class="form-group form-voteoptions">
 	<div class="form-lable"><?php echo Html::label('投票选项：','voteoptions')?></div>
-	<div class="form-input">
+	<div class="form-input voteoptions">
 		<?php for ($i = 0;$i < count($model->voteoptions);$i++ ){?>
         	<p>
         		<?php echo Html::activeTextInput($model, 'voteoptions['.$i.']',['placeholder'=>'选项'.($i+1)]);?>
@@ -47,9 +47,9 @@ $this->title="添加投票";
         ?>
 	</div>
 </div>
-<div>
+<p style="color: red;font-size:14px">
 	<?php if(Yii::$app->session->hasFlash('error')){ echo Yii::$app->session->getFlash('error');} ?>
-</div>
+</p>
 
 <div class="form-group form-btn">
 	<?php echo Html::submitInput('确认保存',['class'=>'btn btn-primary']);?>
@@ -62,16 +62,20 @@ $this->title="添加投票";
     AppAsset::addCss($this, 'admin/css/voteAdd.css');
     AppAsset::addCss($this, 'admin/jquery-ui-1.12.1/jquery-ui.min.css');
     AppAsset::addScript($this, 'admin/jquery-ui-1.12.1/jquery-ui.min.js');
-    $optionCount = count($model->voteoptions) + 1 ;
     $js = <<<JS
-var optionCount = $optionCount;
 $(document).on('click','.delete-btn',function(e){
-	$(this).parent().parent('div').find('p:last').remove();
+    var parent = $(this).parent().parent('div');
+    $(this).parent('p').remove();
+    parent.find('p').each(function(index,element){
+        $(this).find('input').attr('placeholder','选项'+(index+1));
+    })
+    
 });
 $(document).on('click','#addoptions',function(e){
+    var optionCount = $('.voteoptions').find('p').length + 1;
     var optionHtml = '<p><input type="text" id="vote-voteoptions" name="Vote[voteoptions][]" placeholder="选项'+optionCount+'"><a class="delete-btn" href="javascript:;" title="删除"><i>✖</i></a></p>';
     $(this).parent('div').find('p:last').after(optionHtml);
-    optionCount ++;
+
 });
 $(".datepicker").datepicker({
     dateFormat :'yy-mm-dd',
@@ -82,8 +86,6 @@ $(".datepicker").datepicker({
     dayNamesShort: ['周日','周一','周二','周三','周四','周五','周六'], 
     dayNamesMin: ['日','一','二','三','四','五','六'], 
 });
-dayNames = $('.datepicker').datepicker('option', 'dayNames');
-console.log(dayNames);
 JS;
     $this->registerJs($js);
 ?>

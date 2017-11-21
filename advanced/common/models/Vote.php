@@ -2,15 +2,14 @@
 namespace common\models;
 
 
-use yii\db\ActiveRecord;
-use phpDocumentor\Reflection\Types\This;
-use common\publics\MyHelper;
+use yii\db\Expression;
+
 /**
  * 投票
  * @author WT by 2017-11-17
  *
  */
-class Vote extends ActiveRecord
+class Vote extends BaseModel
 {
     const VOTE_CLOSE = 1;
     const VOTE_UNCLOSE = 0;
@@ -20,6 +19,12 @@ class Vote extends ActiveRecord
     
     //投票选项  默认2个选项，值为空
     public $voteoptions = ['',''];
+    
+    public $curPage = 1;
+    
+    public $pageSize= 1;
+    
+    public $search ;
     
     public static function tableName()
     {
@@ -36,7 +41,7 @@ class Vote extends ActiveRecord
             ['selectCount','default','value'=>1],
             ['voteoptions','required','message'=>'投票选项不能为空','on'=>'add'],
             ['voteoptions','validVoteoptions'],
-            [['isClose','isDelete','createUserId'],'safe'],
+            [['isClose','isDelete','createUserId','curPage','pageSize','search'],'safe'],
             ['createTime','default','value'=>TIMESTAMP,'on'=>'add'],
             ['modifyTime','default','value'=>TIMESTAMP,'on'=>'add'],
         ];
@@ -59,15 +64,27 @@ class Vote extends ActiveRecord
     
     /**
      * 分页获取投票列表
-     * @param int pageIndex
-     * @param int pageSize
+     * @param array $data
      * @param array search
      * @return array
      */
-    public function votes()
+    public function votes(array $data,array $search)
     {
-       
-        return self::find()->all();
+        //$this->scenario = 'votes';
+        $query = self::find()->select(['id','subject','startDate','endDate','selectType',new Expression("case when selectType = 'single' then '单选' when selectType ='multi' then '多选' else '未知' end as selectTypeText"),'isClose',new Expression('case when isClose = 0 then \'正常\' when isClose = 1 then \'关闭\' else \'未知\' end as isCloseText'),'createTime','modifyTime'])->where('isDelete = 0');
+        $this->curPage = isset($data['curPage']) ? $data['curPage'] : $this->curPage;
+        if(!empty($search) && $this->load($search)){
+            if(!empty($this->search['subject'])){
+                $query = $query->andWhere(['like','subject',$this->search['subject']]);
+            }
+            if(!empty($this->search['isClose']) && $this->search['isClose'] != 'unknow'){
+                $query = $query->andWhere(['isClose'=>$this->search['isClose']]);
+            }
+            if(!empty($this->search['selectType']) && $this->search['selectType'] != 'unknow'){
+                $query = $query->andWhere(['selectType'=>$this->search['selectType']]);
+            }
+        }
+        return $this->query($query,$this->curPage,$this->pageSize);
     }
     /**
      * 添加投票
