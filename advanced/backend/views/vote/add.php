@@ -2,11 +2,10 @@
 
 use yii\helpers\Html;
 use backend\assets\AppAsset;
-use yii\helpers\Url;
 
 $this->title="添加投票";
 ?>
-<?php echo Html::beginForm(Url::to(['vote/add']));?>
+<?php echo Html::beginForm();?>
 <div class="form-group form-subject">
 	<div class="form-lable"><?php echo Html::label('投票主题：','subject');?></div>
 	<div class="form-input">
@@ -49,6 +48,7 @@ $this->title="添加投票";
 </div>
 <p style="color: red;font-size:14px">
 	<?php if(Yii::$app->session->hasFlash('error')){ echo Yii::$app->session->getFlash('error');} ?>
+	<?php if(Yii::$app->session->hasFlash('success')){ echo Yii::$app->session->getFlash('success');} ?>
 </p>
 
 <div class="form-group form-btn">
@@ -68,6 +68,8 @@ $(document).on('click','.delete-btn',function(e){
     $(this).parent('p').remove();
     parent.find('p').each(function(index,element){
         $(this).find('input').attr('placeholder','选项'+(index+1));
+        $(this).find('input').attr('name','Vote[voteoptions]['+index+']');
+        $(this).find('input').attr('id','vote-voteoptions-'+index);
     })
     
 });

@@ -57,6 +57,7 @@ $this->title="投票列表";
     	<?php elseif ((bool)$vote['isClose']):?>
 <!--     	<a href="javascript:;" title="开启投票" >关闭</a> &nbsp; -->
     	<?php endif;?>
+    	<?php echo Html::a('编辑',Url::to(['vote/edit','id'=>$vote['id']]))?>
     	<a href="javascript:;" title="查看详情">详情</a>
     </td>
   </tr>
