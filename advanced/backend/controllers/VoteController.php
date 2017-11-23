@@ -71,7 +71,6 @@ class VoteController extends CommonController
         $this->exportBrowser('Excel2007', 'demo.xlsx');
         $objWriter->save('php://output');
 
-        
     }
     
     public function exportBrowser(string $type,string $fileName)
