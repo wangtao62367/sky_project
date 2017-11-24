@@ -28,7 +28,7 @@ AppAsset::register($this);
 <body>
 <?php $this->beginBody() ?>
 <div class="top">
-	<img  src="admin/img/logo.png"/>
+	<img  src="/admin/img/logo.png"/>
 	<span>四川省社会主义后台管理系统</span>
 	<span class="login-out">
 		<a href="javascript:;">切换账号</a>
@@ -37,18 +37,30 @@ AppAsset::register($this);
 </div>
 <div class="left">
 	<ul class="nav">
+		<?php $controller = Yii::$app->controller->id;?>
+		<?php foreach (Yii::$app->params['menu'] as $menu):?>
+		<?php $isopened = in_array($controller, array_column($menu['submenu'],'module')) ? true: false;?>
 		<li class="nav-memu">
-			<a class="nav-memu-title" href="#">系统管理<i class="ico_down"></i></a>
-			<ul style="display: none;">
-				<li><a class="nav-memu-item active" href="#" onclick="showDialog(300,200)">菜单一 </a></li>
+			<a class="nav-memu-title <?php echo $isopened ? 'is-opened' : '';?>" href="<?php echo $menu['url']!='#'? Url::to([$menu['url']]) : '#';?>">
+				<?php echo $menu['label'];?>
+				<?php if(!empty($menu['submenu'])):?>
+					<?php if($isopened):?>
+						<i class="ico_up"></i>
+					<?php else :?>
+						<i class="ico_down"></i>
+					<?php endif;?>
+				<?php endif;?>
+			</a>
+			<?php if((bool)count($menu['submenu'])):?>
+			<ul <?php echo $isopened ? '' : 'style="display: none;"' ;?> >
+				<?php foreach ($menu['submenu'] as $submenu):?>
+					<?php $active = $controller == $submenu['module'] ? 'active' : '';?>
+					<li><a class="nav-memu-item <?php echo $active;?>" href="<?php echo Url::to([$submenu['url']])?>""><?php echo $submenu['label'];?> </a></li>
+				<?php endforeach;?>
 			</ul>
+			<?php endif;?>
 		</li>
-		<li class="nav-memu">
-			<a class="nav-memu-title" href="#">网站管理<i class="ico_down"></i></a>
-			<ul style="display: none;">
-				<li><a class="nav-memu-item" href="<?php echo Url::to(['vote/votes']);?>">投票管理</a></li>
-			</ul>
-		</li>
+		<?php endforeach;?>
 	</ul>
 </div>
 <div class="content">

@@ -46,7 +46,7 @@
 		        }else{
 		            search = '?curPage=' + api.getCurrent();
 		        }
-		        location.href = location.origin + search;
+		        location.href = location.origin + location.pathname + search;
 		    }
 		});
 	}

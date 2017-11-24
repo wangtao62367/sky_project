@@ -2,8 +2,8 @@
 use backend\assets\AppAsset;
 use yii\helpers\Html;
 use yii\helpers\Url;
-
 $this->title="投票列表";
+
 ?>
 <div class="searchform">
 <?php echo Html::beginForm(Url::to(['vote/votes']));?>
