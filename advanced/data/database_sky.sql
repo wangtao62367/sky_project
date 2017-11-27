@@ -146,3 +146,151 @@ CREATE TABLE `sky_Curriculum` (
 	PRIMARY KEY (`id`)
 ) ENGINE = INNODB AUTO_INCREMENT =1 DEFAULT CHARSET =utf8 COMMENT ='课程表';
 
+#####学院课表表########
+
+DROP TABLE IF EXISTS `sky_Schedule`;
+
+CREATE TABLE `sky_Schedule` (
+	`id` int(11) not NULL AUTO_INCREMENT COMMENT '主键',
+	`curriculumId` INT(11) NOT NULL DEFAULT 0 COMMENT '课程id',
+	`curriculumText` VARCHAR(20) NOT NULL DEFAULT '' COMMENT '课程名称',
+	`lessonDate` date NOT NULL COMMENT '上课日期',
+	`lessonTime` VARCHAR(20) NOT NULL DEFAULT '' COMMENT '上课时间段',
+	`teacherId` INT(11) NOT NULL DEFAULT 0 COMMENT '任课教师ID',
+	`teacherName` VARCHAR(50) NOT NULL DEFAULT '' COMMENT '教师名称',
+	`teachPlaceId` INT(11) NOT NULL DEFAULT 0 COMMENT '教学地点ID',
+	`gradeClassId` INT(11) NOT NULL DEFAULT 0 COMMENT '班级ID',
+	`isPublish` TINYINT(2) NOT NULL DEFAULT 0 COMMENT '是否发布（0否1是）',
+	`publishTitle` VARCHAR(200) NOT NULL DEFAULT '' COMMENT '发布标题',
+	`publishEndDate` INT(11) NOT NULL DEFAULT 0 COMMENT '发布结束时间（时间已过自动删除）',
+	`isDelete` TINYINT(2) NOT NULL DEFAULT 0 COMMENT '是否删除（0否1是）',
+	`createTime` INT(11) NOT NULL DEFAULT 0 COMMENT '创建时间',
+	`modifyTime` INT(11) NOT NULL DEFAULT 0 COMMENT '编辑时间',
+	PRIMARY KEY (`id`),
+  INDEX `ids_curriculumId_teacherId_teachPlaceId_gradeClassId_isPublish` (`curriculumId`,`teacherId`,`teachPlaceId`,`gradeClassId`,`isPublish`) USING BTREE
+) ENGINE = INNODB AUTO_INCREMENT =1 DEFAULT CHARSET = utf8 COMMENT = '学院课表表';
+
+#####教学地点表##########
+
+DROP TABLE IF EXISTS `sky_TeachPlace`;
+
+CREATE TABLE `sky_TeachPlace` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+	`text` VARCHAR(100) NOT NULL DEFAULT '' COMMENT '教学地点',
+	`address` VARCHAR(200) NOT NULL DEFAULT '' COMMENT '具体地址',
+	`createTime` INT(11) NOT NULL DEFAULT 0 COMMENT '创建时间',
+	`createAdminId` INT(11) NOT NULL DEFAULT 0 COMMENT '创建人ID',
+	PRIMARY KEY (`id`)
+) ENGINE = INNODB AUTO_INCREMENT=1 DEFAULT CHARSET = utf8 COMMENT = '教学地点表';
+
+######班级表（年级已年来创建：如2017年 即为 2017级） ########
+
+DROP TABLE IF EXISTS `sky_GradeClass`;
+
+CREATE TABLE `sky_GradeClass` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+	`grades` INT(4) NOT NULL DEFAULT 0 COMMENT '年级',
+	`classes` INT(4) NOT NULL DEFAULT 0 COMMENT '班',
+	`classSize` INT(4) NOT NULL DEFAULT 0 COMMENT '班人数',
+	`createTime` INT(11) NOT NULL DEFAULT 0 COMMENT '创建时间',
+	`modifyTime` INT(11) NOT NULL DEFAULT 0 COMMENT '编辑时间',
+	`createAdminId` INT(11) NOT NULL DEFAULT 0 COMMENT '创建人Id',
+	PRIMARY KEY (`id`)
+
+) ENGINE = INNODB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8 COMMENT = '班级表（年级已年来创建：如2017年 即为 2017级）';
+
+#####文章表#########
+
+DROP TABLE IF EXISTS `sky_Article`;
+
+
+CREATE TABLE `sky_Article` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+	`title` VARCHAR(200) NOT NULL DEFAULT '' COMMENT '文章标题',
+	`titleImg` VARCHAR(100) NOT NULL DEFAULT '' COMMENT '图片标题',
+	`author` VARCHAR(50) NOT NULL DEFAULT '' COMMENT '作者',
+	`summary` VARCHAR(255) NOT NULL DEFAULT '' COMMENT '文章摘要',
+	`content` TEXT NOT NULL  COMMENT '文章内容',
+	`source` VARCHAR(150) NOT NULL DEFAULT '' COMMENT '文章来源',
+	`sourceLinke` VARCHAR(150) NOT NULL DEFAULT '' COMMENT '文章来源链接地址',
+	`readCount` INT(10) NOT NULL DEFAULT 0 COMMENT '预览数',
+	`categoryId` INT(11) NOT NULL DEFAULT 0 COMMENT '文章分类ID',
+	`isPublish` TINYINT(2) NOT NULL DEFAULT 0 COMMENT '是否发布（0否1是）',
+	`createTime` INT(11) NOT NULL DEFAULT 0 COMMENT '创建时间',
+	`modifyTime` INT(11) NOT NULL DEFAULT 0 COMMENT '编辑时间',
+	PRIMARY KEY (`id`),
+ INDEX `ids_categoryId_isPublish` (`categoryId`,`isPublish`) USING BTREE
+
+) ENGINE = INNODB AUTO_INCREMENT =1 DEFAULT CHARSET =utf8 COMMENT = '文章表';
+
+##### 文章分类表 ############
+
+DROP TABLE IF EXISTS `sky_Category`;
+
+CREATE TABLE 	`sky_Category` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+	`text` VARCHAR(50) NOT NULL DEFAULT '' COMMENT '分类名称',
+	`parentId` INT(11) NOT NULL DEFAULT 0 COMMENT '父级ID',
+	`createTime` INT(11) NOT NULL DEFAULT 0 COMMENT '创建时间',
+	`descr` VARCHAR(150) NOT NULL DEFAULT '' COMMENT '分类描述',
+	`positions` ENUM('top','hot','normal') NOT NULL DEFAULT 'normal' COMMENT '首页位置（top顶部、hot热点位置、normal正常位置）',
+	`creatAdminId` INT(11) NOT NULL DEFAULT 0 COMMENT '创建人ID',
+	PRIMARY KEY (`id`)
+  
+) ENGINE = INNODB AUTO_INCREMENT =1 DEFAULT CHARSET=utf8 COMMENT ='文章分类表';
+
+##### 文章标签关系表 ##########
+
+DROP TABLE IF EXISTS `sky_ArticleTag`;
+
+CREATE TABLE `sky_ArticleTag` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+	`articleId` INT(11) NOT NULL DEFAULT 0 COMMENT '文章ID',
+	`tagId` INT(11) NOT NULL DEFAULT 0 COMMENT '标签Id',
+	PRIMARY KEY (`id`)
+) ENGINE = INNODB AUTO_INCREMENT =1 DEFAULT CHARSET =utf8 COMMENT='文章标签关系表';
+
+#####文章标签表 ###############
+
+DROP TABLE IF EXISTS `sky_Tag`;
+
+CREATE TABLE `sky_Tag` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+	`tagName` VARCHAR(50) NOT NULL DEFAULT '' COMMENT '标签名',
+	`createTime` INT(11) NOT NULL DEFAULT 0 COMMENT '创建时间',
+	PRIMARY KEY (`id`)
+) ENGINE = INNODB AUTO_INCREMENT =1 DEFAULT CHARSET=utf8 COMMENT ='文章标签表';
+
+##### 图讯社园表 ########
+
+DROP TABLE IF EXISTS `sky_Photo`;
+
+CREATE TABLE `sky_Photo`(
+	`id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+	`photo` varchar(100) NOT NULL DEFAULT '' COMMENT '图片',
+	`descr` VARCHAR(150) NOT NULL DEFAULT '' COMMENT '图片描述',
+	`createTime` INT(11) NOT NULL DEFAULT 0 COMMENT '创建时间',
+	PRIMARY KEY (`id`)
+) ENGINE = INNODB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8 COMMENT = '图讯社园表';
+
+##### 视讯社园 ##############
+
+DROP TABLE IF EXISTS `sky_Video`;
+
+CREATE TABLE `sky_Video`(
+	`id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+	`video` varchar(100) NOT NULL DEFAULT '' COMMENT '视频',
+	`descr` VARCHAR(150) NOT NULL DEFAULT '' COMMENT '视频描述',
+	`createTime` INT(11) NOT NULL DEFAULT 0 COMMENT '创建时间',
+	PRIMARY KEY (`id`)
+) ENGINE = INNODB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8 COMMENT = '视讯社园表';
+
+##### 网站系统配置表 ############
+
+DROP TABLE IF EXISTS `sky_SysConfig`;
+
+CREATE TABLE `sky_SysConfig` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+
+	PRIMARY KEY (`id`)
+) ENGINE = INNODB AUTO_INCREMENT = 1 DEFAULT CHARSET =utf8 COMMENT = '网站系统配置表';
