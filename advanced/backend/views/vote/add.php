@@ -59,7 +59,7 @@ $this->title="添加投票";
 <?php echo Html::endForm();?>
 
 <?php 
-    AppAsset::addCss($this, 'admin/css/voteAdd.css');
+    AppAsset::addCss($this, 'admin/css/form.css');
     AppAsset::addCss($this, 'admin/jquery-ui-1.12.1/jquery-ui.min.css');
     AppAsset::addScript($this, 'admin/jquery-ui-1.12.1/jquery-ui.min.js');
     $js = <<<JS

@@ -12,6 +12,7 @@ class CategoryController extends CommonController
     public function actionCreate()
     {
         $cate = new Category();
+        $parentCates = $cate->getParentCate(0);
         if(Yii::$app->request->isPost){
             $post = Yii::$app->request->post();
             
@@ -21,7 +22,7 @@ class CategoryController extends CommonController
             }
             Yii::$app->session->setFlash('success','创建成功');
         }
-        return $this->render('create',['model'=>$cate]);
+        return $this->render('create',['model'=>$cate,'parentCates'=>$parentCates]);
     }
     
 }
