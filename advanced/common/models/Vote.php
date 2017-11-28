@@ -20,12 +20,6 @@ class Vote extends BaseModel
     //投票选项  默认2个选项，值为空
     public $voteoptions = ['',''];
     
-    public $curPage = 1;
-    
-    public $pageSize= 1;
-    
-    public $search ;
-    
     public static function tableName()
     {
         return '{{%vote}}';

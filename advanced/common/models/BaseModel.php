@@ -7,6 +7,11 @@ use yii\db\ActiveQuery;
 
 class BaseModel extends ActiveRecord
 {
+    public $curPage = 1;
+    
+    public $pageSize= 15;
+    
+    public $search ;
     
     public function query(ActiveQuery $query,int $curPage = 1,int $pageSize = 10 ,$search = null)
     {

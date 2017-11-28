@@ -21,7 +21,14 @@ $this->title="创建分类";
 <div class="form-group ">
 	<div class="form-lable"><?php echo Html::label('父级分类：','parentId');?></div>
 	<div class="form-input">
-		<?php echo Html::activeDropDownList($model, 'parentId', ArrayHelper::map($parentCates, 'id', 'text') ,['prompt'=>'请选择']);?>
+		<?php echo Html::activeDropDownList($model, 'parentId', ArrayHelper::map($parentCates, 'id', 'text') ,$model->parentId ? [] : ['prompt'=>'请选择','prompt_val'=>'0']);?>
+	</div>
+</div>
+
+<div class="form-group form-positions">
+	<div class="form-lable"><?php echo Html::label('显示区域：','positions');?></div>
+	<div class="form-input">
+		<?php echo Html::activeRadioList($model, 'positions', $model->position_arr);?>
 	</div>
 </div>
 
@@ -44,4 +51,14 @@ $this->title="创建分类";
 <?php 
 AppAsset::addCss($this, 'admin/css/form.css');
 
+$js = <<<JS
+$(document).on('change','#category-parentid',function(ev){
+    if($(this).val()){
+        $('.form-positions').hide();
+    }else{
+        $('.form-positions').show()
+    };
+});
+JS;
+$this->registerJs($js);
 ?>

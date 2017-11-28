@@ -1,6 +1,7 @@
 *{font-family: "微软雅黑";font-size:14px;}
 ul{list-style: none;padding: 0;margin: 0;}
-a{text-decoration: none;}
+a{text-decoration: none;color: #03a9f4;}
+a i {font-style: inherit;}
 /*top start*/
 .top {
 	position: relative;
