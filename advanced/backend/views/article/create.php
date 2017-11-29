@@ -5,7 +5,6 @@ use yii\helpers\ArrayHelper;
 use yii\base\Widget;
 
 $this->title='创建文章';
-
 ?>
 
 <?php echo Html::beginForm();?>
@@ -72,7 +71,6 @@ $this->title='创建文章';
 		<?php echo \common\widgets\tags\TagWidget::widget([
 		    'model'=>$model,
 		    'attribute'=>'tags',
-		    
 		]);?>
 	</div>
 </div>
