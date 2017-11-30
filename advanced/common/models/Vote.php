@@ -36,8 +36,6 @@ class Vote extends BaseModel
             ['voteoptions','required','message'=>'投票选项不能为空','on'=>['add','edit']],
             ['voteoptions','validVoteoptions','on'=>['add','edit']],
             [['isClose','isDelete','createUserId','curPage','pageSize','search'],'safe'],
-            ['createTime','default','value'=>TIMESTAMP,'on'=>'add'],
-            ['modifyTime','default','value'=>TIMESTAMP,'on'=>['add','edit']],
         ];
     }
     

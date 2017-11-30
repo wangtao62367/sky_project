@@ -4,6 +4,7 @@ namespace common\models;
 
 use yii\db\ActiveRecord;
 use yii\db\ActiveQuery;
+use yii\behaviors\TimestampBehavior;
 
 class BaseModel extends ActiveRecord
 {
@@ -12,6 +13,22 @@ class BaseModel extends ActiveRecord
     public $pageSize= 15;
     
     public $search ;
+    
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => TimestampBehavior::className(),
+                'createdAtAttribute' => 'createTime',
+                'updatedAtAttribute' => 'modifyTime',
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['createTime','modifyTime'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['modifyTime']
+                ]
+            ]
+        ];
+    }
+    
     
     public function query(ActiveQuery $query,int $curPage = 1,int $pageSize = 10 ,$search = null)
     {

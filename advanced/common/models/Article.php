@@ -21,8 +21,6 @@ class Article extends BaseModel
             ['summary','required','message'=>'文章摘要不能为空','on'=>['create','edit']],
             ['content','required','message'=>'文章内容不能为空','on'=>['create','edit']],
             ['categoryId','required','message'=>'文章分类不能为空','on'=>['create','edit']],
-            ['createTime','default','value'=>TIMESTAMP,'on'=>'create'],
-            ['modifyTime','default','value'=>TIMESTAMP,'on'=>['create','edit']],
             [['tags','search'],'safe']
         ];
     }

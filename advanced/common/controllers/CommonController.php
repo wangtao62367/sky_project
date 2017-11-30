@@ -1,8 +1,10 @@
 <?php
 namespace common\controllers;
 
-use Yii;
+
+
 use yii\web\Controller;
+
 
 class CommonController extends Controller
 {
@@ -38,6 +40,7 @@ class CommonController extends Controller
 //             ],
 //         ];
 //     }
+
     
     public function init()
     {
