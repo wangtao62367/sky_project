@@ -4,7 +4,7 @@
 .form-lable label{font-size: 14px;font-weight: 600;}
 .form-input{float:left;}
 .form-input p {-webkit-margin-before: 0; -webkit-margin-after: 0;}
-.form-input input[type=text]{margin-bottom:10px;width:500px;}
+.form-input input[type=text],.form-input input[type=password]{margin-bottom:10px;width:500px;}
 .form-btn{padding-top:30px;padding-left:190px;}
 .form-btn input{margin-right:100px;}
 

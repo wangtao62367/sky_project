@@ -33,4 +33,20 @@ class AdminController extends CommonController
         
         return $this->render('add',['model'=>$admin]);
     }
+    
+    public function actionAjaxResetpwd(int $id)
+    {
+        $this->setResponseJson();
+        $admin = Admin::findIdentity($id);
+        if(empty($admin)){
+            return false;
+        }
+        $admin->adminPwd = Yii::$app->getSecurity()->generatePasswordHash('111111');
+        return (bool)$admin->save(false);
+    }
+    
+    public function actionAjaxDel(int $id){
+        $this->setResponseJson();
+        return (bool)Admin::deleteAll('id = :id',[':id'=>$id]);
+    }
 }

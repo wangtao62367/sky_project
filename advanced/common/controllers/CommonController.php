@@ -2,7 +2,7 @@
 namespace common\controllers;
 
 
-
+use Yii;
 use yii\web\Controller;
 
 
@@ -45,6 +45,11 @@ class CommonController extends Controller
     public function init()
     {
         
+    }
+    
+    protected function setResponseJson()
+    {
+        Yii::$app->response->format = 'json';
     }
     
 }

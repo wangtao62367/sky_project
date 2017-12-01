@@ -33,32 +33,55 @@ $(function(){
 	
 })
 
-var showDialog = function (title,content,width,height,modal){
+var showDialog = function (title,content,width,height,modal,isclose,duration,footer,callback){
 	var $body = $("body");
 	title = title || '标题';
 	content = content || '主要内容';
-	width = width || 200;
-	height = height || 100;
-	var top = 2 * height/3;
+	width = width || 300;
+	height = height || 150;
+	var top = 81;
 	var left = width/2;
-	modal = modal || false;
+	modal = modal || true;
+	isclose = isclose || true;
+	footer = footer || false;
+	callback = callback || function () {};
 	var dialogDiv = [
 		'<div class="dialog">',
 			modal === true ? '<div class="modal"></div>' : '',
-				'<div class="modal-body" style="width: '+width+'px;height: '+height+'px;margin-top:-'+top+'px ;margin-left: -'+left+'px;">',
+				'<div class="modal-body" style="width: '+width+'px;height: '+height+'px;margin-left: -'+left+'px;">',
 					'<div class="modal-header">',
 						title,
 					'</div>',
 					'<div class="modal-content">',
 						content,
 					'</div>',
-					'<p class="modal-close">X</p>',
+					footer == true ? '<div class="modal-footer"><p><span style="color:red;font-size:16px" id="backMin">'+duration+' </span>秒后即将跳转..</p></div>' :'',
+					isclose === true ? '<p class="modal-close">X</p>' : '',
 				'</div>',
 			'</div>',
 		'</div>'
 	].join("");
 	$body.append(dialogDiv)
+	if(duration){
+		var myInter = setInterval(function(){
+			duration --;
+			$('#backMin').text(duration);
+			if(duration == 0){
+				$('.dialog').remove();
+				clearInterval(myInter);
+				callback();
+			}
+		},1000);
+	}
 };
+var showSuccess = function(content,duration,callback){
+	var content_div = '<p class="show-success"><i class="icon-circle">✔</i>  '+content+'</p>';
+	showDialog('提示信息',content_div,'','','',false,duration,true,callback);
+}
+var showError = function(content,duration){
+	var content_div = '<p class="show-success"><i class="icon-circle">✖</i>  '+content+'</p>';
+	showDialog('提示信息',content_div,'','','',false,duration,false,'');
+}
 //阿拉伯数字转换为简写汉字
 var Arabia_To_SimplifiedChinese = function (Num) {
     for (i = Num.length - 1; i >= 0; i--) {
