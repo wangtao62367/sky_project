@@ -21,8 +21,24 @@ class QuestCategory
      */
     const QUEST_UNKNOW = 'unknow';
     
-    public static function getAnswer()
+    private static $questCateText = [
+        self::QUEST_UNKNOW => '请选择',
+        self::QUEST_RADIO => '单选题',
+        self::QUEST_MULTI => '多选题'
+    ];
+    
+    /**
+     * 获取题型描述
+     * @param string $code
+     * @return string[]|string
+     */
+    public static function getQuestCateText(string $code = '')
     {
-        
+        return $code ? self::$questCateText[$code] : [
+            self::QUEST_UNKNOW => '请选择',
+            self::QUEST_RADIO => '单选题',
+            self::QUEST_MULTI => '多选题'
+        ];
     }
+    
 }

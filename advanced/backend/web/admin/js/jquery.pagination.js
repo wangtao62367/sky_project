@@ -199,7 +199,7 @@
         this.init = function () {
             this.filling(opts.current);
             this.eventBind();
-            if (opts.isHide && this.getPageCount() == '1' || this.getPageCount() == '0') $obj.hide();
+            if (opts.isHide && this.getPageCount() == '1' || this.getPageCount() == '0' || opts.totalData == '0') $obj.hide();
         };
         this.init();
     };

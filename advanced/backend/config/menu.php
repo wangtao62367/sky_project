@@ -8,6 +8,7 @@ return [
     ['label'=>'网站管理系统','url'=>'#','module'=>'','icon'=>'icon-set','submenu'=>[
         ['label'=>'用户管理','url'=>'user/users','module'=>'user'],
         ['label'=>'投票管理','url'=>'vote/votes','module'=>'vote'],
+        ['label'=>'试题管理','url'=>'question/index','module'=>'question'],
         ['label'=>'文章管理','url'=>'article/articles','module'=>'article'],
         ['label'=>'图讯管理','url'=>'photo/photos','module'=>'photo'],
         ['label'=>'视讯管理','url'=>'vedio/vedios','module'=>'video'],

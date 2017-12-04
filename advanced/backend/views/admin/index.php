@@ -2,7 +2,6 @@
 use backend\assets\AppAsset;
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\helpers\ArrayHelper;
 
 $this->title = '管理员列表';
 ?>
