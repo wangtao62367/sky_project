@@ -25,6 +25,11 @@ class VoteOptions extends BaseModel
      */
     public function batchAdd(array $data)
     {
-        return Yii::$app->db->createCommand()->batchInsert(self::tableName(), ['text','voteId','createTime','modifyTime'], $data)->execute();
+        return Yii::$app->db->createCommand()->batchInsert(self::tableName(), ['text','voteId','sorts','createTime','modifyTime'], $data)->execute();
+    }
+    
+    public static function getOptionsByVoteId(int $voteId)
+    {
+        return self::find()->select(['text','voteId','counts','sorts','createTime','modifyTime'])->where('voteId = :voteId',[':voteId'=>$voteId])->asArray()->all();
     }
 }

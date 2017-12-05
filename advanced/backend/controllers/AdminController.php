@@ -27,10 +27,11 @@ class AdminController extends CommonController
                 $admin->adminPwd = $admin->repass;
                 Yii::$app->session->setFlash('success','添加成功');
             }else {
-                Yii::$app->session->setFlash('error',array_values($admin->getFirstErrors())[0]);
+                Yii::$app->session->setFlash('error',$admin->getErrorDesc());
             }
         }
-        
+        $admin->adminPwd= '';
+        $admin->repass   = '';
         return $this->render('add',['model'=>$admin]);
     }
     

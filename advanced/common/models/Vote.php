@@ -3,6 +3,7 @@ namespace common\models;
 
 
 use yii\db\Expression;
+use yii\base\Exception;
 
 /**
  * 投票
@@ -96,6 +97,7 @@ class Vote extends BaseModel
         }
         return false;
     }
+    
     /**
      * 批量添加投票选项
      * @param array $voteoptions
@@ -105,15 +107,26 @@ class Vote extends BaseModel
     {
         VoteOptions::deleteAll(['voteId'=>$voteId]);
         $options = [];
-        foreach ($voteoptions as $op){
+        foreach ($voteoptions as $k=>$op){
             $options[] = [
                 'text'   => $op,
                 'voteId' => $voteId,
+                'sorts'  => $k,
                 'createTime' => TIMESTAMP,
                 'modifyTime' => TIMESTAMP
             ];
         }
         $voteOptions = new VoteOptions();
         return (bool)$voteOptions->batchAdd($options);
+    }
+    
+    public static function getView(int $id)
+    {
+        $vote = self::find()->select(['id','subject'])->where('id =:id',[':id'=>$id])->asArray()->one();
+        if(empty($vote)){
+            throw new Exception('数据不存在');
+        }
+        $vote['options'] = VoteOptions::getOptionsByVoteId($id);
+        return $vote;
     }
 }

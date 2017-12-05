@@ -2,7 +2,7 @@
 
 use backend\assets\AppAsset;
 use yii\helpers\Html;
-$this->title="添加管理员";
+$this->title="添加试题";
 ?>
 
 <p style="color: red;font-size:14px">
@@ -15,6 +15,7 @@ $this->title="添加管理员";
 	<div class="form-input">
 		<?php echo Html::activeTextarea($model, 'title',[
     	    'placeholder'=>'请填写测评试题标题(3-100字)',
+		    'autocomplete'=>'off',
     	    'data-sy-required'=>true,
     	    'data-sy-required-message'=>'测评试题标题不能为空'
     	]);?>
@@ -58,6 +59,7 @@ $this->title="添加管理员";
 		<?php 
 		echo Html::activeTextInput($model, 'score',[
 		    'placeholder'=>'请输入试题分数',
+		    'autocomplete'=>'off'
 		]);
         ?>
 	</div>

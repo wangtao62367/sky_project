@@ -58,4 +58,9 @@ class BaseModel extends ActiveRecord
         return $data;
     }
     
+    public function getErrorDesc()
+    {
+        return array_values($this->getFirstErrors())[0];
+    }
+    
 }

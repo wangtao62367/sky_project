@@ -29,7 +29,7 @@ class VoteController extends CommonController
             if($vote->add($post)){
                 return $this->redirect(['vote/votes']);
             }
-            Yii::$app->session->setFlash('error',array_values($vote->getFirstErrors())[0]);
+            Yii::$app->session->setFlash('error',$vote->getErrorDesc());
         }
         return $this->render('add',['model'=>$vote]);
     }
@@ -45,16 +45,20 @@ class VoteController extends CommonController
         if(Yii::$app->request->isPost){
             $vote->scenario = 'edit';
             $post = Yii::$app->request->post();
-            if(!$vote->load($post) || !$vote->validate()){
-                Yii::$app->session->setFlash('error',array_values($vote->getFirstErrors())[0]);
+            if($vote->load($post) && $vote->validate() &&
+                $vote->save(false) && Vote::batchAddVoteOptions($vote->voteoptions,$vote->id)){
+                    Yii::$app->session->setFlash('success','编辑成功');;
             }else{
-                $vote->modifyTime = TIMESTAMP;
-                if($vote->save(false) && Vote::batchAddVoteOptions($vote->voteoptions,$vote->id)){
-                    Yii::$app->session->setFlash('success','保存成功');
-                }
+                Yii::$app->session->setFlash('error',array_values($vote->getFirstErrors())[0]);
             }
         }
         return $this->render('add',['model'=>$vote]);
+    }
+    
+    public function actionView(int $id)
+    {
+        $data  = Vote::getView($id);
+        return $this->render('view',['data'=>$data]);
     }
     
     public function actionTest()

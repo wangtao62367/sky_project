@@ -12,7 +12,8 @@ $this->title='创建文章';
 	<div class="form-lable"><?php echo Html::label('文章标题：','title');?></div>
 	<div class="form-input">
 		<?php echo Html::activeTextInput($model, 'title',[
-    	    'placeholder'=>'请填写分类名称(10-100字)',
+    	    'placeholder'=>'请填写文章标题(10-100字)',
+		    'autocomplete'=>'off'
     	]);?>
 	</div>
 </div>
@@ -29,7 +30,8 @@ $this->title='创建文章';
 	<div class="form-input">
 		<?php echo Html::activeTextInput($model, 'author',[
     	    'placeholder'=>'请填写文章作者',
-		    'style'=>'width:100px'
+		    'style'=>'width:100px',
+		    'autocomplete'=>'off'
     	]);?>
 	</div>
 </div>
@@ -38,7 +40,9 @@ $this->title='创建文章';
 	<div class="form-lable"><?php echo Html::label('文章摘要：','summary');?></div>
 	<div class="form-input">
 		<?php echo Html::activeTextarea($model, 'summary',[
-    	    'placeholder'=>'请填写文章摘要(20-200字)']);?>
+    	    'placeholder'=>'请填写文章摘要(20-200字)',
+		    'autocomplete'=>'off'
+		]);?>
 	</div>
 </div>
 

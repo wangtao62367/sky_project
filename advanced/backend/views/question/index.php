@@ -53,7 +53,11 @@ $this->title = '测评试题列表';
     <td><?php echo date('Y-m-d H:i:s',$quest['modifyTime']);?></td>
     <td>
     	<?php echo Html::a('编辑',Url::to(['question/edit','id'=>$quest['id']]),['title'=>'编辑/查看文章','class'=>'btn'])?>
+    	<?php if($quest['isPublish'] == 0):?>
     	<?php echo Html::a('发布','javascript:;',['title'=>'发布试题','class'=>'publish btn','data-id'=>$quest['id']])?>
+    	<?php else:?>
+    	<?php echo Html::a('取消','javascript:;',['title'=>'取消试题','class'=>'unpublish btn','data-id'=>$quest['id']])?>
+    	<?php endif;?>
     	<?php echo Html::a('删除','javascript:;',['title'=>'删除试题','class'=>'del btn','data-id'=>$quest['id']])?>
     </td>
   </tr>
@@ -68,6 +72,7 @@ $pageSize = $list['pageSize'];
 $count = $list['count'];
 $del_url = Url::to(['question/ajax-del']);
 $publish_url = Url::to(['question/ajax-publish']);
+$publish_url = Url::to(['question/ajax-unpublish']);
 $js =<<<JS
 $(".pagination").paginationCfg({
     totalData : $count,
@@ -88,6 +93,15 @@ $('.publish').click(function(){
     $.get('$publish_url',{id:id},function(res){
         if(res){
             showSuccess('发布成功',2,function(){window.location.reload();});return;
+        }
+        showError('操作失败','','');
+    })
+})
+$('.unpublish').click(function(){
+    var id = $(this).data('id');
+    $.get('$publish_url',{id:id},function(res){
+        if(res){
+            showSuccess('取消成功',2,function(){window.location.reload();});return;
         }
         showError('操作失败','','');
     })

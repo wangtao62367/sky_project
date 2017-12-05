@@ -57,8 +57,8 @@ $this->title="投票列表";
     	<?php elseif ((bool)$vote['isClose']):?>
 <!--     	<a href="javascript:;" title="开启投票" >关闭</a> &nbsp; -->
     	<?php endif;?>
-    	<?php echo Html::a('编辑',Url::to(['vote/edit','id'=>$vote['id']]))?>
-    	<a href="javascript:;" title="查看详情">详情</a>
+    	<?php echo Html::a('编辑',Url::to(['vote/edit','id'=>$vote['id']]),['class'=>'btn','title'=>'编辑投票'])?>
+    	<?php echo Html::a('详情',Url::to(['vote/view','id'=>$vote['id']]),['class'=>'btn','title'=>'查看投票详情'])?>
     </td>
   </tr>
   <?php endforeach;?> 

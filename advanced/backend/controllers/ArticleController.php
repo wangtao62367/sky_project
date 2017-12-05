@@ -45,7 +45,7 @@ class ArticleController extends CommonController
             if($result){
                 Yii::$app->session->setFlash('succuss','创建成功');
             }else{
-                Yii::$app->session->setFlash('error',array_values($article->getFirstErrors())[0]);
+                Yii::$app->session->setFlash('error',$article->getErrorDesc());
             }
         }
         return $this->render('create',['model'=>$article,'parentCates'=>$parentCates]);

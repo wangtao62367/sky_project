@@ -19,7 +19,7 @@ class QuestionController extends CommonController
             $post = Yii::$app->request->post();
             $result = $model->add($post);
             if(!$result){
-                Yii::$app->session->setFlash('error',array_values($model->getFirstErrors())[0]);
+                Yii::$app->session->setFlash('error',$model->getErrorDesc());
             }else {
                 Yii::$app->session->setFlash('success','添加成功');
             }
@@ -65,5 +65,11 @@ class QuestionController extends CommonController
     {
         $this->setResponseJson();
         return Question::ajaxPublish($id);
+    }
+    
+    public function actionAjaxUnpublish(int $id)
+    {
+        $this->setResponseJson();
+        return Question::ajaxUnpublish($id);
     }
 }

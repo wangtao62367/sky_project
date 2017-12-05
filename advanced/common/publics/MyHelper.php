@@ -52,4 +52,12 @@ class MyHelper
         }
         return $chiStr;
     }
+    
+    public static function toRate(int $num,int $total)
+    {
+        if($num == 0 || $total == 0){
+            return '0%';
+        }
+        return round(($num / $total) * 100 ,2 ) . '%';
+    }
 }

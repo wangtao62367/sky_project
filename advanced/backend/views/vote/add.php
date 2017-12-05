@@ -11,6 +11,7 @@ $this->title="添加投票";
 	<div class="form-input">
 		<?php echo Html::activeTextarea($model, 'subject',[
     	    'placeholder'=>'请填写投票内容说明(2-80字)',
+		    'autocomplete'=>'off',
     	    'data-sy-required'=>true,
     	    'data-sy-required-message'=>'主题不能为空'
     	]);?>

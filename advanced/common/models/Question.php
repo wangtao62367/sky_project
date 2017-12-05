@@ -106,6 +106,16 @@ class Question extends BaseModel
         return (bool)$question->save(false);
     }
     
+    public static function ajaxUnpublish(int $id)
+    {
+        $question = self::getOptionById($id);
+        if(empty($question)){
+            return false;
+        }
+        $question->isPublish = 0;
+        return (bool)$question->save(false);
+    }
+    
     public static function getOptionById(int $id)
     {
         return self::find()->where('id = :id',[':id'=>$id])->one();

@@ -15,6 +15,7 @@ $this->title="添加管理员";
 	<div class="form-input">
 		<?php echo Html::activeTextInput($model, 'account',[
     	    'placeholder'=>'请输入管理员账号(3-20字)',
+		    'autocomplete'=>'off'
     	]);?>
 	</div>
 </div>
@@ -24,6 +25,7 @@ $this->title="添加管理员";
 	<div class="form-input">
 		<?php echo Html::activePasswordInput($model, 'adminPwd',[
     	    'placeholder'=>'请输入管理员密码(3-40字)',
+		    'autocomplete'=>'off'
     	]);?>
 	</div>
 </div>
@@ -33,6 +35,7 @@ $this->title="添加管理员";
 	<div class="form-input repass">
 		<?php echo Html::activePasswordInput($model, 'repass',[
     	    'placeholder'=>'请输入重复密码',
+		    'autocomplete'=>'off'
     	]);?>
 	</div>
 </div>
@@ -43,6 +46,7 @@ $this->title="添加管理员";
 		<?php 
 		echo Html::activeTextInput($model, 'adminEmail',[
 		    'placeholder'=>'请输入管理员邮箱',
+		    'autocomplete'=>'off'
 		]);
         ?>
 	</div>
