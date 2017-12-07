@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
 
-
+$this->title = '文章列表';
 ?>
 
 <div class="searchform">
