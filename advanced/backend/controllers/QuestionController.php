@@ -47,7 +47,7 @@ class QuestionController extends CommonController
             $post = Yii::$app->request->post();
             if($model->load($post) && $model->validate() && 
                 $model->save(false) && QuestOptions::batchAdd($model->opts, $model->id)){
-                   Yii::$app->session->setFlash('success','编辑成功');;
+                   Yii::$app->session->setFlash('success','编辑成功');
             }else{
                 Yii::$app->session->setFlash('error',array_values($model->getFirstErrors())[0]);
             }
