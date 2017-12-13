@@ -8,7 +8,14 @@ use Yii;
 
 class Admin extends BaseModel implements \yii\web\IdentityInterface
 {
+    //冻结
+    const ADMIN_FROZEN = 1;
+    //激活
+    const ADMIN_ACTIVE = 0;
+    
     public $repass;
+    
+    public $_admin;
     
     public static function tableName()
     {
@@ -18,14 +25,43 @@ class Admin extends BaseModel implements \yii\web\IdentityInterface
     public function rules()
     {
         return [
-            ['account','required','message'=>'账号不能为空','on'=>'add'],
-            ['adminPwd','required','message'=>'密码不能为空','on'=>'add'],
+            ['account','required','message'=>'账号不能为空','on'=>['add','login']],
+            ['adminPwd','required','message'=>'密码不能为空','on'=>['add','login']],
+            ['adminPwd','validAdminPwd','on'=>'login'],
             ['repass','required','message'=>'重复密码不能为空','on'=>'add'],
             ['repass', 'compare', 'compareAttribute' => 'adminPwd', 'message' => '两次密码输入不一致', 'on' => ['add']],
             ['adminEmail','required','message'=>'邮箱不能为空','on'=>'add'],
             ['search','safe']
             
         ];
+    }
+    
+    public function validAdminPwd()
+    {
+        if(!$this->hasErrors()){
+            $this->_admin = self::find()->where('account = :account and isFrozen = :isFrozen',[':account'=>$this->account,':isFrozen'=>self::ADMIN_ACTIVE])->one();
+            if(empty($this->_admin)){
+                $this->addError('account','用户名或密码错误');
+                return false;
+            }
+            if( !Yii::$app->getSecurity()->validatePassword($this->adminPwd, $this->_admin->adminPwd) ){
+                $this->addError('account','用户名或密码错误');
+                return false;
+            }
+        }
+    }
+    
+    public function login(array $data)
+    {
+        $this->scenario = 'login';
+        if($this->load($data) && $this->validate()){
+            $this->_admin->loginCount = $this->_admin->loginCount + 1;
+            $this->_admin->lastLoginIp= $this->_admin->loginIp;
+            $this->_admin->loginIp    = ip2long(Yii::$app->request->userIP);
+            
+            return $this->_admin->save(false);
+        }
+        return false;
     }
     
     public function add(array $data)
