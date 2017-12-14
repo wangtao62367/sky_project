@@ -59,7 +59,7 @@ class Admin extends BaseModel implements \yii\web\IdentityInterface
             $this->_admin->lastLoginIp= $this->_admin->loginIp;
             $this->_admin->loginIp    = ip2long(Yii::$app->request->userIP);
             
-            return $this->_admin->save(false);
+            return $this->_admin->save(false) && Yii::$app->user->login($this->_admin,Yii::$app->params['admin.passwordResetTokenExpire']);
         }
         return false;
     }

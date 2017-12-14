@@ -13,7 +13,7 @@ return [
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
     'modules' => [],
-    'defaultRoute' => 'default/index',
+    'defaultRoute' => 'public/login',
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-backend',
@@ -21,11 +21,12 @@ return [
         'user' => [
             'identityClass' => 'common\models\Admin',
             'enableAutoLogin' => false,
-            'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
+            'idParam'   => '__backendid',
+            'identityCookie' => ['name' => '_identity-sky-backend', 'httpOnly' => true],
         ],
         'session' => [
             // this is the name of the session cookie used for login on the backend
-            'name' => 'advanced-backend',
+            'name' => 'sky-backend',
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,

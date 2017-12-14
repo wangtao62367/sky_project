@@ -18,7 +18,8 @@ class PublicController extends CommonController
             $post = Yii::$app->request->post();
             $result = $model->login($post);
             if($result){
-                
+                Yii::$app->end();
+                return $this->redirect(['default/index']);
             }else{
                 Yii::$app->session->setFlash('error',$model->getErrorDesc());
             }
@@ -28,7 +29,10 @@ class PublicController extends CommonController
     
     public function actionLogout()
     {
-        
+        if(Yii::$app->user->logout(false)){
+            return $this->redirect(['public/login']);
+        }
+        return $this->goBack();
     }
     
     public function actionFindpwdByMail()

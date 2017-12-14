@@ -1,17 +1,7 @@
 <?php
-
-/* @var $this \yii\web\View */
-/* @var $content string */
-
 use backend\assets\AppAsset;
 use yii\helpers\Html;
 use yii\helpers\Url;
-
-// use yii\bootstrap\Nav;
-// use yii\bootstrap\NavBar;
-// use yii\widgets\Breadcrumbs;
-// use common\widgets\Alert;
-
 AppAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
@@ -31,6 +21,7 @@ AppAsset::register($this);
 	<img  src="/admin/img/logo.png"/>
 	<span>四川省社会主义后台管理系统</span>
 	<span class="login-out">
+		欢迎您，<?php echo Yii::$app->user->identity->account ;?>
 		<a href="javascript:;">切换账号</a>
 		<a href="javascript:showDialog();" >退出</a>
 	</span>
