@@ -13,12 +13,12 @@ class PublicController extends CommonController
     
     public function actionLogin()
     {
+        $this->layout = false;
         $model = new Admin();
         if(Yii::$app->request->isPost){
             $post = Yii::$app->request->post();
             $result = $model->login($post);
             if($result){
-                Yii::$app->end();
                 return $this->redirect(['default/index']);
             }else{
                 Yii::$app->session->setFlash('error',$model->getErrorDesc());

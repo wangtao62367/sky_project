@@ -1,5 +1,6 @@
 <?php
 
+use Yii;
 use yii\helpers\Html;
 use backend\assets\AppAsset;
 
@@ -31,5 +32,5 @@ $this->title="添加管理员";
 <div class="form-group form-btn">
 	<?php echo Html::submitInput('登陆',['class'=>'btn btn-primary']);?>
 </div>
-
+<?php if(Yii::$app->session->get('error')){ echo Yii::$app->session->get('error');}?>
 <?php echo Html::endForm();?>
