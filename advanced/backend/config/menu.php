@@ -17,6 +17,7 @@ return [
         ['label'=>'投票管理','url'=>'vote/votes','module'=>'vote'],
         ['label'=>'试题管理','url'=>'question/index','module'=>'question'],
         ['label'=>'新闻管理','url'=>'article/articles','module'=>'article'],
+        ['label'=>'分类管理','url'=>'category/categoris','module'=>'category'],
     ]],
     ['label'=>'教务系统','url'=>'#','module'=>'','icon'=>'icon-set','submenu'=>[
         ['label'=>'课表管理','url'=>'schedule/schedules','module'=>'schedule'],

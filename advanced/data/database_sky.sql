@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50719
 File Encoding         : 65001
 
-Date: 2017-12-12 17:07:43
+Date: 2017-12-20 17:39:34
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -28,6 +28,7 @@ CREATE TABLE `sky_admin` (
   `loginIp` int(11) NOT NULL DEFAULT '0' COMMENT '登陆IP',
   `lastLoginIp` int(11) NOT NULL DEFAULT '0' COMMENT '上次登陆IP',
   `isSuper` tinyint(2) NOT NULL DEFAULT '0' COMMENT '是否是超级管理员',
+  `isFrozen` tinyint(2) NOT NULL DEFAULT '0' COMMENT '是否冻结',
   `createTime` int(11) NOT NULL DEFAULT '0' COMMENT '创建时间',
   `modifyTime` int(11) NOT NULL DEFAULT '0' COMMENT '编辑时间',
   PRIMARY KEY (`id`)
@@ -36,9 +37,9 @@ CREATE TABLE `sky_admin` (
 -- ----------------------------
 -- Records of sky_admin
 -- ----------------------------
-INSERT INTO `sky_admin` VALUES ('1', 'sysadmin', '$2y$13$1VBhVtXIoovm728ZnEdG/.uyalV2OyJWUJg4f.DYMVPwiIfwiBwVm', '623672780@qq.com', '0', '0', '0', '1', '1512033870', '1512033870');
-INSERT INTO `sky_admin` VALUES ('4', 'admin3', '$2y$13$lJ1Q7QLkCZFvCfFzr7o1t.OG2QMJfk.Kk0qMdEqF9phacm4Uk7Uai', '45641631315@qq.com', '0', '0', '0', '0', '1512033870', '1512108517');
-INSERT INTO `sky_admin` VALUES ('6', 'admin4', '$2y$13$6uVqBUQyq2CHzrYEXMIxPOxHx.z4xwBuOBwahRmjwTvGDFK//0Dsy', '456123135132@qq.com', '0', '0', '0', '0', '1512108667', '1512108667');
+INSERT INTO `sky_admin` VALUES ('1', 'sysadmin', '$2y$13$1VBhVtXIoovm728ZnEdG/.uyalV2OyJWUJg4f.DYMVPwiIfwiBwVm', '623672780@qq.com', '3', '2130706433', '2130706433', '1', '0', '1512033870', '1513739849');
+INSERT INTO `sky_admin` VALUES ('4', 'admin3', '$2y$13$lJ1Q7QLkCZFvCfFzr7o1t.OG2QMJfk.Kk0qMdEqF9phacm4Uk7Uai', '45641631315@qq.com', '0', '0', '0', '0', '0', '1512033870', '1512108517');
+INSERT INTO `sky_admin` VALUES ('6', 'admin4', '$2y$13$6uVqBUQyq2CHzrYEXMIxPOxHx.z4xwBuOBwahRmjwTvGDFK//0Dsy', '456123135132@qq.com', '0', '0', '0', '0', '0', '1512108667', '1512108667');
 
 -- ----------------------------
 -- Table structure for `sky_article`
@@ -94,6 +95,25 @@ INSERT INTO `sky_articletag` VALUES ('15', '11', '17');
 INSERT INTO `sky_articletag` VALUES ('17', '13', '10');
 
 -- ----------------------------
+-- Table structure for `sky_bottomlink`
+-- ----------------------------
+DROP TABLE IF EXISTS `sky_bottomlink`;
+CREATE TABLE `sky_bottomlink` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `linkName` varchar(50) NOT NULL COMMENT '链接名称',
+  `linkImg` varchar(100) DEFAULT NULL COMMENT '链接图标',
+  `linkUrl` varchar(100) NOT NULL COMMENT '链接URL地址',
+  `linkCate` varchar(20) NOT NULL COMMENT '链接类型',
+  `createTime` int(11) NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `modifyTime` int(11) NOT NULL DEFAULT '0' COMMENT '编辑时间',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='友情链接表';
+
+-- ----------------------------
+-- Records of sky_bottomlink
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for `sky_category`
 -- ----------------------------
 DROP TABLE IF EXISTS `sky_category`;
@@ -108,19 +128,49 @@ CREATE TABLE `sky_category` (
   `isDelete` tinyint(2) NOT NULL DEFAULT '0' COMMENT '是否删除（0是1否）',
   `creatAdminId` int(11) NOT NULL DEFAULT '0' COMMENT '创建人ID',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='文章分类表';
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8 COMMENT='文章分类表';
 
 -- ----------------------------
 -- Records of sky_category
 -- ----------------------------
-INSERT INTO `sky_category` VALUES ('2', '教学培训', '0', '1511833850', '0', '本学院的教学培训展示', 'normal', '0', '0');
-INSERT INTO `sky_category` VALUES ('3', '科研动态', '0', '1511833873', '0', '本学院的科研动态展示', 'normal', '0', '0');
-INSERT INTO `sky_category` VALUES ('4', '党群建设', '0', '1511833896', '1511840566', '本学院的党群建设展示', 'normal', '0', '0');
-INSERT INTO `sky_category` VALUES ('5', '文化交流', '0', '1511833916', '0', '本学院的文化交流最新动态信息展示', 'normal', '0', '0');
-INSERT INTO `sky_category` VALUES ('6', '智库中心', '0', '1511833940', '0', '本学院的智库中心最新动态信息展示', 'normal', '0', '0');
-INSERT INTO `sky_category` VALUES ('7', '地方社院', '0', '1511833951', '0', '地方社院最新动态信息展示', 'normal', '0', '0');
-INSERT INTO `sky_category` VALUES ('8', '统战新闻', '0', '1511833973', '0', '统战新闻最新动态信息展示', 'top', '0', '0');
-INSERT INTO `sky_category` VALUES ('9', '新闻活动', '0', '1511833993', '1511849290', '新闻活动最新动态信息展示', 'hot', '0', '0');
+INSERT INTO `sky_category` VALUES ('10', '学院概况', '0', '1513740322', '1513740322', '介绍学院基本概况信息', 'normal', '0', '0');
+INSERT INTO `sky_category` VALUES ('11', '新闻活动', '0', '1513740354', '1513740354', '介绍新闻活动信息', 'normal', '0', '0');
+INSERT INTO `sky_category` VALUES ('12', '教学培训', '0', '1513740367', '1513740367', '介绍教学培训信息', 'normal', '0', '0');
+INSERT INTO `sky_category` VALUES ('13', '科研动态', '0', '1513740381', '1513740381', '介绍最新科研动态信息', 'normal', '0', '0');
+INSERT INTO `sky_category` VALUES ('14', '文化学院', '0', '1513740398', '1513740398', '介绍文化学院最新信息', 'normal', '0', '0');
+INSERT INTO `sky_category` VALUES ('15', '学员天地', '0', '1513740426', '1513740426', '介绍学员最新动态信息', 'normal', '0', '0');
+INSERT INTO `sky_category` VALUES ('16', '智库中心', '0', '1513740454', '1513740454', '智库中心信息展示', 'normal', '0', '0');
+INSERT INTO `sky_category` VALUES ('17', '信息化建设', '0', '1513740470', '1513740470', '信息化建设信息展示', 'normal', '0', '0');
+INSERT INTO `sky_category` VALUES ('18', '下载中心', '0', '1513740489', '1513740489', '软件下载中心展示', 'normal', '0', '0');
+INSERT INTO `sky_category` VALUES ('19', '学院简介', '10', '1513740542', '1513740542', '本学院的简介信息', 'normal', '0', '0');
+INSERT INTO `sky_category` VALUES ('20', '发展历程', '10', '1513740565', '1513740565', '本学院的发展历程信息', 'normal', '0', '0');
+INSERT INTO `sky_category` VALUES ('21', '师资情况', '10', '1513740595', '1513740595', '本学院的师资情况', 'normal', '0', '0');
+INSERT INTO `sky_category` VALUES ('22', '组织机构', '10', '1513740611', '1513740611', '本学院的组织机构', 'normal', '0', '0');
+INSERT INTO `sky_category` VALUES ('23', '现任领导', '10', '1513740623', '1513740623', '本学院的现任领导', 'normal', '0', '0');
+INSERT INTO `sky_category` VALUES ('24', '客座教授', '10', '1513740637', '1513740637', '本学院的客座教授', 'normal', '0', '0');
+INSERT INTO `sky_category` VALUES ('25', '社院风采', '10', '1513740647', '1513740647', '本学院的社院风采', 'normal', '0', '0');
+INSERT INTO `sky_category` VALUES ('26', '校园风光', '10', '1513740668', '1513740668', '本学院的校园风光', 'normal', '0', '0');
+INSERT INTO `sky_category` VALUES ('27', '测试', '0', '1513740921', '1513740921', '', 'normal', '1', '0');
+
+-- ----------------------------
+-- Table structure for `sky_common`
+-- ----------------------------
+DROP TABLE IF EXISTS `sky_common`;
+CREATE TABLE `sky_common` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `code` varchar(20) NOT NULL COMMENT '配置标识',
+  `codeDesc` varchar(50) NOT NULL COMMENT '配置描述',
+  `type` varchar(20) NOT NULL COMMENT '配置类型（同一类型值一样）',
+  `typeDesc` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='常用配置表';
+
+-- ----------------------------
+-- Records of sky_common
+-- ----------------------------
+INSERT INTO `sky_common` VALUES ('1', 'friendship', '友情链接', 'bottomLink', '底部链接');
+INSERT INTO `sky_common` VALUES ('2', 'sylink', '社院导航', 'bottomLink', '底部链接');
+INSERT INTO `sky_common` VALUES ('3', 'dflink', '地方社院', 'bottomLink', '底部链接');
 
 -- ----------------------------
 -- Table structure for `sky_curriculum`
@@ -148,14 +198,14 @@ CREATE TABLE `sky_curriculum` (
 DROP TABLE IF EXISTS `sky_gradeclass`;
 CREATE TABLE `sky_gradeclass` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `grades` int(4) NOT NULL DEFAULT '0' COMMENT '年级',
-  `classes` int(4) NOT NULL DEFAULT '0' COMMENT '班',
+  `className` varchar(50) NOT NULL COMMENT '班级名称',
   `classSize` int(4) NOT NULL DEFAULT '0' COMMENT '班人数',
   `createTime` int(11) NOT NULL DEFAULT '0' COMMENT '创建时间',
   `modifyTime` int(11) NOT NULL DEFAULT '0' COMMENT '编辑时间',
+  `isDelete` tinyint(2) NOT NULL DEFAULT '0' COMMENT '是否删除',
   `createAdminId` int(11) NOT NULL DEFAULT '0' COMMENT '创建人Id',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='班级表（年级已年来创建：如2017年 即为 2017级）';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='班级表';
 
 -- ----------------------------
 -- Records of sky_gradeclass
@@ -351,6 +401,8 @@ CREATE TABLE `sky_teachplace` (
   `text` varchar(100) NOT NULL DEFAULT '' COMMENT '教学地点',
   `address` varchar(200) NOT NULL DEFAULT '' COMMENT '具体地址',
   `createTime` int(11) NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `modifyTime` int(11) NOT NULL DEFAULT '0' COMMENT '编辑时间',
+  `isDelete` tinyint(2) NOT NULL DEFAULT '0' COMMENT '是否删除',
   `createAdminId` int(11) NOT NULL DEFAULT '0' COMMENT '创建人ID',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='教学地点表';

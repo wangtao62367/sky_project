@@ -22,8 +22,7 @@ AppAsset::register($this);
 	<span>四川省社会主义后台管理系统</span>
 	<span class="login-out">
 		欢迎您，<?php echo Yii::$app->user->identity->account ;?>
-		<a href="javascript:;">切换账号</a>
-		<a href="javascript:showDialog();" >退出</a>
+		<?php echo Html::a('退出',Url::to(['public/logout']),['title'=>'退出']);?>
 	</span>
 </div>
 <div class="left">

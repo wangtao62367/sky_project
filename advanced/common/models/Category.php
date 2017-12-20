@@ -5,7 +5,7 @@ use yii\db\Expression;
 
 /**
  * 文章分类
- * @author WT by 2017-11-27
+ * @author wangtao by 2017-11-27
  *
  */
 class Category extends BaseModel
@@ -69,7 +69,7 @@ class Category extends BaseModel
     
     public function getParentCate(int $parentId)
     {
-        return self::find()->select(['id','text'])->where('parentId = :parentId',[':parentId'=>$parentId])->asArray()->all();
+        return self::find()->select(['id','text'])->where('parentId = :parentId and isDelete = 0',[':parentId'=>$parentId])->asArray()->all();
     }
     
     public function del(int $id)

@@ -30,7 +30,7 @@ class BaseModel extends ActiveRecord
     }
     
     
-    public function query(ActiveQuery $query,int $curPage ,int $pageSize  ,$search = null)
+    public function query(ActiveQuery $query,int $curPage = 1 ,int $pageSize = 10 ,$search = null)
     {
         if(!empty($search)){
             $query = $query->filterWhere($search);
