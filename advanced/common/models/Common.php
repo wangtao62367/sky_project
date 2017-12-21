@@ -27,6 +27,6 @@ class Common extends BaseModel
             'type',
             'typeDesc'
         ])
-        ->where('type = :type',[':type'=>$type])->asArray()->all();
+        ->where('type = :type',[':type'=>$type])->orderBy('sorts asc')->asArray()->all();
     }
 }

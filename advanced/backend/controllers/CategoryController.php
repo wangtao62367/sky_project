@@ -5,6 +5,7 @@ namespace backend\controllers;
 use Yii;
 use common\controllers\CommonController;
 use common\models\Category;
+use common\models\CategoryType;
 
 class CategoryController extends CommonController
 {
@@ -12,8 +13,8 @@ class CategoryController extends CommonController
     public function actionCreate()
     {
         $cate = new Category();
-        $parentCates = $cate->getParentCate(0);
-        $cate->positions = 'normal';
+        $parentCates = $cate->getParentCate();
+        $cate->type = CategoryType::ARTICLE;
         if(Yii::$app->request->isPost){
             $post = Yii::$app->request->post();
             
@@ -32,7 +33,7 @@ class CategoryController extends CommonController
         if(empty($cate)){
             exit();
         }
-        $parentCates = $cate->getParentCate(0);
+        $parentCates = $cate->getParentCate();
         if(Yii::$app->request->isPost){
             $cate->scenario = 'edit';
             $post = Yii::$app->request->post();

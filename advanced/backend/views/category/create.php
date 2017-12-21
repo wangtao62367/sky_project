@@ -20,16 +20,16 @@ $this->title="创建分类";
 </div>
 
 <div class="form-group ">
-	<div class="form-lable"><?php echo Html::label('父级分类：','parentId');?></div>
+	<div class="form-lable"><?php echo Html::label('所属模块：','parentId');?></div>
 	<div class="form-input">
-		<?php echo Html::activeDropDownList($model, 'parentId', ArrayHelper::map($parentCates, 'id', 'text') ,$model->parentId ? [] : ['prompt'=>'请选择','prompt_val'=>'0']);?>
+		<?php echo Html::activeDropDownList($model, 'parentId', array_merge([''=>'请选择'],ArrayHelper::map($parentCates, 'id', 'codeDesc')) );?>
 	</div>
 </div>
 
 <div class="form-group form-positions">
-	<div class="form-lable"><?php echo Html::label('显示区域：','positions');?></div>
+	<div class="form-lable"><?php echo Html::label('类型归类：','type');?></div>
 	<div class="form-input">
-		<?php echo Html::activeRadioList($model, 'positions', $model->position_arr);?>
+		<?php echo Html::activeRadioList($model, 'type', $model->type_arr);?>
 	</div>
 </div>
 
@@ -44,7 +44,8 @@ $this->title="创建分类";
 	</div>
 </div>
 
-
+<p style="color:red"><?php if(Yii::$app->session->getFlash('error')){ echo Yii::$app->session->getFlash('error');}?></p>
+<p style="color:green"><?php if(Yii::$app->session->getFlash('success')){ echo Yii::$app->session->getFlash('success');}?></p>
 <div class="form-group form-btn">
 	<?php echo Html::submitInput('确认保存',['class'=>'btn btn-primary']);?>
 	<?php echo Html::resetInput('清空重置',['class'=>'btn'])?>
@@ -55,13 +56,7 @@ $this->title="创建分类";
 AppAsset::addCss($this, 'admin/css/form.css');
 
 $js = <<<JS
-$(document).on('change','#category-parentid',function(ev){
-    if($(this).val()){
-        $('.form-positions').hide();
-    }else{
-        $('.form-positions').show()
-    };
-});
+
 JS;
 $this->registerJs($js);
 ?>

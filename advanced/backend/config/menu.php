@@ -14,6 +14,7 @@ return [
         ['label'=>'学员统计','url'=>'student/students','module'=>'student'],
     ]],
     ['label'=>'新闻系统','url'=>'#','module'=>'','icon'=>'icon-set','submenu'=>[
+        ['label'=>'内容管理','url'=>'content/manage','module'=>'content'],
         ['label'=>'投票管理','url'=>'vote/votes','module'=>'vote'],
         ['label'=>'试题管理','url'=>'question/index','module'=>'question'],
         ['label'=>'新闻管理','url'=>'article/articles','module'=>'article'],

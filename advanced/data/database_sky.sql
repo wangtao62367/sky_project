@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50719
 File Encoding         : 65001
 
-Date: 2017-12-20 17:39:34
+Date: 2017-12-21 17:36:10
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -95,6 +95,24 @@ INSERT INTO `sky_articletag` VALUES ('15', '11', '17');
 INSERT INTO `sky_articletag` VALUES ('17', '13', '10');
 
 -- ----------------------------
+-- Table structure for `sky_beststudent`
+-- ----------------------------
+DROP TABLE IF EXISTS `sky_beststudent`;
+CREATE TABLE `sky_beststudent` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `stuName` varchar(50) NOT NULL COMMENT '学员名称',
+  `stuPhoto` varchar(100) NOT NULL COMMENT '学员照片',
+  `stuIntroduce` text COMMENT '个人介绍',
+  `createTime` int(11) NOT NULL COMMENT '创建时间',
+  `modifyTime` int(11) NOT NULL COMMENT '编辑时间',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='优秀学员表（学员风采表）';
+
+-- ----------------------------
+-- Records of sky_beststudent
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for `sky_bottomlink`
 -- ----------------------------
 DROP TABLE IF EXISTS `sky_bottomlink`;
@@ -125,32 +143,21 @@ CREATE TABLE `sky_category` (
   `modifyTime` int(11) NOT NULL DEFAULT '0' COMMENT '编辑时间',
   `descr` varchar(150) NOT NULL DEFAULT '' COMMENT '分类描述',
   `positions` enum('top','hot','normal') NOT NULL DEFAULT 'normal' COMMENT '首页位置（top顶部、hot热点位置、normal正常位置）',
+  `type` enum('video','image','file','article') NOT NULL DEFAULT 'article' COMMENT '分类类型',
   `isDelete` tinyint(2) NOT NULL DEFAULT '0' COMMENT '是否删除（0是1否）',
   `creatAdminId` int(11) NOT NULL DEFAULT '0' COMMENT '创建人ID',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8 COMMENT='文章分类表';
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='文章分类表';
 
 -- ----------------------------
 -- Records of sky_category
 -- ----------------------------
-INSERT INTO `sky_category` VALUES ('10', '学院概况', '0', '1513740322', '1513740322', '介绍学院基本概况信息', 'normal', '0', '0');
-INSERT INTO `sky_category` VALUES ('11', '新闻活动', '0', '1513740354', '1513740354', '介绍新闻活动信息', 'normal', '0', '0');
-INSERT INTO `sky_category` VALUES ('12', '教学培训', '0', '1513740367', '1513740367', '介绍教学培训信息', 'normal', '0', '0');
-INSERT INTO `sky_category` VALUES ('13', '科研动态', '0', '1513740381', '1513740381', '介绍最新科研动态信息', 'normal', '0', '0');
-INSERT INTO `sky_category` VALUES ('14', '文化学院', '0', '1513740398', '1513740398', '介绍文化学院最新信息', 'normal', '0', '0');
-INSERT INTO `sky_category` VALUES ('15', '学员天地', '0', '1513740426', '1513740426', '介绍学员最新动态信息', 'normal', '0', '0');
-INSERT INTO `sky_category` VALUES ('16', '智库中心', '0', '1513740454', '1513740454', '智库中心信息展示', 'normal', '0', '0');
-INSERT INTO `sky_category` VALUES ('17', '信息化建设', '0', '1513740470', '1513740470', '信息化建设信息展示', 'normal', '0', '0');
-INSERT INTO `sky_category` VALUES ('18', '下载中心', '0', '1513740489', '1513740489', '软件下载中心展示', 'normal', '0', '0');
-INSERT INTO `sky_category` VALUES ('19', '学院简介', '10', '1513740542', '1513740542', '本学院的简介信息', 'normal', '0', '0');
-INSERT INTO `sky_category` VALUES ('20', '发展历程', '10', '1513740565', '1513740565', '本学院的发展历程信息', 'normal', '0', '0');
-INSERT INTO `sky_category` VALUES ('21', '师资情况', '10', '1513740595', '1513740595', '本学院的师资情况', 'normal', '0', '0');
-INSERT INTO `sky_category` VALUES ('22', '组织机构', '10', '1513740611', '1513740611', '本学院的组织机构', 'normal', '0', '0');
-INSERT INTO `sky_category` VALUES ('23', '现任领导', '10', '1513740623', '1513740623', '本学院的现任领导', 'normal', '0', '0');
-INSERT INTO `sky_category` VALUES ('24', '客座教授', '10', '1513740637', '1513740637', '本学院的客座教授', 'normal', '0', '0');
-INSERT INTO `sky_category` VALUES ('25', '社院风采', '10', '1513740647', '1513740647', '本学院的社院风采', 'normal', '0', '0');
-INSERT INTO `sky_category` VALUES ('26', '校园风光', '10', '1513740668', '1513740668', '本学院的校园风光', 'normal', '0', '0');
-INSERT INTO `sky_category` VALUES ('27', '测试', '0', '1513740921', '1513740921', '', 'normal', '1', '0');
+INSERT INTO `sky_category` VALUES ('1', '学院简介', '4', '1513846116', '1513846161', '学院简介信息', 'normal', 'article', '0', '0');
+INSERT INTO `sky_category` VALUES ('2', '发展历程', '4', '1513846666', '1513846666', '社院发展历程介绍', 'normal', 'article', '0', '0');
+INSERT INTO `sky_category` VALUES ('3', '师资情况', '4', '1513846703', '1513846703', '社院师资情况介绍', 'normal', 'article', '0', '0');
+INSERT INTO `sky_category` VALUES ('4', '组织机构', '0', '1513846914', '1513846914', '社院组织结构介绍', 'normal', 'article', '0', '0');
+INSERT INTO `sky_category` VALUES ('5', '统战新闻', '1', '1513846977', '1513846977', '最新统战新闻信息', 'normal', 'article', '0', '0');
+INSERT INTO `sky_category` VALUES ('6', '视讯社院', '1', '1513847004', '1513847237', '社院最新视讯', 'normal', 'video', '0', '0');
 
 -- ----------------------------
 -- Table structure for `sky_common`
@@ -162,15 +169,27 @@ CREATE TABLE `sky_common` (
   `codeDesc` varchar(50) NOT NULL COMMENT '配置描述',
   `type` varchar(20) NOT NULL COMMENT '配置类型（同一类型值一样）',
   `typeDesc` varchar(50) NOT NULL,
+  `sorts` int(10) NOT NULL DEFAULT '0' COMMENT '排序(顺序排,越大越靠后）',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='常用配置表';
+) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COMMENT='常用配置表';
 
 -- ----------------------------
 -- Records of sky_common
 -- ----------------------------
-INSERT INTO `sky_common` VALUES ('1', 'friendship', '友情链接', 'bottomLink', '底部链接');
-INSERT INTO `sky_common` VALUES ('2', 'sylink', '社院导航', 'bottomLink', '底部链接');
-INSERT INTO `sky_common` VALUES ('3', 'dflink', '地方社院', 'bottomLink', '底部链接');
+INSERT INTO `sky_common` VALUES ('1', 'friendship', '友情链接', 'bottomLink', '底部链接', '1');
+INSERT INTO `sky_common` VALUES ('2', 'sylink', '社院导航', 'bottomLink', '底部链接', '2');
+INSERT INTO `sky_common` VALUES ('3', 'dflink', '地方社院', 'bottomLink', '底部链接', '3');
+INSERT INTO `sky_common` VALUES ('4', 'school', '学院概况', 'navigation', '首页导航', '1');
+INSERT INTO `sky_common` VALUES ('5', 'news', '新闻活动', 'navigation', '首页导航', '2');
+INSERT INTO `sky_common` VALUES ('6', 'jxpx', '教学培训', 'navigation', '首页导航', '3');
+INSERT INTO `sky_common` VALUES ('7', 'kydt', '科研动态', 'navigation', '首页导航', '4');
+INSERT INTO `sky_common` VALUES ('8', 'whxy', '文化学院', 'navigation', '首页导航', '5');
+INSERT INTO `sky_common` VALUES ('9', 'xytd', '学员天地', 'navigation', '首页导航', '6');
+INSERT INTO `sky_common` VALUES ('10', 'zkzx', '智库中心', 'navigation', '首页导航', '7');
+INSERT INTO `sky_common` VALUES ('11', 'xzzx', '下载中心', 'navigation', '首页导航', '9');
+INSERT INTO `sky_common` VALUES ('12', 'xxhjs', '信息化建设', 'navigation', '首页导航', '8');
+INSERT INTO `sky_common` VALUES ('13', 'currentLeader', '现任领导', 'personage', '社院人物', '0');
+INSERT INTO `sky_common` VALUES ('14', 'visitedProfessor', '做客教授', 'personage', '社院人物', '0');
 
 -- ----------------------------
 -- Table structure for `sky_curriculum`
@@ -209,6 +228,39 @@ CREATE TABLE `sky_gradeclass` (
 
 -- ----------------------------
 -- Records of sky_gradeclass
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `sky_navrelation`
+-- ----------------------------
+DROP TABLE IF EXISTS `sky_navrelation`;
+CREATE TABLE `sky_navrelation` (
+  `navId` int(11) NOT NULL COMMENT '导航Id',
+  `cateId` int(11) NOT NULL COMMENT '分类Id'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of sky_navrelation
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `sky_personage`
+-- ----------------------------
+DROP TABLE IF EXISTS `sky_personage`;
+CREATE TABLE `sky_personage` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `fullName` varchar(50) NOT NULL COMMENT '姓名',
+  `photo` varchar(100) NOT NULL,
+  `duties` varchar(150) NOT NULL COMMENT '职务描述',
+  `intruduce` text NOT NULL COMMENT '个人简介',
+  `role` varchar(20) NOT NULL COMMENT '人物角色',
+  `createTime` int(11) NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `modifyTime` int(11) NOT NULL DEFAULT '0' COMMENT '编辑时间',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='社科院人物表';
+
+-- ----------------------------
+-- Records of sky_personage
 -- ----------------------------
 
 -- ----------------------------
