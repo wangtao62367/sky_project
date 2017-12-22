@@ -15,11 +15,12 @@ class ArticleController extends CommonController
     {
         return [
             'upload' => [
-                'class' => 'kucha\ueditor\UEditorAction',
+                'class' => 'common\ijackwu\ueditor\alioss\UeditorAliossAction',//'kucha\ueditor\UEditorAction',//
                 'config' => [
-                    "imageUrlPrefix"  => "http://test.sky.com",//图片访问路径前缀
-                    "imagePathFormat" => "/upload/article/{yyyy}{mm}{dd}/{time}{rand:6}", //上传保存路径
-                    "imageRoot" => Yii::getAlias("@frontend").'/web',
+                    "fileUrlPrefix" => "http://seving-weixin.oss-cn-shenzhen.aliyuncs.com",
+                    "imageUrlPrefix"  => "http://seving-weixin.oss-cn-shenzhen.aliyuncs.com",//图片访问路径前缀
+                    "imagePathFormat" => "upload/article/{yyyy}{mm}{dd}/{time}{rand:6}", //上传保存路径
+                    "imageRoot" => '',//Yii::getAlias("@frontend").'/web',
                 ],
             ]
         ];

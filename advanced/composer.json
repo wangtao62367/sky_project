@@ -24,7 +24,8 @@
 		"yiisoft/yii2-bootstrap" : "~2.0.0",
 		"yiisoft/yii2-swiftmailer" : "~2.0.0",
 		"phpoffice/phpexcel" : "dev-develop",
-		"kucha/ueditor" : "*"
+		"kucha/ueditor" : "*",
+		"aliyuncs/oss-sdk-php" : "~2.0"
 	},
 	"require-dev" : {
 		"yiisoft/yii2-debug" : "~2.0.0",
@@ -41,11 +42,5 @@
 				"bower-asset-library" : "vendor/bower"
 			}
 		}
-	},
-	"repositories": {
-	    "packagist": {
-	        "type": "composer",
-	        "url": "https://packagist.phpcomposer.com"
-	    }
 	}
 }
