@@ -12,11 +12,10 @@ class AppLoginAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
-        'admin/css/normalize.css',
-        'admin/css/login.css',
+        'admin/css/style.css',
     ];
     public $js = [
-        //'admin/js/base.js'
+        'admin/js/cloud.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',

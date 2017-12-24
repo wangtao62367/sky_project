@@ -35,6 +35,11 @@ class PublicController extends CommonController
         return $this->goBack();
     }
     
+    public function actionForgetpwd()
+    {
+        
+    }
+    
     public function actionFindpwdByMail()
     {
         
