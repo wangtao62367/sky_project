@@ -32,7 +32,7 @@ class DefaultController extends CommonController
     
     public function actionMain()
     {
-        $this->layout = false;
+        $this->layout = 'main';
         return $this->render('main');
     }
 }

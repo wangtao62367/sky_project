@@ -11,6 +11,7 @@ class ContentController extends CommonController
     
     public function actionManage()
     {
+        $this->layout = 'main';
         return $this->render('manage');
     }
 }

@@ -13,7 +13,7 @@ class PublicController extends CommonController
     
     public function actionLogin()
     {
-        $this->layout = 'public';
+        $this->layout = 'login';
         $model = new Admin();
         if(Yii::$app->request->isPost){
             $post = Yii::$app->request->post();

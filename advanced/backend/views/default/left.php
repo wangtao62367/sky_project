@@ -1,5 +1,7 @@
 <?php
 
+use yii\helpers\Url;
+
 $this->title = '左侧导航';
 ?>
 	<div class="lefttop"><span></span>控制台</div>
@@ -30,10 +32,10 @@ $this->title = '左侧导航';
 	    <span><img width="16px" src="/admin/images/i06.png" /></span>新闻系统
 	    </div>
     	<ul class="menuson">
-	        <li><cite></cite><a href="content.html">内容管理</a><i></i></li>
-	        <li><cite></cite><a href="#">分类管理</a><i></i></li>
-	        <li><cite></cite><a href="#">测评试卷</a><i></i></li>
-	        <li><cite></cite><a href="#">调查管理</a><i></i></li>
+	        <li><cite></cite><a href="<?php echo  Url::to(['content/manage'])?>" target="rightFrame">内容管理</a><i></i></li>
+	        <li><cite></cite><a target="rightFrame" href="#" >分类管理</a><i></i></li>
+	        <li><cite></cite><a target="rightFrame" href="#">测评试卷</a><i></i></li>
+	        <li><cite></cite><a target="rightFrame" href="#">调查管理</a><i></i></li>
         </ul>     
     </dd> 
     
@@ -41,25 +43,25 @@ $this->title = '左侧导航';
     <dd>
     	<div class="title"><span><img width="16px" src="/admin/images/icon01.png" /></span>教务系统</div>
 	    <ul class="menuson">
-	        <li><cite></cite><a href="#">课表管理</a><i></i></li>
-	        <li><cite></cite><a href="#">课程管理</a><i></i></li>
-	        <li><cite></cite><a href="#">教师管理</a><i></i></li>
-	        <li><cite></cite><a href="#">班级管理</a><i></i></li>
-	        <li><cite></cite><a href="#">教学点管理</a><i></i></li>
+	        <li><cite></cite><a target="rightFrame" href="#">课表管理</a><i></i></li>
+	        <li><cite></cite><a target="rightFrame" href="#">课程管理</a><i></i></li>
+	        <li><cite></cite><a target="rightFrame" href="#">教师管理</a><i></i></li>
+	        <li><cite></cite><a target="rightFrame" href="#">班级管理</a><i></i></li>
+	        <li><cite></cite><a target="rightFrame" href="#">教学点管理</a><i></i></li>
 	    </ul>    
     </dd>  
     
     
     <dd><div class="title"><span><img width="16px" src="/admin/images/i07.png" /></span>用户系统</div>
     <ul class="menuson">
-        <li><cite></cite><a href="#">用户管理</a><i></i></li>
-        <li><cite></cite><a href="#">学员管理</a><i></i></li>
+        <li><cite></cite><a target="rightFrame" href="#">用户管理</a><i></i></li>
+        <li><cite></cite><a target="rightFrame" href="#">学员管理</a><i></i></li>
     </ul>
     
     <dd><div class="title"><span><img width="16px" src="/admin/images/ico03.png" /></span>统计系统</div>
 	    <ul class="menuson">
-	        <li><cite></cite><a href="#">学员统计</a><i></i></li>
-	        <li><cite></cite><a href="#">答题统计</a><i></i></li>
+	        <li><cite></cite><a target="rightFrame" href="#">学员统计</a><i></i></li>
+	        <li><cite></cite><a target="rightFrame" href="#">答题统计</a><i></i></li>
 	    </ul>
     </dd>   
     

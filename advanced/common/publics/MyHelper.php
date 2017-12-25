@@ -60,4 +60,10 @@ class MyHelper
         }
         return round(($num / $total) * 100 ,2 ) . '%';
     }
+    
+    
+    public static function timestampToDate($timestamp,$format = 'Y-m-d H:i:s')
+    {
+        return date($format,$timestamp);
+    }
 }

@@ -44,7 +44,7 @@ class CommonController extends Controller
     
     public function init()
     {
-        
+        $this->layout = 'main';
     }
     
     protected function setResponseJson()
