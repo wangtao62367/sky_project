@@ -52,10 +52,10 @@ use yii\helpers\Html;
         <li>
         	<label>客户状态</label>  
             <div class="vocation">
-            <select class="select3">
-                <option>全部</option>
-                <option>其他</option>
-            </select>
+                <select class="select3">
+                    <option>全部</option>
+                    <option>其他</option>
+                </select>
             </div>
         </li>
         <li><label>&nbsp;</label><input name="" type="button" class="scbtn" value="查询"/></li>
