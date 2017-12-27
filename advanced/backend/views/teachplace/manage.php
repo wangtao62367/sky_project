@@ -7,9 +7,9 @@ use yii\helpers\Html;
 <div class="place">
     <span>位置：</span>
     <ul class="placeul">
-        <li><a href="#">教务系统</a></li>
-        <li><a href="<?php echo Url::to(['teachplace/places'])?>">教学点管理</a></li>
-        <li><a href="<?php echo Url::to(['teachplace/places'])?>">教学点列表</a></li>
+        <li><a href="javascript:;">教务系统</a></li>
+        <li><a href="<?php echo Url::to(['teachplace/manage'])?>">教学点管理</a></li>
+        <li><a href="<?php echo Url::to(['teachplace/manage'])?>">教学点列表</a></li>
     </ul>
 </div>
 
@@ -55,11 +55,15 @@ use yii\helpers\Html;
     	<?php foreach ($list['data'] as $val):?>
     	<tr>
             <td><input name="" type="checkbox" value="<?php echo $val['id'];?>" /></td>
+            <td><?php echo $val['id'];?></td>
             <td><?php echo $val['text'];?></td>
             <td><?php echo $val['address'];?></td>
             <td><?php echo MyHelper::timestampToDate($val['createTime']);?></td>
             <td><?php echo MyHelper::timestampToDate($val['modifyTime']);?></td>
-            <td><a href="#" class="tablelink">查看</a>     <a href="#" class="tablelink"> 删除</a></td>
+            <td>
+            <a href="<?php echo Url::to(['teachplace/edit','id'=>$val['id']]);?>" class="tablelink">编辑</a>     
+            <a href="<?php echo Url::to(['teachplace/del','id'=>$val['id']]);?>" class="tablelink"> 删除</a>
+            </td>
         </tr> 
         <?php endforeach;?>
     </tbody>

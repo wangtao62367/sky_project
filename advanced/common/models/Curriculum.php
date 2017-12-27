@@ -3,7 +3,11 @@ namespace common\models;
 
 
 
-
+/**
+ * 课程
+ * @author wangtao
+ *
+ */
 
 class Curriculum extends BaseModel
 {
@@ -22,7 +26,7 @@ class Curriculum extends BaseModel
     {
         return [
             ['text','required','message'=>'课程名称不能为空','on'=>['create','edit']],
-            ['text', 'length', 'max'=>20, 'min'=>2, 'tooLong'=>'课程名称长度为4-40个字符', 'tooShort'=>'课程名称长度为2-20个字','on'=>['create','edite']],
+            ['text', 'string' ,'length'=>[2,20],'tooLong'=>'课程名称长度为4-40个字符', 'tooShort'=>'课程名称长度为2-20个字','on'=>['create','edite']],
             [['period','isRequired','remarks','curPage','pageSize','search'],'safe']
         ];
     }

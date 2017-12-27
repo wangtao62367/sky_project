@@ -24,7 +24,7 @@ class GradeClass extends BaseModel
     {
         return [
             ['className','required','message'=>'班级名称不能为空','on'=>['create','edite']],
-            ['className', 'length', 'max'=>20, 'min'=>2, 'tooLong'=>'班级名称长度为4-40个字符', 'tooShort'=>'班级名称长度为2-20个字','on'=>['create','edite']],
+            ['className', 'string','length'=>[2,20], 'tooLong'=>'班级名称长度为4-40个字符', 'tooShort'=>'班级名称长度为2-20个字','on'=>['create','edite']],
             ['classSize','required','message'=>'班级人数不能为空','on'=>['create','edite']],
             ['classSize','number','max'=>60,'min'=>5,'tooBig'=>'班级最小5人','tooSmall'=>'班级最大60人','on'=>['create','edite']],
             ['createAdminId','default','value'=>Yii::$app->user->id],

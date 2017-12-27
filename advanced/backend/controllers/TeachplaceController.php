@@ -14,7 +14,7 @@ use common\models\TeachPlace;
 class TeachplaceController extends CommonController
 {
     
-    public function actionPlaces()
+    public function actionManage()
     {
         $teachPlace = new TeachPlace();
         
@@ -24,10 +24,13 @@ class TeachplaceController extends CommonController
         ]];
         
         $list = $teachPlace->pageList($data);
-        if(empty($list)){
-            
-        }
-        return $this->render('places',['model'=>$teachPlace,'list'=>$list]);
+        return $this->render('manage',['model'=>$teachPlace,'list'=>$list]);
     }
     
+    public function actionEdit(int $id)
+    {
+    	$teachPlace = new TeachPlace();
+    	
+    	return $this->renderPartial('common/dialog');
+    }
 }

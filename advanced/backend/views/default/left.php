@@ -32,10 +32,10 @@ $this->title = '左侧导航';
 	    <span><img width="16px" src="/admin/images/i06.png" /></span>新闻系统
 	    </div>
     	<ul class="menuson">
-	        <li><cite></cite><a href="<?php echo  Url::to(['content/manage'])?>" target="rightFrame">内容管理</a><i></i></li>
-	        <li><cite></cite><a target="rightFrame" href="#" >分类管理</a><i></i></li>
-	        <li><cite></cite><a target="rightFrame" href="#">测评试卷</a><i></i></li>
-	        <li><cite></cite><a target="rightFrame" href="#">调查管理</a><i></i></li>
+	        <li><cite></cite><a target="rightFrame" href="<?php echo  Url::to(['content/manage'])?>">内容管理</a><i></i></li>
+	        <li><cite></cite><a target="rightFrame" href="<?php echo  Url::to(['category/manage'])?>" >分类管理</a><i></i></li>
+	        <li><cite></cite><a target="rightFrame" href="<?php echo  Url::to(['testpaper/manage'])?>">试卷管理</a><i></i></li>
+	        <li><cite></cite><a target="rightFrame" href="<?php echo  Url::to(['questionnaire/manage'])?>">调查管理</a><i></i></li>
         </ul>     
     </dd> 
     
@@ -43,25 +43,25 @@ $this->title = '左侧导航';
     <dd>
     	<div class="title"><span><img width="16px" src="/admin/images/icon01.png" /></span>教务系统</div>
 	    <ul class="menuson">
-	        <li><cite></cite><a target="rightFrame" href="#">课表管理</a><i></i></li>
-	        <li><cite></cite><a target="rightFrame" href="#">课程管理</a><i></i></li>
-	        <li><cite></cite><a target="rightFrame" href="#">教师管理</a><i></i></li>
-	        <li><cite></cite><a target="rightFrame" href="#">班级管理</a><i></i></li>
-	        <li><cite></cite><a target="rightFrame" href="<?php echo Url::to(['teachplace/places'])?>">教学点管理</a><i></i></li>
+	        <li><cite></cite><a target="rightFrame" href="<?php echo Url::to(['schedule/manage'])?>">课表管理</a><i></i></li>
+	        <li><cite></cite><a target="rightFrame" href="<?php echo Url::to(['curriculum/manage'])?>">课程管理</a><i></i></li>
+	        <li><cite></cite><a target="rightFrame" href="<?php echo Url::to(['teacher/manage'])?>">教师管理</a><i></i></li>
+	        <li><cite></cite><a target="rightFrame" href="<?php echo Url::to(['gradeclass/manage'])?>">班级管理</a><i></i></li>
+	        <li><cite></cite><a target="rightFrame" href="<?php echo Url::to(['teachplace/manage'])?>">教学点管理</a><i></i></li>
 	    </ul>    
     </dd>  
     
     
     <dd><div class="title"><span><img width="16px" src="/admin/images/i07.png" /></span>用户系统</div>
     <ul class="menuson">
-        <li><cite></cite><a target="rightFrame" href="#">用户管理</a><i></i></li>
-        <li><cite></cite><a target="rightFrame" href="#">学员管理</a><i></i></li>
+        <li><cite></cite><a target="rightFrame" href="<?php echo Url::to(['user/manage'])?>">用户管理</a><i></i></li>
+        <li><cite></cite><a target="rightFrame" href="<?php echo Url::to(['student/manage'])?>">学员管理</a><i></i></li>
     </ul>
     
     <dd><div class="title"><span><img width="16px" src="/admin/images/ico03.png" /></span>统计系统</div>
 	    <ul class="menuson">
-	        <li><cite></cite><a target="rightFrame" href="#">学员统计</a><i></i></li>
-	        <li><cite></cite><a target="rightFrame" href="#">答题统计</a><i></i></li>
+	        <li><cite></cite><a target="rightFrame" href="<?php echo Url::to(['statistics/student'])?>">学员统计</a><i></i></li>
+	        <li><cite></cite><a target="rightFrame" href="<?php echo Url::to(['statistics/answer'])?>">答题统计</a><i></i></li>
 	    </ul>
     </dd>   
     

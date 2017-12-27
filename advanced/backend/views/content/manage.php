@@ -6,8 +6,8 @@ use yii\helpers\Url;
 <div class="place">
     <span>位置：</span>
     <ul class="placeul">
-	    <li><a href="#">新闻系统</a></li>
-	    <li><a href="#">内容管理</a></li>
+	    <li><a href="javascript:;">新闻系统</a></li>
+	    <li><a href="<?php Url::to(['content/manage'])?>">内容管理</a></li>
     </ul>
 </div>
     

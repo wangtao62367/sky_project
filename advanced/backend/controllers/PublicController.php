@@ -6,6 +6,11 @@ namespace backend\controllers;
 use Yii;
 use common\controllers\CommonController;
 use common\models\Admin;
+/**
+ * 后台用户
+ * @author wangt
+ *
+ */
 
 class PublicController extends CommonController
 {
