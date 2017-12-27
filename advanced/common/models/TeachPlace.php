@@ -25,7 +25,7 @@ class TeachPlace extends BaseModel
     {
         return [
             ['text','required','message'=>'教学地点不能为空','on'=>['create','edit']],
-            ['text', 'length', 'max'=>20, 'min'=>2, 'tooLong'=>'教学地点长度为4-40个字符', 'tooShort'=>'教学地点长度为2-20个字','on'=>['create','edite']],
+            ['text', 'string', 'length' => [2, 20], 'tooLong'=>'教学地点长度为4-40个字符', 'tooShort'=>'教学地点长度为2-20个字','on'=>['create','edite']],
             [['address','createAdminId','curPage','pageSize','search'],'safe'],
         ];
     }
@@ -68,7 +68,7 @@ class TeachPlace extends BaseModel
     public function pageList(array $data)
     {
         if($this->load($data)){
-            $teachPlaceQuery = self::find()->select([])->orderBy('createTime desc,modifyTime desc');
+            $teachPlaceQuery = self::find()->select(['id','text','address','createTime','modifyTime'])->orderBy('createTime desc,modifyTime desc');
             if(!empty($this->search)){
                 if(!empty($this->search['keywords'])){
                     $teachPlaceQuery = $teachPlaceQuery->andWhere([
@@ -78,7 +78,8 @@ class TeachPlace extends BaseModel
                     ]);
                 }
             }
-            $list = $this->query($teachPlaceQuery, $this->curPage, $this->curPage);
+            $list = $this->query($teachPlaceQuery, $this->curPage, $this->pageSize);
+            return $list;
         }
         return false;
     }

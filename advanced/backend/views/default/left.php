@@ -47,7 +47,7 @@ $this->title = '左侧导航';
 	        <li><cite></cite><a target="rightFrame" href="#">课程管理</a><i></i></li>
 	        <li><cite></cite><a target="rightFrame" href="#">教师管理</a><i></i></li>
 	        <li><cite></cite><a target="rightFrame" href="#">班级管理</a><i></i></li>
-	        <li><cite></cite><a target="rightFrame" href="#">教学点管理</a><i></i></li>
+	        <li><cite></cite><a target="rightFrame" href="<?php echo Url::to(['teachplace/places'])?>">教学点管理</a><i></i></li>
 	    </ul>    
     </dd>  
     
