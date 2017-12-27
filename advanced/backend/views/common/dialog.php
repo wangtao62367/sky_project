@@ -1,0 +1,17 @@
+<?php
+
+?>
+ <div class="tip">
+    <div class="tiptop"><span>提示信息</span><a></a></div>  
+      <div class="tipinfo">
+        <span><img src="/admin/images/ticon.png" /></span>
+        <div class="tipright">
+        <p>是否确认对信息的修改 ？</p>
+        <cite>如果是请点击确定按钮 ，否则请点取消。</cite>
+        </div>
+        </div>
+        <div class="tipbtn">
+        <input name="" type="button"  class="sure" value="确定" />&nbsp;
+        <input name="" type="button"  class="cancel" value="取消" />
+      </div>
+</div>
