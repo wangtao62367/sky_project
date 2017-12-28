@@ -23,10 +23,10 @@ class GradeClass extends BaseModel
     public function rules()
     {
         return [
-            ['className','required','message'=>'班级名称不能为空','on'=>['create','edite']],
-            ['className', 'string','length'=>[2,20], 'tooLong'=>'班级名称长度为4-40个字符', 'tooShort'=>'班级名称长度为2-20个字','on'=>['create','edite']],
-            ['classSize','required','message'=>'班级人数不能为空','on'=>['create','edite']],
-            ['classSize','number','max'=>60,'min'=>5,'tooBig'=>'班级最小5人','tooSmall'=>'班级最大60人','on'=>['create','edite']],
+            ['className','required','message'=>'班级名称不能为空','on'=>['create','edit']],
+            ['className', 'string','length'=>[2,20], 'tooLong'=>'班级名称长度为4-40个字符', 'tooShort'=>'班级名称长度为2-20个字','on'=>['create','edit']],
+            ['classSize','required','message'=>'班级人数不能为空','on'=>['create','edit']],
+            ['classSize','number','max'=>60,'min'=>5,'tooBig'=>'班级人数最多60人','tooSmall'=>'班级人数最少5人','on'=>['create','edit']],
             ['createAdminId','default','value'=>Yii::$app->user->id],
             [['curPage','pageSize','search'],'safe']
         ];    
@@ -41,27 +41,17 @@ class GradeClass extends BaseModel
         return false;
     }
     
-    public function edit(array $data,int $id)
+    public static function edit(array $data,GradeClass $gradeClassInfo)
     {
-        $gradeClassInfo = self::findOne($id);
-        if(empty($gradeClassInfo)){
-            $this->addError('id','当前班级不存在');
-            return false;
-        }
-        $this->scenario = 'edit';
-        if($gradeClassInfo->load($data) && $this->validate() && $gradeClassInfo->save(false)){
+        $gradeClassInfo->scenario = 'edit';
+        if($gradeClassInfo->load($data) && $gradeClassInfo->validate() && $gradeClassInfo->save(false)){
             return true;
         }
         return false;
     }
     
-    public function del(int $id)
+    public static function del(int $id,GradeClass $gradeClassInfo)
     {
-        $gradeClassInfo = self::findOne($id);
-        if(empty($gradeClassInfo)){
-            $this->addError('id','当前班级不存在');
-            return false;
-        }
         $gradeClassInfo->isDelete = self::GRADECLASS_DELETE;
         return $gradeClassInfo->save(false);
     }
@@ -69,7 +59,7 @@ class GradeClass extends BaseModel
     public function pageList(array $data)
     {
         if($this->load($data)){
-            $gradeClassQuery = self::find()->select([])->orderBy('createTime desc,modifyTime desc');
+            $gradeClassQuery = self::find()->select([])->where(['isDelete'=>self::GRADECLASS_UNDELETE])->orderBy('createTime desc,modifyTime desc');
             if(!empty($this->search)){
                 if(!empty($this->search['className'])){
                     $gradeClassQuery = $gradeClassQuery->andWhere(['like','className',$this->search['className']]);

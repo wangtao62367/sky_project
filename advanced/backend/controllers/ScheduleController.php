@@ -24,4 +24,13 @@ class ScheduleController extends CommonController
 		$list = $schedule->pageList($data);
 		return $this->render('manage',['model'=>$schedule,'list'=>$list]);
 	}
+	
+	
+	public function actionAdd()
+	{
+	    $schedule = new Schedule();
+	    
+	    
+	    return $this->render('add',['model'=>$schedule,'list'=>$list]);
+	}
 }

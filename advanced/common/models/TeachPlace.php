@@ -13,9 +13,6 @@ class TeachPlace extends BaseModel
     const TEACHPLACE_DELETE = 1;
     const TEACHPLACE_UNDELETE = 0;
     
-    
-    public $keywords;
-    
     public static function tableName()
     {
         return '{{%TeachPlace}}';
@@ -39,13 +36,8 @@ class TeachPlace extends BaseModel
         return false;
     }
     
-    public function edit(array $data , int $id)
+    public static function edit(array $data , TeachPlace $teachPlaceInfo)
     {
-        $teachPlaceInfo = self::findOne($id);
-        if(empty($teachPlaceInfo)){
-            $this->addError('id','数据不存在');
-            return false;
-        }
         $teachPlaceInfo->scenario = 'edit';
         if($teachPlaceInfo->load($data) && $teachPlaceInfo->validate() && $teachPlaceInfo->save(false)){
             return true;
@@ -53,13 +45,8 @@ class TeachPlace extends BaseModel
         return false;
     }
     
-    public function del(int $id)
+    public static function del(int $id,TeachPlace $teachPlaceInfo)
     {
-        $teachPlaceInfo= self::findOne($id);
-        if(empty($teachPlaceInfo)){
-            $this->addError('id','数据不存在');
-            return false;
-        }
         $teachPlaceInfo->isDelete = self::TEACHPLACE_DELETE;
         return $teachPlaceInfo->save(false);
     }
@@ -67,20 +54,17 @@ class TeachPlace extends BaseModel
     
     public function pageList(array $data)
     {
-        if($this->load($data)){
-            $teachPlaceQuery = self::find()->select(['id','text','address','createTime','modifyTime'])->orderBy('createTime desc,modifyTime desc');
-            if(!empty($this->search)){
-                if(!empty($this->search['keywords'])){
-                    $teachPlaceQuery = $teachPlaceQuery->andWhere([
-                        'or',
-                        ['like','text',$this->search['keywords']],
-                        ['like','address',$this->search['keywords']],
-                    ]);
-                }
+        $teachPlaceQuery = self::find()->select(['id','text','address','createTime','modifyTime'])->where(['isDelete'=>self::TEACHPLACE_UNDELETE])->orderBy('createTime desc,modifyTime desc');
+        if($this->load($data) && !empty($this->search) ){
+            if(!empty($this->search['keywords'])){
+                $teachPlaceQuery = $teachPlaceQuery->andWhere([
+                    'or',
+                    ['like','text',$this->search['keywords']],
+                    ['like','address',$this->search['keywords']],
+                ]);
             }
-            $list = $this->query($teachPlaceQuery, $this->curPage, $this->pageSize);
-            return $list;
         }
-        return false;
+        $list = $this->query($teachPlaceQuery, $this->curPage, $this->pageSize);
+        return $list;
     }
 }

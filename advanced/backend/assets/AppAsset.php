@@ -17,7 +17,8 @@ class AppAsset extends AssetBundle
     ];
     public $js = [
         'admin/js/jquery.idTabs.min.js',
-        'admin/js/select-ui.min.js'
+        'admin/js/select-ui.min.js',
+        'admin/js/common.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',

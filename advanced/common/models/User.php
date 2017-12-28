@@ -8,6 +8,9 @@ use yii\web\IdentityInterface;
 class User extends BaseModel implements IdentityInterface
 {
     
+    const USER_DELETE = 1;
+    const USER_UNDELETE = 0;
+    
     public $repass;
     
     public static function tableName()
@@ -18,13 +21,17 @@ class User extends BaseModel implements IdentityInterface
     public function rules()
     {
         return [
-            ['account','required','message'=>'账号不能为空','on'=>['reg']],
+            ['account','required','message'=>'用户账号不能为空','on'=>['reg','edit']],
+            ['account','unique','message'=>'该用户账号已经存在','on'=>['reg','edit']],
+            ['account', 'string' ,'length'=>[3,20],'tooLong'=>'用户账号长度为6-40个字符', 'tooShort'=>'用户账号长度为3-20个字','on'=>['reg','edit']],
             ['userPwd','required','message'=>'密码不能为空','on'=>['reg']],
+            ['userPwd','match','pattern'=>'/^(?![a-zA-z]+$)(?!\d+$)(?![!@#$%^&*]+$)(?![a-zA-z\d]+$)(?![a-zA-z!@#$%^&*]+$)(?![\d!@#$%^&*]+$)[a-zA-Z\d!@#$%^&*]+$/','message'=>'密码必须由字母+数字+特殊字符组成','on'=>['reg']],
             ['repass','required','message'=>'重复密码不能为空','on'=>['reg']],
-            ['repass','compare','compareAttribute'=>'userpwd','message'=>'两次输入密码不一致','on'=>['reg']],
-            ['email','required','message'=>'邮箱不能为空','on'=>['reg']],
-            ['email','email','message'=>'邮箱格式不正确','on'=>['reg']],
-            ['roleId','validRoleId','on'=>['reg']],
+            ['repass','compare','compareAttribute'=>'userPwd','message'=>'两次输入密码不一致','on'=>['reg']],
+            ['email','required','message'=>'邮箱不能为空','on'=>['reg','edit']],
+            ['email','email','message'=>'邮箱格式不正确','on'=>['reg','edit']],
+            ['email','unique','message'=>'该邮箱已被注册','on'=>['reg','edit']],
+            ['roleId','default','value'=>1],//暂时不涉及角色
             [['phone','search'],'safe']
         ];
     }
@@ -49,10 +56,37 @@ class User extends BaseModel implements IdentityInterface
     {
         $this->scenario = $scenario;
         if($this->load($data) && $this->validate()){
-            $this->userPwd= Yii::$app->getSecurity()->generatePasswordHash($this->userPwd);
+            $this->userPwd = Yii::$app->getSecurity()->generatePasswordHash($this->userPwd);
             return $this->save(false);
         }
         return false;
+    }
+    
+    public static function edit(array $data,User $user)
+    {
+        $user->scenario = 'edit';
+        if($user->load($data) && $user->validate() && $user->save(false)){
+            return true;
+        }
+        return false;
+    }
+    
+    public static function del(User $user)
+    {
+        $user->isDelete = self::USER_DELETE;
+        return $user->save(false);
+    }
+    
+    public static function frozen(User $user)
+    {
+        $user->isFrozen = 1;
+        return $user->save(false);
+    }
+    
+    public static function active(User $user)
+    {
+        $user->isFrozen = 0;
+        return $user->save(false);
     }
     
     
@@ -72,12 +106,10 @@ class User extends BaseModel implements IdentityInterface
                 'loginCount',
                 'loginIp',
                 'lastLoginIp',
-                'roleName',
-                Role::tableName().'.id'
             ])
-            ->joinWith('roles')
+            //->joinWith('roles')
             ->orderBy('createTime desc,modifyTime desc')
-            ->where(['isDelete'=>0]);
+            ->where(['isDelete'=>self::USER_UNDELETE]);
         $this->curPage = isset($data['curPage']) && !empty($data['curPage']) ? $data['curPage'] : $this->curPage;
         if(!empty($search) && $this->load($search)){
             if(!empty($this->search['account'])){
@@ -89,33 +121,17 @@ class User extends BaseModel implements IdentityInterface
             if(!empty($this->search['phone'])){
                 $query = $query->andWhere(['like','phone',$this->search['phone']]);
             }
-            if(!empty($this->search['roleId']) && $this->search['roleId'] != 0){
-                $query = $query->andWhere('roleId = :roleId',[':roleId'=>$this->search['roleId']]);
-            }
         }
         return $this->query($query,$this->curPage,$this->pageSize);
     }
     
     
-    public static function ajaxResetpwd(int $id)
+    public static function resetPwd(User $user)
     {
-        $user = self::findIdentity($id);
-        if(empty($user)){
-            return false;
-        }
         $user->userPwd = Yii::$app->getSecurity()->generatePasswordHash('111111');
         return $user->save(false);
     }
     
-    public static function ajaxDel(int $id)
-    {
-        $user = self::findIdentity($id);
-        if(empty($user)){
-            return false;
-        }
-        $user->isDelete = 1;
-        return $user->save(false);
-    }
     
 #########################################################################################################
     

@@ -27,7 +27,9 @@ class Curriculum extends BaseModel
         return [
             ['text','required','message'=>'课程名称不能为空','on'=>['create','edit']],
             ['text', 'string' ,'length'=>[2,20],'tooLong'=>'课程名称长度为4-40个字符', 'tooShort'=>'课程名称长度为2-20个字','on'=>['create','edite']],
-            [['period','isRequired','remarks','curPage','pageSize','search'],'safe']
+            ['period','required','message'=>'课时数不能为空','on'=>['create','edit']],
+            ['period','integer','message'=>'课时数必须是整数数字','on'=>['create','edit']],
+            [['isRequired','remarks','curPage','pageSize','search'],'safe']
         ];
     }
     
@@ -40,13 +42,8 @@ class Curriculum extends BaseModel
         return false;
     }
     
-    public function edit(array $data,int $id)
+    public static function edit(array $data,Curriculum $curriculumInfo)
     {
-        $curriculumInfo = self::findOne($id);
-        if(empty($curriculumInfo)){
-            $this->addError('id','数据不存在');
-            return false;
-        }
         $curriculumInfo->scenario = 'edit';
         if($curriculumInfo->load($data) && $curriculumInfo->validate() && $curriculumInfo->save(false)){
             return true;
@@ -54,13 +51,8 @@ class Curriculum extends BaseModel
         return  false;
     }
     
-    public function del(int $id)
+    public static function del(int $id,Curriculum $curriculumInfo)
     {
-        $curriculumInfo = self::findOne($id);
-        if(empty($curriculumInfo)){
-            $this->addError('id','数据不存在');
-            return false;
-        }
         $curriculumInfo->isDelete = self::CURRICULUM_DELETE;
         return $curriculumInfo->save(false);
     }

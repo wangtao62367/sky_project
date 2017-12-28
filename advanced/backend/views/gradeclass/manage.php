@@ -17,9 +17,8 @@ use yii\helpers\Html;
 	<ul class="seachform">
         <li><label>班级名称</label><?php echo Html::activeTextInput($model, 'search[className]',['class'=>'scinput'])?></li>
         <li><label>&nbsp;</label><input name="" type="button" class="scbtn" value="查询"/></li>
-        <li class="click"><span><img src="/admin/images/t01.png" /></span>添加</li>
-        <li class="click"><span><img src="/admin/images/t02.png" /></span>修改</li>
-        <li><span><img src="/admin/images/t03.png" /></span>删除</li>
+        <li><a href="<?php echo Url::to(['gradeclass/add'])?>"><span><img src="/admin/images/t01.png" /></span>添加</a></li>
+        <li><a href="javascript:;" class="batchDel"><span><img src="/admin/images/t03.png" /></span>删除</a></li>
         <li><span><img src="/admin/images/t04.png" /></span>导出</li>
     </ul>
 </div>
@@ -27,8 +26,7 @@ use yii\helpers\Html;
 <table class="tablelist">
 	<thead>
     	<tr>
-            <th><input name="" type="checkbox" value="" /></th>
-            <th>序号<i class="sort"><img src="/admin/images/px.gif" /></i></th>
+            <th><input name="" type="checkbox" class="s-all" /></th>
             <th>班级名称</th>
             <th>班级人数</th>
             <th>创建时间</th>
@@ -41,8 +39,7 @@ use yii\helpers\Html;
 
     	<?php foreach ($list['data'] as $val):?>
     	<tr>
-            <td><input name="" type="checkbox" value="<?php echo $val['id'];?>" /></td>
-            <td><?php echo $val['id'];?></td>
+            <td><input name="ids" class="item" type="checkbox" value="<?php echo $val['id'];?>" /></td>
             <td><?php echo $val['className'];?></td>
             <td><?php echo $val['classSize'];?></td>
             <td><?php echo MyHelper::timestampToDate($val['createTime']);?></td>
@@ -59,8 +56,13 @@ use yii\helpers\Html;
 $css = <<<CSS
 
 CSS;
+$batchDelUrl = Url::to(['gradeclass/batchdel']);
 $js = <<<JS
-
+$('.batchDel').click(function(){
+    $('.batchDel').click(function(){
+        batchDel('$batchDelUrl');
+    })
+})
 JS;
 $this->registerJs($js);
 $this->registerCss($css);

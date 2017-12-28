@@ -17,9 +17,8 @@ use yii\helpers\Html;
 	<ul class="seachform">
         <li><label>课程名称</label><?php echo Html::activeTextInput($model, 'search[text]',['class'=>'scinput'])?></li>
         <li><label>&nbsp;</label><input name="" type="button" class="scbtn" value="查询"/></li>
-        <li class="click"><span><img src="/admin/images/t01.png" /></span>添加</li>
-        <li class="click"><span><img src="/admin/images/t02.png" /></span>修改</li>
-        <li><span><img src="/admin/images/t03.png" /></span>删除</li>
+        <li><a href="<?php echo Url::to(['schedule/add'])?>"><span><img src="/admin/images/t01.png" /></span>添加</a></li>
+        <li><a href="javascript:;" class="batchDel"><span><img src="/admin/images/t03.png" /></span>删除</a></li>
         <li><span><img src="/admin/images/t04.png" /></span>导出</li>
     </ul>
 </div>
@@ -28,7 +27,6 @@ use yii\helpers\Html;
 	<thead>
     	<tr>
             <th><input name="" type="checkbox" value="" /></th>
-            <th>序号<i class="sort"><img src="/admin/images/px.gif" /></i></th>
             <th>课程名称</th>
             <th>上课时间</th>
             <th>授课教师</th>
@@ -46,7 +44,6 @@ use yii\helpers\Html;
     	<?php foreach ($list['data'] as $val):?>
     	<tr>
             <td><input name="" type="checkbox" value="<?php echo $val['id'];?>" /></td>
-            <td><?php echo $val['id'];?></td>
             <td><?php echo $val['curriculumText'];?></td>
             <td><?php echo $val['lessonDate'] . ' ' . $val['lessonTime'];?></td>
             <td><?php echo $val['teacherName'];?></td>
@@ -67,8 +64,13 @@ use yii\helpers\Html;
 $css = <<<CSS
 
 CSS;
+$batchDelUrl = Url::to(['schedule/batchdel']);
 $js = <<<JS
-
+$('.batchDel').click(function(){
+    $('.batchDel').click(function(){
+        batchDel('$batchDelUrl');
+    })
+})
 JS;
 $this->registerJs($js);
 $this->registerCss($css);
