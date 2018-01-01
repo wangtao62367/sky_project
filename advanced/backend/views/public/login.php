@@ -27,16 +27,10 @@ $this->title = '欢迎登陆';
 </div>
 <?php 
 $js = <<<JS
-$(function(){
-    $('.loginbox').css({'position':'absolute','left':($(window).width()-692)/2});
-	$(window).resize(function(){  
-    	$('.loginbox').css({'position':'absolute','left':($(window).width()-692)/2});
-	})  
-}); 
+
 JS;
 $css = <<<CSS
-input:focus{background:red}
 
 CSS;
-$this->registerJs($js);
+//$this->registerJs($js);
 ?>

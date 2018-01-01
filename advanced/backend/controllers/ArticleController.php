@@ -39,7 +39,7 @@ class ArticleController extends CommonController
     public function actionCreate()
     {
         $article = new Article();
-        $parentCates = (new Category())->getParentCate(0);
+        $parentCates = Category::getArticleCates();
         if(Yii::$app->request->isPost){
             $post = Yii::$app->request->post();
             $result = $article->create($post);
@@ -49,7 +49,7 @@ class ArticleController extends CommonController
                 Yii::$app->session->setFlash('error',$article->getErrorDesc());
             }
         }
-        return $this->render('create',['model'=>$article,'parentCates'=>$parentCates]);
+        return $this->render('create',['model'=>$article,'parentCates'=>$parentCates,'title'=>'添加文章']);
     }
     
     public function actionEdit(int $id)
@@ -70,7 +70,7 @@ class ArticleController extends CommonController
                 }
             }
         }
-        return $this->render('create',['model'=>$article,'parentCates'=>$parentCates]);
+        return $this->render('create',['model'=>$article,'parentCates'=>$parentCates,'title'=>'编辑文章']);
     }
     
     public function actionDel(int $id)

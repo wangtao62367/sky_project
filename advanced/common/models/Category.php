@@ -86,6 +86,11 @@ class Category extends BaseModel
         //return self::find()->select(['id','text'])->where('parentId = :parentId and isDelete = 0',[':parentId'=>$parentId])->asArray()->all();
     }
     
+    public static function getArticleCates()
+    {
+    	return self::find()->select(['id','text'])->where(['isDelete'=>0,'type'=>'article'])->asArray()->all();
+    }
+    
     public function del(int $id)
     {
         return self::updateAll(['isDelete'=>1],'id = :id',[':id'=>$id]);

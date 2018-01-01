@@ -9,7 +9,7 @@ use yii\helpers\Html;
     <ul class="placeul">
         <li><a href="#">新闻系统</a></li>
         <li><a href="<?php echo Url::to(['content/manage'])?>">内容管理</a></li>
-        <li><a href="<?php echo Url::to(['article/articles'])?>">文章板块</a></li>
+        <li><a href="<?php echo Url::to(['article/articles'])?>">文章管理</a></li>
     </ul>
 </div>
 
@@ -59,7 +59,7 @@ use yii\helpers\Html;
             </div>
         </li>
         <li><label>&nbsp;</label><input name="" type="button" class="scbtn" value="查询"/></li>
-        <li class="click"><span><img src="/admin/images/t01.png" /></span>添加</li>
+        <li><a href="<?php echo Url::to(['article/create'])?>"><span><img src="/admin/images/t01.png" /></span>添加</a></li>
         <li class="click"><span><img src="/admin/images/t02.png" /></span>修改</li>
         <li><span><img src="/admin/images/t03.png" /></span>删除</li>
         <li><span><img src="/admin/images/t04.png" /></span>导出</li>

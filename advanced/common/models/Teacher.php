@@ -72,4 +72,15 @@ class Teacher extends BaseModel
 		}
 		return false;
 	}
+	
+	
+	public function getTearchersByName(string $name = '')
+	{
+		$query = self::find()->select(['id','trueName'])->where(['isDelete'=>self::TEACHER_UNDELETE]);
+		if(!empty($name)){
+			$query = $query->andWhere(['like','trueName',$name]);
+		}
+		
+		return $query->asArray()->all();
+	}
 }
