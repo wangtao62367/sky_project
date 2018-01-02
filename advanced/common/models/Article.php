@@ -21,7 +21,7 @@ class Article extends BaseModel
             ['summary','required','message'=>'文章摘要不能为空','on'=>['create','edit']],
             ['content','required','message'=>'文章内容不能为空','on'=>['create','edit']],
             ['categoryId','required','message'=>'文章分类不能为空','on'=>['create','edit']],
-            [['tags','search'],'safe']
+            [['isPublish','tags','search','imgCount'],'safe']
         ];
     }
     
@@ -44,11 +44,11 @@ class Article extends BaseModel
                     $query->with(['tags']);
                 }])
                 ->with('categorys')
-               ->where([])
+               ->where(['isDelete'=>0])
                ->orderBy('modifyTime desc');
         if (!empty($search) && $this->load($search)){
-            if(!empty($this->search['title'])){
-                $query = $query->andWhere(['like','title',$this->search['title']]);
+            if(!empty($this->search['keywords'])){
+                $query = $query->andWhere(['or',['like','author',$this->search['keywords']],['like','title',$this->search['keywords']]]);
             }
             if(!empty($this->search['categoryId']) && $this->search['categoryId'] != 'unkown'){
                 $query = $query->andWhere('categoryId = :categoryId',[':categoryId'=>$this->search['categoryId']]);
@@ -65,34 +65,18 @@ class Article extends BaseModel
         $this->scenario = 'create';
         if($this->load($data) && $this->validate()){
             if($this->save(false)){
-               return self::batchAddArticleTags($this->tags,$this->id);
+               return true;//self::batchAddArticleTags($this->tags,$this->id);
             };
             
         }
         return false;
     }
     
-    public static function batchAddArticleTags(array $tags,int $articleId)
+    public static function del(int $id,Article $article)
     {
-        if(empty($tags)){
-            return true;
-        }
-        $tag_params = [];
-        foreach ($tags as $v){
-            $tag = Tag::find()->select('id')->where('tagName = :tagName',[':tagName'=>$v])->one();
-            if(empty($tag)){
-                $tag = new Tag();
-                $tag->tagName = $v;
-                $tag->createTime = TIMESTAMP;
-                $tag->save(false);
-            }
-            $tag_params[] = [
-                'tagId' => $tag->id,
-                'articleId' => $articleId
-            ];
-        }
-        ArticleTag::deleteAll(['articleId' => $articleId]);
-        return ArticleTag::batchAdd($tag_params);
+        $article->isDelete = 1;
+        return $article->save(false);
     }
+    
     
 }

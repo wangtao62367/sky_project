@@ -5,48 +5,43 @@ namespace backend\controllers;
 use Yii;
 use common\controllers\CommonController;
 use common\models\Category;
-use common\models\CategoryType;
 
 class CategoryController extends CommonController
 {
     
-    public function actionCreate()
+    public function actionAdd()
     {
         $cate = new Category();
         $parentCates = $cate->getParentCate();
-        $cate->type = CategoryType::ARTICLE;
         if(Yii::$app->request->isPost){
             $post = Yii::$app->request->post();
             
             $result = $cate -> create($post);
             if(!$result){
-                Yii::$app->session->setFlash('error','创建失败');
+                Yii::$app->session->setFlash('error',$cate->getErrorDesc());
+            }else{
+                return $this->showSuccess('category/manage');
             }
-            Yii::$app->session->setFlash('success','创建成功');
         }
-        return $this->render('create',['model'=>$cate,'parentCates'=>$parentCates]);
+        return $this->render('add',['model'=>$cate,'parentCates'=>$parentCates,'title'=>'添加分类']);
     }
     
     public function actionEdit(int $id)
     {
         $cate= Category::find()->where('id=:id and isDelete = 0',[':id'=>$id])->one();
         if(empty($cate)){
-            exit();
+            return $this->showDataIsNull('category/manage');
         }
         $parentCates = $cate->getParentCate();
         if(Yii::$app->request->isPost){
-            $cate->scenario = 'edit';
-            $post = Yii::$app->request->post();
-            if(!$cate->load($post) || !$cate->validate()){
-                Yii::$app->session->setFlash('error',array_values($cate->getFirstErrors())[0]);
+            $data = Yii::$app->request->post();
+            if(Category::edit($data, $cate)){
+                return $this->showSuccess('category/manage');
             }else{
-                $cate->modifyTime = TIMESTAMP;
-                if($cate->save(false)){
-                    Yii::$app->session->setFlash('success','保存成功');
-                }
+                Yii::$app->session->setFlash('error',$cate->getErrorDesc());
             }
         }
-        return $this->render('create',['model'=>$cate,'parentCates'=>$parentCates]);
+        return $this->render('add',['model'=>$cate,'parentCates'=>$parentCates,'title'=>'编辑分类']);
     }
     
     public function actionEditByAjax(int $id,string $text)
@@ -56,22 +51,33 @@ class CategoryController extends CommonController
         return (bool)Category::updateAll(['text'=>$text,'modifyTime'=>TIMESTAMP],'id = :id',[':id'=>$id]);
     }
     
-    public function actionCategoris()
+    public function actionManage()
     {
         $cate= new Category();
         $get = Yii::$app->request->get();
         $search = Yii::$app->request->post();
         $data = $cate->categoris($get,$search);
-        return $this->render('categoris',['model'=>$cate,'list'=>$data]);
+        $parentCates = $cate->getParentCate();
+        return $this->render('manage',['model'=>$cate,'list'=>$data,'parentCates'=>$parentCates]);
     }
     
     public function actionDel(int $id)
     {
-        $cate= new Category();
-        $result = $cate->del($id);
-        if($result){
-            return $this->redirect(['category/categoris']);
+        $cate = Category::findOne($id);
+        if(empty($cate)){
+            return $this->showDataIsNull('category/manage');
         }
+        if(Category::del($cate)){
+            return $this->redirect(['category/manage']);
+        }
+    }
+    
+    public function actionBatchdel()
+    {
+        $this->setResponseJson();
+        $ids = Yii::$app->request->post('ids');
+        $idsArr = explode(',',trim($ids,','));
+        return Category::updateAll(['isDelete'=>1],['in','id',$idsArr]);
     }
     
 }

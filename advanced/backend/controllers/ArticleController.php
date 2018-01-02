@@ -16,6 +16,7 @@ class ArticleController extends CommonController
         return [
             'upload' => [
                 'class' => 'common\ijackwu\ueditor\alioss\UeditorAliossAction',//'kucha\ueditor\UEditorAction',//
+                //'lang' => 'zh-cn',
                 'config' => [
                     "fileUrlPrefix" => "http://seving-weixin.oss-cn-shenzhen.aliyuncs.com",
                     "imageUrlPrefix"  => "http://seving-weixin.oss-cn-shenzhen.aliyuncs.com",//图片访问路径前缀
@@ -29,8 +30,9 @@ class ArticleController extends CommonController
     public function actionArticles()
     {
         $article = new Article();
-        $parentCates = (new Category())->getParentCate(0);
+        $parentCates = Category::getArticleCates();
         $request = Yii::$app->request;
+
         $result = $article->articles($request->get(),$request->post());
         return $this->render('articles',['model'=>$article,'parentCates'=>$parentCates,'list'=>$result]);
     }
@@ -44,11 +46,12 @@ class ArticleController extends CommonController
             $post = Yii::$app->request->post();
             $result = $article->create($post);
             if($result){
-                Yii::$app->session->setFlash('succuss','创建成功');
+                return $this->showSuccess('article/articles');
             }else{
                 Yii::$app->session->setFlash('error',$article->getErrorDesc());
             }
         }
+        $article->isPublish = 0;
         return $this->render('create',['model'=>$article,'parentCates'=>$parentCates,'title'=>'添加文章']);
     }
     
@@ -57,7 +60,7 @@ class ArticleController extends CommonController
         $article = Article::find()->where('id = :id',[':id'=>$id])->one();
         $tags = ArticleTag::find()->joinWith('tags')->where('articleId = :articleId',[':articleId'=>$id])->asArray()->all();
         $article->tags = array_column(array_column($tags, 'tags'), 'tagName');
-        $parentCates = (new Category())->getParentCate(0);
+        $parentCates = Category::getArticleCates();
         if(Yii::$app->request->isPost){
             $article->scenario = 'edit';
             $post = Yii::$app->request->post();
@@ -65,8 +68,8 @@ class ArticleController extends CommonController
                 Yii::$app->session->setFlash('error',array_values($article->getFirstErrors())[0]);
             }else{
                 $article->modifyTime = TIMESTAMP;
-                if($article->save(false) && Article::batchAddArticleTags($article->tags,$article->id)){
-                    Yii::$app->session->setFlash('success','保存成功');
+                if($article->save(false) ){  //&& Article::batchAddArticleTags($article->tags,$article->id)
+                    return $this->showSuccess('article/articles');
                 }
             }
         }
@@ -75,9 +78,21 @@ class ArticleController extends CommonController
     
     public function actionDel(int $id)
     {
-        if(Article::deleteAll('id = :id',[':id'=>$id]) && ArticleTag::deleteAll('articleId = :articleId',[':articleId'=>$id])){
+        $article = Article::findOne($id);
+        if(empty($article)){
+            return $this->showDataIsNull('article/articles');
+        }
+        if(Article::del($id, $article)){
             return $this->redirect(['article/articles']);
         }
+    }
+    
+    public function actionBatchdel()
+    {
+        $this->setResponseJson();
+        $ids = Yii::$app->request->post('ids');
+        $idsArr = explode(',',trim($ids,','));
+        return Article::updateAll(['isDelete'=>1],['in','id',$idsArr]);
     }
     
     public function actionPublish(int $id,string $type)

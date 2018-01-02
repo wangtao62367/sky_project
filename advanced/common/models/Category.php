@@ -16,7 +16,7 @@ class Category extends BaseModel
         'hot' => '焦点区',
     ];
     
-    public $type_arr = [
+    public static $type_arr = [
         CategoryType::ARTICLE => '文章',
         CategoryType::IMAGE   => '图片',
         CategoryType::VIDEO   => '视频',
@@ -32,9 +32,9 @@ class Category extends BaseModel
     {
         return [
             ['text','required','message'=>'分类名称不能为空','on'=>['create','edit']],
+            ['type','required','message'=>'分类类型不能为空','on'=>['create','edit']],
             ['parentId','required','message'=>'分类所属模块不能为空','on'=>['create','edit']],
-            [['type','descr','positions','search'],'safe'],
-            ['createTime','default','value'=>TIMESTAMP,'on'=>'create'],
+            [['descr','positions','search'],'safe'],
         ];
     }
     
@@ -47,37 +47,59 @@ class Category extends BaseModel
         return false;
     }
     
+    public static function edit(array $data , Category $cate)
+    {
+        $cate->scenario = 'edit';
+        if($cate->load($data) && $cate->validate() && $cate->save(false)){
+            return true;
+        }
+        return false;
+    }
+    
+    public function getParents()
+    {
+        return $this->hasOne(Common::className(), ['id'=>'parentId']);
+    }
+    
     public function categoris(array $data,array $search)
     {
         $this->curPage = isset($data['curPage']) ? $data['curPage'] : $this->curPage;
-        $ext = 'CASE WHEN type = \''.CategoryType::ARTICLE.'\' then \'文章\' 
-                     WHEN type = \''.CategoryType::IMAGE.'\' then \'图片\' 
-                     WHEN type = \''.CategoryType::VIDEO.'\' then \'视频\'
-                     WHEN type = \''.CategoryType::FILE.'\' then \'文件\'
+        $ext = 'CASE WHEN '.self::tableName().'.type = \''.CategoryType::ARTICLE.'\' then \'文章\' 
+                     WHEN '.self::tableName().'.type = \''.CategoryType::IMAGE.'\' then \'图片\' 
+                     WHEN '.self::tableName().'.type = \''.CategoryType::VIDEO.'\' then \'视频\'
+                     WHEN '.self::tableName().'.type = \''.CategoryType::FILE.'\' then \'文件\'
                      ELSE \'未知\' END AS type_text';
         $query = self::find()
-            ->select(['id','text',
-                //'positions',
-                //new Expression('case when type = \''.CategoryType::ARTICLE.'\' then \'文章\' when type = \'hot\' then \'焦点区\' when type = \'normal\'then \'通用区\' else \'未知\' end as positions_text'),
-                'type',
+            ->select([
+                self::tableName().'.id',
+                'text',
+                self::tableName().'.type',
                 new Expression($ext),
                 'descr',
                 'parentId',
                 'createTime',
-                'modifyTime'
+                'modifyTime',
+                Common::tableName().'.id as catParentId',
+                Common::tableName().'.code',
+                Common::tableName().'.codeDesc',
             ])
-            ->where(['isDelete'=>0])
-            ->orderBy('createTime desc');
+            ->joinWith('parents')
+            ->where(['isDelete'=> 0,Common::tableName().'.type'=>'navigation'])
+            ->orderBy(self::tableName().'.createTime desc');
         if(!empty($search) && $this->load($search)){
             if(!empty($this->search['text'])){
                 $query = $query->andWhere(['like','text',$this->search['text']]);
             }
+            if(!empty($this->search['parentId']) && $this->search['parentId'] != 'unknow'){
+                $query = $query->andWhere(['parentId'=>$this->search['parentId']]);
+            }
             if(!empty($this->search['type']) && $this->search['type'] != 'unknow'){
-                $query = $query->andWhere(['type'=>$this->search['type']]);
+                $query = $query->andWhere([self::tableName().'.type'=>$this->search['type']]);
             }
         }
         
         return $this->query($query,$this->curPage,$this->pageSize);
+
     }
     
     public function getParentCate()
@@ -91,9 +113,10 @@ class Category extends BaseModel
     	return self::find()->select(['id','text'])->where(['isDelete'=>0,'type'=>'article'])->asArray()->all();
     }
     
-    public function del(int $id)
+    public static function del(Category $cate)
     {
-        return self::updateAll(['isDelete'=>1],'id = :id',[':id'=>$id]);
+        $cate->isDelete = 1;
+        return $cate->save(false);
     }
     
 }
