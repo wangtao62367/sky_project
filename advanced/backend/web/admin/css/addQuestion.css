@@ -1,0 +1,24 @@
+select{opacity: 1;}
+.sky-select{height: 32px;width: 100px;border: solid 1px #ced9df;margin: 5px 0px;}
+.modal{display: block;position: absolute;left: 0;top: 0;right: 0;bottom: 0;background: #000000;opacity: 0.2;}
+.right-anwswer,.question-title,.addPaperQuesetion{margin-left: 86px;}
+.tipinfo{margin-left: 0px;height: 290px;    overflow: hidden;overflow-y: scroll;padding-top: 15px;}
+.tipinfo textarea{width: 325px;height: 50px;float: left;display: inline-block;margin-bottom: 5px;}
+.tip{width: 540px;height: 400px;}
+.tipbtn {margin-top: 0px;margin-left: 155px;}
+.rightAnswer--label{/*margin:20px 20px 0 0;*/display:inline-block}
+.rightAnswer--radio{display:none}
+.rightAnswer--radioInput{background-color:#fff;border:1px solid rgba(0,0,0,0.15);border-radius:100%;display:inline-block;height:16px;margin-right:10px;margin-top:-1px;vertical-align:middle;width:16px;line-height:1}
+.rightAnswer--radio:checked + .rightAnswer--radioInput:after{background-color:#57ad68;border-radius:100%;content:"";display:inline-block;height:12px;margin:2px;width:12px}
+.rightAnswer--checkbox.rightAnswer--radioInput,.rightAnswer--radio:checked + .rightAnswer--checkbox.rightAnswer--radioInput:after{border-radius:0}
+
+.question-option{float: left;}
+.question-option p {margin-bottom: 5px;}
+.del-questoption{width: 34px;height: 34px;text-align: center;line-height: 34px;display: inline-block;font-size: 20px;margin-left: 5px;}
+.addTitleImg{width: 70px;height: 70px;text-align: center;line-height: 72px;font-size: 16px;border: 1px solid #ecdfdf;display: inline-block;margin-left: 5px;color: #969292}
+
+.selectedQuestions{margin-bottom: 8px;width: 526px;/*border: 1px solid #ced9df*/;max-height: 500px;overflow: hidden;overflow-y: scroll;}
+.selectedQuestions p {padding: 8px;}
+.selectedQuestions .tablelist{width:100%}
+.tablelist thead th,.tablelist tbody td{min-width: 60px;}
+.questScore{width: 40px;height: 20px;border: 1px solid #ecdfdf;text-align: center;}

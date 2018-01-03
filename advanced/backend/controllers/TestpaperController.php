@@ -31,10 +31,22 @@ class TestpaperController extends CommonController
             $post = Yii::$app->request->post();
             $result = $testPaper->add(['TestPaper'=>$post]);
             if($result) return 1;
-            return $testPaper->getErrorDesc();
+            return 0;
         }
         
         return $this->render('add',['model'=>$testPaper,'title'=>'创建试卷']);
+    }
+    
+    public function actionEdit(int $id)
+    {
+    	$testPaper = TestPaper::findOne($id);
+    	if(empty($testPaper)){
+    		return $this->showDataIsNull('testpaper/manage');
+    	}
+    	$testPaper->questions = [];
+    	
+    	
+    	return $this->render('add',['model'=>$testPaper,'title'=>'编辑试卷']);
     }
     
     
@@ -42,10 +54,10 @@ class TestpaperController extends CommonController
     {
         $testPaper= TestPaper::findOne($id);
         if(empty($testPaper)){
-            return $this->showDataIsNull('article/articles');
+            return $this->showDataIsNull('testpaper/manage');
         }
         if(TestPaper::del($testPaper)){
-            return $this->redirect(['article/articles']);
+            return $this->redirect(['testpaper/manage']);
         }
     }
     

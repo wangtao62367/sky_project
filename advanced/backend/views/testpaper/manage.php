@@ -30,6 +30,7 @@ use yii\helpers\Html;
             <th>试卷主题</th>
             <th>试题数</th>
             <th>发布状态</th>
+            <th>发布时间</th>
             <th>审核状态</th>
             <th>创建时间</th>
             <th>修改时间</th>
@@ -45,6 +46,7 @@ use yii\helpers\Html;
             <td><?php echo $val['title'];?></td>
             <td><?php echo $val['questionCount'];?></td>
             <td><?php echo $val['isPublish'];?></td>
+            <td><?php echo MyHelper::timestampToDate($val['publishTime']);?></td>
             <td><?php echo $val['verify'];?></td>
             <td><?php echo MyHelper::timestampToDate($val['createTime']);?></td>
             <td><?php echo MyHelper::timestampToDate($val['modifyTime']);?></td>

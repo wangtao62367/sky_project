@@ -5,12 +5,10 @@ use yii\helpers\Url;
 use yii\helpers\Html;
 use common\models\Category;
 use yii\helpers\ArrayHelper;
+
 $controller = Yii::$app->controller;
-$param = isset($_GET['id']) ? $_GET['id'] : '';
-$url = [
-    $controller->id.'/'.$controller->action->id,
-    'id' => $param
-];
+$id = Yii::$app->request->get('id','');
+$url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
 ?>
 
 <div class="place">
@@ -18,7 +16,7 @@ $url = [
     <ul class="placeul">
         <li><a href="javascript:;">教务系统</a></li>
         <li><a href="<?php echo Url::to(['category/manage'])?>">教师管理</a></li>
-        <li><a href="<?php echo Url::to($url)?>"><?php echo $title?></a></li>
+        <li><a href="<?php echo $url;?>"><?php echo $title?></a></li>
     </ul>
 </div>
 

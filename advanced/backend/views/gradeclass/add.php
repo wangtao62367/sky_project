@@ -4,6 +4,9 @@
 use yii\helpers\Url;
 use yii\helpers\Html;
 
+$controller = Yii::$app->controller;
+$id = Yii::$app->request->get('id','');
+$url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
 ?>
 
 <div class="place">
@@ -11,7 +14,7 @@ use yii\helpers\Html;
     <ul class="placeul">
         <li><a href="javascript:;">教务系统</a></li>
         <li><a href="<?php echo Url::to(['teachplace/manage'])?>">班级管理</a></li>
-        <li><a href="<?php echo Url::to(['teachplace/add'])?>"><?php echo $title?></a></li>
+        <li><a href="<?php echo $url?>"><?php echo $title?></a></li>
     </ul>
 </div>
 
