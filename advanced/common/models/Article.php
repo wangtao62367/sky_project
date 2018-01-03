@@ -72,7 +72,7 @@ class Article extends BaseModel
         return false;
     }
     
-    public static function del(int $id,Article $article)
+    public static function del(Article $article)
     {
         $article->isDelete = 1;
         return $article->save(false);

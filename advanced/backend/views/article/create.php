@@ -17,7 +17,7 @@ $url = [
 <div class="place">
     <span>位置：</span>
     <ul class="placeul">
-        <li><a href="javascript:;">教务系统</a></li>
+        <li><a href="javascript:;">新闻系统</a></li>
         <li><a href="<?php echo Url::to(['article/articles'])?>">文章管理</a></li>
         <li><a href="<?php echo Url::to($url)?>"><?php echo $title?></a></li>
     </ul>

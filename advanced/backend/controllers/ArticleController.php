@@ -82,7 +82,7 @@ class ArticleController extends CommonController
         if(empty($article)){
             return $this->showDataIsNull('article/articles');
         }
-        if(Article::del($id, $article)){
+        if(Article::del($article)){
             return $this->redirect(['article/articles']);
         }
     }

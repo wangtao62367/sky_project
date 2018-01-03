@@ -1,7 +1,41 @@
+;
+/*
+ * 方法：String.format()
+ * 功能：替换字符串的站位符
+ * 
+ */
+String.prototype.format = function() {  
+ 	if(arguments.length == 0) return this;  
+ 	var param = arguments[0];  
+ 	var s = this;  
+	if(typeof(param) == 'object') {  
+	    for(var key in param) {
+	    	s = s.replace(new RegExp("\\{" + key + "\\}", "g"), param[key]); 
+	    }
+	    return s;  
+	} else {  
+		for(var i = 0; i < arguments.length; i++) {
+		  	s = s.replace(new RegExp("\\{" + i + "\\}", "g"), arguments[i]); 
+		}
+	  	return s;  
+	}  
+};
+/*
+ *　方法:Array.remove(index)
+ *　功能:删除数组元素.
+ *　参数:dx删除元素的下标.
+ *　返回:在原数组上修改数组.
+ */
+Array.prototype.remove = function(index)
+{
+　if(isNaN(index)||index>this.length){return false;}
+　this.splice(index,1);
+}
 
-;var dialog = function(title,){
+var dialog = function(title,){
 	
 }
+
 
 var batchDel = function($batchDelUrl,callback){
 	var idsObj = $("input[name=ids]");
