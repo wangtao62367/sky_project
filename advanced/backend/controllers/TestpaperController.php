@@ -29,9 +29,8 @@ class TestpaperController extends CommonController
         if(Yii::$app->request->isAjax){
             $this->setResponseJson();
             $post = Yii::$app->request->post();
-            return $post;
             $result = $testPaper->add(['TestPaper'=>$post]);
-            return $result;
+            if($result) return 1;
             return $testPaper->getErrorDesc();
         }
         

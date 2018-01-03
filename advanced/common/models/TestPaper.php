@@ -32,9 +32,28 @@ class TestPaper extends BaseModel
         if($this->load($data) && $this->validate(false)){
             $this->questionCount = count($this->questions);
             $this->isPublish  = $this->publish == 'now' ? 1 : 0;
-            return $this->save(false);
+            if($this->save(false)){
+                self::addQuestion($this->questions,$this->id);
+            }
         }
         return false;
+    }
+    
+    private static function addQuestion(array $questions,int $id)
+    {
+        $questParam = [];
+        $quest = new Question();
+        foreach ($questions as $question){
+            $questParam ['Question'] = [
+                'title' => $question['title'],
+                'cate'  => $question['cate'],
+                'answer' => $question['answer'],
+                'answerOpt' => $question['answerOpt'],
+                'opts' => $question['options'],
+            ];
+            $quest->add($questParam);
+        }
+        
     }
     
     public function del(TestPaper $testpaper)

@@ -258,6 +258,7 @@ console.log(12);
             if(this.paper.questions.length == 0){
                 alert('请创建/选择试题'); return false;
             }
+            return true;
         }
 	},
 	

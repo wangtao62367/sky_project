@@ -23,7 +23,7 @@ class Question extends BaseModel
         return [
             ['title','required','message'=>'标题不能为空','on'=>['add','edit']],
             ['cate','required','message'=>'试题类型不能为空','on'=>['add','edit']],
-            ['score','required','message'=>'试题分数不能为空','on'=>['add','edit']],
+            //['score','required','message'=>'试题分数不能为空','on'=>['add','edit']],
             ['answerOpt','required','message'=>'正确答案不能为空','on'=>['add','edit']],
             ['answerOpt','validAnswerOpt','on'=>['add','edit']],
             [['titleImg','opts','answer','search'],'safe']
