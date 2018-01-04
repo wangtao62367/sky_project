@@ -8,8 +8,8 @@ namespace common\models;
 class Naire extends BaseModel
 {
     public $publishArr = [
-        '0' => '未发布',
-        '1' => '已发布'
+        '0' => '否',
+        '1' => '是'
     ];
     
     public $votes = [];
@@ -24,6 +24,7 @@ class Naire extends BaseModel
     {
         return [
             ['title','required','message'=>'问卷主题不能为空','on'=>['add','edit']],
+        	['isPublish','required','message'=>'发布状态不能为空','on'=>['add','edit']],
             [['search','votes','marks'],'safe'],
         ];
     }
@@ -45,9 +46,9 @@ class Naire extends BaseModel
     {
         $naire->scenario = 'edit';
         if($naire->load($data) && $naire->validate()){
-            $naire->voteCount = count($this->votes);
+        	$naire->voteCount = count($naire->votes);
             if($naire->save(false)){
-                self::addVotes($this->votes,$this->id);
+            	self::addVotes($naire->votes,$naire->id);
                 return true;
             }
         }

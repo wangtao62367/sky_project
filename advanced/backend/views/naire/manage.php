@@ -2,6 +2,7 @@
 use yii\helpers\Url;
 use common\publics\MyHelper;
 use yii\helpers\Html;
+use backend\assets\AppAsset;
 
 ?>
 <div class="place">
@@ -50,7 +51,7 @@ use yii\helpers\Html;
             <td><input name="ids" class="item" type="checkbox" value="<?php echo $val['id'];?>" /></td>
             <td><?php echo $val['title'];?></td>
             <td><?php echo $val['voteCount'];?></td>
-            <td><?php echo $val['isPublish'];?></td>
+            <td><?php echo $val['isPublish'] == 0 ?'未发布':'已发布';?></td>
             <td><?php echo MyHelper::timestampToDate($val['createTime']);?></td>
             <td><?php echo MyHelper::timestampToDate($val['modifyTime']);?></td>
             <td>
@@ -61,15 +62,27 @@ use yii\helpers\Html;
         <?php endforeach;?>
     </tbody>
 </table>
+
+<div id="Pagination" class="pagination"><!-- 这里显示分页 --></div>
 <?php 
 $css = <<<CSS
 
 CSS;
 $batchDelUrl = Url::to(['naire/batchdel']);
+$curPage = $list['curPage'];
+$pageSize = $list['pageSize'];
+$count = $list['count'];
 $js = <<<JS
 $('.batchDel').click(function(){
     batchDel('$batchDelUrl');
-})
+});
+
+initPagination({
+	el : "#Pagination",
+	count : $count,
+	curPage : $curPage,
+	pageSize : $pageSize
+});
 JS;
 $this->registerJs($js);
 $this->registerCss($css);

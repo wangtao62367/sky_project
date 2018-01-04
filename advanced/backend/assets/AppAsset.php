@@ -13,12 +13,15 @@ class AppAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'admin/css/style.css',
-        'admin/css/select.css'
+        'admin/css/select.css',
+    	'admin/css/pagination.css'
     ];
     public $js = [
         'admin/js/jquery.idTabs.min.js',
         'admin/js/select-ui.min.js',
-        'admin/js/common.js'
+        'admin/js/common.js',
+    	'admin/js/jquery.pagination.js'
+    		
     ];
     public $depends = [
         'yii\web\YiiAsset',

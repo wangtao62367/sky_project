@@ -108,7 +108,7 @@ class Vote extends BaseModel
         $options = [];
         foreach ($voteoptions as $k=>$op){
             $options[] = [
-                'text'   => $op['opt'],
+                'text'   => $op['text'],
                 'voteId' => $voteId,
                 'sorts'  => $k,
                 'createTime' => TIMESTAMP,

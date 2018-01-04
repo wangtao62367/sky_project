@@ -87,7 +87,7 @@ $(document).on('click','.sure',function(){
 	for (var i = 0 ;i<len;i++) {
 		var optionsText = $(optionsObjs[i]).val();
 		if(optionsText != ''){
-			options.push({opt:optionsText})
+			options.push({text:optionsText})
 		}
 	}
 	if(options.length != len){
@@ -122,7 +122,6 @@ var vm = new Vue({
 		create : function(){
             if(!this.checkData()) return;
 			var _this = this;
-            console.log(this.naire);
             $.post('$url',_this.naire,function(res){
             console.log(res);
                 if(res){
