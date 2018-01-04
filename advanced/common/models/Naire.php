@@ -41,6 +41,19 @@ class Naire extends BaseModel
         return false;
     }
     
+    public static function edit(array $data, Naire $naire)
+    {
+        $naire->scenario = 'edit';
+        if($naire->load($data) && $naire->validate()){
+            $naire->voteCount = count($this->votes);
+            if($naire->save(false)){
+                self::addVotes($this->votes,$this->id);
+                return true;
+            }
+        }
+        return false;
+    }
+    
     public static function getNaireById(int $id)
     {
         $naire = self::findOne($id);
@@ -48,11 +61,10 @@ class Naire extends BaseModel
             return false;
         }
         
-        $naireVotes = NaireVote::find()->where(['naireId'=>$naire->id])->all();
+        $naireVotes = NaireVote::find()->joinWith('votes')->where(['naireId'=>$naire->id])->all();
         if(empty($naireVotes)){
             return false;
         }
-        var_dump($naireVotes);
         foreach ($naireVotes as $naireVote){
             $options = VoteOptions::find()->where('voteId = :voteId',[':voteId'=>$naireVote->votes->id])->asArray()->all();
             $naire->votes[] = [
