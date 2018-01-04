@@ -104,16 +104,8 @@ $css = <<<CSS
 CSS;
 $batchDelUrl = Url::to(['article/batchdel']);
 $js = <<<JS
-$(document).ready(function(e) {
-    $(".select1").uedSelect({
-		width : 100			  
-	});
-	$(".select2").uedSelect({
-		width : 167  
-	});
-	$(".select3").uedSelect({
-		width : 100
-	});
+$(".select1").uedSelect({
+	width : 100			  
 });
 $('.batchDel').click(function(){
     batchDel('$batchDelUrl');

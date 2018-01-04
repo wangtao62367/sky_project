@@ -18,6 +18,11 @@ class Question extends BaseModel
         return '{{%Question}}';
     }
     
+    public function getOptions()
+    {
+        return $this->hasMany(QuestOptions::className(), ['questId'=>'id']);
+    }
+    
     public function rules()
     {
         return [

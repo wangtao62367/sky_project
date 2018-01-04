@@ -19,7 +19,7 @@
 		    	</div>\
 		    </li>\
 		    <li><label>试题类型:</label><cite><input name="optionsType" type="radio" value="radio" checked="checked" />单选&nbsp;&nbsp;&nbsp;&nbsp;<input name="optionsType" type="radio" value="multi" />多选</cite></li>\
-		    <li><label>正确答案:</label>\
+		    <li class="set-right-anwser"><label>正确答案:</label>\
 		    	<div class="right-anwswer" >\
 		    		<label class="rightAnswer--label">\
 				        <input class="rightAnswer--radio" value="1" type="checkbox" name="rightAnswer-checkbox2">\
@@ -40,6 +40,9 @@
 </div>';
 $(document).on('click','.createNewQuestion',function(){
 	$(document).find('body').append(tipHtml);
+	if($(this).data("questiontype") == 'vote'){
+		$(".set-right-anwser").hide();
+	}
     $(".tip").show(100);
 });
 $(document).on('click','.tiptop a,.cancel',function(){

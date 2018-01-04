@@ -33,18 +33,23 @@ class TestpaperController extends CommonController
             if($result) return 1;
             return 0;
         }
-        
+        $testPaper->publishCode = 'now';
         return $this->render('add',['model'=>$testPaper,'title'=>'创建试卷']);
     }
-    
+
     public function actionEdit(int $id)
     {
-    	$testPaper = TestPaper::findOne($id);
+    	$testPaper = TestPaper::getPaperById($id);
     	if(empty($testPaper)){
     		return $this->showDataIsNull('testpaper/manage');
     	}
-    	$testPaper->questions = [];
-    	
+    	if(Yii::$app->request->isAjax){
+    	    $this->setResponseJson();
+    	    $post = Yii::$app->request->post();
+    	    $result = $testPaper::edit(['TestPaper'=>$post],$testPaper);
+    	    if($result) return 1;
+    	    return 0;
+    	}
     	
     	return $this->render('add',['model'=>$testPaper,'title'=>'编辑试卷']);
     }

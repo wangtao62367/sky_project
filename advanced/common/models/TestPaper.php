@@ -46,6 +46,50 @@ class TestPaper extends BaseModel
         return false;
     }
     
+    public static function edit(array $data,TestPaper $testPaper)
+    {
+        $testPaper->scenario = 'edit';
+        if($testPaper->load($data) && $testPaper->validate()){
+            $testPaper->questionCount = count($testPaper->questions);
+            $testPaper->getPublishTime($testPaper->publishCode);
+            //return self::addQuestion($testPaper->questions,$testPaper->id);
+            if($testPaper->save(false)){
+                self::addQuestion($testPaper->questions,$testPaper->id);
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public static function getPaperById(int $id)
+    {
+        $testPaper = self::findOne($id);
+        if(empty($testPaper)){
+            return false;
+        }
+        $testPaperQuestionList = TestPaperQuestion::find()
+        ->joinWith('questions')
+        ->where(['paperId'=>$testPaper->id])
+        ->all();
+        if(empty($testPaperQuestionList)){
+            return false;
+        }
+        foreach ($testPaperQuestionList as $testPaperQuestion){
+            $option = QuestOptions::find()->where('questId = :questId',[':questId'=>$testPaperQuestion->questions->id])->asArray()->all();
+            $testPaper->questions[] = [
+                'id'    => $testPaperQuestion->questions->id,
+                'title' => $testPaperQuestion->questions->title,
+                'cate'  => $testPaperQuestion->questions->cate,
+                'cateText'=> QuestCategory::getQuestCateText($testPaperQuestion->questions->cate),
+                'score'   => $testPaperQuestion->score,
+                'answer'  => $testPaperQuestion->questions->answer,
+                'answerOpt' => json_decode($testPaperQuestion->questions->answerOpt,true),
+                'options'   => $option
+            ];
+        }
+        return $testPaper;
+    }
+    
     private function getPublishTime(string $publish)
     {
     	switch ($publish){
@@ -76,23 +120,37 @@ class TestPaper extends BaseModel
         $paperQuestParam = [];
         
         foreach ($questions as $k => $question){
-        	$quest = new Question();
-            if( $quest->add(['Question'=>[
-            		'title' => $question['title'],
-            		'cate'  => $question['cate'],
-            		'answer'=> $question['answer'],
-            		'answerOpt' => $question['answerOpt'],
-            		'opts' => $question['options'],
-            ]]) ){
-            	$paperQuestParam [] = [
-            		'paperId' => $id,
-            		'questId' => $quest->id,
-            		'score'   => $question['score'],
-            		'sorts'   => $k+1
-            	];
+            if(isset($question['id']) && !empty($question['id'])){
+                $paperQuestParam [] = [
+                    'paperId' => $id,
+                    'questId' => $question['id'],
+                    'score'   => $question['score'],
+                    'sorts'   => $k+1
+                ];
+            }else{
+                $quest = new Question();
+                if( $quest->add(['Question'=>[
+                                            'title' => $question['title'],
+                                            'cate'  => $question['cate'],
+                                            'answer'=> $question['answer'],
+                                            'answerOpt' => $question['answerOpt'],
+                                            'opts' => $question['options'],
+                                        ]]) ){
+                    $paperQuestParam [] = [
+                        'paperId' => $id,
+                        'questId' => $quest->id,
+                        'score'   => $question['score'],
+                        'sorts'   => $k+1
+                    ];
+                }
             }
         }
-        return (bool)TestPaperQuestion::batchAdd($paperQuestParam);
+        if(!empty($paperQuestParam)){
+            $i = TestPaperQuestion::deleteAll(['paperId'=>$id]);
+            $b = TestPaperQuestion::batchAdd($paperQuestParam);
+        }
+        return [$i,$b];
+        return true;
     }
     
     public static function del(TestPaper $testpaper)
@@ -119,7 +177,7 @@ class TestPaper extends BaseModel
             ->orderBy('modifyTime desc');
         if (!empty($search) && $this->load($search)){
             if(!empty($this->search['keywords'])){
-                $query = $query->andWhere(['or',['like','author',$this->search['keywords']],['like','title',$this->search['keywords']]]);
+                $query = $query->andWhere(['like','title',$this->search['keywords']]);
             }
             if(!empty($this->search['isPublish']) && $this->search['isPublish'] != 'unkown'){
                 $query = $query->andWhere('isPublish = :isPublish',[':isPublish'=>$this->search['isPublish']]);

@@ -35,7 +35,7 @@ $this->title = '左侧导航';
 	        <li><cite></cite><a target="rightFrame" href="<?php echo  Url::to(['content/manage'])?>">内容管理</a><i></i></li>
 	        <li><cite></cite><a target="rightFrame" href="<?php echo  Url::to(['category/manage'])?>" >分类管理</a><i></i></li>
 	        <li><cite></cite><a target="rightFrame" href="<?php echo  Url::to(['testpaper/manage'])?>">试卷管理</a><i></i></li>
-	        <li><cite></cite><a target="rightFrame" href="<?php echo  Url::to(['questionnaire/manage'])?>">调查管理</a><i></i></li>
+	        <li><cite></cite><a target="rightFrame" href="<?php echo  Url::to(['naire/manage'])?>">调查管理</a><i></i></li>
         </ul>     
     </dd> 
     

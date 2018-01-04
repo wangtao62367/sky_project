@@ -30,8 +30,8 @@ class Vote extends BaseModel
     {
         return [
             ['subject','required','message'=>'投票主题不能为空','on'=>['add','edit']],
-            ['startDate','required','message'=>'开始时间不能为空','on'=>['add','edit']],
-            ['endDate','required','message'=>'结束时间不能为空','on'=>['add','edit']],
+//             ['startDate','required','message'=>'开始时间不能为空','on'=>['add','edit']],
+//             ['endDate','required','message'=>'结束时间不能为空','on'=>['add','edit']],
             ['selectType','required','message'=>'投票类型不能为空','on'=>['add','edit']],
             ['selectCount','default','value'=>1],
             ['voteoptions','required','message'=>'投票选项不能为空','on'=>['add','edit']],
@@ -90,10 +90,9 @@ class Vote extends BaseModel
     public function add(array $data)
     {
         $this->scenario = 'add';
-        if($this->load($data) && $this->validate()){
-            if($this->save(false)){
-                return  self::batchAddVoteOptions($this->voteoptions,$this->id);
-            }
+        if($this->load($data) && $this->validate() && $this->save(false)){
+            
+            return self::batchAddVoteOptions($this->voteoptions,$this->id);
         }
         return false;
     }
@@ -109,7 +108,7 @@ class Vote extends BaseModel
         $options = [];
         foreach ($voteoptions as $k=>$op){
             $options[] = [
-                'text'   => $op,
+                'text'   => $op['opt'],
                 'voteId' => $voteId,
                 'sorts'  => $k,
                 'createTime' => TIMESTAMP,
