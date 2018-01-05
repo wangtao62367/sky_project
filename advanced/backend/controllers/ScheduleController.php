@@ -2,7 +2,7 @@
 namespace backend\controllers;
 
 
-
+use Yii;
 use common\controllers\CommonController;
 use common\models\Schedule;
 /**
@@ -17,10 +17,7 @@ class ScheduleController extends CommonController
 	{
 		$schedule = new Schedule();
 		
-		$data = ['Schedule' => [
-				'curPage' =>1,
-				'pageSize' => 10
-		]];
+		$data = Yii::$app->request->get();
 		$list = $schedule->pageList($data);
 		return $this->render('manage',['model'=>$schedule,'list'=>$list]);
 	}
@@ -29,8 +26,15 @@ class ScheduleController extends CommonController
 	public function actionAdd()
 	{
 	    $schedule = new Schedule();
+	    if(Yii::$app->request->isPost){
+	        $data = Yii::$app->request->post();
+	        $result = $schedule->add($data);
+	        if($result){
+	            return $this->showSuccess('schedule/manage');
+	        }
+	        Yii::$app->session->setFlash('error',$schedule->getErrorDesc());
+	    }
 	    
-	    
-	    return $this->render('add',['model'=>$schedule,'list'=>$list]);
+	    return $this->render('add',['model'=>$schedule,'title'=>'添加课表']);
 	}
 }

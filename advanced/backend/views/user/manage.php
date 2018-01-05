@@ -14,13 +14,15 @@ use yii\helpers\Html;
 </div>
 
 <div class="rightinfo">
+<?php echo Html::beginForm(Url::to(['user/manage']),'get');?>
 	<ul class="seachform">
-        <li><label>用户账号</label><?php echo Html::activeTextInput($model, 'search[trueName]',['class'=>'scinput'])?></li>
-        <li><label>&nbsp;</label><input name="" type="button" class="scbtn" value="查询"/></li>
+        <li><label>用户账号</label><?php echo Html::activeTextInput($model, 'search[keywords]',['class'=>'scinput','placeholder'=>'用户账号/手机/邮箱'])?></li>
+        <li><label>&nbsp;</label><?php echo Html::submitInput('查询',['class'=>'scbtn'])?></li>
         <li class="click"><a href="<?php echo Url::to(['user/reg'])?>"><span><img src="/admin/images/t01.png" /></span>添加</a></li>
         <li><a href="javascript:;" class="batchDel"><span><img src="/admin/images/t03.png" /></span>删除</a></li>
         <li><span><img src="/admin/images/t04.png" /></span>导出</li>
     </ul>
+<?php echo Html::endForm();?>
 </div>
 
 <table class="tablelist">
@@ -66,15 +68,29 @@ use yii\helpers\Html;
         <?php endforeach;?>
     </tbody>
 </table>
+
+<div id="Pagination" class="pagination"><!-- 这里显示分页 --></div>
 <?php 
 $css = <<<CSS
 
 CSS;
 $batchDelUrl = Url::to(['user/batchdel']);
+$curPage = $list['curPage'];
+$pageSize = $list['pageSize'];
+$count = $list['count'];
+$uri = Yii::$app->request->getUrl();
 $js = <<<JS
 $('.batchDel').click(function(){
     batchDel('$batchDelUrl');
 })
+
+initPagination({
+	el : "#Pagination",
+	count : $count,
+	curPage : $curPage,
+	pageSize : $pageSize,
+    uri : '$uri'
+});
 JS;
 $this->registerJs($js);
 $this->registerCss($css);

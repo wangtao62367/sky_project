@@ -33,7 +33,7 @@ class QuestionController extends CommonController
         $model = new Question();
         $questCate = QuestCategory::getQuestCateText();
         $request= Yii::$app->request;
-        $list = $model->questions($request->get(),$request->post());
+        $list = $model->questions($request->get(),$request->get());
         return $this->render('index',['model'=>$model,'questCate'=>$questCate,'list'=>$list]);
     }
     

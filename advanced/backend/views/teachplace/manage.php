@@ -14,9 +14,9 @@ use yii\helpers\Html;
 </div>
 
 <div class="rightinfo">
-	<?php echo Html::beginForm();?>
+	<?php echo Html::beginForm(Url::to(['teachplace/manage']),'get');?>
 	<ul class="seachform">
-        <li><label>教学点</label><?php echo Html::activeTextInput($model, 'search[keywords]',['class'=>'scinput'])?></li>
+        <li><label>教学点</label><?php echo Html::activeTextInput($model, 'search[keywords]',['class'=>'scinput','placeholder'=>'教学地点或详细地址'])?></li>
         <li><label>&nbsp;</label><?php echo Html::submitInput('查询',['class'=>'scbtn'])?></li>
         <li class="click"><a href="<?php echo Url::to(['teachplace/add'])?>"><span><img src="/admin/images/t01.png" /></span>添加</a></li>
         <li><a href="javascript:;" class="batchDel"><span><img src="/admin/images/t03.png" /></span>删除</a></li>
@@ -54,11 +54,17 @@ use yii\helpers\Html;
         <?php endforeach;?>
     </tbody>
 </table>
+
+<div id="Pagination" class="pagination"><!-- 这里显示分页 --></div>
 <?php 
 $css = <<<CSS
 
 CSS;
 $batchDelUrl = Url::to(['teachplace/batchdel']);
+$curPage = $list['curPage'];
+$pageSize = $list['pageSize'];
+$count = $list['count'];
+$uri = Yii::$app->request->getUrl();
 $js = <<<JS
 $('.batchDel').click(function(){
    $('.batchDel').click(function(){
@@ -66,6 +72,13 @@ $('.batchDel').click(function(){
    })
 })
 
+initPagination({
+	el : "#Pagination",
+	count : $count,
+	curPage : $curPage,
+	pageSize : $pageSize,
+    uri : '$uri'
+});
 JS;
 $this->registerJs($js);
 $this->registerCss($css);

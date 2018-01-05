@@ -16,10 +16,7 @@ class CurriculumController extends CommonController
 	public function actionManage()
 	{
 		$curriculum = new Curriculum();
-		$data = ['Curriculum' => [
-				'curPage' =>1,
-				'pageSize' => 10
-		]];
+		$data = Yii::$app->request->get();
 		$list = $curriculum->pageList($data);
 		
 		return $this->render('manage',['model'=>$curriculum,'list'=>$list]);
@@ -75,5 +72,13 @@ class CurriculumController extends CommonController
 	    $ids = Yii::$app->request->post('ids');
 	    $idsArr = explode(',',trim($ids,','));
 	    return Curriculum::updateAll(['isDelete'=>Curriculum::CURRICULUM_DELETE],['in','id',$idsArr]);
+	}
+	
+	public function actionAjaxCurriculums(string $keywords)
+	{
+	    $keywords = trim($keywords);
+	    $this->setResponseJson();
+	    $result = Curriculum::find()->select(['id','text'=>'text'])->where(['and',['isDelete'=>0],['like','text',$keywords]])->asArray()->all();
+	    return $result;
 	}
 }

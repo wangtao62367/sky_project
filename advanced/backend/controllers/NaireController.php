@@ -19,7 +19,7 @@ class NaireController extends CommonController
     {
         $naire = new Naire();
         $request = Yii::$app->request;
-        $result = $naire->getPageList($request->get(),$request->post());
+        $result = $naire->getPageList($request->get(),$request->get());
         return $this->render('manage',['model'=>$naire,'list'=>$result]);
     }
     

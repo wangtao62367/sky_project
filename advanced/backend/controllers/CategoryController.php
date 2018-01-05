@@ -55,8 +55,7 @@ class CategoryController extends CommonController
     {
         $cate= new Category();
         $get = Yii::$app->request->get();
-        $search = Yii::$app->request->post();
-        $data = $cate->categoris($get,$search);
+        $data = $cate->categoris($get,$get);
         $parentCates = $cate->getParentCate();
         return $this->render('manage',['model'=>$cate,'list'=>$data,'parentCates'=>$parentCates]);
     }

@@ -13,7 +13,7 @@ class AdminController extends CommonController
     {
         $admin = new Admin();
         $request = Yii::$app->request;
-        $data = $admin->admins($request->get(),$request->post());
+        $data = $admin->admins($request->get(),$request->get());
         return $this->render('index',['model'=>$admin,'list'=>$data]);
     }
     

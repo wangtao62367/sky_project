@@ -16,10 +16,7 @@ class GradeclassController extends CommonController
 	{
 		$gradeClass = new GradeClass();
 		
-		$data = ['GradeClass' => [
-				'curPage' =>1,
-				'pageSize' => 10
-		]];
+		$data = Yii::$app->request->get();
 		$list = $gradeClass->pageList($data);
 		return $this->render('manage',['model'=>$gradeClass,'list'=>$list]);
 	}
@@ -73,5 +70,13 @@ class GradeclassController extends CommonController
 	    $ids = Yii::$app->request->post('ids');
 	    $idsArr = explode(',',trim($ids,','));
 	    return GradeClass::updateAll(['isDelete'=>GradeClass::GRADECLASS_DELETE],['in','id',$idsArr]);
+	}
+	
+	public function actionAjaxClasses(string $keywords)
+	{
+	    $keywords = trim($keywords);
+	    $this->setResponseJson();
+	    $result = GradeClass::find()->select(['id','text'=>'className'])->where(['and',['isDelete'=>0],['like','className',$keywords]])->asArray()->all();
+	    return $result;
 	}
 }

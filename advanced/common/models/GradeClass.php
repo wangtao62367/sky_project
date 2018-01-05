@@ -58,17 +58,19 @@ class GradeClass extends BaseModel
     
     public function pageList(array $data)
     {
+        $this->curPage = isset($data['curPage']) && !empty($data['curPage']) ? $data['curPage'] : $this->curPage;
+        $gradeClassQuery = self::find()->select([])->where(['isDelete'=>self::GRADECLASS_UNDELETE])->orderBy('createTime desc,modifyTime desc');
         if($this->load($data)){
-            $gradeClassQuery = self::find()->select([])->where(['isDelete'=>self::GRADECLASS_UNDELETE])->orderBy('createTime desc,modifyTime desc');
+            
             if(!empty($this->search)){
                 if(!empty($this->search['className'])){
                     $gradeClassQuery = $gradeClassQuery->andWhere(['like','className',$this->search['className']]);
                 }
             }
-            $list = $this->query($gradeClassQuery, $this->curPage, $this->pageSize);
-            return $list;
+           
         }
-        return false;
+        $list = $this->query($gradeClassQuery, $this->curPage, $this->pageSize);
+        return $list;
     }
     
 }

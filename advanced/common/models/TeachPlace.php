@@ -54,6 +54,7 @@ class TeachPlace extends BaseModel
     
     public function pageList(array $data)
     {
+        $this->curPage = isset($data['curPage']) && !empty($data['curPage']) ? $data['curPage'] : $this->curPage;
         $teachPlaceQuery = self::find()->select(['id','text','address','createTime','modifyTime'])->where(['isDelete'=>self::TEACHPLACE_UNDELETE])->orderBy('createTime desc,modifyTime desc');
         if($this->load($data) && !empty($this->search) ){
             if(!empty($this->search['keywords'])){

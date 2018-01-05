@@ -17,10 +17,7 @@ class TeachplaceController extends CommonController
     public function actionManage()
     {
         $teachPlace = new TeachPlace();
-        $data = Yii::$app->request->post();
-        if(!empty($data)){
-            $data['TeachPlace']['curPage'] = 1;
-        }
+        $data = Yii::$app->request->get();
         $list = $teachPlace->pageList($data);
         return $this->render('manage',['model'=>$teachPlace,'list'=>$list]);
     }
@@ -74,5 +71,13 @@ class TeachplaceController extends CommonController
         $ids = Yii::$app->request->post('ids');
         $idsArr = explode(',',trim($ids,','));
         return TeachPlace::updateAll(['isDelete'=>TeachPlace::TEACHPLACE_DELETE],['in','id',$idsArr]);
+    }
+    
+    public function actionAjaxPlaces(string $keywords)
+    {
+        $keywords = trim($keywords);
+        $this->setResponseJson();
+        $result = TeachPlace::find()->select(['id','text'=>'text'])->where(['and',['isDelete'=>0],['like','text',$keywords]])->asArray()->all();
+        return $result;
     }
 }

@@ -15,7 +15,7 @@ class UserController extends CommonController
         $model = new User();
         //$roles = Role::getRoles();
         $request = Yii::$app->request;
-        $list = $model->users(['curPage'=>1], $request->post()); //$request->get()
+        $list = $model->users($request->get(), $request->get()); 
         return $this->render('manage',['model'=>$model,'list'=>$list]);
     }
     

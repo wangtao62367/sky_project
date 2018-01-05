@@ -16,7 +16,7 @@ use yii\helpers\ArrayHelper;
 </div>
 
 <div class="rightinfo">
-	<?php echo Html::beginForm();?>
+	<?php echo Html::beginForm(Url::to(['category/manage']),'get');?>
 	<ul class="seachform">
         <li><label>分类名称</label><?php echo Html::activeTextInput($model, 'search[text]',['class'=>'scinput'])?></li>
         <li><label>所属类型</label>
@@ -70,18 +70,34 @@ use yii\helpers\ArrayHelper;
         <?php endforeach;?>
     </tbody>
 </table>
+
+<div id="Pagination" class="pagination"><!-- 这里显示分页 --></div>
 <?php 
 $css = <<<CSS
 
 CSS;
 $batchDelUrl = Url::to(['category/batchdel']);
+
+$curPage = $list['curPage'];
+$pageSize = $list['pageSize'];
+$count = $list['count'];
+$uri = Yii::$app->request->getUrl();
 $js = <<<JS
 $('.batchDel').click(function(){
     batchDel('$batchDelUrl');
 });
 $(".select1").uedSelect({
 		width : 100
-	});
+});
+
+initPagination({
+	el : "#Pagination",
+	count : $count,
+	curPage : $curPage,
+	pageSize : $pageSize,
+    uri : '$uri'
+});
+
 JS;
 $this->registerJs($js);
 $this->registerCss($css);

@@ -59,8 +59,10 @@ class Curriculum extends BaseModel
     
     public function pageList(array $data)
     {
+        $this->curPage = isset($data['curPage']) && !empty($data['curPage']) ? $data['curPage'] : $this->curPage;
+        $curriculumListQuery = self::find()->select([])->where(['isDelete'=>self::CURRICULUM_UNDELETE])->orderBy('createTime desc,modifyTime desc');
         if($this->load($data)){
-            $curriculumListQuery = self::find()->select([])->where(['isDelete'=>self::CURRICULUM_UNDELETE])->orderBy('createTime desc,modifyTime desc');
+            
             if(!empty($this->search)){
                if(!empty($this->search['text'])){
                    $curriculumListQuery = $curriculumListQuery->andWhere(['like','text',$this->search['text']]);
@@ -69,9 +71,9 @@ class Curriculum extends BaseModel
                    $curriculumListQuery = $curriculumListQuery->andWhere('isRequired = :isRequired',[':isRequired'=>$this->search['isRequired']]);
                }
             }
-            $result = $this->query($curriculumListQuery, $this->curPage, $this->pageSize);
-            return $result;
+            
         }
-        return false;
+        $result = $this->query($curriculumListQuery, $this->curPage, $this->pageSize);
+        return $result;
     }
 }

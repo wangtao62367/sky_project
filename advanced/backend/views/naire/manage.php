@@ -15,7 +15,7 @@ use backend\assets\AppAsset;
 </div>
 
 <div class="rightinfo">
-	<?php echo Html::beginForm();?>
+	<?php echo Html::beginForm(Url::to(['naire/manage']),'get');?>
 	<ul class="seachform">
         <li><label>问卷主题</label><?php echo Html::activeTextInput($model, 'search[keywords]',['class'=>'scinput','placeholder'=>'问卷主题'])?></li>
         <li><label>是否发布</label>
@@ -72,6 +72,7 @@ $batchDelUrl = Url::to(['naire/batchdel']);
 $curPage = $list['curPage'];
 $pageSize = $list['pageSize'];
 $count = $list['count'];
+$uri = Yii::$app->request->getUrl();
 $js = <<<JS
 $('.batchDel').click(function(){
     batchDel('$batchDelUrl');
@@ -81,8 +82,10 @@ initPagination({
 	el : "#Pagination",
 	count : $count,
 	curPage : $curPage,
-	pageSize : $pageSize
+	pageSize : $pageSize,
+    uri : '$uri'
 });
+
 JS;
 $this->registerJs($js);
 $this->registerCss($css);

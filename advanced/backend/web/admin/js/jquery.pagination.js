@@ -165,11 +165,19 @@ jQuery.fn.pagination = function(maxentries, opts){
 };
 
 var initPagination = function(option) {
+	var linkTo = option.uri;
+	if(linkTo.indexOf('?') == -1){
+		linkTo += '?curPage=__id__';
+	}else if(linkTo.indexOf('curPage') == -1){
+		linkTo += '&curPage=__id__';
+	}else{
+		linkTo = changeUrlArg(linkTo,'curPage','__id__');
+	}
 	// 创建分页
 	$(option.el).pagination(option.count, {
 		prev_text : '&lt;',
 		next_text : '&gt;',
-		link_to   : '?curPage=__id__',
+		link_to   : linkTo,
 		current_page : option.curPage,
 		num_edge_entries: 2, //边缘页数
 		num_display_entries: 4, //主体页数
@@ -179,4 +187,10 @@ var initPagination = function(option) {
 		load_first_page : false,
 		items_per_page:option.pageSize //每页显示1项
 	});
+	
+	function changeUrlArg(url, arg, val){
+	    var pattern = arg+'=([^&]*)';
+	    var replaceText = arg+'='+val;
+	    return url.match(pattern) ? url.replace(eval('/('+ arg+'=)([^&]*)/gi'), replaceText) : (url.match('[\?]') ? url+'&'+replaceText : url+'?'+replaceText);
+	}
  }

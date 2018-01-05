@@ -112,14 +112,12 @@ class User extends BaseModel implements IdentityInterface
             ->where(['isDelete'=>self::USER_UNDELETE]);
         $this->curPage = isset($data['curPage']) && !empty($data['curPage']) ? $data['curPage'] : $this->curPage;
         if(!empty($search) && $this->load($search)){
-            if(!empty($this->search['account'])){
-                $query = $query->andWhere(['like','account',$this->search['account']]);
-            }
-            if(!empty($this->search['email'])){
-                $query = $query->andWhere(['like','email',$this->search['email']]);
-            }
-            if(!empty($this->search['phone'])){
-                $query = $query->andWhere(['like','phone',$this->search['phone']]);
+            if(!empty($this->search['keywords'])){
+                $query = $query->andWhere(['or',
+                    ['like','account',$this->search['keywords']],
+                    ['like','email',$this->search['keywords']],
+                    ['like','phone',$this->search['keywords']]
+                ] );
             }
         }
         return $this->query($query,$this->curPage,$this->pageSize);

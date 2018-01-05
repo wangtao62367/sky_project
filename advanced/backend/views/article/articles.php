@@ -28,7 +28,7 @@ use yii\helpers\ArrayHelper;
             <li><span><img src="/admin/images/t05.png" /></span>设置</li>
         </ul>
 	</div> -->
-	<?php echo Html::beginForm();?>
+	<?php echo Html::beginForm(Url::to(['article/articles']),'get');?>
 	<ul class="seachform">
         <li><label>主题/作者</label><?php echo Html::activeTextInput($model, 'search[keywords]',['class'=>'scinput'])?></li>
         <li>
@@ -98,18 +98,33 @@ use yii\helpers\ArrayHelper;
         <?php endforeach;?>
     </tbody>
 </table>
+
+<div id="Pagination" class="pagination"><!-- 这里显示分页 --></div>
 <?php 
 $css = <<<CSS
 .article-tags{padding:3px 8px;border:0;border-radius: 5px;background:#e4e4e0;display: inline;}
 CSS;
 $batchDelUrl = Url::to(['article/batchdel']);
+$curPage = $list['curPage'];
+$pageSize = $list['pageSize'];
+$count = $list['count'];
+$uri = Yii::$app->request->getUrl();
 $js = <<<JS
 $(".select1").uedSelect({
 	width : 100			  
 });
 $('.batchDel').click(function(){
     batchDel('$batchDelUrl');
-})
+});
+
+initPagination({
+	el : "#Pagination",
+	count : $count,
+	curPage : $curPage,
+	pageSize : $pageSize,
+    uri : '$uri'
+});
+
 JS;
 $this->registerJs($js);
 $this->registerCss($css);

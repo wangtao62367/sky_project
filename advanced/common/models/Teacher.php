@@ -57,8 +57,9 @@ class Teacher extends BaseModel
 	
 	public function pageList(array $data)
 	{
+	    $this->curPage = isset($data['curPage']) && !empty($data['curPage']) ? $data['curPage'] : $this->curPage;
+	    $teacherListQuery = self::find()->select([])->where(['isDelete'=>self::TEACHER_UNDELETE])->orderBy('createTime desc,modifyTime desc');
 		if($this->load($data)){
-		    $teacherListQuery = self::find()->select([])->where(['isDelete'=>self::TEACHER_UNDELETE])->orderBy('createTime desc,modifyTime desc');
 			if(!empty($this->search)){
 				if(!empty($this->search['trueName'])){
 					$teacherListQuery = $teacherListQuery->andWhere(['like','trueName',$this->search['trueName']]);
@@ -67,10 +68,9 @@ class Teacher extends BaseModel
 					$teacherListQuery = $teacherListQuery->andWhere('sex = :sex',[':sex'=>$this->search['sex']]);
 				}
 			}
-			$result = $this->query($teacherListQuery, $this->curPage, $this->pageSize);
-			return $result;
 		}
-		return false;
+		$result = $this->query($teacherListQuery, $this->curPage, $this->pageSize);
+		return $result;
 	}
 	
 	

@@ -18,10 +18,7 @@ class TeacherController extends CommonController
     {
     	$teacher = new Teacher();
     	
-    	$data = ['Teacher' => [
-    			'curPage' =>1,
-    			'pageSize' => 10
-    	]];
+    	$data = Yii::$app->request->get();
     	$list = $teacher->pageList($data);
     	return $this->render('manage',['model'=>$teacher,'list'=>$list]);
     }
@@ -76,6 +73,14 @@ class TeacherController extends CommonController
         $ids = Yii::$app->request->post('ids');
         $idsArr = explode(',',trim($ids,','));
         return Teacher::updateAll(['isDelete'=>Teacher::TEACHER_DELETE],['in','id',$idsArr]);
+    }
+    
+    public function actionAjaxTeachers(string $keywords)
+    {
+        $keywords = trim($keywords);
+        $this->setResponseJson();
+        $result = Teacher::find()->select(['id','text'=>'trueName'])->where(['and',['isDelete'=>0],['like','trueName',$keywords]])->asArray()->all();
+        return $result;
     }
     
 }

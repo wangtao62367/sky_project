@@ -33,7 +33,7 @@ class ArticleController extends CommonController
         $parentCates = Category::getArticleCates();
         $request = Yii::$app->request;
 
-        $result = $article->articles($request->get(),$request->post());
+        $result = $article->articles($request->get(),$request->get());
         return $this->render('articles',['model'=>$article,'parentCates'=>$parentCates,'list'=>$result]);
     }
     

@@ -19,7 +19,7 @@ class TestpaperController extends CommonController
     {
         $testPaper = new TestPaper();
         $request = Yii::$app->request;
-        $result = $testPaper->getPageList($request->get(),$request->post());
+        $result = $testPaper->getPageList($request->get(),$request->get());
         return $this->render('manage',['model'=>$testPaper,'list'=>$result]);
     }
     
