@@ -29,7 +29,7 @@ use yii\helpers\Url;
     <div class="toolsli">
 	    <ul class="toollist">
 		    <li><a href="<?php echo Url::to(['article/articles'])?>"><img src="/admin/images/i06.png" /></a><h2>文章模块</h2></li>
-		    <li><a href="#"><img src="/admin/images/i07.png" /></a><h2>图片模块</h2></li>
+		    <li><a href="<?php echo Url::to(['image/manage'])?>"><img src="/admin/images/i07.png" /></a><h2>图片模块</h2></li>
 		    <li><a href="#"><img src="/admin/images/i08.png" /></a><h2>视频中心</h2></li>
 		    <li><a href="#"><img src="/admin/images/i09.png" /></a><h2>下载中心</h2></li>      
 	    </ul>
