@@ -19,7 +19,7 @@ class Photo extends BaseModel
 			['photo','required','message'=>'图片不能为空','on'=>['add','edit']],
 		    ['categoryId','required','message'=>'图片分类不能为空','on'=>['add','edit']],
 		    ['descr','required','message'=>'图片描述不能为空','on'=>['add','edit']],
-		    [['search','oldFile'],'safe']
+		    [['search','oldFile','link'],'safe']
 		];
 	}
 	
@@ -50,10 +50,12 @@ class Photo extends BaseModel
 	}
 	
 	
+	
+	
 	public function getPageList(array $data)
 	{
 	    $this->curPage = isset($data['curPage']) && !empty($data['curPage']) ? $data['curPage'] : $this->curPage;
-	    $query = self::find()->select([])->where(['isDelete'=>0])->orderBy('createTime desc,modifyTime desc');
+	    $query = self::find()->select([])->joinWith('categorys')->where([self::tableName().'.isDelete'=>0])->orderBy('createTime desc,modifyTime desc');
 	    if($this->load($data)){
 	        if(!empty($this->search)){
 	            if(!empty($this->search['descr'])){
@@ -66,5 +68,10 @@ class Photo extends BaseModel
 	    }
 	    $result = $this->query($query, $this->curPage, $this->pageSize);
 	    return $result;
+	}
+	
+	public function getCategorys()
+	{
+		return $this->hasOne(Category::className(), ['id'=>'categoryId']);
 	}
 }

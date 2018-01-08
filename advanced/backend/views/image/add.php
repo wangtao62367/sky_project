@@ -43,6 +43,7 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
         </div>
     </li>
     <li><label>图片描述</label><?php echo Html::activeTextInput($model, 'descr',['class'=>'dfinput'])?></li>
+    <li><label>图片链接</label><?php echo Html::activeTextInput($model, 'link',['class'=>'dfinput'])?><i>链接地址必须是URL全路径,例如：百度 http://www.baidu.com</i></li>
     <?php if(Yii::$app->session->hasFlash('error')):?>
     	<li><label>&nbsp;</label><span class="error-tip"><?php echo Yii::$app->session->getFlash('error');?></span></li>
     <?php endif;?>

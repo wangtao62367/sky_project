@@ -36,15 +36,37 @@ use yii\helpers\ArrayHelper;
     
     </div>
     
+    <table class="imgtable">
     
-	<ul class="imglist">
-	    <?php foreach ($list['data'] as $val):?>
-	    <li class="selected">
-	    <span><img width="100%" src="<?php echo $val['photo']?>" /></span>
-	    <h2><a href="#"><?php echo $val['descr'];?></a></h2>
-	    <p><a href="<?php echo Url::to(['image/edit','id'=>$val['id']])?>">编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="<?php echo Url::to(['image/del','id'=>$val['id']])?>">删除</a></p>
-	    </li>
-	    <?php endforeach;?>
-	</ul>
+	    <thead>
+		    <tr>
+		    <th><input name="" type="checkbox" class="s-all" /></th>
+		    <th width="300px;">图片</th>
+		    <th>图片描述</th>
+		    <th>图片分类</th>
+		    <th>链接地址</th>
+		    <th>操作</th>
+		    </tr>
+	    </thead>
+    
+	    <tbody>
+	    	<?php foreach ($list['data'] as $val):?>
+		    <tr>
+		    <td><input name="ids" class="item" type="checkbox" value="<?php echo $val['id'];?>" /></td>
+		    <td class="imgtd"><img src="<?php echo $val['photo']?>" /></td>
+		    <td><?php echo $val['descr'];?></td>
+		    <td><?php echo $val['categorys']['text'];?></td>
+		    <td><?php echo $val['link'];?></td>
+		    <td>
+		    <a href="<?php echo Url::to(['image/edit','id'=>$val['id']])?>">编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="<?php echo Url::to(['image/del','id'=>$val['id']])?>">删除</a>
+		    </td>
+		    </tr>
+		    <?php endforeach;?>
+	    
+	    </tbody>
+    
+    </table>
+    
+    
 
 </div>

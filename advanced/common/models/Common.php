@@ -29,4 +29,15 @@ class Common extends BaseModel
         ])
         ->where('type = :type',[':type'=>$type])->orderBy('sorts asc')->asArray()->all();
     }
+    
+    public function getCategorys()
+    {
+    	return $this->hasMany(Category::className(), ['parentId'=>'id']);
+    }
+    
+    public function getPageList()
+    {
+    	$query = self::find()->select([self::tableName().'.id','codeDesc','sorts'])->joinWith('categorys')->where([self::tableName().'.type'=>'navigation'])->orderBy('sorts ASC');
+    	return $this->query($query,$this->curPage,30);
+    }
 }

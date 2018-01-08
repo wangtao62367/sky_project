@@ -22,7 +22,7 @@ class ImageController extends CommonController
 		$model = new Photo();
 		
 		$parentCates = Category::getArticleCates('image');
-		$data = \Yii::$app->request->get();
+		$data = Yii::$app->request->get();
 		$list = $model->getPageList($data);
 		return $this->render('manage',['model'=>$model,'parentCates'=>$parentCates,'list'=>$list]);
 	}
