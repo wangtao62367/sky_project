@@ -28,7 +28,7 @@ use yii\helpers\Html;
 <table class="tablelist">
 	<thead>
     	<tr>
-            <th><input name="" type="checkbox" value="" /></th>
+            <th><input name="" type="checkbox" class="s-all" value="" /></th>
             <th>课程名称</th>
             <th>上课时间</th>
             <th>授课教师</th>
@@ -45,12 +45,12 @@ use yii\helpers\Html;
 
     	<?php foreach ($list['data'] as $val):?>
     	<tr>
-            <td><input name="" type="checkbox" value="<?php echo $val['id'];?>" /></td>
+            <td><input name="ids" type="checkbox" class="item" value="<?php echo $val['id'];?>" /></td>
             <td><?php echo $val['curriculumText'];?></td>
-            <td><?php echo $val['lessonDate'] . ' ' . $val['lessonTime'];?></td>
+            <td><?php echo $val['lessonDate'] . ' ' . $val['lessonStartTime'] . '~' . $val['lessonEndTime'];?></td>
             <td><?php echo $val['teacherName'];?></td>
-            <td><?php echo $val['teachplaces']['text'];?></td>
-            <td><?php echo $val['gradeclass']['className'];?></td>
+            <td><?php echo $val['teachPlace'];?></td>
+            <td><?php echo $val['gradeClass'];?></td>
             <td><?php echo $val['isPublish'] == 1 ? '已发布' : '未发布';?></td>
             <td><?php echo MyHelper::timestampToDate($val['createTime']);?></td>
             <td><?php echo MyHelper::timestampToDate($val['modifyTime']);?></td>
@@ -75,10 +75,9 @@ $count = $list['count'];
 $uri = Yii::$app->request->getUrl();
 $js = <<<JS
 $('.batchDel').click(function(){
-    $('.batchDel').click(function(){
-        batchDel('$batchDelUrl');
-    })
+    batchDel('$batchDelUrl');
 })
+
 
 initPagination({
 	el : "#Pagination",

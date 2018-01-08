@@ -15,39 +15,43 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
     <ul class="placeul">
         <li><a href="javascript:;">教务系统</a></li>
         <li><a href="<?php echo Url::to(['schedule/manage'])?>">课表管理</a></li>
-        <li><a href="<?php echo $url?>">添加课表</a></li>
+        <li><a href="<?php echo $url?>"><?php echo $title?></a></li>
     </ul>
 </div>
 
 <div class="formbody">
 
-<div class="formtitle"><span>添加课表</span></div>
+<div class="formtitle"><span><?php echo $title?></span></div>
 <?php echo Html::beginForm();?>
 <ul class="forminfo">
     <li><label>课程名称<b>*</b></label>
     <?php echo Html::activeHiddenInput($model, 'curriculumId',['class'=>'dfinput'])?>
-    <?php echo Html::activeTextInput($model, 'curriculumText',['class'=>'dfinput curriculumText','placeholder'=>'输入搜索课程名称'])?><i>课程不能为空</i>
+    <?php echo Html::activeTextInput($model, 'curriculumText',['class'=>'dfinput ajaxSearch curriculumText','placeholder'=>'输入搜索课程名称'])?><i>课程不能为空</i>
     <div class="searchresult">
     </div>
     </li>
-    <li><label>授课时间<b>*</b></label>
-    	<?php echo Html::activeTextInput($model, 'lessonDate',['class'=>'dfinput'])?>
+    <li><label>授课日期<b>*</b></label>
+    	<?php echo Html::activeTextInput($model, 'lessonDate',['class'=>'dfinput lessonDate','style'=>'width:240px;','placeholder'=>'选择授课日期'])?>
+    </li>
+    <li><label>授课时段<b>*</b></label>
+    	<?php echo Html::activeTextInput($model, 'lessonStartTime',['class'=>'dfinput lessonStartTime','style'=>'width:74px;','placeholder'=>'开始时间'])?> - 
+    	<?php echo Html::activeTextInput($model, 'lessonEndTime',['class'=>'dfinput lessonEndTime','style'=>'width:74px;','placeholder'=>'结束时间'])?>
     </li>
     <li><label>授课教师<b>*</b></label>
     <?php echo Html::activeHiddenInput($model, 'teacherId',['class'=>'dfinput'])?>
-    <?php echo Html::activeTextInput($model, 'teacherName',['class'=>'dfinput teacherName','placeholder'=>'输入搜索课程授课教师'])?><i>授课教师不能为空</i>
+    <?php echo Html::activeTextInput($model, 'teacherName',['class'=>'dfinput ajaxSearch teacherName','placeholder'=>'输入搜索课程授课教师'])?><i>授课教师不能为空</i>
     <div class="searchresult" style="display: none"> </div>
     </li>
     
     <li><label>授课地点<b>*</b></label>
     <?php echo Html::activeHiddenInput($model, 'teachPlaceId',['class'=>'dfinput'])?>
-    <?php echo Html::activeTextInput($model, 'teachPlace',['class'=>'dfinput teachPlace','placeholder'=>'输入搜索授课地点'])?><i>授课地点不能为空</i>
+    <?php echo Html::activeTextInput($model, 'teachPlace',['class'=>'dfinput ajaxSearch teachPlace','placeholder'=>'输入搜索授课地点'])?><i>授课地点不能为空</i>
     <div class="searchresult" style="display: none"> </div>
     </li>
     
     <li><label>授课班级<b>*</b></label>
     <?php echo Html::activeHiddenInput($model, 'gradeClassId',['class'=>'dfinput'])?>
-    <?php echo Html::activeTextInput($model, 'gradeClass',['class'=>'dfinput gradeClass','placeholder'=>'输入搜索授课班级'])?><i>授课班级不能为空</i>
+    <?php echo Html::activeTextInput($model, 'gradeClass',['class'=>'dfinput ajaxSearch gradeClass','placeholder'=>'输入搜索授课班级'])?><i>授课班级不能为空</i>
     <div class="searchresult" style="display: none"> </div>
     </li>
     
@@ -59,8 +63,7 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
 </ul>
 <?php echo Html::endForm();?>
 </div>
-<?php 
-
+<?php
 $css = <<<CSS
 .searchresult{
     position: absolute;
@@ -85,6 +88,10 @@ $css = <<<CSS
 .searchresult p:hover{
     background:#e8e5e5;
 }
+.xdsoft_datetimepicker  .xdsoft_calendar td > div{
+   padding-right:10px;
+   padding-top: 5px
+}
 CSS;
 $getTeachers = Url::to(['teacher/ajax-teachers']);
 $getCurriculums = Url::to(['curriculum/ajax-curriculums']);
@@ -100,7 +107,7 @@ $(document).on('click','.searchresult p',function(){
     $(this).parent('.searchresult').hide();
 });
 
-$(document).on('focus','input[type="text"]',function(){
+$(document).on('focus','.ajaxSearch',function(){
     var url = getInputAjaxtUrl(this);
     ajacGetSearch(url,'',this);
     $(this).parents('li').find('.searchresult').show();
@@ -110,7 +117,7 @@ $(document).on('focus','input[type="text"]',function(){
 //     $(this).parents('li').find('.searchresult').hide();
 // });
 
-$(document).on('input propertychange','input[type="text"]',throttle(getCurriculum,500,1000));
+$(document).on('input propertychange','.ajaxSearch',throttle(getCurriculum,500,1000));
 
 function getCurriculum(el){
     var keywords = $(el.target).val();
@@ -175,31 +182,51 @@ function throttle(func, wait, mustRun) {
 };
 
 
-function debounce(func,wait,immediate) {
-    var timeout , context, args;
-    return function() {
-        context = this;
-        args = arguments;
-        if(timeout) clearTimeout(timeout);
-        if(immediate){
-            var callNow = !timeout;
-            timeout = setTimeout(function(){
-                timeout = null;
-            },wait);
-            if(callNow){
-                func.apply(context);
-            }  
-        }else {
-            timeout = setTimeout(function(){
-                func.apply(context);
-            },wait);
-        }
+// function debounce(func,wait,immediate) {
+//     var timeout , context, args;
+//     return function() {
+//         context = this;
+//         args = arguments;
+//         if(timeout) clearTimeout(timeout);
+//         if(immediate){
+//             var callNow = !timeout;
+//             timeout = setTimeout(function(){
+//                 timeout = null;
+//             },wait);
+//             if(callNow){
+//                 func.apply(context);
+//             }  
+//         }else {
+//             timeout = setTimeout(function(){
+//                 func.apply(context);
+//             },wait);
+//         }
           
-    }
-}
+//     }
+// };
+
+$.datetimepicker.setLocale('ch');
+$('.lessonDate').datetimepicker({
+      //lang:"zh", //语言选择中文 注：旧版本 新版方法：$.datetimepicker.setLocale('ch');
+      format:"Y-m-d",      //格式化日期
+      timepicker:false,    //关闭时间选项
+      yearStart: 2018,     //设置最小年份
+      yearEnd:2019,        //设置最大年份
+      todayButton:true    //开启选择今天按钮
+});
+$('.lessonStartTime').datetimepicker({
+	datepicker:false,
+	format:'H:i',
+	step:5
+});
+$('.lessonEndTime').datetimepicker({
+	datepicker:false,
+	format:'H:i',
+	step:5
+});
 JS;
 AppAsset::addCss($this, '/admin/css/jquery.datetimepicker.css');
-AppAsset::addScript($this, '/admin/js/jquery.datetimepicker.min.js');
+AppAsset::addScript($this, '/admin/js/jquery.datetimepicker.full.js');
 $this->registerJs($js);
 $this->registerCss($css);
 ?>
