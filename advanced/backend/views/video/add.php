@@ -28,7 +28,7 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
 	<?php echo Html::activeHiddenInput($model,'oldVideoImg',['id'=>'oldFile']);?>
     <?php echo Html::activeHiddenInput($model, 'videoImg',['class'=>'dfinput','id'=>'photo'])?>
     <?php echo Html::fileInput('files','',['class'=>'uploadFile','id'=>"uploadVideo","accept"=>"video/mp4"]);?>
-	<a  id="btn-select-video">选择视频</a><font class="selected-video">dfsafsdffd.png</font>
+	<a  id="btn-select-video">选择视频</a><font class="selected-video"></font>
 	
 	</li>
     <li><label>视频背景图<b>*</b></label>
@@ -106,10 +106,25 @@ function selectVideo(){
     return  $('#uploadVideo').click();
 }
 
+$('#uploadVideo').change(function(){
+    var file = this.files && this.files[0];
+    console.log(file);
+    var maxSize = 1024 * 1024 * 1024;//500kb
+    var ext = ['video/mp4'];
+    console.log($.inArray(file.type,ext));
+    if(file.size > maxSize){
+        alert("所选视频大小不能超过1GB");return;
+    }
+    if($.inArray(file.type,ext) == -1){
+        alert("所选视频格式只能是mp4");return;
+    }
+    $('.selected-video').text(file.name);
+})
+
 $('#uploadFile').change(function(){
     var file = this.files && this.files[0];
     console.log(file.type);
-    var maxSize = 500 * 1025;//500kb
+    var maxSize = 500 * 1024;//500kb
     var ext = ['image/jpeg','image/png','image/jpg'];
     console.log($.inArray(file.type,ext));
     if(file.size > maxSize){
