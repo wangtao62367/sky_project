@@ -34,14 +34,14 @@ use yii\helpers\ArrayHelper;
         <li>
             <label>分类</label>  
             <div class="vocation">
-                <?php echo Html::activeDropDownList($model, 'search[categoryId]', ArrayHelper::map($parentCates,'id','text'),['prompt'=>'请选择','class'=>'select1'])?>
+                <?php echo Html::activeDropDownList($model, 'search[categoryId]', ArrayHelper::map($parentCates,'id','text'),['prompt'=>'请选择','class'=>'sky-select'])?>
             </div>
         </li>
         
         <li>
             <label>是否发布</label>  
             <div class="vocation">
-                <?php echo Html::activeDropDownList($model, 'search[isPublish]', ['0'=>'未发布','1'=>'已发布'],['prompt'=>'请选择','class'=>'select1'])?>
+                <?php echo Html::activeDropDownList($model, 'search[isPublish]', ['0'=>'未发布','1'=>'已发布'],['prompt'=>'请选择','class'=>'sky-select'])?>
             </div>
         </li>
         
@@ -110,9 +110,6 @@ $pageSize = $list['pageSize'];
 $count = $list['count'];
 $uri = Yii::$app->request->getUrl();
 $js = <<<JS
-$(".select1").uedSelect({
-	width : 100			  
-});
 $('.batchDel').click(function(){
     batchDel('$batchDelUrl');
 });

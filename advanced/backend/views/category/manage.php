@@ -21,7 +21,7 @@ use yii\helpers\ArrayHelper;
         <li><label>分类名称</label><?php echo Html::activeTextInput($model, 'search[text]',['class'=>'scinput'])?></li>
         <li><label>所属类型</label>
         	<div class="vocation">
-        		<?php echo Html::activeDropDownList($model, 'search[type]', Category::$type_arr,['prompt'=>'请选择','class'=>'select1'])?>
+        		<?php echo Html::activeDropDownList($model, 'search[type]', Category::$type_arr,['prompt'=>'请选择','class'=>'sky-select'])?>
         	</div>
         </li>
         <li><label>所属板块</label>
@@ -85,9 +85,6 @@ $uri = Yii::$app->request->getUrl();
 $js = <<<JS
 $('.batchDel').click(function(){
     batchDel('$batchDelUrl');
-});
-$(".select1").uedSelect({
-		width : 100
 });
 
 initPagination({

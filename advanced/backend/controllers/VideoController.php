@@ -33,8 +33,8 @@ class VideoController extends CommonController
         
         $parentCates = Category::getArticleCates('video');
         if(Yii::$app->request->isPost){
-            $data = Yii::$app->request->post();
-            $result = $model->add($data);
+            $data = Yii::$app->request->post('data',[]);
+            $result = $model->add(json_decode($data,true));
             if($result){
                 return $this->showSuccess('image/manage');
             }else{

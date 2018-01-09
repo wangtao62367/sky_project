@@ -39,7 +39,6 @@ use yii\helpers\ArrayHelper;
     
 	<ul class="imglist">
 		<?php if($list['count'] == 0):?>
-		
 			<li class="data-empty" style="width: 100%">暂时没有数据</li>
 		<?php endif;?>
 	    <?php foreach ($list['data'] as $val):?>

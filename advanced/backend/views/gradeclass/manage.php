@@ -67,9 +67,8 @@ $count = $list['count'];
 $uri = Yii::$app->request->getUrl();
 $js = <<<JS
 $('.batchDel').click(function(){
-    $('.batchDel').click(function(){
-        batchDel('$batchDelUrl');
-    })
+     batchDel('$batchDelUrl');
+
 })
 
 initPagination({

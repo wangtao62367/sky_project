@@ -9,6 +9,8 @@ class Video extends BaseModel
 {
     public $oldVideoImg;
     
+    public $oldVideo;
+    
     public static function tableName()
     {
         return '{{%Video}}';

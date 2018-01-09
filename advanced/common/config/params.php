@@ -4,10 +4,11 @@ return [
     'supportEmail' => 'support@example.com',
     'user.passwordResetTokenExpire' => 3600,
     'oss' => [
-        'akey' => 'LTAI8TOnTM4lot09',
-        'skey' => 'RdQ7X07mF7MpJNRHi0tejnBqhP4X4O',
-        'endpoint' => 'oss-cn-shenzhen.aliyuncs.com',
-        'bucket' => 'seving-weixin',
-        'baseUrl' => 'http://seving-weixin.oss-cn-shenzhen.aliyuncs.com'
+        'akey' => 'LTAI7mO1LDNAZqY9',
+        'skey' => 'CgYQ3zFtH9jh7spCidzUCXnWNFd02g',
+        'endpoint' => 'oss-cn-hangzhou.aliyuncs.com',
+        'bucket' => '18upload',
+        'region' => 'oss-cn-hangzhou',
+        'host' => 'http://18upload.oss-cn-hangzhou.aliyuncs.com',
     ]
 ];

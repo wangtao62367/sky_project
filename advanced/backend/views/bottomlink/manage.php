@@ -44,7 +44,7 @@ use yii\helpers\Html;
             <td><input name="ids" class="item" type="checkbox" value="<?php echo $val['id'];?>" /></td>
             <td><?php echo $val['linkName'];?></td>
             <td><?php echo $val['linkUrl'];?></td>
-            <td><?php echo $val['linkCateId'];?></td>
+            <td><?php echo $val['linkcates']['codeDesc'];?></td>
             <td><?php echo MyHelper::timestampToDate($val['createTime']);?></td>
             <td><?php echo MyHelper::timestampToDate($val['modifyTime']);?></td>
             <td>
@@ -68,9 +68,7 @@ $count = $list['count'];
 $uri = Yii::$app->request->getUrl();
 $js = <<<JS
 $('.batchDel').click(function(){
-    $('.batchDel').click(function(){
-        batchDel('$batchDelUrl');
-    })
+    batchDel('$batchDelUrl');
 })
 
 initPagination({

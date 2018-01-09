@@ -83,4 +83,9 @@ class TeacherController extends CommonController
         return $result;
     }
     
+    public function actionTest()
+    {
+        return $this->render('demo');
+    }
+    
 }

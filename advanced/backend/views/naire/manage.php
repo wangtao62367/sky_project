@@ -36,7 +36,7 @@ use backend\assets\AppAsset;
     	<tr>
             <th><input name="" type="checkbox" value="" class="s-all" /></th>
             <th>问卷调查主题</th>
-            <th>调查题数</th>
+            <th>问卷题数</th>
             <th>发布状态</th>
             <th>创建时间</th>
             <th>修改时间</th>

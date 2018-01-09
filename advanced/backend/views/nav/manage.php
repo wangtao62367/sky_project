@@ -10,7 +10,7 @@ use yii\helpers\ArrayHelper;
     <ul class="placeul">
         <li><a href="javascript:;">新闻系统</a></li>
         <li><a href="<?php echo Url::to(['content/manage'])?>">内容管理</a></li>
-        <li><a href="<?php echo Url::to(['nav/manage'])?>">导航管理</a></li>
+        <li><a href="<?php echo Url::to(['nav/manage'])?>">首页导航</a></li>
     </ul>
 </div>
 

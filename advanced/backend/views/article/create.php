@@ -30,7 +30,7 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
     <li><label>作&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;者<b>*</b></label><?php echo Html::activeTextInput($model, 'author',['class'=>'dfinput'])?><i>文章作者不能为空</i></li>
     <li><label>分&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;类<b>*</b></label>
     	<div class="vocation">
-    		<?php echo Html::activeDropDownList($model, 'categoryId', ArrayHelper::map($parentCates,'id','text'),['prompt'=>'请选择','class'=>'select1'])?>
+    		<?php echo Html::activeDropDownList($model, 'categoryId', ArrayHelper::map($parentCates,'id','text'),['prompt'=>'请选择','class'=>'sky-select'])?>
     	</div>
     </li>
     <li><label>是否发布<b>*</b></label>

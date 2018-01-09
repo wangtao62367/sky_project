@@ -97,7 +97,7 @@ function uploadFile(){
     var formData = new FormData();
     formData.append('file', $('#uploadFile')[0].files[0]);
     formData.append('oldFile', $("#oldFile").val());
-
+    console.log($('#uploadFile')[0].files[0]);
     $.ajax({
         url : '/image/upload',
         type : 'POST',

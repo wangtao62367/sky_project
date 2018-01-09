@@ -22,11 +22,11 @@ class BottomLink extends BaseModel
     public function rules()
     {
         return [
-            ['linkName','required','message'=>'链接名称不能为空','on'=>['create','edit']],
-            ['linkName', 'length', 'max'=>10, 'min'=>2, 'tooLong'=>'课程名称长度为4-20个字符', 'tooShort'=>'课程名称长度为2-10个字','on'=>['create','edite']],
-            ['linkUrl','required','message'=>'链接地址不能为空','on'=>['create','edit']],
-            ['linkUrl','url','message'=>'链接地址无效','on'=>['create','edit']],
-            ['linkCateId','required','message'=>'链接类型不能为空','on'=>['create','edit']],
+            ['linkName','required','message'=>'链接名称不能为空','on'=>['add','edit']],
+            ['linkName', 'string', 'max'=>10, 'min'=>2, 'tooLong'=>'课程名称长度为4-20个字符', 'tooShort'=>'课程名称长度为2-10个字','on'=>['add','edite']],
+            ['linkUrl','required','message'=>'链接地址不能为空','on'=>['add','edit']],
+            ['linkUrl','url','message'=>'链接地址无效','on'=>['add','edit']],
+            ['linkCateId','required','message'=>'链接类型不能为空','on'=>['add','edit']],
             ['linkCateId','validLinkCate','on'=>['create','edit']],
             [['linkImg','curPage','pageSize','search'],'safe']
         ];
@@ -43,9 +43,9 @@ class BottomLink extends BaseModel
         }
     }
     
-    public function create(array $data)
+    public function add(array $data)
     {
-        $this->scenario = 'create';
+        $this->scenario = 'add';
         if($this->load($data) && $this->validate() && $this->save(false)){
             return true;
         }
@@ -53,13 +53,8 @@ class BottomLink extends BaseModel
     }
     
     
-    public function edit(array $data,int $id)
+    public static function edit(array $data,BottomLink $friendshipInfo)
     {
-        $friendshipInfo = self::findOne($id);
-        if(empty($friendshipInfo)){
-            $this->addError('id','数据不存在');
-            return false;
-        }
         $friendshipInfo->scenario = 'edit';
         if($friendshipInfo->load($data) && $friendshipInfo->validate() && $friendshipInfo->save(false)){
             return true;
@@ -67,15 +62,16 @@ class BottomLink extends BaseModel
         return false;
     }
     
-    public function del(int $id)
+    public static function del(BottomLink $friendshipInfo)
     {
-        return (bool)self::deleteAll('id = :id',[':id'=>$id]);
+        
+        return (bool)$friendshipInfo->delete();
     }
     
     public function getPageList(array $data)
     {
     	$this->curPage = isset($data['curPage']) && !empty($data['curPage']) ? $data['curPage'] : $this->curPage;
-    	$linkQuery = self::find()->select([])->orderBy('createTime desc,modifyTime desc');
+    	$linkQuery = self::find()->select([])->joinWith('linkcates')->where([Common::tableName().'.type'=>'bottomLink'])->orderBy('createTime desc,modifyTime desc');
         if($this->load($data)){
             if(!empty($this->search)){
                 if(!empty($this->search['linkName'])){
@@ -88,6 +84,11 @@ class BottomLink extends BaseModel
             
         }
         return $this->query($linkQuery, $this->curPage, $this->pageSize);
+    }
+    
+    public function getLinkcates()
+    {
+        return $this->hasOne(Common::className(), ['id'=>'linkCateId']);
     }
     
 }

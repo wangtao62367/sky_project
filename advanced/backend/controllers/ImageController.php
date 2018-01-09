@@ -107,10 +107,10 @@ class ImageController extends CommonController
 	    //删除老图片
 	    $oldFile = Yii::$app->request->post('oldFile','');
 	    if(!empty($oldFile)){
-	        $oldBlock = str_replace(Yii::$app->params['oss']['baseUrl'], '', $oldFile);
+	        $oldBlock = str_replace(Yii::$app->params['oss']['host'], '', $oldFile);
 	        $ossClient->deleteObject($bucket, ltrim($oldBlock,'/'));
 	    }
-	    return ['success'=>true,'message'=>'上传成功','fileFullName'=>Yii::$app->params['oss']['baseUrl'].$block,'fileName'=>$block];
+	    return ['success'=>true,'message'=>'上传成功','fileFullName'=>Yii::$app->params['oss']['host'].$block,'fileName'=>$block];
 	}
 	
 }
