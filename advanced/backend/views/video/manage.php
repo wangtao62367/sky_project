@@ -7,7 +7,7 @@ use yii\helpers\ArrayHelper;
     <span>位置：</span>
     <ul class="placeul">
     <li><a href="#">新闻系统</a></li>
-    <li><a href="<?php echo Url::to(['video/manage'])?>">内容管理</a></li>
+    <li><a href="<?php echo Url::to(['content/manage'])?>">内容管理</a></li>
     <li><a href="<?php echo Url::to(['video/manage'])?>">视频列表</a></li>
     </ul>
 </div>
@@ -26,21 +26,15 @@ use yii\helpers\ArrayHelper;
 	        </li>
 	        <li><label>&nbsp;</label><?php echo Html::submitInput('查询',['class'=>'scbtn'])?></li>
         	<li><a href="<?php echo Url::to(['video/add'])?>"><span><img src="/admin/images/t01.png" /></span>添加</a></li>
-        	<li><a href="javascript:;" class="batchDel"><span><img src="/admin/images/t03.png" /></span>删除</a></li>
+<!--         	<li><a href="javascript:;" class="batchDel"><span><img src="/admin/images/t03.png" /></span>删除</a></li> -->
         </ul>
         <?php echo Html::endForm();?>
-        
-<!--         <ul class="toolbar1"> -->
-<!--         <li><span><img src="/admin/images/t05.png" /></span>设置</li> -->
-<!--         </ul> -->
-    
     </div>
     
-    
+    <?php if($list['count'] == 0):?>
+			<div class="data-empty" >暂时没有数据</div>
+	<?php else :?>
 	<ul class="imglist">
-		<?php if($list['count'] == 0):?>
-			<li class="data-empty" style="width: 100%">暂时没有数据</li>
-		<?php endif;?>
 	    <?php foreach ($list['data'] as $val):?>
 	    <li class="selected">
 	    <span><img width="100%" src="<?php echo $val['videoImg']?>" /></span>
@@ -49,16 +43,12 @@ use yii\helpers\ArrayHelper;
 	    </li>
 	    <?php endforeach;?>
 	</ul>
-
+	<?php endif;?>
 </div>
 
 <?php 
 $css=<<<CSS
-.data-empty{
-    width: 100%;
-    text-align: center;
-    line-height: 199px;
-}
+
 
 
 CSS;

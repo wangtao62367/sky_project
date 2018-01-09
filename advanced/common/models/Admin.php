@@ -15,6 +15,8 @@ class Admin extends BaseModel implements \yii\web\IdentityInterface
     
     public $repass;
     
+    public $oldPwd;
+    
     public $_admin;
     
     public static function tableName()
@@ -25,13 +27,14 @@ class Admin extends BaseModel implements \yii\web\IdentityInterface
     public function rules()
     {
         return [
-            ['account','required','message'=>'账号不能为空','on'=>['add','login']],
-            ['adminPwd','required','message'=>'密码不能为空','on'=>['add','login']],
-            ['adminPwd','validAdminPwd','on'=>'login'],
-            ['repass','required','message'=>'重复密码不能为空','on'=>'add'],
-            ['repass', 'compare', 'compareAttribute' => 'adminPwd', 'message' => '两次密码输入不一致', 'on' => ['add']],
-            ['adminEmail','required','message'=>'邮箱不能为空','on'=>'add'],
-            ['search','safe']
+        		['account','required','message'=>'账号不能为空','on'=>['add','login','edit']],
+        		['oldPwd','required','message'=>'密码不能为空','on'=>['editpwd']],
+        		['adminPwd','required','message'=>'密码不能为空','on'=>['add','login','edit','editpwd']],
+            	['adminPwd','validAdminPwd','on'=>['login']],
+        		['repass','required','message'=>'重复密码不能为空','on'=>['add','edit','editpwd']],
+        		['repass', 'compare', 'compareAttribute' => 'adminPwd', 'message' => '两次密码输入不一致', 'on' => ['add','edit','editpwd']],
+        		['adminEmail','required','message'=>'邮箱不能为空','on'=>['add','edit']],
+            	['search','safe']
             
         ];
     }
@@ -74,16 +77,64 @@ class Admin extends BaseModel implements \yii\web\IdentityInterface
         return false;
     }
     
-    public function admins(array $data,array $search)
+    public static function edit(array $data,Admin $admin)
+    {
+    	$admin->scenario = 'edit';
+    	if($admin->load($data) && $admin->validate($data)){
+    		$admin->adminPwd = Yii::$app->getSecurity()->generatePasswordHash($admin->adminPwd);
+    		return $admin->save(false);
+    	}
+    	return false;
+    }
+    
+    public static function editPwd(array $data,Admin $admin)
+    {
+    	$admin->scenario = 'editpwd';
+    	$oldPwd = $admin->adminPwd;
+    	if($admin->load($data) && $admin->validate($data)){
+    		if( !Yii::$app->getSecurity()->validatePassword($admin->oldPwd,$oldPwd) ){
+    			$admin->addError('oldPwd','原密码输入错误');
+    			return false;
+    		}
+    		$admin->adminPwd = Yii::$app->getSecurity()->generatePasswordHash($admin->adminPwd);
+    		return $admin->save(false);
+    	}
+    	return false;
+    }
+    
+    public static function resetPwd(Admin $admin)
+    {
+    	$admin->adminPwd = Yii::$app->getSecurity()->generatePasswordHash('111111');
+    	if($admin->save(false)){
+    		return true;
+    	}
+    	return false;
+    }
+    
+    public static function frozen(Admin $admin)
+    {
+    	$admin->isFrozen = self::ADMIN_FROZEN;
+    	return $admin->save(false);
+    }
+    
+    public static function active(Admin $admin)
+    {
+    	$admin->isFrozen = self::ADMIN_ACTIVE;
+    	return $admin->save(false);
+    }
+    
+    public static function del(Admin $admin)
+    {
+    	return (bool)$admin->delete();
+    }
+    
+    public function admins(array $data)
     {
         $this->curPage = isset($data['curPage']) && !empty($data['curPage']) ? $data['curPage'] : $this->curPage;
         $query = self::find();
-        if(!empty($search) && $this->load($search)){
-            if(!empty($this->search['account'])){
-                $query = $query->andWhere(['like','account',$this->search['account']]);
-            }
-            if(!empty($this->search['adminEmail'])){
-                $query = $query->andWhere(['like','adminEmail',$this->search['adminEmail']]);
+        if(!empty($data) && $this->load($data)){
+            if(!empty($this->search['keywords'])){
+            	$query = $query->andWhere(['or',['like','account',$this->search['keywords']],['like','adminEmail',$this->search['keywords']]]);
             }
         }
         return $this->query($query,$this->curPage,$this->pageSize);

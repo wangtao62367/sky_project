@@ -26,8 +26,8 @@ $this->title = 'top';
      
     <div class="user">
     <span>admin</span>
-    <i>消息</i>
-    <b>5</b>
+<!--     <i>消息</i>
+    <b>5</b> -->
     </div>    
     
     </div>

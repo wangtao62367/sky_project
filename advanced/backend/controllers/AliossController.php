@@ -19,7 +19,7 @@ class AliossController extends CommonController
         $host = $upload_param['host'];
         
         $now = time();
-        $expire = 30; //设置该policy超时时间是10s. 即这个policy过了这个有效时间，将不能访问
+        $expire = 300; //设置该policy超时时间是10s. 即这个policy过了这个有效时间，将不能访问
         $end = $now + $expire;
         $expiration = self::gmt_iso8601($end);
         

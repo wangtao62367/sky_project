@@ -33,14 +33,51 @@ class VideoController extends CommonController
         
         $parentCates = Category::getArticleCates('video');
         if(Yii::$app->request->isPost){
-            $data = Yii::$app->request->post('data',[]);
-            $result = $model->add(json_decode($data,true));
+            $data = Yii::$app->request->post();
+            $result = $model->add($data);
             if($result){
-                return $this->showSuccess('image/manage');
+                return $this->showSuccess('video/manage');
             }else{
                 Yii::$app->session->setFlash('error',$model->getErrorDesc());
             }
         }
         return $this->render('add',['model'=>$model,'parentCates'=>$parentCates,'title'=>'添加视频']);
+    }
+    
+    public function actionEdit(int $id)
+    {
+    	$model = Video::findOne($id);
+    	if(empty($model)){
+    		return $this->showDataIsNull('video/manage');
+    	}
+    	if(Yii::$app->request->isPost){
+    		$data = Yii::$app->request->post();
+    		if(Video::edit($data, $model)){
+    			return $this->showSuccess('video/manage');
+    		}else{
+    			Yii::$app->session->setFlash('error',$model->getErrorDesc());
+    		}
+    	}
+    	$parentCates = Category::getArticleCates('video');
+    	return $this->render('add',['model'=>$model,'parentCates'=>$parentCates,'title'=>'编辑视频']);
+    }
+    
+    public function actionDel(int $id)
+    {
+    	$model = Video::findOne($id);
+    	if(empty($model)){
+    		return $this->showDataIsNull('video/manage');
+    	}
+    	if(Video::del($model)){
+    		return $this->redirect(['video/manage']);
+    	}
+    }
+    
+    public function actionBatchdel()
+    {
+    	$this->setResponseJson();
+    	$ids = Yii::$app->request->post('ids');
+    	$idsArr = explode(',',trim($ids,','));
+    	return Video::updateAll(['isDelete'=>1],['in','id',$idsArr]);
     }
 }

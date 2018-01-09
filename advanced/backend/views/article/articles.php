@@ -60,11 +60,10 @@ use yii\helpers\ArrayHelper;
             <th>序号<i class="sort"><img src="/admin/images/px.gif" /></i></th>
             <th>标题</th>
             <th>作者</th>
-            <th>标签</th>
             <th>分类</th>
-            <th>包含图片（张）</th>
+            <th>图片数</th>
             <th>预览数</th>
-            <th>是否发布</th>
+            <th>发布</th>
             <th>创建时间</th>
             <th>修改时间</th>
             <th>操作</th>
@@ -79,15 +78,10 @@ use yii\helpers\ArrayHelper;
             <td><?php echo $val['id'];?></td>
             <td><?php echo $val['title'];?></td>
             <td><?php echo $val['author'];?></td>
-            <td>
-            	<?php foreach ($val['articletags'] as $tag):?>
-            		<span class="article-tags"><?php echo  $tag['tags']['tagName'];?></span>
-            	<?php endforeach;?>
-            </td>
             <td><?php echo $val['categorys']['text'];?></td>
             <td><?php echo $val['imgCount'] ;?> </td>
             <td><?php echo $val['readCount'];?></td>
-            <td><?php echo $val['isPublish'];?></td>
+            <td><?php echo $val['isPublish'] == 0 ?'未发布' : '已发布';?></td>
             <td><?php echo MyHelper::timestampToDate($val['createTime']);?></td>
             <td><?php echo MyHelper::timestampToDate($val['modifyTime']);?></td>
             <td>

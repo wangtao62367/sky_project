@@ -9,12 +9,12 @@ use common\models\Admin;
 class AdminController extends CommonController
 {
     
-    public function actionIndex()
+    public function actionManage()
     {
         $admin = new Admin();
-        $request = Yii::$app->request;
-        $data = $admin->admins($request->get(),$request->get());
-        return $this->render('index',['model'=>$admin,'list'=>$data]);
+        $data = Yii::$app->request->get();
+        $list = $admin->admins($data);
+        return $this->render('manage',['model'=>$admin,'list'=>$list]);
     }
     
     public function actionAdd()
@@ -24,15 +24,107 @@ class AdminController extends CommonController
             $post = Yii::$app->request->post();
             $result = $admin->add($post);
             if($result){
-                $admin->adminPwd = $admin->repass;
-                Yii::$app->session->setFlash('success','添加成功');
+            	return $this->showSuccess('admin/manage');
             }else {
                 Yii::$app->session->setFlash('error',$admin->getErrorDesc());
             }
         }
         $admin->adminPwd= '';
         $admin->repass   = '';
-        return $this->render('add',['model'=>$admin]);
+        return $this->render('add',['model'=>$admin,'title'=>'添加管理员']);
+    }
+    
+    public function actionEdit(int $id)
+    {
+    	$admin = Admin::findIdentity($id);
+    	if(empty($admin)){
+    		return $this->showDataIsNull('default/main');
+    	}
+    	if(Yii::$app->request->isPost){
+    		$post = Yii::$app->request->post();
+    		$result = Admin::edit($post,$admin);
+    		if($result){
+    			return $this->showSuccess('default/main');
+    		}else {
+    			Yii::$app->session->setFlash('error',$admin->getErrorDesc());
+    		}
+    	}
+    	$admin->adminPwd= '';
+    	$admin->repass   = '';
+    	return $this->render('add',['model'=>$admin,'title'=>'编辑管理员','operat'=>'edit']);
+    }
+    
+    public function actionEditpwd(int $id)
+    {
+    	$admin = Admin::findIdentity($id);
+    	if(empty($admin)){
+    		return $this->showDataIsNull('default/main');
+    	}
+    	if(Yii::$app->request->isPost){
+    		$post = Yii::$app->request->post();
+    		$result = Admin::editPwd($post,$admin);
+    		if($result){
+    			return $this->showSuccess('default/main');
+    		}else {
+    			Yii::$app->session->setFlash('error',$admin->getErrorDesc());
+    		}
+    	}
+    	$admin->adminPwd= '';
+    	$admin->repass   = '';
+    	$admin->oldPwd = '';
+    	return $this->render('editpwd',['model'=>$admin,'title'=>'修改密码']);
+    }
+    
+    public function actionResetpwd(int $id)
+    {
+    	$admin = Admin::findIdentity($id);
+    	if(empty($admin)){
+    		return $this->showDataIsNull('admin/manage');
+    	}
+    	if(Admin::resetPwd($admin)){
+    		return $this->showSuccess('admin/manage');
+    	}
+    }
+    
+    public function actionFrozen(int $id)
+    {
+    	$admin = Admin::findIdentity($id);
+    	if(empty($admin)){
+    		return $this->showDataIsNull('admin/manage');
+    	}
+    	if(Admin::frozen($admin)){
+    		return $this->showSuccess('admin/manage');
+    	}
+    }
+    
+    public function actionActive(int $id)
+    {
+    	$admin = Admin::findIdentity($id);
+    	if(empty($admin)){
+    		return $this->showDataIsNull('admin/manage');
+    	}
+    	if(Admin::active($admin)){
+    		return $this->showSuccess('admin/manage');
+    	}
+    }
+    
+    public function actionDel(int $id)
+    {
+    	$admin = Admin::findIdentity($id);
+    	if(empty($admin)){
+    		return $this->showDataIsNull('admin/manage');
+    	}
+    	if(Admin::del($admin)){
+    		return $this->redirect(['admin/manage']);
+    	}
+    }
+    
+    public function actionBatchdel()
+    {
+    	$this->setResponseJson();
+    	$ids = Yii::$app->request->post('ids');
+    	$idsArr = explode(',',trim($ids,','));
+    	return Admin::deleteAll(['in','id',$idsArr]);
     }
     
     public function actionAjaxResetpwd(int $id)

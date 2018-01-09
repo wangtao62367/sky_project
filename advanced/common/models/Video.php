@@ -22,6 +22,7 @@ class Video extends BaseModel
             ['video','required','message'=>'视频不能为空','on'=>['add','edit']],
             ['categoryId','required','message'=>'视频分类不能为空','on'=>['add','edit']],
             ['descr','required','message'=>'视频名称不能为空','on'=>['add','edit']],
+        	['videoImg','required','message'=>'视频背景图不能为空','on'=>['add','edit']],
             [['search','oldVideoImg'],'safe']
         ];
     }

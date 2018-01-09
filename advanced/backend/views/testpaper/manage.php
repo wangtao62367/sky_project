@@ -52,7 +52,7 @@ use yii\helpers\Html;
             <td><input name="ids" class="item" type="checkbox" value="<?php echo $val['id'];?>" /></td>
             <td><?php echo $val['title'];?></td>
             <td><?php echo $val['questionCount'];?></td>
-            <td><?php echo $val['isPublish'];?></td>
+            <td><?php echo $val['isPublish']==0?'未发布':'已发布';?></td>
             <td><?php echo MyHelper::timestampToDate($val['publishTime']);?></td>
             <td><?php echo $val['verify'];?></td>
             <td><?php echo MyHelper::timestampToDate($val['createTime']);?></td>

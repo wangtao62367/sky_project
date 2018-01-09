@@ -1,5 +1,9 @@
 <?php
 
+use common\publics\MyHelper;
+use yii\helpers\Url;
+
+$user = Yii::$app->user->identity;
 ?>
 	<div class="place">
     <span>位置：</span>
@@ -13,16 +17,16 @@
     
     <div class="welinfo">
     <span><img src="/admin/images/sun.png" alt="天气" /></span>
-    <b>Admin早上好，欢迎使用信息管理系统</b>
-    <a href="#">帐号设置</a>
+    <b><?php echo $user->account;?> 早上好，欢迎使用社会主义后台管理系统</b>
+    <a href="<?php echo Url::to(['admin/edit','id'=>$user->id])?>">帐号设置</a>
     </div>
     
     <div class="welinfo">
     <span><img src="/admin/images/time.png" alt="时间" /></span>
-    <i>您上次登录的时间：2013-10-09 15:22</i> （不是您登录的？<a href="#">请点这里</a>）
+    <i>您上次登录的时间： <?php echo MyHelper::timestampToDate($user->modifyTime);?>(登陆IP：<?php echo long2ip($user->loginIp)?>)</i> （不是您登录的？<a href="<?php echo Url::to(['admin/editpwd','id'=>$user->id])?>">请点这里</a>）
     </div>
     
-    <div class="xline"></div>
+    <!-- <div class="xline"></div>
     
     <ul class="iconlist">
     
@@ -35,7 +39,7 @@
             
     </ul>
     
-    <div class="ibox"><a class="ibtn"><img src="/admin/images/iadd.png" />添加新的快捷功能</a></div>
+    <div class="ibox"><a class="ibtn"><img src="/admin/images/iadd.png" />添加新的快捷功能</a></div> -->
     
     <div class="xline"></div>
     <div class="box"></div>
@@ -46,22 +50,22 @@
     </div>
     
     <ul class="infolist">
-    <li><span>您可以快速进行文章发布管理操作</span><a class="ibtn">发布或管理文章</a></li>
-    <li><span>您可以快速发布产品</span><a class="ibtn">发布或管理产品</a></li>
-    <li><span>您可以进行密码修改、账户设置等操作</span><a class="ibtn">账户管理</a></li>
+    <li><span>您可以快速进行新闻发布或管理操作</span><a class="ibtn" href="<?php echo Url::to(['article/articles'])?>">发布或管理新闻</a></li>
+    <li><span>您可以快速发布或管理测评试卷</span><a class="ibtn" href="<?php echo Url::to(['testpaper/manage'])?>">发布或管理试卷</a></li>
+    <li><span>您可以进行用户密码重置、用户设置等操作</span><a class="ibtn" href="<?php echo Url::to(['user/manage'])?>">用户管理</a></li>
     </ul>
     
     <div class="xline"></div>
     
-    <div class="info"><b>查看网站使用指南，您可以了解到多种风格的B/S后台管理界面,软件界面设计，图标设计，手机界面等相关信息</b>(More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a>)</div>
+    <div class="info"><b>最近一个月用户数据统计数据展示</b></div>
     
-    <ul class="umlist">
+    <!-- <ul class="umlist">
     <li><a href="#">如何发布文章</a></li>
     <li><a href="#">如何访问网站</a></li>
     <li><a href="#">如何管理广告</a></li>
     <li><a href="#">后台用户设置(权限)</a></li>
     <li><a href="#">系统设置</a></li>
-    </ul>
+    </ul> -->
     
     
     </div>

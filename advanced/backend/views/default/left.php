@@ -4,7 +4,7 @@ use yii\helpers\Url;
 
 $this->title = '左侧导航';
 ?>
-	<div class="lefttop"><span></span>控制台</div>
+	<div class="lefttop"><a target="rightFrame" href="<?php echo Url::to(['default/main'])?>"><span></span>控制台</a></div>
     
     <dl class="leftmenu">
         
@@ -13,7 +13,8 @@ $this->title = '左侧导航';
 	    	<span><img width="16px" src="/admin/images/t05.png" /></span>系统设置
 	    </div>
     	<ul class="menuson">
-	        <li class="active"><cite></cite><a href="index.html" target="rightFrame">基础配置</a><i></i></li>
+    		<li><cite></cite><a href="<?php echo Url::to(['admin/manage'])?>" target="rightFrame">管理员管理</a><i></i></li>
+	        <li><cite></cite><a href="index.html" target="rightFrame">基础配置</a><i></i></li>
 	        <li><cite></cite><a href="right.html" target="rightFrame">管理员管理</a><i></i></li>
 	        <li><cite></cite><a href="imgtable.html" target="rightFrame">权限管理</a><i></i></li>
 	        <li><cite></cite><a href="form.html" target="rightFrame">添加编辑模板</a><i></i></li>
@@ -88,6 +89,13 @@ $(function(){
 JS;
 $css = <<<CSS
 body{style="background:#f0f9fd;"}
+.lefttop a,.lefttop a:hover,.lefttop a:focus {
+    text-decoration: none;
+    color: #FFF;
+    outline: none;
+    blr: expression(this.onFocus=this.blur());
+    font-size: 16px;
+}
 CSS;
 $this->registerJs($js);
 $this->registerCss($css);
