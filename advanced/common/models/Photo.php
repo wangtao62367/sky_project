@@ -10,7 +10,7 @@ class Photo extends BaseModel
 	public static function tableName()
 	{
 		
-		return '{{%photo}}';
+		return '{{%Photo}}';
 	}
 	
 	public function rules()

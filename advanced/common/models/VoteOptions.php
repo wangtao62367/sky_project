@@ -9,7 +9,7 @@ class VoteOptions extends BaseModel
     
     public static function tableName()
     {
-        return '{{%voteoptions}}';
+        return '{{%VoteOptions}}';
     }
     
     public function rules()

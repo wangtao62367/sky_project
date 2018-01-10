@@ -127,6 +127,13 @@ class AdminController extends CommonController
     	return Admin::deleteAll(['in','id',$idsArr]);
     }
     
+    
+    public function actionAuth()
+    {
+        
+        return $this->render('auth');
+    }
+    
     public function actionAjaxResetpwd(int $id)
     {
         $this->setResponseJson();

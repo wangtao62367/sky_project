@@ -5,12 +5,12 @@ return [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
-        'urlManager' => [
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
-            'rules' => [
-            ],
-        ],
+//         'urlManager' => [
+//             'enablePrettyUrl' => true,
+//             'showScriptName' => false,
+//             'rules' => [
+//             ],
+//         ],
         'assetManager' => [
             'class' => 'yii\web\AssetManager',
             'bundles' => [

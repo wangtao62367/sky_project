@@ -27,8 +27,11 @@ class GradeClass extends BaseModel
             ['className', 'string','length'=>[2,20], 'tooLong'=>'班级名称长度为4-40个字符', 'tooShort'=>'班级名称长度为2-20个字','on'=>['create','edit']],
             ['classSize','required','message'=>'班级人数不能为空','on'=>['create','edit']],
             ['classSize','number','max'=>60,'min'=>5,'tooBig'=>'班级人数最多60人','tooSmall'=>'班级人数最少5人','on'=>['create','edit']],
+            ['joinStartDate','required','message'=>'报名开始时间不能为空','on'=>['create','edit']],
+            ['joinEndDate','required','message'=>'报名结束时间不能为空','on'=>['create','edit']],
+            ['joinEndDate', 'compare', 'compareAttribute'=>'joinStartDate', 'operator' => '>=','message'=>'报名结束时间必须大于或等于开始时间','on'=>['create','edit']],
             ['createAdminId','default','value'=>Yii::$app->user->id],
-            [['curPage','pageSize','search'],'safe']
+            [['curPage','pageSize','search','marks'],'safe']
         ];    
     }
     

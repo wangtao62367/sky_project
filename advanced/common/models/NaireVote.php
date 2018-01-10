@@ -9,7 +9,7 @@ class NaireVote extends BaseModel
     
     public static function tableName()
     {
-        return '{{%nairevote}}';
+        return '{{%NaireVote}}';
     }
     
     public function getVotes()

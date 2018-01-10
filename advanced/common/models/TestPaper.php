@@ -21,7 +21,7 @@ class TestPaper extends BaseModel
     
     public static function tableName()
     {
-        return '{{%testpaper}}';
+        return '{{%TestPaper}}';
     }
     
     public function rules()

@@ -9,7 +9,7 @@ class TestPaperQuestion extends BaseModel
 	
 	public static function tableName()
 	{
-		return '{{%testPaperQuestion}}';
+		return '{{%TestPaperQuestion}}';
 	}
 	
 	public function getQuestions()

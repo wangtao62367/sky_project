@@ -31,6 +31,7 @@ use yii\helpers\Html;
             <th><input name="" type="checkbox" class="s-all" /></th>
             <th>班级名称</th>
             <th>班级人数</th>
+            <th>报名时间</th>
             <th>创建时间</th>
             <th>修改时间</th>
             <th>操作</th>
@@ -44,6 +45,7 @@ use yii\helpers\Html;
             <td><input name="ids" class="item" type="checkbox" value="<?php echo $val['id'];?>" /></td>
             <td><?php echo $val['className'];?></td>
             <td><?php echo $val['classSize'];?></td>
+            <td><?php echo $val['joinStartDate'].'~'.$val['joinEndDate'];?></td>
             <td><?php echo MyHelper::timestampToDate($val['createTime']);?></td>
             <td><?php echo MyHelper::timestampToDate($val['modifyTime']);?></td>
             <td>

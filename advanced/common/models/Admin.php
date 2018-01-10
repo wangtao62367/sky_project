@@ -27,13 +27,16 @@ class Admin extends BaseModel implements \yii\web\IdentityInterface
     public function rules()
     {
         return [
-        		['account','required','message'=>'账号不能为空','on'=>['add','login','edit']],
+        		['account','required','message'=>'账号不能为空','on'=>['add','login']],
+                ['account','unique','message'=>'账号已存在','on'=>'add'],
         		['oldPwd','required','message'=>'密码不能为空','on'=>['editpwd']],
         		['adminPwd','required','message'=>'密码不能为空','on'=>['add','login','edit','editpwd']],
             	['adminPwd','validAdminPwd','on'=>['login']],
         		['repass','required','message'=>'重复密码不能为空','on'=>['add','edit','editpwd']],
         		['repass', 'compare', 'compareAttribute' => 'adminPwd', 'message' => '两次密码输入不一致', 'on' => ['add','edit','editpwd']],
         		['adminEmail','required','message'=>'邮箱不能为空','on'=>['add','edit']],
+                ['adminEmail','email','message'=>'邮箱格式不正确','on'=>['add','edit']],
+                ['adminEmail','unique','message'=>'邮箱已存在','on'=>'add'],
             	['search','safe']
             
         ];

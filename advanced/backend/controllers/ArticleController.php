@@ -18,8 +18,8 @@ class ArticleController extends CommonController
                 'class' => 'common\ijackwu\ueditor\alioss\UeditorAliossAction',//'kucha\ueditor\UEditorAction',//
                 //'lang' => 'zh-cn',
                 'config' => [
-                    "fileUrlPrefix" => "http://seving-weixin.oss-cn-shenzhen.aliyuncs.com",
-                    "imageUrlPrefix"  => "http://seving-weixin.oss-cn-shenzhen.aliyuncs.com",//图片访问路径前缀
+                    "fileUrlPrefix" => Yii::$app->params['oss']['host'],
+                    "imageUrlPrefix"  => Yii::$app->params['oss']['host'],//图片访问路径前缀
                     "imagePathFormat" => "upload/article/{yyyy}{mm}{dd}/{time}{rand:6}", //上传保存路径
                     "imageRoot" => '',//Yii::getAlias("@frontend").'/web',
                 ],

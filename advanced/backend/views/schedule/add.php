@@ -204,14 +204,16 @@ function throttle(func, wait, mustRun) {
           
 //     }
 // };
-
+var now = new Date();
+var yearStart = now.getFullYear();
+var yearEnd = yearStart + 1;
 $.datetimepicker.setLocale('ch');
 $('.lessonDate').datetimepicker({
       //lang:"zh", //语言选择中文 注：旧版本 新版方法：$.datetimepicker.setLocale('ch');
       format:"Y-m-d",      //格式化日期
       timepicker:false,    //关闭时间选项
-      yearStart: 2018,     //设置最小年份
-      yearEnd:2019,        //设置最大年份
+      yearStart: yearStart,     //设置最小年份
+      yearEnd:yearEnd,        //设置最大年份
       todayButton:true    //开启选择今天按钮
 });
 $('.lessonStartTime').datetimepicker({

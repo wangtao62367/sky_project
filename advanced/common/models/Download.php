@@ -14,7 +14,7 @@ class Download extends BaseModel
 	
 	public static function tableName()
 	{
-		return '{{%download}}';
+		return '{{%Download}}';
 	}
 	
 	public function rules()

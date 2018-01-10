@@ -23,7 +23,7 @@ class Vote extends BaseModel
     
     public static function tableName()
     {
-        return '{{%vote}}';
+        return '{{%Vote}}';
     }
     
     public function rules()

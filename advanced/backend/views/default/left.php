@@ -14,8 +14,9 @@ $this->title = '左侧导航';
 	    </div>
     	<ul class="menuson">
     		<li><cite></cite><a href="<?php echo Url::to(['admin/manage'])?>" target="rightFrame">管理员管理</a><i></i></li>
-	        <li><cite></cite><a href="index.html" target="rightFrame">基础配置</a><i></i></li>
-	        <li><cite></cite><a href="right.html" target="rightFrame">管理员管理</a><i></i></li>
+    		<li><cite></cite><a href="<?php echo Url::to(['admin/auth']);?>" target="rightFrame">权限管理</a><i></i></li>
+	        <li><cite></cite><a href="<?php echo Url::to(['web/setting']);?>" target="rightFrame">基础配置</a><i></i></li>
+	        <!-- <li><cite></cite><a href="right.html" target="rightFrame">管理员管理</a><i></i></li>
 	        <li><cite></cite><a href="imgtable.html" target="rightFrame">权限管理</a><i></i></li>
 	        <li><cite></cite><a href="form.html" target="rightFrame">添加编辑模板</a><i></i></li>
 	        <li><cite></cite><a href="imglist.html" target="rightFrame">图片列表</a><i></i></li>
@@ -23,7 +24,7 @@ $this->title = '左侧导航';
 	        <li><cite></cite><a href="tools.html" target="rightFrame">工具图标</a><i></i></li>
 	        <li><cite></cite><a href="filelist.html" target="rightFrame">信息管理</a><i></i></li>
 	        <li><cite></cite><a href="tab.html" target="rightFrame">Tab页</a><i></i></li>
-	        <li><cite></cite><a href="error.html" target="rightFrame">404页面</a><i></i></li>
+	        <li><cite></cite><a href="error.html" target="rightFrame">404页面</a><i></i></li> -->
         </ul>    
     </dd>
         

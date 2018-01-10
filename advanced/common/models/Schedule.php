@@ -16,7 +16,7 @@ class Schedule extends BaseModel
 	
 	public static function tableName()
 	{
-		return '{{%schedule}}';
+		return '{{%Schedule}}';
 	}
 	
 	public function rules()

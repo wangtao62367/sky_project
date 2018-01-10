@@ -28,12 +28,12 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
     <li><label>分类名称<b>*</b></label><?php echo Html::activeTextInput($model, 'text',['class'=>'dfinput'])?><i>教师名称不能为空，且长度为2-20个字</i></li>
     <li><label>分类类别<b>*</b></label>
     	<div class="vocation">
-    		<?php echo Html::activeDropDownList($model, 'type', Category::$type_arr,['prompt'=>'请选择','class'=>'select1'])?>
+    		<?php echo Html::activeDropDownList($model, 'type', Category::$type_arr,['prompt'=>'请选择','class'=>'sky-select'])?>
     	</div>
     </li>
     <li><label>所属板块<b>*</b></label>
     	<div class="vocation">
-    		<?php echo Html::activeDropDownList($model, 'parentId', ArrayHelper::map($parentCates,'id','codeDesc'),['prompt'=>'请选择','class'=>'select1'])?>
+    		<?php echo Html::activeDropDownList($model, 'parentId', ArrayHelper::map($parentCates,'id','codeDesc'),['prompt'=>'请选择','class'=>'sky-select'])?>
     	</div>
     </li>
     <li><label>分类描述</label><?php echo Html::activeTextarea($model, 'descr',['class'=>'textinput'])?><i></i></li>
@@ -47,9 +47,6 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
 
 <?php 
 $js = <<<JS
-$(".select1").uedSelect({
-		width : 100
-	});
 JS;
 $this->registerJs($js);
 ?>

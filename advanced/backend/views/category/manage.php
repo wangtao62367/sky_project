@@ -26,7 +26,7 @@ use yii\helpers\ArrayHelper;
         </li>
         <li><label>所属板块</label>
         	<div class="vocation">
-        		<?php echo Html::activeDropDownList($model, 'search[parentId]', ArrayHelper::map($parentCates,'id','codeDesc'),['prompt'=>'请选择','class'=>'select1'])?>
+        		<?php echo Html::activeDropDownList($model, 'search[parentId]', ArrayHelper::map($parentCates,'id','codeDesc'),['prompt'=>'请选择','class'=>'sky-select'])?>
         	</div>
         </li>
         <li><label>&nbsp;</label><?php echo Html::submitInput('查询',['class'=>'scbtn'])?></li>

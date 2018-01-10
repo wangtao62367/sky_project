@@ -16,7 +16,7 @@ class Naire extends BaseModel
     
     public static function tableName()
     {
-        return '{{%naire}}';
+        return '{{%Naire}}';
     }
     
     

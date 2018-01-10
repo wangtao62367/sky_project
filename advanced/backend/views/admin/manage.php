@@ -7,7 +7,7 @@ use yii\helpers\Html;
 <div class="place">
     <span>位置：</span>
     <ul class="placeul">
-        <li><a href="javascript:;">用户系统</a></li>
+        <li><a href="javascript:;">系统设置</a></li>
         <li><a href="<?php echo Url::to(['admin/manage'])?>">管理员管理</a></li>
         <li><a href="<?php echo Url::to(['admin/manage'])?>">管理员列表</a></li>
     </ul>

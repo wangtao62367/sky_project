@@ -3,6 +3,7 @@
 
 use yii\helpers\Url;
 use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
 
 $controller = Yii::$app->controller;
 $id = Yii::$app->request->get('id','');
@@ -23,7 +24,7 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
 <div class="formtitle"><span><?php echo $title?></span></div>
 <?php echo Html::beginForm();?>
 <ul class="forminfo">
-    <li><label>管理员账号</label><?php echo Html::activeTextInput($model, 'account',['class'=>'dfinput'])?><i>管理员账号不能为空，且长度为3-20个字</i></li>
+    <li><label>管理员账号</label><?php echo Html::activeTextInput($model, 'account',ArrayHelper::merge(['class'=>'dfinput'], isset($operat) && $operat == 'edit'? ['disabled'=>true] : []) )?><i>管理员账号不能为空，且长度为3-20个字</i></li>
     <?php if(!isset($operat) || empty($operat) || $operat != 'edit'):?>
     <li><label>管理员密码</label><?php echo Html::activePasswordInput($model, 'adminPwd',['class'=>'dfinput'])?><i>密码不能为空，且必须由字母+数字+特殊字符组成</i></li>
     <li><label>确认密码</label><?php echo Html::activePasswordInput($model, 'repass',['class'=>'dfinput'])?><i></i></li>

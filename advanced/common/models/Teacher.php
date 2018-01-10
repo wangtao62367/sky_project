@@ -15,7 +15,7 @@ class Teacher extends BaseModel
 	
 	public static function tableName()
 	{
-		return '{{%teacher}}';
+		return '{{%Teacher}}';
 	}
 	
 	public function rules()
