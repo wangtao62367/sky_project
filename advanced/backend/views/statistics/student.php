@@ -12,7 +12,8 @@ use yii\helpers\ArrayHelper;
 <div class="place">
     <span>位置：</span>
     <ul class="placeul">
-        <li><a href="javascript:;">统计系统</a></li>
+        <li><a href="javascript:;">用户系统</a></li>
+        <li><a href="<?php echo Url::to(['student/manage'])?>">学员管理</a></li>
         <li><a href="<?php echo Url::to(['statistics/student'])?>">学员统计</a></li>
     </ul>
 </div>

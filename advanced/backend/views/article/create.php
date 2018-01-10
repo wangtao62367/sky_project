@@ -39,6 +39,10 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
 	
 	<li><label>图片数量<b>*</b></label><?php echo Html::activeTextInput($model, 'imgCount',['class'=>'dfinput','value'=>0])?><i></i></li>
 	
+	<li><label>远程获取内容</label><?php echo Html::activeTextInput($model, 'sourceLinke',['class'=>'dfinput','placeholder'=>'输入文章链接地址','id'=>'sourceLinke'])?>
+	<a class="btn getArticle-btn">点击抓取</a>
+	<div style="margin-left: 86px"><i style="    padding-left: 0px;">链接地址来源必须是大成网、四川新闻网，且地址必须有效，以http://或https://开始;</i></div></li>
+	
     <li><label>文章内容<b>*</b></label>
     	<div style="float: left;width:900px">
     		<?php echo kucha\ueditor\UEditor::widget([
@@ -61,10 +65,33 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
 </div>
 
 <?php 
+$css = <<<CSS
+.getArticle-btn{
+	width: 137px;
+    height: 35px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;
+    cursor: pointer;
+	padding : 5px 10px;
+}
+.getArticle-btn:hover{
+color: #fff;
+}
+
+CSS;
 $js = <<<JS
-$(".select1").uedSelect({
-		width : 100
-	});
+$(document).on('click','.getArticle-btn',function(){
+	var sourceLinke = $('#sourceLinke').val();
+	if(sourceLinke == ''){
+		alert('请输入链接地址');return;
+	}
+	if(!checkUrl(sourceLinke)){
+		alert('链接地址无效');return;
+	}
+	
+})
 JS;
 $this->registerJs($js);
+$this->registerCss($css);
 ?>

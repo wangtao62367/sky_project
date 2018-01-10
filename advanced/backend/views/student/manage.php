@@ -25,7 +25,8 @@ use common\models\Student;
         </li>
         <li><label>&nbsp;</label><?php echo Html::submitInput('查询',['class'=>'scbtn'])?></li>
         <li><a href="javascript:;" class="batchDel"><span><img src="/admin/images/t03.png" /></span>删除</a></li>
-        <li><span><img src="/admin/images/t04.png" /></span>导出</li>
+        <li class="click"><a href="<?php echo Url::to(['statistics/student'])?>"><span><img src="/admin/images/t04.png" width="24px"/></span>统计</a></li>
+        <li class="click"><a href="<?php echo Url::to(['student/export'])?>"><span><img src="/admin/images/f05.png" width="24px"/></span>导出</a></li>
     </ul>
     <?php echo Html::endForm();?>
 </div>

@@ -45,10 +45,11 @@ class Statistics extends Model
         ->groupBy('city');
         if($this->load($data)){
             $date = $this->year . '-' .$this->month;
-            
             $data = date('Y-m',strtotime($date));
-            
-            
+            $bySexQuery = $bySexQuery->andWhere('FROM_UNIXTIME(modifyTime,\'%Y-%m\') = :date',[':date'=>$data]);
+            $bypoliticalStatusQuery= $bypoliticalStatusQuery->andWhere('FROM_UNIXTIME(modifyTime,\'%Y-%m\') = :date',[':date'=>$data]);
+            $byEduationQuery= $byEduationQuery->andWhere('FROM_UNIXTIME(modifyTime,\'%Y-%m\') = :date',[':date'=>$data]);
+            $byCityQuery= $byCityQuery->andWhere('FROM_UNIXTIME(modifyTime,\'%Y-%m\') = :date',[':date'=>$data]);
             
         }
         return [

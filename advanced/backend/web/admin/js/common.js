@@ -32,6 +32,17 @@ Array.prototype.remove = function(index)
 　this.splice(index,1);
 }
 
+function checkUrl(urlString){
+	if(urlString!=""){
+		var reg=/(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?/;
+		if(!reg.test(urlString)){
+			return false;
+	    }
+		return true;
+	}
+	return true;
+}
+
 var dialog = function(title,){
 	
 }

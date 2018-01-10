@@ -59,13 +59,7 @@ $this->title = '左侧导航';
         <li><cite></cite><a target="rightFrame" href="<?php echo Url::to(['user/manage'])?>">用户管理</a><i></i></li>
         <li><cite></cite><a target="rightFrame" href="<?php echo Url::to(['student/manage'])?>">学员管理</a><i></i></li>
     </ul>
-    
-    <dd><div class="title"><span><img width="16px" src="/admin/images/ico03.png" /></span>统计系统</div>
-	    <ul class="menuson">
-	        <li><cite></cite><a target="rightFrame" href="<?php echo Url::to(['statistics/student'])?>">学员统计</a><i></i></li>
-	        <li><cite></cite><a target="rightFrame" href="<?php echo Url::to(['statistics/answer'])?>">答题统计</a><i></i></li>
-	    </ul>
-    </dd>   
+      
     
     </dl>
 <?php 
