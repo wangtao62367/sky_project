@@ -11,10 +11,10 @@ return [
     				// auth_item_child (role->permission)
     				// auth_assignment (user->role)
     				// auth_rule (rule)
-    				'itemTable' => '{{%AuthItem}}',
-    				'itemChildTable' => '{{%AuthItemChild}}',
-    				'assignmentTable' => '{{%AuthAssignment}}',
-    				'ruleTable' => '{{%AuthRule}}',
+    				'itemTable' => '{{%auth_item}}',
+    				'itemChildTable' => '{{%auth_item_child}}',
+    				'assignmentTable' => '{{%auth_assignment}}',
+    				'ruleTable' => '{{%auth_rule}}',
     				'defaultRoles' => ['default'],
     		],
 //         'urlManager' => [

@@ -66,4 +66,76 @@ class MyHelper
     {
         return date($format,$timestamp);
     }
+    
+    
+    public static function emailIsValid(string $email)
+    {
+        return filter_var($email, FILTER_VALIDATE_EMAIL);
+    }
+    
+    public static function phoneIsValid(string $phone)
+    {
+        return (bool)preg_match('/^[1][34578][0-9]{9}$/', $phone);
+    }
+    
+    public static function urlIsValid($url)
+    {
+        return filter_var($url,FILTER_VALIDATE_URL);
+    }
+    
+    
+    
+    /**
+     * post请求
+     * @param unknown $url
+     * @param unknown $data
+     */
+    public static function httpPost($url,$data,$http = 'http',$header="Accept-Charset: utf-8")
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        //如果用的协议是https
+        if($http == 'https'){
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+        }
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+        //curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (compatible; MSIE 5.01; Windows NT 5.0)');
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($ch, CURLOPT_AUTOREFERER, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_close ($ch);
+        $tmpInfo = curl_exec($ch);
+        if (curl_errno($ch)) {
+            return false;
+        }
+        return $tmpInfo;
+        
+        
+    }
+    /**
+     * get请求
+     * @param string $url
+     * @param string $http
+     * @return mixed
+     */
+    public static function httpGet($url,$http = 'http')
+    {
+        $ch= curl_init ();
+        curl_setopt ( $ch, CURLOPT_URL, $url );
+        curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, true );
+        // curl_setopt ( $ch, CURLOPT_TIMEOUT, 500 );
+        // curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36');
+        
+        //如果用的协议是https
+        if($http == 'https'){
+            curl_setopt ( $ch, CURLOPT_SSL_VERIFYPEER, false );
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        }
+        $out = curl_exec ( $ch);
+        curl_close ( $ch);
+        return $out;
+    }
 }

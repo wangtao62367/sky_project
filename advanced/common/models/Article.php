@@ -4,9 +4,15 @@ namespace common\models;
 
 
 
+use common\publics\MyHelper;
+use yii\base\Exception;
+use backend\models\ArticleCollectionWebsite;
+
 class Article extends BaseModel
 {
     public $tags;
+    
+    
     
     public static function tableName()
     {
@@ -76,6 +82,49 @@ class Article extends BaseModel
     {
         $article->isDelete = 1;
         return $article->save(false);
+    }
+    
+    public static function conllectContent($sourceLinke)
+    {
+        $sourceLinke = urldecode($sourceLinke);
+        if(!MyHelper::urlIsValid($sourceLinke)){
+            return [
+                'success' => false,
+                'message' => '无效的地址',
+                'data'    => ''
+            ];
+        }
+        //验证是否是本系统允许抓取的网站网站链接
+        $isValid = false;
+        $contentPreg= '';
+        foreach (ArticleCollectionWebsite::$conllectWebsiteArr as $key=>$link){
+            if(strpos($sourceLinke,$key) !== false){
+                $isValid = true;
+                $contentPreg = $link;
+                break;
+            }
+        }
+        if(!$isValid){
+            return [
+                'success' => false,
+                'message' => '地址来源必须是人民网、新华网、中央社会主义学院和四川组工网',
+                'data'    => ''
+            ];
+        }
+        $result = MyHelper::httpGet($sourceLinke);
+        //去除換行及空白字元（序列化內容才需使用）
+        $text=str_replace(array("\r","\n","\t","\s"), '', $result);
+        //取出div标签且id為PostContent的內容，並储存至阵列match
+        preg_match($contentPreg,$text,$match);
+        //获取字符串编码
+        $encode = mb_detect_encoding($match[0], array("ASCII",'UTF-8',"GB2312","GBK",'BIG5'));
+        //将字符编码改为utf-8
+        $str_encode = mb_convert_encoding($match[0], 'UTF-8', $encode);
+        return [
+            'success' => false,
+            'message' => '请求成功',
+            'data'    => $str_encode
+        ];
     }
     
     

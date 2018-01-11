@@ -5,6 +5,7 @@ use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 use yii\base\Widget;
+use backend\models\ArticleCollectionWebsite;
 
 $controller = Yii::$app->controller;
 $id = Yii::$app->request->get('id','');
@@ -41,7 +42,7 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
 	
 	<li><label>远程获取内容</label><?php echo Html::activeTextInput($model, 'sourceLinke',['class'=>'dfinput','placeholder'=>'输入文章链接地址','id'=>'sourceLinke'])?>
 	<a class="btn getArticle-btn">点击抓取</a>
-	<div style="margin-left: 86px"><i style="    padding-left: 0px;">链接地址来源必须是大成网、四川新闻网，且地址必须有效，以http://或https://开始;</i></div></li>
+	<div style="margin-left: 86px"><i style="    padding-left: 0px;">链接地址来源必须是人民网、新华网、中央社会主义和四川组工网，且地址必须有效，以http://或https://开始;</i></div></li>
 	
     <li><label>文章内容<b>*</b></label>
     	<div style="float: left;width:900px">
@@ -76,10 +77,11 @@ $css = <<<CSS
 	padding : 5px 10px;
 }
 .getArticle-btn:hover{
-color: #fff;
+    color: #fff;
 }
-
 CSS;
+$conllectWebsiteArr = json_encode(ArticleCollectionWebsite::$conllectWebsiteArr);
+$url = Url::to(['article/conllect-content']);
 $js = <<<JS
 $(document).on('click','.getArticle-btn',function(){
 	var sourceLinke = $('#sourceLinke').val();
@@ -89,6 +91,12 @@ $(document).on('click','.getArticle-btn',function(){
 	if(!checkUrl(sourceLinke)){
 		alert('链接地址无效');return;
 	}
+    $.get('$url',{sourceLinke:encodeURI(sourceLinke)},function(res){
+        console.log(res);
+        if(res && res.success){
+            
+        }
+    })
 	
 })
 JS;
