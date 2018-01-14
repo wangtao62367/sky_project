@@ -5,10 +5,18 @@ namespace backend\controllers;
 use Yii;
 use common\controllers\CommonController;
 use common\models\Admin;
-
+use backend\models\Rbac;
+/**
+ * @name 管理员管理
+ * @author wangt
+ *
+ */
 class AdminController extends CommonController
 {
-    
+    /**
+     * @desc 管理员列表
+     * @return string
+     */
     public function actionManage()
     {
         $admin = new Admin();
@@ -16,7 +24,10 @@ class AdminController extends CommonController
         $list = $admin->admins($data);
         return $this->render('manage',['model'=>$admin,'list'=>$list]);
     }
-    
+    /**
+     * @desc 添加管理员
+     * @return \yii\web\Response|string
+     */
     public function actionAdd()
     {
         $admin = new Admin();
@@ -33,7 +44,11 @@ class AdminController extends CommonController
         $admin->repass   = '';
         return $this->render('add',['model'=>$admin,'title'=>'添加管理员']);
     }
-    
+    /**
+     * @desc 编辑管理员
+     * @param int $id
+     * @return \yii\web\Response|string
+     */
     public function actionEdit(int $id)
     {
     	$admin = Admin::findIdentity($id);
@@ -53,7 +68,11 @@ class AdminController extends CommonController
     	$admin->repass   = '';
     	return $this->render('add',['model'=>$admin,'title'=>'编辑管理员','operat'=>'edit']);
     }
-    
+    /**
+     * @desc 修改管理员密码
+     * @param int $id
+     * @return \yii\web\Response|string
+     */
     public function actionEditpwd(int $id)
     {
     	$admin = Admin::findIdentity($id);
@@ -74,7 +93,11 @@ class AdminController extends CommonController
     	$admin->oldPwd = '';
     	return $this->render('editpwd',['model'=>$admin,'title'=>'修改密码']);
     }
-    
+    /**
+     * @desc 重置管理员密码
+     * @param int $id
+     * @return unknown
+     */
     public function actionResetpwd(int $id)
     {
     	$admin = Admin::findIdentity($id);
@@ -85,7 +108,11 @@ class AdminController extends CommonController
     		return $this->showSuccess('admin/manage');
     	}
     }
-    
+    /**
+     * @desc 冻结管理员
+     * @param int $id
+     * @return \yii\web\Response
+     */
     public function actionFrozen(int $id)
     {
     	$admin = Admin::findIdentity($id);
@@ -96,7 +123,11 @@ class AdminController extends CommonController
     		return $this->showSuccess('admin/manage');
     	}
     }
-    
+    /**
+     * @desc 激活管理员
+     * @param int $id
+     * @return unknown
+     */
     public function actionActive(int $id)
     {
     	$admin = Admin::findIdentity($id);
@@ -107,7 +138,11 @@ class AdminController extends CommonController
     		return $this->showSuccess('admin/manage');
     	}
     }
-    
+    /**
+     * @desc 删除管理员
+     * @param int $id
+     * @return unknown
+     */
     public function actionDel(int $id)
     {
     	$admin = Admin::findIdentity($id);
@@ -118,7 +153,10 @@ class AdminController extends CommonController
     		return $this->redirect(['admin/manage']);
     	}
     }
-    
+    /**
+     * @desc 批量删除管理员
+     * @return number
+     */
     public function actionBatchdel()
     {
     	$this->setResponseJson();
@@ -127,26 +165,27 @@ class AdminController extends CommonController
     	return Admin::deleteAll(['in','id',$idsArr]);
     }
     
-    
-    public function actionAuth()
+    public function actionAssign(int $id)
     {
-        
-        return $this->render('auth');
+    	if(empty($id)){
+    		return $this->showDataIsNull('admin/manage');
+    	}
+    	$admin = Admin::findIdentity($id);
+    	if(empty($admin)){
+    		return $this->showDataIsNull('admin/manage');
+    	}
+    	if(Yii::$app->request->isPost){
+    		$children= Yii::$app->request->post('children',[]);
+    		if(Rbac::grant($id,$children)){
+    			return $this->showSuccess('admin/manage');
+    		}
+    	}
+    	$auth = Yii::$app->authManager;
+    	$rolse = Rbac::getOptions($auth->getRoles(), null);
+    	$permissions = Rbac::getOptions($auth->getPermissions(), null);
+    	
+    	$children = Rbac::getChildrenByUser($id);
+    	return $this->render('assign',['roles'=>$rolse,'permissions'=>$permissions,'children'=>$children,'admin'=>$admin,'title'=>'管理员授权']);
     }
     
-    public function actionAjaxResetpwd(int $id)
-    {
-        $this->setResponseJson();
-        $admin = Admin::findIdentity($id);
-        if(empty($admin)){
-            return false;
-        }
-        $admin->adminPwd = Yii::$app->getSecurity()->generatePasswordHash('111111');
-        return (bool)$admin->save(false);
-    }
-    
-    public function actionAjaxDel(int $id){
-        $this->setResponseJson();
-        return (bool)Admin::deleteAll('id = :id',[':id'=>$id]);
-    }
 }

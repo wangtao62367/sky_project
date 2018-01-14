@@ -8,14 +8,17 @@ use common\controllers\CommonController;
 use common\models\Common;
 use common\models\BottomLink;
 /**
- * 底部链接管理
+ * @name 底部链接管理
  * @author wt
  *
  */
 class BottomlinkController extends CommonController
 {
 	
-	
+	/**
+	 * @desc 底部链接列表
+	 * @return string
+	 */
 	public function actionManage()
 	{
 		$model = new BottomLink();
@@ -24,7 +27,10 @@ class BottomlinkController extends CommonController
 		$list = $model->getPageList($data);
 		return $this->render('manage',['model'=>$model,'cates'=>$cates,'list'=>$list]);
 	}
-	
+	/**
+	 * @desc 添加底部链接
+	 * @return \yii\web\Response|string
+	 */
 	public function actionAdd()
 	{
 	    $model = new BottomLink();
@@ -41,7 +47,11 @@ class BottomlinkController extends CommonController
 	    
 	    return $this->render('add',['model'=>$model,'cates'=>$cates,'title'=>'添加底部链接']);
 	}
-	
+	/**
+	 * @desc 编辑底部链接
+	 * @param int $id
+	 * @return \yii\web\Response|string
+	 */
 	public function actionEdit(int $id)
 	{
 	    $model = BottomLink::findOne($id);
@@ -59,7 +69,11 @@ class BottomlinkController extends CommonController
 	    $cates = Common::getCommonListByType('bottomLink');
 	    return $this->render('add',['model'=>$model,'cates'=>$cates,'title'=>'添加底部链接']);
 	}
-	
+	/**
+	 * @desc 删除底部链接
+	 * @param int $id
+	 * @return \yii\web\Response
+	 */
 	public function actionDel(int $id)
 	{
 	    $model = BottomLink::findOne($id);
@@ -70,7 +84,10 @@ class BottomlinkController extends CommonController
 	        return $this->redirect(['bottomlink/manage']);
 	    }
 	}
-	
+	/**
+	 * @desc 批量删除底部链接
+	 * @return number
+	 */
 	public function actionBatchdel()
 	{
 	    $this->setResponseJson();

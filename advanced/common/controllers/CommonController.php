@@ -4,11 +4,13 @@ namespace common\controllers;
 
 use Yii;
 use yii\web\Controller;
+use yii\web\UnauthorizedHttpException;
+use yii\helpers\Url;
 
 
 class CommonController extends Controller
 {
-    
+	   
 //     protected $actions = ['*'];
 //     protected $except = [];
 //     protected $mustlogin = [];
@@ -41,10 +43,33 @@ class CommonController extends Controller
 //         ];
 //     }
 
+	
+	public function beforeAction($action)
+	{
+		if(!parent::beforeAction($action)){
+			false;
+		}
+		$controller = $action->controller->id;
+		$actionName = $action->id;
+		if(Yii::$app->user->can($controller.'/*')){
+			return true;
+		}
+		if(Yii::$app->user->can($controller.'/'.$actionName)){
+			return true;
+		}
+		throw new UnauthorizedHttpException('对不起，您没有访问权限。请联系系统管理员');
+		//return true;
+	}
+
     
     public function init()
     {
-        $this->layout = 'main';
+    	$this->layout = 'main';
+    	$isGuest = Yii::$app->user->isGuest;
+    	if($isGuest){
+    		echo "<script>window.top.location.href =('public/login');</script>";
+    		exit;
+    	}
     }
     
     protected function setResponseJson()

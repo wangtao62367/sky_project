@@ -6,13 +6,16 @@ use Yii;
 use common\controllers\CommonController;
 use common\models\Schedule;
 /**
- * 课表管理
+ * @name 课表管理
  * @author wangtao
  *
  */
 class ScheduleController extends CommonController
 {
-	
+	/**
+	 * @desc 课表列表
+	 * @return string
+	 */
 	public function actionManage()
 	{
 		$schedule = new Schedule();
@@ -22,7 +25,10 @@ class ScheduleController extends CommonController
 		return $this->render('manage',['model'=>$schedule,'list'=>$list]);
 	}
 	
-	
+	/**
+	 * @desc 添加课表
+	 * @return \yii\web\Response|string
+	 */
 	public function actionAdd()
 	{
 	    $schedule = new Schedule();
@@ -38,7 +44,11 @@ class ScheduleController extends CommonController
 	    
 	    return $this->render('add',['model'=>$schedule,'title'=>'添加课表']);
 	}
-	
+	/**
+	 * @desc 编辑课表
+	 * @param unknown $id
+	 * @return \yii\web\Response|string
+	 */
 	public function actionEdit($id)
 	{
 	    $schedule = Schedule::findOne($id);
@@ -56,7 +66,11 @@ class ScheduleController extends CommonController
 	    return $this->render('add',['model'=>$schedule,'title'=>'编辑课表']);
 	}
 	
-	
+	/**
+	 * @desc 删除课表
+	 * @param int $id
+	 * @return \yii\web\Response
+	 */
 	public function actionDel(int $id)
 	{
 	    $schedule= Schedule::findOne($id);
@@ -67,7 +81,10 @@ class ScheduleController extends CommonController
 	        return $this->redirect(['schedule/manage']);
 	    }
 	}
-	
+	/**
+	 * @desc 批量删除课表
+	 * @return number
+	 */
 	public function actionBatchdel()
 	{
 	    $this->setResponseJson();

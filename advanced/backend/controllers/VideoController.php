@@ -9,14 +9,17 @@ use common\controllers\CommonController;
 use common\models\Video;
 use common\models\Category;
 /**
- * 视频中心
+ * @name 视频中心
  * @author wt
  *
  */
 class VideoController extends CommonController
 {
     
-    
+    /**
+     * @desc 视频列表
+     * @return string
+     */
     public function actionManage()
     {
         $model = new Video();
@@ -26,7 +29,10 @@ class VideoController extends CommonController
         $list = $model->getPageList($data);
         return $this->render('manage',['model'=>$model,'parentCates'=>$parentCates,'list'=>$list]);
     }
-    
+    /**
+     * @desc 添加视频
+     * @return \yii\web\Response|string
+     */
     public function actionAdd()
     {
         $model = new Video();
@@ -43,7 +49,11 @@ class VideoController extends CommonController
         }
         return $this->render('add',['model'=>$model,'parentCates'=>$parentCates,'title'=>'添加视频']);
     }
-    
+    /**
+     * @desc 编辑视频
+     * @param int $id
+     * @return \yii\web\Response|string
+     */
     public function actionEdit(int $id)
     {
     	$model = Video::findOne($id);
@@ -61,7 +71,11 @@ class VideoController extends CommonController
     	$parentCates = Category::getArticleCates('video');
     	return $this->render('add',['model'=>$model,'parentCates'=>$parentCates,'title'=>'编辑视频']);
     }
-    
+    /**
+     * @desc 删除视频
+     * @param int $id
+     * @return \yii\web\Response
+     */
     public function actionDel(int $id)
     {
     	$model = Video::findOne($id);
@@ -72,7 +86,10 @@ class VideoController extends CommonController
     		return $this->redirect(['video/manage']);
     	}
     }
-    
+    /**
+     * @desc 批量删除视频
+     * @return number
+     */
     public function actionBatchdel()
     {
     	$this->setResponseJson();

@@ -56,6 +56,7 @@ use yii\helpers\Html;
             <td><?php echo MyHelper::timestampToDate($val['modifyTime']);?></td>
             <td>
             <?php if(!(bool)$val['isSuper']):?>
+            	 <a href="<?php echo Url::to(['admin/assign','id'=>$val['id']]);?>" class="tablelink">授权</a> 
 	            <a href="<?php echo Url::to(['admin/edit','id'=>$val['id']]);?>" class="tablelink">编辑</a> 
 	            <a href="<?php echo Url::to(['admin/resetpwd','id'=>$val['id']]);?>" class="tablelink">重置密码</a> 
 	            <?php if($val['isFrozen'] == 0):?>

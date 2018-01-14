@@ -6,13 +6,16 @@ use Yii;
 use common\controllers\CommonController;
 use common\models\Curriculum;
 /**
- * 课程管理
+ * @name 课程管理
  * @author wangtao
  *
  */
 class CurriculumController extends CommonController
 {
-	
+	/**
+	 * @desc 课程列表
+	 * @return string
+	 */
 	public function actionManage()
 	{
 		$curriculum = new Curriculum();
@@ -21,7 +24,10 @@ class CurriculumController extends CommonController
 		
 		return $this->render('manage',['model'=>$curriculum,'list'=>$list]);
 	}
-	
+	/**
+	 * @desc 添加课程
+	 * @return \yii\web\Response|string
+	 */
 	public function actionAdd()
 	{
 	    $curriculum = new Curriculum();
@@ -37,7 +43,11 @@ class CurriculumController extends CommonController
 	    }
 	    return $this->render('add',['model'=>$curriculum,'title'=>'添加课程']);
 	}
-	
+	/**
+	 * @desc 编辑课程
+	 * @param int $id
+	 * @return \yii\web\Response|string
+	 */
 	public function actionEdit(int $id)
 	{
 	    $curriculum = Curriculum::findOne($id);
@@ -54,7 +64,11 @@ class CurriculumController extends CommonController
 	    }
 	    return $this->render('add',['model'=>$curriculum,'title'=>'编辑课程']);
 	}
-	
+	/**
+	 * @desc 删除课程
+	 * @param int $id
+	 * @return \yii\web\Response
+	 */
 	public function actionDel(int $id)
 	{
 	    $curriculum= Curriculum::findOne($id);
@@ -65,7 +79,10 @@ class CurriculumController extends CommonController
 	        return $this->redirect(['curriculum/manage']);
 	    }
 	}
-	
+	/**
+	 * @desc 批量删除课程
+	 * @return number
+	 */
 	public function actionBatchdel()
 	{
 	    $this->setResponseJson();
@@ -73,7 +90,11 @@ class CurriculumController extends CommonController
 	    $idsArr = explode(',',trim($ids,','));
 	    return Curriculum::updateAll(['isDelete'=>Curriculum::CURRICULUM_DELETE],['in','id',$idsArr]);
 	}
-	
+	/**
+	 * @desc ajax获取课程列表
+	 * @param string $keywords
+	 * @return array|\yii\db\ActiveRecord[]
+	 */
 	public function actionAjaxCurriculums(string $keywords)
 	{
 	    $keywords = trim($keywords);

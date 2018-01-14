@@ -8,7 +8,11 @@ use common\models\Article;
 use common\models\Category;
 use common\models\ArticleTag;
 use common\publics\MyHelper;
-
+/**
+ * @name 文章管理
+ * @author wangt
+ *
+ */
 class ArticleController extends CommonController
 {
 
@@ -27,7 +31,10 @@ class ArticleController extends CommonController
             ]
         ];
     }
-    
+    /**
+     * @desc 文章列表
+     * @return string
+     */
     public function actionArticles()
     {
         $article = new Article();
@@ -38,7 +45,10 @@ class ArticleController extends CommonController
         return $this->render('articles',['model'=>$article,'parentCates'=>$parentCates,'list'=>$result]);
     }
     
-    
+    /**
+     * @desc 创建文章
+     * @return unknown
+     */
     public function actionCreate()
     {
         $article = new Article();
@@ -55,7 +65,11 @@ class ArticleController extends CommonController
         $article->isPublish = 0;
         return $this->render('create',['model'=>$article,'parentCates'=>$parentCates,'title'=>'添加文章']);
     }
-    
+    /**
+     * @desc 编辑文章
+     * @param int $id
+     * @return \yii\web\Response|string
+     */
     public function actionEdit(int $id)
     {
         $article = Article::find()->where('id = :id',[':id'=>$id])->one();
@@ -76,7 +90,11 @@ class ArticleController extends CommonController
         }
         return $this->render('create',['model'=>$article,'parentCates'=>$parentCates,'title'=>'编辑文章']);
     }
-    
+    /**
+     * @desc 删除文章
+     * @param int $id
+     * @return \yii\web\Response
+     */
     public function actionDel(int $id)
     {
         $article = Article::findOne($id);
@@ -87,7 +105,10 @@ class ArticleController extends CommonController
             return $this->redirect(['article/articles']);
         }
     }
-    
+    /**
+     * @desc 批量删除文章
+     * @return number
+     */
     public function actionBatchdel()
     {
         $this->setResponseJson();
@@ -95,7 +116,12 @@ class ArticleController extends CommonController
         $idsArr = explode(',',trim($ids,','));
         return Article::updateAll(['isDelete'=>1],['in','id',$idsArr]);
     }
-    
+    /**
+     * @desc 发布文章
+     * @param int $id
+     * @param string $type
+     * @return boolean
+     */
     public function actionPublish(int $id,string $type)
     {
         Yii::$app->response->format = 'json';
@@ -105,7 +131,11 @@ class ArticleController extends CommonController
         }
         return (bool)Article::updateAll(['isPublish' => $isPublish],'id = :id',[':id'=>$id]);
     } 
-    
+    /**
+     * @desc 远程采集文章
+     * @param string $sourceLinke
+     * @return boolean[]|string[]
+     */
     public function actionConllectContent(string $sourceLinke)
     {
         
@@ -113,7 +143,7 @@ class ArticleController extends CommonController
         return $resutlt;
     }
     
-    public function actionTest()
+    private function actionTest()
     {
         $result = MyHelper::httpGet('http://www.zysy.org.cn/a1/a-XDGZ9E149B0016624493E2');
         

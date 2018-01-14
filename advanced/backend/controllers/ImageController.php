@@ -9,14 +9,17 @@ use yii\helpers\ArrayHelper;
 use OSS\OssClient;
 
 /**
- * 内容管理-》图片模块
+ * @name 图片模块管理
  * @author wt
  *
  */
 class ImageController extends CommonController
 {
 	
-	
+	/**
+	 * @desc 图片列表
+	 * @return string
+	 */
 	public function actionManage()
 	{
 		$model = new Photo();
@@ -26,7 +29,10 @@ class ImageController extends CommonController
 		$list = $model->getPageList($data);
 		return $this->render('manage',['model'=>$model,'parentCates'=>$parentCates,'list'=>$list]);
 	}
-	
+	/**
+	 * @desc 添加图片
+	 * @return \yii\web\Response|string
+	 */
 	public function actionAdd()
 	{
 	    $model = new Photo();
@@ -43,7 +49,11 @@ class ImageController extends CommonController
 	    }
 	    return $this->render('add',['model'=>$model,'parentCates'=>$parentCates,'title'=>'添加图片']);
 	}
-	
+	/**
+	 * @desc 编辑图片
+	 * @param int $id
+	 * @return \yii\web\Response|string
+	 */
 	public function actionEdit(int $id)
 	{
 	    $photo = Photo::findOne($id);
@@ -62,7 +72,11 @@ class ImageController extends CommonController
 	    $parentCates = Category::getArticleCates('image');
 	    return $this->render('add',['model'=>$photo,'parentCates'=>$parentCates,'title'=>'编辑图片']);
 	}
-	
+	/**
+	 * @desc 删除图片
+	 * @param int $id
+	 * @return \yii\web\Response
+	 */
 	public function actionDel(int $id)
 	{
 	    $photo = Photo::findOne($id);
@@ -76,7 +90,10 @@ class ImageController extends CommonController
 	
 	
 	
-	
+	/**
+	 * @desc 上传图片
+	 * @return boolean[]|boolean[]|string[]
+	 */
 	public function actionUpload()
 	{
 	    $this->setResponseJson();

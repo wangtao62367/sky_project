@@ -7,10 +7,17 @@ use Yii;
 use common\controllers\CommonController;
 use common\models\Vote;
 use common\models\VoteOptions;
-
+/**
+ * @name 投票题管理
+ * @author wangt
+ *
+ */
 class VoteController extends CommonController
 {
-    
+    /**
+     * @desc 投票题列表
+     * @return string
+     */
     public function actionVotes()
     {
         $vote = new Vote();
@@ -19,7 +26,10 @@ class VoteController extends CommonController
         $data = $vote->votes($get,$search);
         return $this->render('votes',['model'=>$vote,'list'=>$data]);
     }
-    
+    /**
+     * @desc 添加投票题
+     * @return \yii\web\Response|string
+     */
     public function actionAdd()
     {
         $vote = new Vote();
@@ -33,7 +43,11 @@ class VoteController extends CommonController
         }
         return $this->render('add',['model'=>$vote]);
     }
-
+	/**
+	 * @desc 编辑投票题
+	 * @param int $id
+	 * @return string
+	 */
     public function actionEdit(int $id)
     {
         $vote = Vote::find()->where('id=:id and isDelete = 0',[':id'=>$id])->one();
@@ -55,13 +69,13 @@ class VoteController extends CommonController
         return $this->render('add',['model'=>$vote]);
     }
     
-    public function actionView(int $id)
+    private function actionView(int $id)
     {
         $data  = Vote::getView($id);
         return $this->render('view',['data'=>$data]);
     }
     
-    public function actionTest()
+    private function actionTest()
     {
         $phpExcel = new \PHPExcel();
         
@@ -77,7 +91,7 @@ class VoteController extends CommonController
 
     }
     
-    public function exportBrowser(string $type,string $fileName)
+    private function exportBrowser(string $type,string $fileName)
     {
         if($type == 'Excel5'){
             header('Content-Type: application/vnd.ms-excel');

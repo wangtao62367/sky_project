@@ -14,7 +14,7 @@ $this->title = '左侧导航';
 	    </div>
     	<ul class="menuson">
     		<li><cite></cite><a href="<?php echo Url::to(['admin/manage'])?>" target="rightFrame">管理员管理</a><i></i></li>
-    		<li><cite></cite><a href="<?php echo Url::to(['admin/auth']);?>" target="rightFrame">权限管理</a><i></i></li>
+    		<li><cite></cite><a href="<?php echo Url::to(['rbac/roles']);?>" target="rightFrame">权限管理</a><i></i></li>
 	        <li><cite></cite><a href="<?php echo Url::to(['web/setting']);?>" target="rightFrame">基础配置</a><i></i></li>
 	        <!-- <li><cite></cite><a href="right.html" target="rightFrame">管理员管理</a><i></i></li>
 	        <li><cite></cite><a href="imgtable.html" target="rightFrame">权限管理</a><i></i></li>

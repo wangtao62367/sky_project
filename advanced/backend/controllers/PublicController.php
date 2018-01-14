@@ -4,18 +4,21 @@ namespace backend\controllers;
 
 
 use Yii;
-use common\controllers\CommonController;
 use common\models\Admin;
+use yii\web\Controller;
 /**
- * 后台用户
+ * @name 后台用户
  * @author wangt
  *
  */
 
-class PublicController extends CommonController
+class PublicController extends Controller
 {
-    
-    
+	
+    /**
+     * @desc 后台登陆
+     * @return \yii\web\Response|string
+     */
     public function actionLogin()
     {
         $this->layout = 'login';
@@ -31,7 +34,10 @@ class PublicController extends CommonController
         }
         return $this->render('login',['model'=>$model]);
     }
-    
+    /**
+     * @desc 登陆退出
+     * @return \yii\web\Response
+     */
     public function actionLogout()
     {
         if(Yii::$app->user->logout(false)){
@@ -39,12 +45,16 @@ class PublicController extends CommonController
         }
         return $this->goBack();
     }
-    
+    /**
+     * @desc 忘记密码
+     */
     public function actionForgetpwd()
     {
         
     }
-    
+    /**
+     * @desc 邮件找回密码
+     */
     public function actionFindpwdByMail()
     {
         

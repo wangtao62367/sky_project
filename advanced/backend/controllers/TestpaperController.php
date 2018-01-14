@@ -7,14 +7,17 @@ use Yii;
 use common\controllers\CommonController;
 use common\models\TestPaper;
 /**
- * 试卷管理
+ * @name 试卷管理
  * @author wangtao
  *
  */
 class TestpaperController extends CommonController
 {
     
-    
+    /**
+     * @desc 试卷管理
+     * @return string
+     */
     public function actionManage()
     {
         $testPaper = new TestPaper();
@@ -22,7 +25,10 @@ class TestpaperController extends CommonController
         $result = $testPaper->getPageList($request->get(),$request->get());
         return $this->render('manage',['model'=>$testPaper,'list'=>$result]);
     }
-    
+    /**
+     * @desc 添加试卷
+     * @return number|string
+     */
     public function actionAdd()
     {
         $testPaper = new TestPaper();
@@ -36,7 +42,11 @@ class TestpaperController extends CommonController
         $testPaper->publishCode = 'now';
         return $this->render('add',['model'=>$testPaper,'title'=>'创建试卷']);
     }
-
+	/**
+	 * @desc 编辑试卷
+	 * @param int $id
+	 * @return \yii\web\Response|number|string
+	 */
     public function actionEdit(int $id)
     {
     	$testPaper = TestPaper::getPaperById($id);
@@ -54,7 +64,11 @@ class TestpaperController extends CommonController
     	return $this->render('add',['model'=>$testPaper,'title'=>'编辑试卷']);
     }
     
-    
+    /**
+     * @desc 删除试卷
+     * @param int $id
+     * @return \yii\web\Response
+     */
     public function actionDel(int $id)
     {
         $testPaper= TestPaper::findOne($id);
@@ -65,7 +79,10 @@ class TestpaperController extends CommonController
             return $this->redirect(['testpaper/manage']);
         }
     }
-    
+    /**
+     * @desc 批量删除试卷
+     * @return number
+     */
     public function actionBatchdel()
     {
         $this->setResponseJson();

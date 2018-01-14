@@ -7,10 +7,17 @@ use common\controllers\CommonController;
 use common\models\Question;
 use common\models\QuestCategory;
 use common\models\QuestOptions;
-
+/**
+ * @name 试题管理
+ * @author wangt
+ *
+ */
 class QuestionController extends CommonController
 {
-    
+    /**
+     * @desc 添加试题
+     * @return string
+     */
     public function actionAdd()
     {
         $model = new Question();
@@ -27,7 +34,10 @@ class QuestionController extends CommonController
         $model->answerOpt =json_decode($model->answerOpt,true);
         return $this->render('add',['model'=>$model,'questCate'=>$questCate]);
     }
-    
+    /**
+     * @desc 试题列表
+     * @return string
+     */
     public function actionIndex()
     {
         $model = new Question();
@@ -36,7 +46,11 @@ class QuestionController extends CommonController
         $list = $model->questions($request->get(),$request->get());
         return $this->render('index',['model'=>$model,'questCate'=>$questCate,'list'=>$list]);
     }
-    
+    /**
+     * @desc 编辑试题
+     * @param int $id
+     * @return string
+     */
     public function actionEdit(int $id)
     {
         $model = Question::getOptionById($id);
@@ -55,21 +69,4 @@ class QuestionController extends CommonController
         return $this->render('add',['model'=>$model,'questCate'=>$questCate]);
     }
     
-    public function actionAjaxDel(int $id)
-    {
-        $this->setResponseJson();
-        return Question::ajaxDel($id);
-    }
-    
-    public function actionAjaxPublish(int $id)
-    {
-        $this->setResponseJson();
-        return Question::ajaxPublish($id);
-    }
-    
-    public function actionAjaxUnpublish(int $id)
-    {
-        $this->setResponseJson();
-        return Question::ajaxUnpublish($id);
-    }
 }

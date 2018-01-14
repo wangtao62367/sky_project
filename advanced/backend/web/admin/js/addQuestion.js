@@ -18,7 +18,7 @@
 		    		<p><a href="javascript:;" class="addOptions">+添加选项</a></p>\
 		    	</div>\
 		    </li>\
-		    <li><label>试题类型:</label><cite><input name="optionsType" type="radio" value="radio" checked="checked" />单选&nbsp;&nbsp;&nbsp;&nbsp;<input name="optionsType" type="radio" value="multi" />多选</cite></li>\
+		    <li><label>试题类型:</label><label><input name="optionsType" type="radio" value="radio" checked="checked" />单选&nbsp;&nbsp;&nbsp;&nbsp;</label><label><input name="optionsType" type="radio" value="multi" />多选</label></li>\
 		    <li class="set-right-anwser"><label>正确答案:</label>\
 		    	<div class="right-anwswer" >\
 		    		<label class="rightAnswer--label">\

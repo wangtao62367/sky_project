@@ -6,10 +6,17 @@ use Yii;
 use common\controllers\CommonController;
 use common\models\User;
 use common\models\Role;
-
+/**
+ * @name 用户管理
+ * @author wangt
+ *
+ */
 class UserController extends CommonController
 {
-    
+    /**
+     * @desc 用户列表
+     * @return string
+     */
     public function actionManage()
     {
         $model = new User();
@@ -20,7 +27,10 @@ class UserController extends CommonController
     }
     
     
-    
+    /**
+     * @desc 添加用户
+     * @return \yii\web\Response|string
+     */
     public function actionReg()
     {
         $model = new User();
@@ -38,7 +48,11 @@ class UserController extends CommonController
         $model->isFrozen  = 0;
         return $this->render('add',['model'=>$model,'title'=>'添加用户']);
     }
-    
+    /**
+     * @desc 编辑用户
+     * @param int $id
+     * @return \yii\web\Response|string
+     */
     public function actionEdit(int $id)
     {
         $user = User::findIdentity($id);
@@ -55,7 +69,11 @@ class UserController extends CommonController
         }
         return $this->render('add',['model'=>$user,'operat'=>'edit','title'=>'编辑用户']);
     }
-    
+    /**
+     * @desc 删除用户
+     * @param int $id
+     * @return \yii\web\Response
+     */
     public function actionDel(int $id)
     {
         $user = User::findIdentity($id);
@@ -66,7 +84,10 @@ class UserController extends CommonController
             return $this->redirect(['user/manage']);
         }
     }
-    
+    /**
+     * @desc 批量删除用户
+     * @return number
+     */
     public function actionBatchdel()
     {
         $this->setResponseJson();
@@ -75,7 +96,11 @@ class UserController extends CommonController
         return User::updateAll(['isDelete'=>User::USER_DELETE],['in','id',$idsArr]);
     }
     
-    
+    /**
+     * @desc 重置用户密码
+     * @param int $id
+     * @return \yii\web\Response
+     */
     public function actionResetpwd(int $id)
     {
         $user = User::findIdentity($id);
@@ -86,7 +111,11 @@ class UserController extends CommonController
             return $this->showSuccess('user/manage');
         }
     }
-    
+    /**
+     * @desc 冻结用户
+     * @param int $id
+     * @return \yii\web\Response
+     */
     public function actionFrozen(int $id)
     {
         $user = User::findIdentity($id);
@@ -97,7 +126,11 @@ class UserController extends CommonController
             return $this->showSuccess('user/manage');
         }
     }
-    
+    /**
+     * @desc 激活用户
+     * @param int $id
+     * @return \yii\web\Response
+     */
     public function actionActive(int $id)
     {
         $user = User::findIdentity($id);

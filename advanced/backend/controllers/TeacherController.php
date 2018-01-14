@@ -7,13 +7,16 @@ use common\controllers\CommonController;
 use common\models\Teacher;
 
 /**
- * 教师管理
+ * @name 教师管理
  * @author wt
  *
  */
 class TeacherController extends CommonController
 {
-    
+    /**
+     * @desc 教师列表
+     * @return string
+     */
     public function actionManage()
     {
     	$teacher = new Teacher();
@@ -22,7 +25,10 @@ class TeacherController extends CommonController
     	$list = $teacher->pageList($data);
     	return $this->render('manage',['model'=>$teacher,'list'=>$list]);
     }
-    
+    /**
+     * @desc 添加教师
+     * @return \yii\web\Response|string
+     */
     public function actionAdd()
     {
         $teacher = new Teacher();
@@ -38,7 +44,11 @@ class TeacherController extends CommonController
         }
         return $this->render('add',['model'=>$teacher,'title'=>'添加教师']);
     }
-    
+    /**
+     * @desc 编辑教师
+     * @param int $id
+     * @return \yii\web\Response|string
+     */
     public function actionEdit(int $id)
     {
         $teacher = Teacher::findOne($id);
@@ -55,7 +65,11 @@ class TeacherController extends CommonController
         }
         return $this->render('add',['model'=>$teacher,'title'=>'编辑教师']);
     }
-    
+    /**
+     * @desc 删除教师
+     * @param int $id
+     * @return \yii\web\Response
+     */
     public function actionDel(int $id)
     {
         $teacher = Teacher::findOne($id);
@@ -66,7 +80,10 @@ class TeacherController extends CommonController
             return $this->redirect(['teacher/manage']);
         }
     }
-    
+    /**
+     * @desc 批量删除教师
+     * @return number
+     */
     public function actionBatchdel()
     {
         $this->setResponseJson();
@@ -74,7 +91,11 @@ class TeacherController extends CommonController
         $idsArr = explode(',',trim($ids,','));
         return Teacher::updateAll(['isDelete'=>Teacher::TEACHER_DELETE],['in','id',$idsArr]);
     }
-    
+    /**
+     * @desc ajax获取教师列表
+     * @param string $keywords
+     * @return array|\yii\db\ActiveRecord[]
+     */
     public function actionAjaxTeachers(string $keywords)
     {
         $keywords = trim($keywords);
@@ -83,7 +104,7 @@ class TeacherController extends CommonController
         return $result;
     }
     
-    public function actionTest()
+    private function actionTest()
     {
         return $this->render('demo');
     }

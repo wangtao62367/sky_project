@@ -7,10 +7,17 @@ use Yii;
 use common\controllers\CommonController;
 use common\models\Download;
 use common\models\Category;
-
+/**
+ * @name 下载中心
+ * @author wangt
+ *
+ */
 class DownloadController extends CommonController
 {
-	
+	/**
+	 * @desc 下载列表
+	 * @return string
+	 */
 	public function actionManage()
 	{
 		$model = new Download();
@@ -20,7 +27,10 @@ class DownloadController extends CommonController
 		$list = $model->getPageList($data);
 		return $this->render('manage',['model'=>$model,'parentCates'=>$parentCates,'list'=>$list]);
 	}
-	
+	/**
+	 * @desc 添加下载文件
+	 * @return \yii\web\Response|string
+	 */
 	public function actionAdd()
 	{
 		$model = new Download();
@@ -37,7 +47,11 @@ class DownloadController extends CommonController
 		}
 		return $this->render('add',['model'=>$model,'parentCates'=>$parentCates,'title'=>'添加文件']);
 	}
-	
+	/**
+	 * @desc 编辑下载文件
+	 * @param int $id
+	 * @return \yii\web\Response|string
+	 */
 	public function actionEdit(int $id)
 	{
 		$model = Download::findOne($id);
@@ -55,7 +69,11 @@ class DownloadController extends CommonController
 		$parentCates = Category::getArticleCates('file');
 		return $this->render('add',['model'=>$model,'parentCates'=>$parentCates,'title'=>'编辑文件']);
 	}
-	
+	/**
+	 * @desc 删除下载文件
+	 * @param int $id
+	 * @return \yii\web\Response
+	 */
 	public function actionDel(int $id)
 	{
 		$model = Download::findOne($id);
@@ -66,7 +84,10 @@ class DownloadController extends CommonController
 			return $this->redirect(['download/manage']);
 		}
 	}
-	
+	/**
+	 * @desc 批量删除文件
+	 * @return number
+	 */
 	public function actionBatchdel()
 	{
 		$this->setResponseJson();

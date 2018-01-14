@@ -10,13 +10,16 @@ use common\controllers\CommonController;
 use backend\models\Statistics;
 
 /**
- * 统计管理
+ * @name 统计管理
  * @author wt
  *
  */
 class StatisticsController extends CommonController
 {
-    
+    /**
+     * @desc 学员统计
+     * @return string
+     */
     public function actionStudent()
     {
         $staisticsModel = new Statistics();
@@ -26,7 +29,10 @@ class StatisticsController extends CommonController
         return $this->render('student',['model'=>$staisticsModel,'yearMonth'=>$yearMonth,'result'=>$result]);
     }
     
-    
+    /**
+     * @desc 答题统计
+     * @return string
+     */
     public function actionAnswer()
     {
         

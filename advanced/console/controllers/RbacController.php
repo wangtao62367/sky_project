@@ -16,26 +16,41 @@ class RbacController extends Controller
         try {
         	$dir = dirname(dirname(dirname(__FILE__))). '/backend/controllers';
             $controllers = glob($dir. '/*');
+            //var_dump($controllers);exit();
             $permissions = [];
             foreach ($controllers as $controller) {
                 $content = file_get_contents($controller);
                 preg_match('/class ([a-zA-Z]+)Controller/', $content, $match);
+                preg_match('/@name ([\x{4e00}-\x{9fa5}]+)/u', $content,$name);
                 $cName = $match[1];
-                $permissions[] = strtolower($cName. '/*');
+                $cNameDesc = $name[1];
+                $permissions[] = [
+                		'name' => strtolower($cName.'/*'),
+                		'desc' => $cNameDesc
+                ];
+                preg_match_all('/@desc ([\x{4e00}-\x{9fa5}]+)/u', $content, $matchesD);
                 preg_match_all('/public function action([a-zA-Z_]+)/', $content, $matches);
-                foreach ($matches[1] as $aName) {
-                    $permissions[] = strtolower($cName. '/'. $aName);
+                //var_dump($matchesD,$matches);exit();
+                foreach ($matchesD[1] as $k => $aNameD) {
+                	if( !empty($aNameD) && isset($matches[1][$k]) && !empty($matches[1][$k])){
+                		$permissions[] = [
+                				'name' => strtolower($cName. '/'. $matches[1][$k]),
+                				'desc' => $aNameD
+                		];
+                	}
                 }
+                //var_dump($permissions);exit();
             }
+           // var_dump($permissions);exit();
             $auth = Yii::$app->authManager;
             foreach ($permissions as $permission) {
-            	if($auth->getPermission($permission)){
+            	if($auth->getPermission($permission['name'])){
             		//exit(12);
             	}
-                if (!$auth->getPermission($permission)) {
+            	if (!$auth->getPermission($permission['name'])) {
                 	//exit(11);
-                    $obj = $auth->createPermission($permission);
-                    $obj->description = $permission;
+            		$obj = $auth->createPermission($permission['name']);
+            		$obj->description = $permission['desc'];
                     $auth->add($obj);
                 }
             }

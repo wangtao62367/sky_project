@@ -4,11 +4,19 @@ namespace backend\controllers;
 
 
 use Yii;
-use common\controllers\CommonController;
-
-class SuccessController extends CommonController
+use yii\web\Controller;
+/**
+ * @name 操作成功
+ * @author wangt
+ *
+ */
+class SuccessController extends Controller
 {
-    
+    /**
+     * @desc 操作成功
+     * @param unknown $back
+     * @return string
+     */
     public function actionSuc($back)
     {
         $get = Yii::$app->request->get();

@@ -9,14 +9,17 @@ use Yii;
 use common\controllers\CommonController;
 use common\models\Student;
 /**
- * 学员管理
+ * @name 学员管理
  * @author wt
  *
  */
 class StudentController extends CommonController
 {
     
-    
+    /**
+     * @desc 学员列表
+     * @return string
+     */
     public function actionManage()
     {
         $model = new Student();

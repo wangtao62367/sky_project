@@ -5,11 +5,18 @@ namespace backend\controllers;
 use Yii;
 use DateTime;
 use common\controllers\CommonController;
-
+/**
+ * @name 阿里云管理
+ * @author wangt
+ *
+ */
 class AliossController extends CommonController
 {
     
-    
+    /**
+     * @desc 获取配置
+     * @return boolean[]|string[]|number[]|number[][]|string[][]|unknown[][]|mixed[][]
+     */
     public function actionManage()
     {
         $this->setResponseJson();
@@ -56,7 +63,7 @@ class AliossController extends CommonController
         ];
     }
     
-    public static function gmt_iso8601($time)
+    private static function gmt_iso8601($time)
     {
         $dtStr = date("c", $time);
         $mydatetime = new DateTime($dtStr);

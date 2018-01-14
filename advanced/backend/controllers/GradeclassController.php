@@ -6,12 +6,16 @@ use Yii;
 use common\controllers\CommonController;
 use common\models\GradeClass;
 /**
- * 班级管理
+ * @name 班级管理
  * @author wt
  *
  */
 class GradeclassController extends CommonController
 {
+	/**
+	 * @desc 班级列表
+	 * @return string
+	 */
 	public function actionManage()
 	{
 		$gradeClass = new GradeClass();
@@ -20,7 +24,10 @@ class GradeclassController extends CommonController
 		$list = $gradeClass->pageList($data);
 		return $this->render('manage',['model'=>$gradeClass,'list'=>$list]);
 	}
-	
+	/**
+	 * @desc 添加班级
+	 * @return \yii\web\Response|string
+	 */
 	public function actionAdd()
 	{
 	    $gradeClass = new GradeClass();
@@ -35,7 +42,11 @@ class GradeclassController extends CommonController
 	    }
 	    return $this->render('add',['model'=>$gradeClass,'title'=>'添加班级']);
 	}
-	
+	/**
+	 * @desc 编辑班级
+	 * @param int $id
+	 * @return \yii\web\Response|string
+	 */
 	public function actionEdit(int $id)
 	{
 	    $gradeClass = GradeClass::findOne($id);
@@ -52,7 +63,11 @@ class GradeclassController extends CommonController
 	    }
 	    return $this->render('add',['model'=>$gradeClass,'title'=>'编辑班级']);
 	}
-	
+	/**
+	 * @desc 删除班级
+	 * @param int $id
+	 * @return \yii\web\Response
+	 */
 	public function actionDel(int $id)
 	{
 	    $gradeClass = GradeClass::findOne($id);
@@ -63,7 +78,10 @@ class GradeclassController extends CommonController
 	        return $this->redirect(['gradeclass/manage']);
 	    }
 	}
-	
+	/**
+	 * @desc 批量删除班级
+	 * @return number
+	 */
 	public function actionBatchdel()
 	{
 	    $this->setResponseJson();
@@ -71,7 +89,11 @@ class GradeclassController extends CommonController
 	    $idsArr = explode(',',trim($ids,','));
 	    return GradeClass::updateAll(['isDelete'=>GradeClass::GRADECLASS_DELETE],['in','id',$idsArr]);
 	}
-	
+	/**
+	 * @desc ajax获取班级列表
+	 * @param string $keywords
+	 * @return array|\yii\db\ActiveRecord[]
+	 */
 	public function actionAjaxClasses(string $keywords)
 	{
 	    $keywords = trim($keywords);

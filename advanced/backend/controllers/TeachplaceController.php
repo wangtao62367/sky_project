@@ -7,13 +7,16 @@ use common\controllers\CommonController;
 use common\models\TeachPlace;
 
 /**
- * 教学点管理
+ * @name 教学点管理
  * @author wt
  *
  */
 class TeachplaceController extends CommonController
 {
-    
+    /**
+     * @desc 教学点列表
+     * @return string
+     */
     public function actionManage()
     {
         $teachPlace = new TeachPlace();
@@ -21,7 +24,10 @@ class TeachplaceController extends CommonController
         $list = $teachPlace->pageList($data);
         return $this->render('manage',['model'=>$teachPlace,'list'=>$list]);
     }
-    
+    /**
+     * @desc 添加教学点
+     * @return \yii\web\Response|string
+     */
     public function actionAdd()
     {
         $teachPlace = new TeachPlace();
@@ -36,7 +42,11 @@ class TeachplaceController extends CommonController
         }
         return $this->render('add',['model'=>$teachPlace,'title'=>'添加教学点']);
     }
-    
+    /**
+     * @desc 编辑教学点
+     * @param int $id
+     * @return \yii\web\Response|string
+     */
     public function actionEdit(int $id)
     {
         $teachPlace = TeachPlace::findOne($id);
@@ -53,7 +63,11 @@ class TeachplaceController extends CommonController
         }
         return $this->render('add',['model'=>$teachPlace,'title'=>'编辑教学点']);
     }
-    
+    /**
+     * @desc 删除教学点
+     * @param int $id
+     * @return \yii\web\Response
+     */
     public function actionDel(int $id)
     {
         $teachPlaceInfo= TeachPlace::findOne($id);
@@ -64,7 +78,10 @@ class TeachplaceController extends CommonController
             return $this->redirect(['teachplace/manage']);
         }
     }
-    
+    /**
+     * @desc 批量删除教学点
+     * @return number
+     */
     public function actionBatchdel()
     {
         $this->setResponseJson();
@@ -72,7 +89,11 @@ class TeachplaceController extends CommonController
         $idsArr = explode(',',trim($ids,','));
         return TeachPlace::updateAll(['isDelete'=>TeachPlace::TEACHPLACE_DELETE],['in','id',$idsArr]);
     }
-    
+    /**
+     * @desc ajax获取教学点列表
+     * @param string $keywords
+     * @return array|\yii\db\ActiveRecord[]
+     */
     public function actionAjaxPlaces(string $keywords)
     {
         $keywords = trim($keywords);

@@ -8,13 +8,16 @@ use common\controllers\CommonController;
 use common\models\Naire;
 
 /**
- * 问卷调查管理
+ * @name 问卷调查管理
  * @author wt
  *
  */
 class NaireController extends CommonController
 {
-    
+    /**
+     * @desc 问卷列表
+     * @return string
+     */
     public function actionManage()
     {
         $naire = new Naire();
@@ -22,7 +25,10 @@ class NaireController extends CommonController
         $result = $naire->getPageList($request->get(),$request->get());
         return $this->render('manage',['model'=>$naire,'list'=>$result]);
     }
-    
+    /**
+     * @desc 添加问卷
+     * @return number|string
+     */
     public function actionAdd()
     {
         $naire = new Naire();
@@ -36,7 +42,11 @@ class NaireController extends CommonController
         $naire->isPublish = 0;
         return $this->render('add',['model'=>$naire,'title'=>'创建问卷']);
     }
-    
+    /**
+     * @desc 编辑问卷
+     * @param int $id
+     * @return \yii\web\Response|number|string
+     */
     public function actionEdit(int $id)
     {
         $naire= Naire::getNaireById($id);
@@ -54,7 +64,11 @@ class NaireController extends CommonController
         return $this->render('add',['model'=>$naire,'title'=>'编辑试卷']);
     }
     
-    
+    /**
+     * @desc 删除问卷
+     * @param int $id
+     * @return \yii\web\Response
+     */
     public function actionDel(int $id)
     {
         $naire= Naire::findOne($id);
@@ -65,7 +79,10 @@ class NaireController extends CommonController
             return $this->redirect(['naire/manage']);
         }
     }
-    
+    /**
+     * @desc 批量删除问卷
+     * @return number
+     */
     public function actionBatchdel()
     {
         $this->setResponseJson();

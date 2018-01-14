@@ -51,7 +51,7 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
     			</table>
 			</div>
     		<button class="scbtn createNewQuestion" data-questionType = "question">创建新试题</button>
-    		<button class="scbtn" data-questionType = "question">从试题库选</button>
+    		<!-- <button class="scbtn" data-questionType = "question">从试题库选</button> -->
     	</div>
     </li>
     <li><label>是否发布<b>*</b></label>
