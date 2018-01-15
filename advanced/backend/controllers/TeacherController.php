@@ -92,7 +92,7 @@ class TeacherController extends CommonController
         return Teacher::updateAll(['isDelete'=>Teacher::TEACHER_DELETE],['in','id',$idsArr]);
     }
     /**
-     * @desc ajax获取教师列表
+     * @desc 异步获取教师列表
      * @param string $keywords
      * @return array|\yii\db\ActiveRecord[]
      */

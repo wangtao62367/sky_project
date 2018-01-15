@@ -32,6 +32,8 @@ use yii\helpers\Html;
             <th>班级名称</th>
             <th>班级人数</th>
             <th>报名时间</th>
+            <th>联络人</th>
+            <th>手机号</th>
             <th>创建时间</th>
             <th>修改时间</th>
             <th>操作</th>
@@ -46,6 +48,8 @@ use yii\helpers\Html;
             <td><?php echo $val['className'];?></td>
             <td><?php echo $val['classSize'];?></td>
             <td><?php echo $val['joinStartDate'].'~'.$val['joinEndDate'];?></td>
+            <td><?php echo $val['contact'];?></td>
+            <td><?php echo $val['phone'];?></td>
             <td><?php echo MyHelper::timestampToDate($val['createTime']);?></td>
             <td><?php echo MyHelper::timestampToDate($val['modifyTime']);?></td>
             <td>

@@ -30,6 +30,9 @@ class GradeClass extends BaseModel
             ['joinStartDate','required','message'=>'报名开始时间不能为空','on'=>['create','edit']],
             ['joinEndDate','required','message'=>'报名结束时间不能为空','on'=>['create','edit']],
             ['joinEndDate', 'compare', 'compareAttribute'=>'joinStartDate', 'operator' => '>=','message'=>'报名结束时间必须大于或等于开始时间','on'=>['create','edit']],
+            ['contact','required','message'=>'班级联络人不能为空','on'=>['create','edit']],
+            ['phone','required','message'=>'班级联络人手机号不能为空','on'=>['create','edit']],
+            ['phone','match','pattern'=>'/^[1][34578][0-9]{9}$/','message'=>'手机号无效','on'=>['create','edit']],
             ['createAdminId','default','value'=>Yii::$app->user->id],
             [['curPage','pageSize','search','marks'],'safe']
         ];    

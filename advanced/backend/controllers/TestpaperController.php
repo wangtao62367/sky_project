@@ -15,7 +15,7 @@ class TestpaperController extends CommonController
 {
     
     /**
-     * @desc 试卷管理
+     * @desc 试卷列表
      * @return string
      */
     public function actionManage()

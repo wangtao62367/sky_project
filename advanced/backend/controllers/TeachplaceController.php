@@ -90,7 +90,7 @@ class TeachplaceController extends CommonController
         return TeachPlace::updateAll(['isDelete'=>TeachPlace::TEACHPLACE_DELETE],['in','id',$idsArr]);
     }
     /**
-     * @desc ajax获取教学点列表
+     * @desc 异步获取教学点列表
      * @param string $keywords
      * @return array|\yii\db\ActiveRecord[]
      */

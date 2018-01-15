@@ -10,7 +10,7 @@ use yii\helpers\Url;
     </ul>
 </div>
     
-    <div class="error">
+    <div class="success">
     
     <h2>恭喜您，操作成功！！</h2>
     <p>看到这个提示，<font class="jishu"><?php echo $m;?></font>秒后自动跳转。</p>
@@ -19,7 +19,6 @@ use yii\helpers\Url;
 $url = Url::to([$back]);
 $js = <<<JS
 var jishu = $('.jishu').text();
-console.log(jishu);
 var setInter = setInterval(function(){
 	jishu --;
     $('.jishu').text(jishu);
