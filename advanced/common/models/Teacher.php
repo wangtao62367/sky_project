@@ -27,6 +27,8 @@ class Teacher extends BaseModel
 		    ['sex','default','value'=>1,'on'=>['create','edit']],
 		    ['positionalTitles','required','message'=>'教师职称不能为空','on'=>['create','edit']],
 		    ['positionalTitles', 'string', 'length' => [2, 50], 'tooLong'=>'教师职称描述长度为4-100个字符', 'tooShort'=>'教师职称描述长度为2-50个字','on'=>['create','edite']],
+		    ['phone','required','message'=>'教师手机号不能为空','on'=>['create','edit']],
+		    ['phone','match','pattern'=>'/^[1][34578][0-9]{9}$/','message'=>'教师手机号必须有效','on'=>['create','edit']],
 		    [['sex','createAdminId','curPage','pageSize','search'],'safe'],
 		];
 	}

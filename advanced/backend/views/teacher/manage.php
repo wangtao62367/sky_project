@@ -35,6 +35,7 @@ use yii\helpers\Html;
     	<tr>
             <th><input name="" type="checkbox" value="" class="s-all" /></th>
             <th>教师名称</th>
+            <th>手机号</th>
             <th>性别</th>
             <th>教师职称</th>
             <th>创建时间</th>
@@ -49,6 +50,7 @@ use yii\helpers\Html;
     	<tr>
             <td><input name="ids" class="item" type="checkbox" value="<?php echo $val['id'];?>" /></td>
             <td><?php echo $val['trueName'];?></td>
+            <td><?php echo $val['phone'];?></td>
             <td><?php echo $val['sex'] == 1 ? '男':'女';?></td>
             <td><?php echo $val['positionalTitles'];?></td>
             <td><?php echo MyHelper::timestampToDate($val['createTime']);?></td>
