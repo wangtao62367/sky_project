@@ -5,7 +5,7 @@ use yii\helpers\Url;
 $this->title = 'top';
 ?>
     <div class="topleft">
-    <a href="<?php echo Url::to(['default/index'])?>" target="_parent"><h1>社会主义学员后台管理系统</h1></a>
+    <a href="<?php echo Url::to(['default/index'])?>" target="_parent"><h1>四川省社会主义学院</h1></a>
     </div>
         
     <!--<ul class="nav">

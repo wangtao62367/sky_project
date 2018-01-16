@@ -43,7 +43,7 @@ function checkUrl(urlString){
 	return true;
 }
 
-var dialog = function(title,){
+var dialog = function(title){
 	
 }
 

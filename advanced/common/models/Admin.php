@@ -36,7 +36,8 @@ class Admin extends BaseModel implements \yii\web\IdentityInterface
         		['repass', 'compare', 'compareAttribute' => 'adminPwd', 'message' => '两次密码输入不一致', 'on' => ['add','edit','editpwd']],
         		['adminEmail','required','message'=>'邮箱不能为空','on'=>['add','edit']],
                 ['adminEmail','email','message'=>'邮箱格式不正确','on'=>['add','edit']],
-                ['adminEmail','unique','message'=>'邮箱已存在','on'=>'add'],
+                ['adminEmail','unique','message'=>'邮箱已存在','on'=>['add','edit']],
+                ['department','required','message'=>'所属部门不能为空','on'=>['add','edit']],    
             	['search','safe']
             
         ];

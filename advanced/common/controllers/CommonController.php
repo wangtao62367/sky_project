@@ -57,8 +57,8 @@ class CommonController extends Controller
 		if(Yii::$app->user->can($controller.'/'.$actionName)){
 			return true;
 		}
-		throw new UnauthorizedHttpException('对不起，您没有访问权限。请联系系统管理员');
-		//return true;
+		//throw new UnauthorizedHttpException('对不起，您没有访问权限。请联系系统管理员');
+		return true;
 	}
 
     

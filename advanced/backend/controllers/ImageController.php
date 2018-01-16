@@ -102,7 +102,6 @@ class ImageController extends CommonController
 	        return ['success'=>false];
 	    }
 	    $file = $files['file'];
-	    
 	    //验证类型
 	    $ext = ['image/jpeg','image/png','image/jpg'];
 	    if(!ArrayHelper::isIn($file['type'], $ext)){

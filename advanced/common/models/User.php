@@ -25,7 +25,7 @@ class User extends BaseModel implements IdentityInterface
             ['account','unique','message'=>'该用户账号已经存在','on'=>['reg','edit']],
             ['account', 'string' ,'length'=>[3,20],'tooLong'=>'用户账号长度为6-40个字符', 'tooShort'=>'用户账号长度为3-20个字','on'=>['reg','edit']],
             ['userPwd','required','message'=>'密码不能为空','on'=>['reg']],
-            ['userPwd','match','pattern'=>'/^(?![a-zA-z]+$)(?!\d+$)(?![!@#$%^&*]+$)(?![a-zA-z\d]+$)(?![a-zA-z!@#$%^&*]+$)(?![\d!@#$%^&*]+$)[a-zA-Z\d!@#$%^&*]+$/','message'=>'密码必须由字母+数字+特殊字符组成','on'=>['reg']],
+            ['userPwd','match','pattern'=>'/(?!^\d+$)(?!^[a-zA-Z]+$)[0-9a-zA-Z]{6,16}/','message'=>'密码必须由6至16位的字母+数字组成','on'=>['reg']],
             ['repass','required','message'=>'重复密码不能为空','on'=>['reg']],
             ['repass','compare','compareAttribute'=>'userPwd','message'=>'两次输入密码不一致','on'=>['reg']],
             ['email','required','message'=>'邮箱不能为空','on'=>['reg','edit']],

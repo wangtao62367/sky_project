@@ -31,6 +31,7 @@ use yii\helpers\Html;
             <th><input name="" type="checkbox" value="" class="s-all" /></th>
             <th>管理员账号</th>
             <th>邮箱</th>
+            <th>所属部门</th>
             <th>最近登录IP</th>
             <th>登录次数</th>
             <th>状态</th>
@@ -48,6 +49,7 @@ use yii\helpers\Html;
             <td><input name="ids" class="item" type="checkbox" value="<?php echo $val['id'];?>" /></td>
             <td><?php echo $val['account'];?></td>
             <td><?php echo $val['adminEmail'];?></td>
+            <td><?php echo $val['department'] == 'admin' ? '' : $val['department'];?></td>
             <td><?php echo long2ip($val['loginIp']);?></td>
             <td><?php echo $val['loginCount'];?></td>
             <td><?php echo $val['isFrozen'] == '1' ? '<font class="frozen">冻结</font>' : '<font class="actived">激活</font>';?></td>
@@ -67,7 +69,7 @@ use yii\helpers\Html;
 	            <a href="<?php echo Url::to(['admin/del','id'=>$val['id']]);?>" class="tablelink"> 删除</a>
             <?php endif;?>
             </td>
-        </tr> 
+        </tr>
         <?php endforeach;?>
     </tbody>
 </table>
@@ -85,7 +87,7 @@ $uri = Yii::$app->request->getUrl();
 $js = <<<JS
 $('.batchDel').click(function(){
     batchDel('$batchDelUrl');
-})
+});
 
 initPagination({
 	el : "#Pagination",

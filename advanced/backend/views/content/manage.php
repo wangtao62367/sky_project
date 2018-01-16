@@ -12,16 +12,7 @@ use yii\helpers\Url;
 </div>
     
 <div class="formbody">
-	<div class="formtitle"><span>基础数据</span></div>
-
-    <div class="toolsli">
-	    <ul class="toollist">
-		    <li><a href="<?php echo Url::to(['nav/manage'])?>"><img src="/admin/images/ico01.png" width="65px"/></a><h2>首页导航</h2></li>
-		    <li><a href="<?php echo Url::to(['bottomlink/manage'])?>"><img src="/admin/images/i03.png" /></a><h2>底部链接</h2></li>
-	    </ul>
-    </div>
-
-    <div class="formtitle"><span>主要内容</span></div>
+	
     
     <div class="toolsli">
 	    <ul class="toollist">

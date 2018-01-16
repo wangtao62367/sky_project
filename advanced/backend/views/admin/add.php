@@ -31,6 +31,7 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
     <?php endif;?>
     <li><label>管理员邮箱</label><?php echo Html::activeTextInput($model, 'adminEmail',['class'=>'dfinput'])?><i>邮箱不能为空</i></li>
     <li><label>状态</label><?php echo Html::activeRadioList($model, 'isFrozen', ['0'=>'激活','1'=>'冻结'])?></li>
+    <li><label>所属部门</label><?php echo Html::activeTextInput($model, 'department',['class'=>'dfinput'])?><i>所属部门不能为空</i></li>
     <?php if(Yii::$app->session->hasFlash('error')):?>
     	<li><label>&nbsp;</label><span class="error-tip"><?php echo Yii::$app->session->getFlash('error');?></span></li>
     <?php endif;?>
