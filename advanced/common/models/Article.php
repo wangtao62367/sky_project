@@ -112,16 +112,19 @@ class Article extends BaseModel
             ];
         }
         $result = MyHelper::httpGet($sourceLinke);
-        //去除換行及空白字元（序列化內容才需使用）
+
+         //去除換行及空白字元（序列化內容才需使用）
         $text=str_replace(array("\r","\n","\t","\s"), '', $result);
+
         //取出div标签且id為PostContent的內容，並储存至阵列match
         preg_match($contentPreg,$text,$match);
+
         //获取字符串编码
-        $encode = mb_detect_encoding($match[0], array("ASCII",'UTF-8',"GB2312","GBK",'BIG5'));
+        $encode = mb_detect_encoding($match[1], array("ASCII",'UTF-8',"GB2312","GBK",'BIG5'));
         //将字符编码改为utf-8
-        $str_encode = mb_convert_encoding($match[0], 'UTF-8', $encode);
+        $str_encode = mb_convert_encoding($match[1], 'UTF-8', $encode);
         return [
-            'success' => false,
+            'success' => true,
             'message' => '请求成功',
             'data'    => $str_encode
         ];

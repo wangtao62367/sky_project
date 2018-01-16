@@ -6,6 +6,7 @@ use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 use yii\base\Widget;
 use backend\models\ArticleCollectionWebsite;
+use backend\assets\AppAsset;
 
 $controller = Yii::$app->controller;
 $id = Yii::$app->request->get('id','');
@@ -45,14 +46,14 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
 	<div style="margin-left: 86px"><i style="    padding-left: 0px;">链接地址来源必须是人民网、新华网、中央社会主义和四川组工网，且地址必须有效，以http://或https://开始;</i></div></li>
 	
     <li><label>文章内容<b>*</b></label>
-    	<div style="float: left;width:900px">
-    		<?php echo kucha\ueditor\UEditor::widget([
+    	<div style="float: left;width:900px;height:500px" id="content" name="Article[content]">
+    		<?php  /* echo kucha\ueditor\UEditor::widget([
     		    'model' => $model,
                 'attribute' => 'content',
     		    'clientOptions' =>[
     		        'lang' =>'zh-cn',
     		     ]
-    		]) ?>
+    		]) */ ?>
     	</div>
     	
     </li>
@@ -82,6 +83,7 @@ $css = <<<CSS
 CSS;
 $conllectWebsiteArr = json_encode(ArticleCollectionWebsite::$conllectWebsiteArr);
 $url = Url::to(['article/conllect-content']);
+$uploadurl = Url::to(['article/upload']);
 $js = <<<JS
 $(document).on('click','.getArticle-btn',function(){
 	var sourceLinke = $('#sourceLinke').val();
@@ -94,12 +96,17 @@ $(document).on('click','.getArticle-btn',function(){
     $.get('$url',{sourceLinke:encodeURI(sourceLinke)},function(res){
         console.log(res);
         if(res && res.success){
-            
+            ue.setContent(res.data);
         }
     })
 	
-})
+});
+var ue = UE.getEditor('content', {
+	serverUrl : '$uploadurl',
+});
 JS;
+AppAsset::addScript($this, '/admin/js/ueditor/ueditor.config.js');
+AppAsset::addScript($this, '/admin/js/ueditor/ueditor.all.min.js');
 $this->registerJs($js);
 $this->registerCss($css);
 ?>

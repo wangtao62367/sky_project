@@ -138,7 +138,7 @@ class ArticleController extends CommonController
      */
     public function actionConllectContent(string $sourceLinke)
     {
-        
+        $this->setResponseJson();
         $resutlt = Article::conllectContent($sourceLinke);
         return $resutlt;
     }
