@@ -84,6 +84,7 @@ CSS;
 $conllectWebsiteArr = json_encode(ArticleCollectionWebsite::$conllectWebsiteArr);
 $url = Url::to(['article/conllect-content']);
 $uploadurl = Url::to(['article/upload']);
+$content = $model->content;
 $js = <<<JS
 $(document).on('click','.getArticle-btn',function(){
     var _this = $(this);
@@ -107,6 +108,10 @@ $(document).on('click','.getArticle-btn',function(){
 var ue = UE.getEditor('content', {
 	serverUrl : '$uploadurl',
 });
+ ue.ready(function() {
+    ue.setContent('$content');
+});
+
 JS;
 AppAsset::addScript($this, '/admin/js/ueditor/ueditor.config.js');
 AppAsset::addScript($this, '/admin/js/ueditor/ueditor.all.min.js');

@@ -40,14 +40,29 @@ class ImageController extends CommonController
 	    $parentCates = Category::getArticleCates('image');
 	    if(Yii::$app->request->isPost){
 	        $data = Yii::$app->request->post();
-	        $result = $model->add($data);
-	        if($result){
-	            return $this->showSuccess('image/manage');
+	        //var_dump($_FILES);exit();
+	        //先上传图片 再写数据
+	        if(!empty($_FILES)){
+	        	$file = $_FILES['files'];
+	        	$oldFile = $data['Photo']['oldFile'];
+	        	$result = Photo::upload($file,$oldFile);
+	        	if($result['success']){
+	        		$data['Photo']['photo'] = $result['fileFullName'];
+	        		$result = $model->add($data);
+	        		if($result){
+	        			return $this->showSuccess('image/manage');
+	        		}
+	        		Yii::$app->session->setFlash('error',$model->getErrorDesc());
+	        	}else{
+	        		Yii::$app->session->setFlash('error',$result['message']);
+	        	}
+	        	
 	        }else{
-	            Yii::$app->session->setFlash('error',$model->getErrorDesc());
+	        	Yii::$app->session->setFlash('error','图片不能为空');
 	        }
+	        
 	    }
-	    return $this->render('add',['model'=>$model,'parentCates'=>$parentCates,'title'=>'添加图片']);
+	    return $this->render('add1',['model'=>$model,'parentCates'=>$parentCates,'title'=>'添加图片']);
 	}
 	/**
 	 * @desc 编辑图片
@@ -62,15 +77,25 @@ class ImageController extends CommonController
 	    }
 	    if(Yii::$app->request->isPost){
 	        $data = Yii::$app->request->post();
+	        //先上传图片 再写数据
+	        if(!empty($_FILES)){
+	        	$file = $_FILES['files'];
+	        	$oldFile = $data['Photo']['oldFile'];
+	        	$result = Photo::upload($file,$oldFile);
+	        	if($result['success']){
+	        		$data['Photo']['photo'] = $result['fileFullName'];
+	        	}
+	        }
+	        
 	        $result = Photo::edit($data,$photo);
 	        if($result){
-	            return $this->showSuccess('image/manage');
+	        	return $this->showSuccess('image/manage');
 	        }else{
-	            Yii::$app->session->setFlash('error',$photo->getErrorDesc());
+	        	Yii::$app->session->setFlash('error',$photo->getErrorDesc());
 	        }
 	    }
 	    $parentCates = Category::getArticleCates('image');
-	    return $this->render('add',['model'=>$photo,'parentCates'=>$parentCates,'title'=>'编辑图片']);
+	    return $this->render('add1',['model'=>$photo,'parentCates'=>$parentCates,'title'=>'编辑图片']);
 	}
 	/**
 	 * @desc 删除图片

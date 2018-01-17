@@ -2,6 +2,9 @@
 namespace common\models;
 
 
+use Yii;
+use yii\helpers\ArrayHelper;
+use OSS\OssClient;
 
 class Photo extends BaseModel
 {
@@ -73,5 +76,33 @@ class Photo extends BaseModel
 	public function getCategorys()
 	{
 		return $this->hasOne(Category::className(), ['id'=>'categoryId']);
+	}
+	
+	public static function upload($file,$oldFile = '')
+	{
+		//验证类型
+		$ext = ['image/jpeg','image/png','image/jpg'];
+		if(!ArrayHelper::isIn($file['type'], $ext)){
+			return ['success'=>false,'message'=>'所选图片格式只能是jpg、png或jpeg'];
+		}
+		//验证大小
+		$maxSize = 500 * 1024;//500KB
+		if($file['size'] > $maxSize){
+			return ['success'=>false,'message'=>'所选图片大小不能超过500KB'];
+		}
+		
+		//随机字符串
+		$randNum = mt_rand(1, 1000000000) . mt_rand(1, 1000000000);
+		$bucket = Yii::$app->params['oss']['bucket'];
+		$block = '/upload/image/'.date('Y-m-d').'/'.$randNum.'.'.str_replace('image/', '', $file['type']);
+		$ossClient = new OssClient(Yii::$app->params['oss']['akey'], Yii::$app->params['oss']['skey'], Yii::$app->params['oss']['endpoint'], false);
+		//开始上传
+		$ossClient->uploadFile($bucket, ltrim($block,'/') , $file['tmp_name']);
+		//删除老图片
+		if(!empty($oldFile)){
+			$oldBlock = str_replace(Yii::$app->params['oss']['host'], '', $oldFile);
+			$ossClient->deleteObject($bucket, ltrim($oldBlock,'/'));
+		}
+		return ['success'=>true,'fileFullName'=>Yii::$app->params['oss']['host'].$block,'fileName'=>$block];
 	}
 }

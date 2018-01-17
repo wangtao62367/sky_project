@@ -15,7 +15,7 @@ class ArticleCollectionWebsite
     const GCDR_GOV_CN   = 'gcdr.gov.cn';
     
     public static $conllectWebsiteArr = [
-        'people.com.cn'=>'div#rwb_zw',//'/<div[^>]*id="rwb_zw"[^>]*>(.*?)<div class="zdfy clearfix">/si',
+        'people.com.cn'=>'div.box_con',//'/<div[^>]*id="rwb_zw"[^>]*>(.*?)<div class="zdfy clearfix">/si',
         'xinhuanet.com'=>'div#p-detail',//'/<div[^>]*id="p-detail"[^>]*>(.*?)<\/div>/si',
         'zysy.org.cn'  =>'div.content_con',//'/<div[^>]*class="content_con"[^>]*>(.*?)<\/div>/si',
         'gcdr.gov.cn'  =>'div.content'//'/<div[^>]*class="content"[^>]*>(.*?)<\/div>/si'
