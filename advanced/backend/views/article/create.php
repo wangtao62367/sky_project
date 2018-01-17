@@ -42,7 +42,7 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
 	<li><label>图片数量<b>*</b></label><?php echo Html::activeTextInput($model, 'imgCount',['class'=>'dfinput','value'=>0])?><i></i></li>
 	
 	<li><label>远程获取内容</label><?php echo Html::activeTextInput($model, 'sourceLinke',['class'=>'dfinput','placeholder'=>'输入文章链接地址','id'=>'sourceLinke'])?>
-	<a class="btn getArticle-btn">点击抓取</a>
+	<button class="btn getArticle-btn" >点击抓取</button>
 	<div style="margin-left: 86px"><i style="    padding-left: 0px;">链接地址来源必须是人民网、新华网、中央社会主义和四川组工网，且地址必须有效，以http://或https://开始;</i></div></li>
 	
     <li><label>文章内容<b>*</b></label>
@@ -86,6 +86,7 @@ $url = Url::to(['article/conllect-content']);
 $uploadurl = Url::to(['article/upload']);
 $js = <<<JS
 $(document).on('click','.getArticle-btn',function(){
+    var _this = $(this);
 	var sourceLinke = $('#sourceLinke').val();
 	if(sourceLinke == ''){
 		alert('请输入链接地址');return;
@@ -93,8 +94,10 @@ $(document).on('click','.getArticle-btn',function(){
 	if(!checkUrl(sourceLinke)){
 		alert('链接地址无效');return;
 	}
+    _this.attr('disabled',true);
     $.get('$url',{sourceLinke:encodeURI(sourceLinke)},function(res){
         console.log(res);
+        _this.removeAttr('disabled');
         if(res && res.success){
             ue.setContent(res.data);
         }

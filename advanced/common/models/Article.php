@@ -7,6 +7,7 @@ namespace common\models;
 use common\publics\MyHelper;
 use yii\base\Exception;
 use backend\models\ArticleCollectionWebsite;
+use common\publics\SimpleHtmlDom;
 
 class Article extends BaseModel
 {
@@ -27,7 +28,7 @@ class Article extends BaseModel
             ['summary','required','message'=>'文章摘要不能为空','on'=>['create','edit']],
             ['content','required','message'=>'文章内容不能为空','on'=>['create','edit']],
             ['categoryId','required','message'=>'文章分类不能为空','on'=>['create','edit']],
-            [['isPublish','tags','search','imgCount'],'safe']
+            [['isPublish','tags','search','imgCount','sourceLinke'],'safe']
         ];
     }
     
@@ -70,6 +71,14 @@ class Article extends BaseModel
     {
         $this->scenario = 'create';
         if($this->load($data) && $this->validate()){
+            if(!empty($this->sourceLinke)){
+                foreach (ArticleCollectionWebsite::$conllectWebsiteArr as $key=>$link){
+                    if(strpos($this->sourceLinke,$key) !== false){
+                        $this->source = ArticleCollectionWebsite::$conllectWebsiteArrText[$key];
+                        break;
+                    }
+                }
+            }
             if($this->save(false)){
                return true;//self::batchAddArticleTags($this->tags,$this->id);
             };
@@ -112,22 +121,67 @@ class Article extends BaseModel
             ];
         }
         $result = MyHelper::httpGet($sourceLinke);
-
+        
          //去除換行及空白字元（序列化內容才需使用）
         $text=str_replace(array("\r","\n","\t","\s"), '', $result);
 
-        //取出div标签且id為PostContent的內容，並储存至阵列match
+        //取出div标签的內容，並储存至阵列match
         preg_match($contentPreg,$text,$match);
 
         //获取字符串编码
-        $encode = mb_detect_encoding($match[1], array("ASCII",'UTF-8',"GB2312","GBK",'BIG5'));
+        $encode = mb_detect_encoding($match[0], array("ASCII",'UTF-8',"GB2312","GBK",'BIG5'));
         //将字符编码改为utf-8
-        $str_encode = mb_convert_encoding($match[1], 'UTF-8', $encode);
+        $str_encode = mb_convert_encoding($match[0], 'UTF-8', $encode);
         return [
             'success' => true,
             'message' => '请求成功',
             'data'    => $str_encode
         ];
+    }
+    
+    public static function conllectDivContent($sourceLinke = '')
+    {
+        $sourceLinke = urldecode($sourceLinke);
+        if(!MyHelper::urlIsValid($sourceLinke)){
+            return [
+                'success' => false,
+                'message' => '无效的地址',
+                'data'    => ''
+            ];
+        }
+        //验证是否是本系统允许抓取的网站网站链接
+        $isValid = false;
+        $contentPreg= '';
+        foreach (ArticleCollectionWebsite::$conllectWebsiteArr as $key=>$link){
+            if(strpos($sourceLinke,$key) !== false){
+                $isValid = true;
+                $contentPreg = $link;
+                break;
+            }
+        }
+        if(!$isValid){
+            return [
+                'success' => false,
+                'message' => '地址来源必须是人民网、新华网、中央社会主义学院和四川组工网',
+                'data'    => ''
+            ];
+        }
+       // $sourceLinke = 'http://www.xinhuanet.com/politics/2018-01/16/c_1122268460.htm';
+        $result = MyHelper::httpGet($sourceLinke);
+        
+        $dom = new SimpleHtmlDom();
+        $html = $dom->getStrHtml($result);
+        $el = $html->find($contentPreg,0);
+        return [
+            'success' => true,
+            'message' => '请求成功',
+            'data'    => $el->innertext
+        ];
+        
+        echo '<pre>';
+        print_r($el);
+        // print_r(htmlspecialchars($str));
+        echo '</pre>';
     }
     
     

@@ -1,4 +1,5 @@
 <?php
+
 return [
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'components' => [
@@ -6,13 +7,13 @@ return [
             'class' => 'yii\caching\FileCache',
         ],
     		
-//         'urlManager' => [
-//             'class' => 'yii\web\UrlManager',
-//             'enablePrettyUrl' => true,
-//             'showScriptName' => false,
+        'urlManager' => [
+            'class' => 'yii\web\UrlManager',
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
 //             'rules' => [
 //             ],
-//         ],
+        ],
         'assetManager' => [
             'class' => 'yii\web\AssetManager',
             'bundles' => [

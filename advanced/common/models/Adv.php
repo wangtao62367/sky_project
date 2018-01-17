@@ -33,7 +33,6 @@ class Adv extends BaseModel
         ];
     }
     
-    
     public function pageList(array $data)
     {
         $this->curPage = isset($data['curPage']) && !empty($data['curPage']) ? $data['curPage'] : $this->curPage;
@@ -42,7 +41,6 @@ class Adv extends BaseModel
         $result = $this->query($query, $this->curPage, $this->pageSize);
         return $result;
     }
-    
     
     public function add(array $data)
     {

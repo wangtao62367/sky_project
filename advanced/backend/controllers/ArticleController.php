@@ -8,6 +8,8 @@ use common\models\Article;
 use common\models\Category;
 use common\models\ArticleTag;
 use common\publics\MyHelper;
+use common\publics\SimpleHtmlDom;
+
 /**
  * @name 文章管理
  * @author wangt
@@ -139,26 +141,13 @@ class ArticleController extends CommonController
     public function actionConllectContent(string $sourceLinke)
     {
         $this->setResponseJson();
-        $resutlt = Article::conllectContent($sourceLinke);
+        $resutlt = Article::conllectDivContent($sourceLinke);
         return $resutlt;
     }
     
-    private function actionTest()
+    public function actionTest()
     {
-        $result = MyHelper::httpGet('http://www.zysy.org.cn/a1/a-XDGZ9E149B0016624493E2');
-        
-        //去除換行及空白字元（序列化內容才需使用）
-        $text=str_replace(array("\r","\n","\t","\s"), '', $result);
-        
-        //取出div标签且id為PostContent的內容，並储存至阵列match
-        preg_match('/<div[^>]*class="mod-content"[^>]*>(.*?) <\/div>/si',$text,$match);
-        print_r($match);
-        exit($text);
-        //获取字符串编码
-        $encode = mb_detect_encoding($match[0], array("ASCII",'UTF-8',"GB2312","GBK",'BIG5'));
-        //将字符编码改为utf-8
-        $str_encode = mb_convert_encoding($match[0], 'UTF-8', $encode);
-        print_r($str_encode);
+        print_r(Yii::$app->params['nations']);
 
     }
 }
