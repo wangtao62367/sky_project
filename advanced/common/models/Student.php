@@ -37,7 +37,7 @@ class Student extends BaseModel
     
     
     
-    public static function del(int $id,Student $student)
+    public static function del(Student $student)
     {
         $student->isDelete = 1;
         return $student->save(false);
@@ -63,4 +63,6 @@ class Student extends BaseModel
         $result = $this->query($query, $this->curPage, $this->pageSize);
         return $result;
     }
+    
+    
 }

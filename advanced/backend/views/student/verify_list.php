@@ -62,7 +62,7 @@ $url =Url::to(ArrayHelper::merge([$controller->id.'/'.$controller->action->id], 
             <td><?php echo Student::$verify_texts[$val['verify']];?></td>
             <td>
             <?php if($val['verify'] <= 1 ):?>
-            <a href="<?php echo Url::to(['student/verify','id'=>$val['id']]);?>" class="tablelink">审核</a> 
+            <a href="<?php echo Url::to(['student/info','id'=>$val['id']]);?>" class="tablelink">审核</a> 
             <?php else :?>
             <a href="<?php echo Url::to(['student/info','id'=>$val['id']]);?>" class="tablelink">查看</a>
             <?php endif;?>    

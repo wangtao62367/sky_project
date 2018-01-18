@@ -25,28 +25,31 @@ $url =Url::to(ArrayHelper::merge([$controller->id.'/'.$controller->action->id], 
 	<tr>
 		<td class="title">姓名</td><td colspan="2"><?php echo $info->trueName;?></td>
 		<td class="title">姓别</td><td colspan="2"><?php echo $info->sex == 1 ? '男' : '女';?></td>
-		<td class="title">名族</td><td colspan="2"><?php echo $info->nation;?></td>
-		<td class="title">政治面貌</td><td><?php echo $info->politicalStatus;?></td>
-		
-		<td class="title">出生年月</td><td colspan="2"><?php echo $info->birthday;?></td>
+		<td class="title">名族</td><td colspan="3"><?php echo $info->nation;?></td>
+		<td class="title">政治面貌</td><td colspan="2"><?php echo $info->politicalStatus;?></td>
 		<td class="title"  rowspan="4">头像</td><td colspan="4" rowspan="4"><img alt="头像" src="/admin/images/i07.png"></td>
+	</tr>
+	<tr>
+		<td class="title">出生年月</td><td colspan="2"><?php echo $info->birthday;?></td>
+		<td class="title">身份证号</td><td colspan="9"><?php echo $info->IDnumber;?></td>
 	</tr>
 	<tr>
 		<td class="title">联系电话</td><td colspan="2"><?php echo $info->phone;?></td>
 		<td class="title">现居城市</td><td colspan="2"><?php echo $info->city;?></td>
-		<td class="title">详细地址</td><td colspan="3"><?php echo $info->address;?></td>
-		<td class="title">毕业学校</td><td ><?php echo $info->graduationSchool;?></td>
-		<td class="title">学历</td><td><?php echo $info->eduation;?></td>
-		
+		<td class="title">详细地址</td><td colspan="6"><?php echo $info->address;?></td>
 	</tr>
 	<tr>
-		<td class="title">毕业专业</td><td colspan="2"><?php echo $info->graduationMajor;?></td>
+		<td class="title">毕业学校</td><td colspan="5"><?php echo $info->graduationSchool;?></td>
+		<td class="title">学历</td><td colspan="2"><?php echo $info->eduation;?></td>
+		<td class="title">毕业专业</td><td colspan="3"><?php echo $info->graduationMajor;?></td>
+	</tr>
+	<tr>
+		<td class="title" colspan="2">工作单位（公司）</td><td colspan="7"><?php echo $info->company;?></td>
+		<td class="title">职称</td><td colspan="3"><?php echo $info->positionalTitles;?></td>
 	    <td class="title">工作年限</td><td ><?php echo $info->workYear;?></td>
-		<td class="title">工作单位（公司）</td><td colspan="6"><?php echo $info->company;?></td>
-		<td class="title">职称</td><td class="3"><?php echo $info->positionalTitles;?></td>
 	</tr>
 	<tr>
-		<td class="title" colspan="2">个人介绍</td><td colspan="12"><?php echo $info->selfIntruduce;?></td>
+		<td class="title" colspan="2">个人介绍</td><td colspan="14"><?php echo $info->selfIntruduce;?></td>
 	</tr>
 	<tr>
 		<td class="title" colspan="2">社院所学专业</td><td colspan="3"><?php echo $info->currentMajor?></td>
@@ -59,9 +62,11 @@ $url =Url::to(ArrayHelper::merge([$controller->id.'/'.$controller->action->id], 
 		<td class="title" colspan="2">初始审核</td>
 		<td colspan="14" class="verifyForm">
 			<?php if($info->verify == 0):?>
-				<?php echo Html::beginForm(Url::to(['student/verify','step'=>'1']),'post',['id'=>'verifyStep1']);?>
-					<textarea rows="5" cols="7" name="reasons1"></textarea>
-					<a href="javascript:;" class="btn-verify">审核</a>
+				<?php echo Html::beginForm(Url::to(['student/verify-one','id'=>$info->id]),'post',['id'=>'verifyStep1']);?>
+					<textarea rows="5" cols="7" name="reasons1" placeholder="请填写审核理由"></textarea>
+					<input type="hidden" name="isAgree" />
+					<a href="javascript:;" class="btn-verify agree">同意</a>
+					<a href="javascript:;" class="btn-verify disagree">不同意</a>
 				<?php echo Html::endForm();?>
 			<?php else :?>
 				<?php echo $info->reasons1;?>
@@ -69,12 +74,14 @@ $url =Url::to(ArrayHelper::merge([$controller->id.'/'.$controller->action->id], 
 		</td>
 	</tr>
 	<tr>
-		<td class="title" colspan="2">最后审核</td>
+		<td class="title" colspan="2">二次审核</td>
 		<td colspan="14" class="verifyForm">
 			<?php if($info->verify == 1):?>
-				<?php echo Html::beginForm(Url::to(['student/verify','step'=>'2']),'post',['id'=>'verifyStep2']);?>
-					<textarea rows="5" cols="7" name="reasons1"></textarea>
-					<a href="javascript:;" class="btn-verify">审核</a>
+				<?php echo Html::beginForm(Url::to(['student/verify-two','id'=>$info->id]),'post',['id'=>'verifyStep2']);?>
+					<textarea rows="5" cols="7" name="reasons2" placeholder="请填写审核理由"></textarea>
+					<input type="hidden" name="isAgree" />
+					<a href="javascript:;" class="btn-verify agree">同意</a>
+					<a href="javascript:;" class="btn-verify disagree">不同意</a>
 				<?php echo Html::endForm();?>
 			<?php else :?>
 				<?php echo $info->reasons2;?>
@@ -82,7 +89,7 @@ $url =Url::to(ArrayHelper::merge([$controller->id.'/'.$controller->action->id], 
 		</td>
 	</tr>
 </table>
-
+<p><?php if(Yii::$app->session->hasFlash('error')){echo Yii::$app->session->getFlash('error');}?></p>
 </div>
 
 <?php 
@@ -102,6 +109,7 @@ table.studentInfo td.verifyForm{text-align: left}
 .verifyForm textarea{
     width: 700px;
     border: 1px solid #c5c59f;
+	padding:2px;
 }
 .verifyForm a.btn-verify{
     display: inline-block;
@@ -109,9 +117,26 @@ table.studentInfo td.verifyForm{text-align: left}
     background: #2da3ea;
     border-radius: 5px;
     margin-left: 19px;
+	color:#fff;
 }
 CSS;
-
-
+$js = <<<JS
+$(document).on('click','.agree,.disagree',function(){
+	var textarea = $(this).parent().find('textarea');
+	var reasons = $(textarea[0]).val();
+	if(!reasons){
+		alert('请输入审核理由');return;
+	}
+	var isAgree = 1;
+	if($(this).hasClass('agree')){
+		isAgree = 1;
+	}else{
+		isAgree = 0;
+	}
+	$(this).parent().find('input[name=isAgree]').val(isAgree);
+	$(this).parent('form').submit();
+})
+JS;
 $this->registerCss($css);
+$this->registerJs($js);
 ?>

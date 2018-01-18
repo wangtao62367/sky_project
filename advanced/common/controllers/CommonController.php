@@ -77,12 +77,12 @@ class CommonController extends Controller
         Yii::$app->response->format = 'json';
     }
     
-    protected function showSuccess(string $back)
+    protected function showSuccess($back)
     {
         return $this->redirect(['success/suc','back'=>$back]);
     }
     
-    protected function showDataIsNull(string $back)
+    protected function showDataIsNull($back)
     {
         return $this->redirect(['error/dataisnull','url'=>$back]);
     }

@@ -42,9 +42,7 @@ use common\models\Student;
             <th>职称</th>
             <th>所学专业</th>
             <th>所学班级</th>
-            <th>审核状态</th>
-            <th>创建时间</th>
-            <th>修改时间</th>
+            <th>报名时间</th>
             <th>操作</th>
         </tr>
     </thead>
@@ -61,11 +59,9 @@ use common\models\Student;
             <td><?php echo $val['positionalTitles'];?></td>
             <td><?php echo $val['currentMajor'];?></td>
             <td><?php echo $val['gradeClass'];?></td>
-            <td><?php echo Student::$verify_texts[$val['verify']];?></td>
             <td><?php echo MyHelper::timestampToDate($val['createTime']);?></td>
-            <td><?php echo MyHelper::timestampToDate($val['modifyTime']);?></td>
             <td>
-            <a href="<?php echo Url::to(['student/info','id'=>$val['id']]);?>" class="tablelink">查看 /审核</a>     
+            <a href="<?php echo Url::to(['student/info','id'=>$val['id']]);?>" class="tablelink">查看</a>     
             <a href="<?php echo Url::to(['student/del','id'=>$val['id']]);?>" class="tablelink"> 删除</a>
             </td>
         </tr> 
