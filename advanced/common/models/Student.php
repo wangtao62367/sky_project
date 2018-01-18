@@ -31,7 +31,7 @@ class Student extends BaseModel
     public function rules()
     {
         return [
-            
+            [['search'],'safe']
         ];
     }
     
@@ -49,11 +49,14 @@ class Student extends BaseModel
         $query = self::find()->select([])->where(['isDelete'=>0])->orderBy('createTime desc,modifyTime desc');
         if($this->load($data)){
             if(!empty($this->search)){
-                if(!empty($this->search['trueName'])){
+                if(isset($this->search['trueName']) && !empty($this->search['trueName'])){
                     $query = $query->andWhere(['like','trueName',$this->search['trueName']]);
                 }
-                if(!empty($this->search['sex'])){
-                    $query = $$query->andWhere('sex = :sex',[':sex'=>$this->search['sex']]);
+                if(isset($this->search['sex']) && !empty($this->search['sex'])){
+                    $query = $query->andWhere('sex = :sex',[':sex'=>$this->search['sex']]);
+                }
+                if(isset($this->search['verify']) && is_numeric($this->search['verify'])){
+                    $query = $query->andWhere('verify = :verify',[':verify'=>$this->search['verify']]);
                 }
             }
         }

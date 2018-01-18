@@ -55,6 +55,7 @@ $this->title = '左侧导航';
     <dd>
     	<div class="title"><span><img width="16px" src="/admin/images/icon01.png" /></span>教务管理系统</div>
 	    <ul class="menuson">
+	    	<li><cite></cite><a target="rightFrame" href="<?php echo Url::to(['student/verify-list'])?>">在线报名审核</a><i></i></li>
 	    	<li><cite></cite><a target="rightFrame" href="<?php echo Url::to(['testpaper/manage'])?>">试卷管理</a><i></i></li>
 	        <li><cite></cite><a target="rightFrame" href="<?php echo Url::to(['naire/manage'])?>">调查管理</a><i></i></li>
 	        <li><cite></cite><a target="rightFrame" href="<?php echo Url::to(['schedule/manage'])?>">课表管理</a><i></i></li>

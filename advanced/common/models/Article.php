@@ -172,10 +172,15 @@ class Article extends BaseModel
         $dom = new SimpleHtmlDom();
         $html = $dom->getStrHtml($result);
         $el = $html->find($contentPreg,0);
+        
+        //获取字符串编码
+        $encode = mb_detect_encoding($el->innertext, array("ASCII",'UTF-8',"GB2312","GBK",'BIG5'));
+        //将字符编码改为utf-8
+        $str_encode = mb_convert_encoding($el->innertext, 'UTF-8', $encode);
         return [
             'success' => true,
             'message' => '请求成功',
-            'data'    => $el->innertext
+            'data'    => $str_encode
         ];
         
         echo '<pre>';
