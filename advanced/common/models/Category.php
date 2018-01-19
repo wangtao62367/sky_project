@@ -79,6 +79,7 @@ class Category extends BaseModel
                 'parentId',
                 'createTime',
                 'modifyTime',
+                'isBase',
                 Common::tableName().'.id as catParentId',
                 Common::tableName().'.code',
                 Common::tableName().'.codeDesc',

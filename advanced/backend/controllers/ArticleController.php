@@ -7,8 +7,6 @@ use common\controllers\CommonController;
 use common\models\Article;
 use common\models\Category;
 use common\models\ArticleTag;
-use common\publics\MyHelper;
-use common\publics\SimpleHtmlDom;
 
 /**
  * @name 文章管理
@@ -29,6 +27,13 @@ class ArticleController extends CommonController
                     "imageUrlPrefix"  => Yii::$app->params['oss']['host'],//图片访问路径前缀
                     "imagePathFormat" => "upload/article/{yyyy}{mm}{dd}/{time}{rand:6}", //上传保存路径
                     "imageRoot" => '',//Yii::getAlias("@frontend").'/web',
+                    
+                    "videoRoot" => '',
+                    "videoUrlPrefix"  => Yii::$app->params['oss']['host'],//图片访问路径前缀
+                    "videoPathFormat" => "upload/video/{yyyy}{mm}{dd}/{time}{rand:6}", //上传保存路径
+                    //"videoAllowFiles" => ['mp4'],
+                    "videoMaxSize"    => 1024*1024*1024
+                    
                 ],
             ]
         ];

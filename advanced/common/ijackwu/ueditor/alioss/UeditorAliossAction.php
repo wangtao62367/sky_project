@@ -67,6 +67,7 @@ class UeditorAliossAction extends UEditorAction
          *     "size" => "",           //文件大小
          * )
          */
+        
         /* 返回数据 */
         return $up->getFileInfo();
     }

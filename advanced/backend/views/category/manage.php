@@ -64,7 +64,9 @@ use yii\helpers\ArrayHelper;
             <td><?php echo MyHelper::timestampToDate($val['modifyTime']);?></td>
             <td>
             <a href="<?php echo Url::to(['category/edit','id'=>$val['id']]);?>" class="tablelink">编辑</a>     
+            <?php if($val['isBase'] != 1):?>
             <a href="<?php echo Url::to(['category/del','id'=>$val['id']]);?>" class="tablelink"> 删除</a>
+            <?php endif;?>
             </td>
         </tr> 
         <?php endforeach;?>
