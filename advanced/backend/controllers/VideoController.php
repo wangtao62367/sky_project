@@ -35,6 +35,7 @@ class VideoController extends CommonController
      */
     public function actionAdd()
     {
+        var_dump(Yii::getAlias('@webroot/admin/font/micro_font.ttf'));
         $model = new Video();
         
         $parentCates = Category::getArticleCates('video');

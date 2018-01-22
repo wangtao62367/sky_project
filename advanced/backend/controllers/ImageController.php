@@ -7,6 +7,7 @@ use common\models\Photo;
 use common\models\Category;
 use yii\helpers\ArrayHelper;
 use OSS\OssClient;
+use common\publics\ImageUpload;
 
 /**
  * @name 图片模块管理
@@ -119,7 +120,7 @@ class ImageController extends CommonController
 	 * @desc 上传图片
 	 * @return boolean[]|boolean[]|string[]
 	 */
-	public function actionUpload()
+	public function actionUpload2()
 	{
 	    $this->setResponseJson();
 	    $files = $_FILES;
@@ -152,6 +153,22 @@ class ImageController extends CommonController
 	        $ossClient->deleteObject($bucket, ltrim($oldBlock,'/'));
 	    }
 	    return ['success'=>true,'message'=>'上传成功','fileFullName'=>Yii::$app->params['oss']['host'].$block,'fileName'=>$block];
+	}
+	
+	public function actionUpload()
+	{
+	    $this->setResponseJson();
+	    $files = $_FILES;
+	    if(empty($files)){
+	        return ['success'=>false];
+	    }
+	    //$file = $files['file'];
+	    $upload = new ImageUpload([
+	        'imageMaxSize' => 1024*1024*1024,
+	        'imagePath'    => 'imageTest'
+	    ]);
+	    $result = $upload->Upload('file');
+	    return ['success'=>true,'message'=>'上传成功','fileFullName'=>Yii::$app->params['oss']['host'].$result,'fileName'=>$result];
 	}
 	
 }
