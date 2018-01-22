@@ -165,7 +165,7 @@ class ImageController extends CommonController
 	    //$file = $files['file'];
 	    $upload = new ImageUpload([
 	        'imageMaxSize' => 1024*1024*1024,
-	        'imagePath'    => 'imageTest'
+	        'imagePath'    => 'image'
 	    ]);
 	    $result = $upload->Upload('file');
 	    return ['success'=>true,'message'=>'上传成功','fileFullName'=>Yii::$app->params['oss']['host'].$result,'fileName'=>$result];

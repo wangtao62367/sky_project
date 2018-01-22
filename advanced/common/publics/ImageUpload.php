@@ -40,7 +40,7 @@ class ImageUpload
         $this->thumbnails   = isset($config['thumbnails']) && !empty($config['thumbnails']) ? $config['thumbnails'] : [];
         
         $this->isWatermark = isset($config['isWatermark']) && !empty($config['isWatermark']) ? $config['isWatermark'] : true;
-        $this->imagePath   = isset($config['imagePath']) && !empty($config['imagePath']) ? 'upload/'.$config['imagePath'].self::DS : 'upload/image/'.date('Y').self::DS.date('m').self::DS.date('d').self::DS;
+        $this->imagePath   = isset($config['imagePath']) && !empty($config['imagePath']) ? '/upload/'.$config['imagePath'].self::DS : '/upload/image/'.date('Y').self::DS.date('m').self::DS.date('d').self::DS;
         
         $this->bucket = Yii::$app->params['oss']['bucket'];
         $this->OSSclient =  new OssClient(Yii::$app->params['oss']['akey'], Yii::$app->params['oss']['skey'], Yii::$app->params['oss']['endpoint'], false);
@@ -62,7 +62,7 @@ class ImageUpload
             $tempSaveImage = Yii::getAlias('@webroot/upload/').$imageName;
             //是否需要添加水印
             if($this->isWatermark){
-                self::watermarkImage($origImage, $tempSaveImage);
+                 $this->watermarkImage($origImage, $tempSaveImage);
                 if($this->isThumbnail){
                     foreach ($this->thumbnails as $thumbnail){
                         $w = $thumbnail['w'];
@@ -71,7 +71,8 @@ class ImageUpload
                         $thumbnailImageBlock = $this->imagePath.$w.'_'.$imageName;
                         Image::thumbnail($tempSaveImage, $w, $h,ManipulatorInterface::THUMBNAIL_OUTBOUND)->save($saveImage);
                         //保存至OSS服务器
-                        $block = str_replace(Yii::getAlias('@webroot/upload'), '', $saveImage);
+                        $imageName = str_replace(Yii::getAlias('@webroot/upload/'), '', $saveImage);
+                        $block = $this->imagePath.$imageName;
                         $this->OSSclient->uploadFile($this->bucket, ltrim($block,'/') , $saveImage);
                         if(is_file($saveImage)){
                             unlink($saveImage);
@@ -89,7 +90,8 @@ class ImageUpload
                         $thumbnailImageBlock = $this->imagePath.$w.'_'.$imageName;
                         Image::thumbnail($origImage, $w, $h,ManipulatorInterface::THUMBNAIL_OUTBOUND)->save($saveImage);
                         //保存至OSS服务器
-                        $block = str_replace(Yii::getAlias('@webroot/upload'), '', $saveImage);
+                        $imageName = str_replace(Yii::getAlias('@webroot/upload/'), '', $saveImage);
+                        $block = $this->imagePath.$imageName;
                         $this->OSSclient->uploadFile($this->bucket, ltrim($block,'/') , $saveImage);
                         if(is_file($saveImage)){
                             unlink($saveImage);
@@ -99,7 +101,6 @@ class ImageUpload
                 
                 $this->OSSclient->uploadFile($this->bucket, ltrim($ossBlock,'/') , $origImage);
             }
-            
             return $ossBlock;
         }catch (\yii\base\Exception $e){
             throw new Exception($e->getMessage());
@@ -108,7 +109,7 @@ class ImageUpload
     }
     
     
-    public static function watermarkImage($origImage,$saveImage)
+    public function watermarkImage($origImage,$saveImage)
     {
         //获取水印配置
         $waterMarkConfig = self::getWatermarkConfig();
@@ -125,21 +126,27 @@ class ImageUpload
             //获取水印位置
             $position = self::getWatermarkPosition($watermarkPosition, $imageWH, ['w'=>$watermarkW,'h'=>$watermarkH]);
             //加文字水印
-            Image::text($origImage, $watermarkContent, Yii::getAlias('@webroot/admin/font/micro_font.ttf'),$position,['color'=>$watermarkTextColor,'size'=>$watermarkTextFont])->save($saveImage, ['quality' => 100]); 
+            Image::text($origImage, $watermarkContent, Yii::getAlias('@webroot/admin/font/simhei.ttf'),$position,['color'=>$watermarkTextColor,'size'=>$watermarkTextFont])->save($saveImage, ['quality' => 100]); 
         }
         
         if($waterMarkConfig['watermarkCate'] == 'image'){
             $waterImageWH = self::getImageWidthHeight($watermarkContent);
             //获取水印位置
             $position = self::getWatermarkPosition($watermarkPosition, $imageWH, $waterImageWH);
+            //获取字符串编码
+            $encode = mb_detect_encoding($watermarkContent, array("ASCII",'UTF-8',"GB2312","GBK",'BIG5'));
+            //将字符编码改为utf-8
+            $watermarkContent = mb_convert_encoding($watermarkContent, 'UTF-8', $encode);
             //加图片水印
             Image::watermark($origImage, $watermarkContent, $position)->save($saveImage, ['quality' => 100]);
         }
         
         if(is_file($saveImage)){
-            //保存至OSS服务器
-            $block = str_replace(Yii::getAlias('@webroot/upload'), '', $saveImage);
-            $this->OSSclient->uploadFile($this->bucket, ltrim($block,'/') , $saveImage);
+        	//保存至OSS服务器
+        	$imageName = str_replace(Yii::getAlias('@webroot/upload/'), '', $saveImage);
+        	$block = $this->imagePath.$imageName;
+        	$this->OSSclient->uploadFile($this->bucket, ltrim($block,'/') , $saveImage);
+        	return $block;
         }
     }
     
@@ -209,7 +216,7 @@ class ImageUpload
     }
     
     public static function getFontBox($text,$size){
-        return imagettfbbox($size, 0, Yii::getAlias('@webroot/admin/font/micro.ttf'), $text);
+        return imagettfbbox($size, 0, Yii::getAlias('@webroot/admin/font/simhei.ttf'), $text);
     }
     
     public static function getTextHeight ($text,$size) {

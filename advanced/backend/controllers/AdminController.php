@@ -164,7 +164,11 @@ class AdminController extends CommonController
     	$idsArr = explode(',',trim($ids,','));
     	return Admin::deleteAll(['in','id',$idsArr]);
     }
-    
+    /**
+     * @desc 管理员授权
+     * @param int $id
+     * @return \yii\web\Response|string
+     */
     public function actionAssign(int $id)
     {
     	if(empty($id)){

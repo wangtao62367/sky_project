@@ -1,0 +1,50 @@
+.uploadFile{
+display:none
+}
+.select-btn-box,.image-box{margin-left:86px}
+.select-btn-box #selectedImg{margin-top:10px;margin-bottom:5px}
+#btn-select-image{
+	padding: 0px;
+    height: 25px;
+    line-height: 25px;
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #2e6da4;
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: 400;
+    text-align: center;
+    white-space: nowrap;
+    text-decoration: none;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+.image-box{
+    width: 200px;
+    height: 200px;
+    line-height: 200px;
+    display: inline-block;
+    text-align: center;
+    border: 1px solid #666;
+    border-style: dotted;
+    margin-top:10px;
+	margin-left:86px;
+    overflow: hidden;
+}
+
+.image-box img{
+display: inline-block;
+vertical-align: middle;
+}
+.closeReasons{display:none}

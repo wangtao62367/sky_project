@@ -35,9 +35,7 @@ class VideoController extends CommonController
      */
     public function actionAdd()
     {
-        var_dump(Yii::getAlias('@webroot/admin/font/micro_font.ttf'));
         $model = new Video();
-        
         $parentCates = Category::getArticleCates('video');
         if(Yii::$app->request->isPost){
             $data = Yii::$app->request->post();

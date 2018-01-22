@@ -31,4 +31,19 @@ class WebController extends CommonController
 
         return $this->render('web-set',['webCfg'=>$webCfg]);
     }
+    
+    public function actionWatermarkSet()
+    {
+    	$webCfg = WebCfg::getWebCfg();
+    	if(Yii::$app->request->isPost){
+    		$data= Yii::$app->request->post();
+    		
+    		$result = WebCfg::saveWatermarkCfg($data, $webCfg);
+    		if($result){
+    			return $this->showSuccess('web/watermark-set');
+    		}
+    	}
+    	
+    	return $this->render('watermark-set',['webCfg'=>$webCfg]);
+    }
 }

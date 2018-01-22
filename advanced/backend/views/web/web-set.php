@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Url;
 use yii\helpers\Html;
+use backend\assets\AppAsset;
 
 
 ?>
@@ -16,7 +17,7 @@ use yii\helpers\Html;
 <div class="formtitle">
 <a href="javascript:;"><span class="active">网站基础设置</span></a>
 <a href="javascript:;"><span>图片上传设置</span></a>
-<a href="javascript:;"><span>图片水印设置</span></a>
+<a href="<?php echo Url::to(['web/watermark-set'])?>"><span>图片水印设置</span></a>
 </div>
 
 <?php echo Html::beginForm('','post',['enctype'=>"multipart/form-data"]);?>
@@ -72,56 +73,7 @@ use yii\helpers\Html;
 
 <?php 
 $css = <<<CSS
-.uploadFile{
-display:none
-}
-.select-btn-box,.image-box{margin-left:86px}
-.select-btn-box #selectedImg{margin-top:10px;margin-bottom:5px}
-#btn-select-image{
-	padding: 0px;
-    height: 25px;
-    line-height: 25px;
-    color: #fff;
-    background-color: #337ab7;
-    border-color: #2e6da4;
-    display: inline-block;
-    padding: 6px 12px;
-    margin-bottom: 0;
-    font-size: 14px;
-    font-weight: 400;
-    text-align: center;
-    white-space: nowrap;
-    text-decoration: none;
-    vertical-align: middle;
-    -ms-touch-action: manipulation;
-    touch-action: manipulation;
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    background-image: none;
-    border: 1px solid transparent;
-    border-radius: 4px;
-}
-.image-box{
-    width: 200px;
-    height: 200px;
-    line-height: 200px;
-    display: inline-block;
-    text-align: center;
-    border: 1px solid #666;
-    border-style: dotted;
-    margin-top:10px;
-	margin-left:86px;
-    overflow: hidden;
-}
 
-.image-box img{
-display: inline-block;
-vertical-align: middle;
-}
-.closeReasons{display:none}
 CSS;
 $js = <<<JS
 $(document).on('click','input[name=status]',function(){
@@ -151,7 +103,7 @@ $('#uploadFile').change(function(){
     //uploadFile();
 })
 JS;
-
+AppAsset::addCss($this, '/admin/css/webset.css');
 $this->registerJs($js);
-$this->registerCss($css);
+
 ?>
