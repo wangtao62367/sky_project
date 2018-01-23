@@ -37,7 +37,7 @@ use backend\assets\AppAsset;
 	<li class="imageSet"><label>水印图片</label>
 		<?php echo Html::hiddenInput('oldwaterImage', $webCfg['watermarkContent'],['id'=>'oldwaterImage']);?>
         <?php echo Html::hiddenInput('waterImage', $webCfg['watermarkContent'],['id'=>'waterImage'])?>
-        <?php echo Html::fileInput('files','',['class'=>'uploadFile','id'=>"uploadFile"]);?>
+        <?php echo Html::fileInput('file','',['class'=>'uploadFile','id'=>"uploadFile"]);?>
         <div class="select-btn-box"><a href="javascript:;" class="btn"  id="btn-select-image">选择图片</a><p id="selectedImg"></p></div>
         <div href="javascript:;" class="image-box">
         	<?php if($webCfg['watermarkCate'] == 'image'):?>
@@ -46,7 +46,7 @@ use backend\assets\AppAsset;
         		<img alt="" src="/admin/images/ico04.png" />
         	<?php endif;?>
         </div>
-        <i>水印图片建议大小为120像素 * 50像素</i>
+        <i>水印图片建议宽高为120像素 * 50像素;大小控制在500kb以内</i>
 	</li>
 	<li><label>水印位置</label>
 		<div class="vocation">
@@ -75,16 +75,39 @@ use backend\assets\AppAsset;
 $css = <<<CSS
 .imageSet{display:none}
 CSS;
+$watermarkCate = $webCfg['watermarkCate'];
 $js = <<<JS
-$(document).on('click','input[name=watermarkCate]',function(){
-	var val = $(this).val();
-	if(val == 'text'){
+initView('$watermarkCate');
+function initView(cate){
+    if(cate == 'text'){
 		$('.fontSet').show();
 		$('.imageSet').hide();
 	}else{
 		$('.imageSet').show();
 		$('.fontSet').hide();
 	}
+}
+$(document).on('click','input[name=watermarkCate]',function(){
+	var val = $(this).val();
+	initView(val);
+})
+$(document).on('click','#btn-select-image',function(){
+	$('#uploadFile').click();
+})
+$('#uploadFile').change(function(){
+    var file = this.files && this.files[0];
+    console.log(file);
+    var maxSize = 500 * 1025;//500kb
+    var ext = ['image/jpeg','image/png','image/jpg'];
+    console.log($.inArray(file.type,ext));
+    if(file.size > maxSize){
+        alert("所选图片大小不能超过500KB");return;
+    }
+    if($.inArray(file.type,ext) == -1){
+        alert("所选图片格式只能是jpg、png或jpeg");return;
+    }
+	$("#selectedImg").text(file.name);
+    //uploadFile();
 })
 JS;
 

@@ -3,6 +3,8 @@ namespace common\models;
 
 
 use Yii;
+use yii\base\Exception;
+use common\publics\ImageUpload;
 
 class WebCfg extends BaseModel
 {
@@ -26,6 +28,51 @@ class WebCfg extends BaseModel
             $result[$val->name] = $val->value;
         }
         return $result;
+    }
+    
+    public static function saveWatermarkCfg($data, $webCfg)
+    {
+        //文字水印
+        if($data['watermarkCate'] == 'text'){
+            
+            if(empty($data['watermarkContent']) || empty($data['watermarkTextFont']) 
+                || empty($data['watermarkTextColor'] || empty($data['watermarkPosition']))){
+                throw new Exception('参数错误');
+            }
+            if($data['watermarkContent'] != $webCfg['watermarkContent']){
+                self::updateAll(['value'=>$data['watermarkContent']],['name'=>'watermarkContent']);
+            }
+            if($data['watermarkTextFont'] != $webCfg['watermarkTextFont']){
+                self::updateAll(['value'=>$data['watermarkTextFont']],['name'=>'watermarkTextFont']);
+            }
+            if($data['watermarkTextColor'] != $webCfg['watermarkTextColor']){
+                self::updateAll(['value'=>$data['watermarkTextColor']],['name'=>'watermarkTextColor']);
+            }
+            
+            
+        }else{ //图片水印
+            if(!empty($_FILES)){
+                $upload = new ImageUpload([
+                    'imageMaxSize' => 1024*1024*500,
+                    'imagePath'    => 'watermark',
+                    'isWatermark'  => false
+                ]);
+                $result = $upload->Upload('file');
+                $imageName = Yii::$app->params['oss']['host'].$result;
+                self::updateAll(['value'=>$imageName],['name'=>'watermarkContent']);
+                if(!empty($data['oldwaterImage']) && strripos($data['oldwaterImage'], Yii::$app->params['oss']['host']) !== false ){
+                    $ossBlock = str_replace(Yii::$app->params['oss']['host'], '', $data['oldwaterImage']);
+                    $upload->deleteImage($ossBlock);
+                }
+        
+            }
+        }
+        
+        if($data['watermarkPosition'] != $webCfg['watermarkPosition']){
+            self::updateAll(['value'=>$data['watermarkPosition']],['name'=>'watermarkPosition']);
+        }
+        self::updateAll(['value'=>$data['watermarkCate']],['name'=>'watermarkCate']);
+        return true;
     }
     
     

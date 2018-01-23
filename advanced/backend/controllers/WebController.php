@@ -37,7 +37,6 @@ class WebController extends CommonController
     	$webCfg = WebCfg::getWebCfg();
     	if(Yii::$app->request->isPost){
     		$data= Yii::$app->request->post();
-    		
     		$result = WebCfg::saveWatermarkCfg($data, $webCfg);
     		if($result){
     			return $this->showSuccess('web/watermark-set');

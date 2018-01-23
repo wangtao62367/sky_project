@@ -64,7 +64,11 @@ use yii\helpers\Html;
     </tbody>
 </table>
 
-<div id="Pagination" class="pagination"><!-- 这里显示分页 --></div>
+<div class="pagination">
+    <div style="float: left"><span>总共有 <?php echo $list['count'];?> 条数据</span></div>
+    <!-- 这里显示分页 -->
+    <div id="Pagination"></div>
+</div>
 <?php 
 $css = <<<CSS
 

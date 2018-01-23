@@ -22,7 +22,7 @@ class ImageUpload
     //图片大小限制（单位字节 如：1kb = 1024）
     private $imageMaxSize;
     //是否压缩
-    private $isThumbnail;
+    private $isThumbnail = false;
     //压缩规格
     private $thumbnails = [];
     //是否加水印
@@ -106,6 +106,12 @@ class ImageUpload
             throw new Exception($e->getMessage());
             return null;
         }
+    }
+    
+    public function deleteImage($ossBlock)
+    {
+        $this->OSSclient->deleteObject($this->bucket, ltrim($ossBlock,'/'));
+        return true;
     }
     
     
@@ -216,7 +222,7 @@ class ImageUpload
     }
     
     public static function getFontBox($text,$size){
-        return imagettfbbox($size, 0, Yii::getAlias('@webroot/admin/font/simhei.ttf'), $text);
+        return imagettfbbox($size, 0, Yii::getAlias('@webroot/admin/font/ariali.ttf'), $text);
     }
     
     public static function getTextHeight ($text,$size) {
