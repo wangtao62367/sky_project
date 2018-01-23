@@ -23,7 +23,7 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
 <div class="formbody">
 
 <div class="formtitle"><span><?php echo $title?></span></div>
-<?php echo Html::beginForm('','post',['id'=>'myform']);?>
+<?php echo Html::beginForm('','post',['id'=>'myform','enctype'=>"multipart/form-data"]);?>
 <ul class="forminfo">
 	<li><label>上传视频<b>*</b></label>
 	<?php echo Html::activeHiddenInput($model,'oldVideo',['id'=>'oldVideo']);?>
@@ -36,25 +36,34 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
     		<?php endif;?>
     </div>
 	</li>
-    <li><label>视频背景图<b>*</b></label>
+	 <li><label>视频背景图<b>*</b></label>
     <?php echo Html::activeHiddenInput($model,'oldVideoImg',['id'=>'oldVideoImg']);?>
     <?php echo Html::activeHiddenInput($model, 'videoImg',['class'=>'dfinput','id'=>'videoImg'])?>
-    <?php echo Html::fileInput('files','',['class'=>'uploadFile','id'=>"uploadFile","accept"=>"image/png, image/jpeg,image/jpg"]);?>
-    <a href="javascript:;" id="btn-select-image">
+    <?php echo Html::fileInput('image','',['class'=>'uploadFile','id'=>"uploadFile","accept"=>"image/png, image/jpeg,image/jpg"]);?>
+    <div class="select-btn-box"><a href="javascript:;" class="btn"  id="btn-select-image">选择图片</a><p id="selectedImg"></p></div>
+    <div href="javascript:;" class="image-box">
     	<?php if(!empty($model->videoImg)):?>
     		<img alt="" width="100%" height="170px" src="<?php echo $model->videoImg;?>" />
     	<?php else :?>
     		<img alt="" src="/admin/images/ico04.png" />
     	<?php endif;?>
-    </a>
+    </div>
     <i>图片大小不超过500KB，且格式必须是png、jpeg或jpg的图片。（建议图片尺寸为：270像素 * 170像素）</i>
     </li>
+
     <li><label>视频分类<b>*</b></label>
     	<div class="vocation">
             <?php echo Html::activeDropDownList($model, 'categoryId', ArrayHelper::map($parentCates,'id','text'),['prompt'=>'请选择','id'=>'categoryId','class'=>'sky-select'])?>
         </div>
     </li>
-    <li><label>视频描述<b>*</b></label><?php echo Html::activeTextInput($model, 'descr',['class'=>'dfinput','id'=>'descr'])?></li>
+    <li><label>视频名称<b>*</b></label><?php echo Html::activeTextInput($model, 'descr',['class'=>'dfinput','id'=>'descr'])?></li>
+    
+    <li><label>图片提供者</label><?php echo Html::activeTextInput($model, 'provider',['class'=>'dfinput'])?><i></i></li>
+	
+	<li><label>院领导</label><?php echo Html::activeTextInput($model, 'leader',['class'=>'dfinput'])?><i></i></li>
+    
+    <li><label>备&nbsp;&nbsp;注</label><?php echo Html::activeTextarea($model, 'remarks',['class'=>'textinput'])?><i></i></li>
+    
     <?php if(Yii::$app->session->hasFlash('error')):?>
     	<li><label>&nbsp;</label><span class="error-tip"><?php echo Yii::$app->session->getFlash('error');?></span></li>
     <?php endif;?>
@@ -68,15 +77,7 @@ $css = <<<CSS
 .uploadFile{
 display:none
 }
-#btn-select-image{
-    width: 267px;
-    height: 164px;
-    line-height: 164px;
-    display: inline-block;
-    text-align: center;
-    border: 1px solid #666;
-    border-style: dotted;
-}
+
 #selectfiles{
     padding : 0px;
     height: 34px;
@@ -136,7 +137,7 @@ $('#uploadFile').change(function(){
     if($.inArray(file.type,ext) == -1){
         alert("所选图片格式只能是jpg、png或jpeg");return;
     }
-    uploadFile();
+    //uploadFile();
 })
 
 function uploadFile(){
@@ -211,6 +212,7 @@ JS;
 AppAsset::addScript($this, '/admin/alioss/js/plupload.full.min.js');
 AppAsset::addScript($this, '/admin/alioss/js/upload.js');
 AppAsset::addCss($this, '/admin/alioss/css/style.css');
+AppAsset::addCss($this, '/admin/css/webset.css');
 $this->registerJs($js);
 $this->registerCss($css);
 ?>

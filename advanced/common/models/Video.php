@@ -23,7 +23,7 @@ class Video extends BaseModel
             ['categoryId','required','message'=>'视频分类不能为空','on'=>['add','edit']],
             ['descr','required','message'=>'视频名称不能为空','on'=>['add','edit']],
         	['videoImg','required','message'=>'视频背景图不能为空','on'=>['add','edit']],
-            [['search','oldVideoImg'],'safe']
+        	[['search','oldVideoImg','provider','leader','remarks'],'safe']
         ];
     }
     
@@ -57,7 +57,7 @@ class Video extends BaseModel
     public function getPageList(array $data)
     {
         $this->curPage = isset($data['curPage']) && !empty($data['curPage']) ? $data['curPage'] : $this->curPage;
-        $query = self::find()->select([])->where(['isDelete'=>0])->orderBy('createTime desc,modifyTime desc');
+        $query = self::find()->select([])->joinWith('categorys')->where([self::tableName().'.isDelete'=>0])->orderBy('createTime desc,modifyTime desc');
         if($this->load($data)){
             if(!empty($this->search)){
                 if(!empty($this->search['descr'])){
@@ -70,5 +70,10 @@ class Video extends BaseModel
         }
         $result = $this->query($query, $this->curPage, $this->pageSize);
         return $result;
+    }
+    
+    public function getCategorys()
+    {
+    	return $this->hasOne(Category::className(), ['id'=>'categoryId']);
     }
 }

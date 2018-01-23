@@ -25,7 +25,7 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
 <div class="formtitle"><span><?php echo $title?></span></div>
 <?php echo Html::beginForm('','post',['id'=>'myform']);?>
 <ul class="forminfo">
-	<li><label>上传视频<b>*</b></label>
+	<li><label>上传文件<b>*</b></label>
 	<?php //echo Html::activeHiddenInput($model,'oldUri',['id'=>'oldUri']);?>
     <?php echo Html::activeHiddenInput($model, 'uri',['class'=>'dfinput','id'=>'uri'])?>
     <div style="margin-left: 86px">
@@ -36,12 +36,19 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
     </div>
 	</li>
 
-    <li><label>分拣分类<b>*</b></label>
+    <li><label>文件分类<b>*</b></label>
     	<div class="vocation">
             <?php echo Html::activeDropDownList($model, 'categoryId', ArrayHelper::map($parentCates,'id','text'),['prompt'=>'请选择','id'=>'categoryId','class'=>'sky-select'])?>
         </div>
     </li>
     <li><label>文件名称<b>*</b></label><?php echo Html::activeTextInput($model, 'descr',['class'=>'dfinput','id'=>'descr'])?></li>
+    
+    <li><label>图片提供者</label><?php echo Html::activeTextInput($model, 'provider',['class'=>'dfinput'])?><i></i></li>
+	
+	<li><label>院领导</label><?php echo Html::activeTextInput($model, 'leader',['class'=>'dfinput'])?><i></i></li>
+	
+	<li><label>备&nbsp;&nbsp;注</label><?php echo Html::activeTextarea($model, 'remarks',['class'=>'textinput'])?><i></i></li>
+    
     <?php if(Yii::$app->session->hasFlash('error')):?>
     	<li><label>&nbsp;</label><span class="error-tip"><?php echo Yii::$app->session->getFlash('error');?></span></li>
     <?php endif;?>

@@ -43,11 +43,18 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
             <?php echo Html::activeDropDownList($model, 'categoryId', ArrayHelper::map($parentCates,'id','text'),['prompt'=>'请选择','class'=>'sky-select'])?>
         </div>
     </li>
-    <li><label>图片描述<b>*</b></label><?php echo Html::activeTextInput($model, 'descr',['class'=>'dfinput'])?></li>
+    <li><label>图片标题<b>*</b></label><?php echo Html::activeTextInput($model, 'title',['class'=>'dfinput'])?></li>
     <li><label>图片链接</label><?php echo Html::activeTextInput($model, 'link',['class'=>'dfinput'])?><i>链接地址必须是URL全路径,例如：百度 http://www.baidu.com</i></li>
+    
+    <li><label>图片提供者</label><?php echo Html::activeTextInput($model, 'provider',['class'=>'dfinput'])?><i></i></li>
+	
+	<li><label>院领导</label><?php echo Html::activeTextInput($model, 'leader',['class'=>'dfinput'])?><i></i></li>
+    
+    <li><label>备&nbsp;&nbsp;注</label><?php echo Html::activeTextarea($model, 'remarks',['class'=>'textinput'])?><i></i></li>
     <?php if(Yii::$app->session->hasFlash('error')):?>
     	<li><label>&nbsp;</label><span class="error-tip"><?php echo Yii::$app->session->getFlash('error');?></span></li>
     <?php endif;?>
+    
     <li><label>&nbsp;</label><?php echo Html::submitInput('确认保存',['class'=>'btn'])?></li>
 </ul>
 <?php echo Html::endForm();?>

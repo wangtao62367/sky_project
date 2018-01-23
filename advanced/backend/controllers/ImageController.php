@@ -44,7 +44,19 @@ class ImageController extends CommonController
 	        //var_dump($_FILES);exit();
 	        //先上传图片 再写数据
 	        if(!empty($_FILES)){
-	        	$file = $_FILES['files'];
+	        	$upload = new ImageUpload([
+	        			'imageMaxSize' => 1024*1024*500
+	        	]);
+	        	$result = $upload->Upload('files');
+	        	$imageName = Yii::$app->params['oss']['host'].$result;
+	        	$data['Photo']['photo'] = $imageName;
+	        	$result = $model->add($data);
+	        	if($result){
+	        		return $this->showSuccess('image/manage');
+	        	}else{
+	        		Yii::$app->session->setFlash('error',$model->getErrorDesc());
+	        	}
+	        	/* $file = $_FILES['files'];
 	        	$oldFile = $data['Photo']['oldFile'];
 	        	$result = Photo::upload($file,$oldFile);
 	        	if($result['success']){
@@ -56,7 +68,7 @@ class ImageController extends CommonController
 	        		Yii::$app->session->setFlash('error',$model->getErrorDesc());
 	        	}else{
 	        		Yii::$app->session->setFlash('error',$result['message']);
-	        	}
+	        	} */
 	        	
 	        }else{
 	        	Yii::$app->session->setFlash('error','图片不能为空');
@@ -80,12 +92,18 @@ class ImageController extends CommonController
 	        $data = Yii::$app->request->post();
 	        //先上传图片 再写数据
 	        if(!empty($_FILES)){
-	        	$file = $_FILES['files'];
+	        	$upload = new ImageUpload([
+	        			'imageMaxSize' => 1024*1024*500
+	        	]);
+	        	$result = $upload->Upload('files');
+	        	$imageName = Yii::$app->params['oss']['host'].$result;
+	        	$data['Photo']['photo'] = $imageName;
+	        	/* $file = $_FILES['files'];
 	        	$oldFile = $data['Photo']['oldFile'];
 	        	$result = Photo::upload($file,$oldFile);
 	        	if($result['success']){
 	        		$data['Photo']['photo'] = $result['fileFullName'];
-	        	}
+	        	} */
 	        }
 	        
 	        $result = Photo::edit($data,$photo);

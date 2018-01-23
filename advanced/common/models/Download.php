@@ -23,7 +23,7 @@ class Download extends BaseModel
 				['descr','required','message'=>'文件名不能为空','on'=>['add','edit']],
 				['categoryId','required','message'=>'视频分类不能为空','on'=>['add','edit']],
 				['uri','required','message'=>'文件下载路径不能为空','on'=>['add','edit']],
-				[['search','remarks'],'safe']
+				[['search','remarks','provider','leader','remarks'],'safe']
 		];
 	}
 	
@@ -56,7 +56,7 @@ class Download extends BaseModel
 	public function getPageList(array $data)
 	{
 		$this->curPage = isset($data['curPage']) && !empty($data['curPage']) ? $data['curPage'] : $this->curPage;
-		$query = self::find()->select([])->orderBy('createTime desc,modifyTime desc');
+		$query = self::find()->select([])->joinWith('categorys')->orderBy('createTime desc,modifyTime desc');
 		if($this->load($data)){
 			if(!empty($this->search)){
 				if(!empty($this->search['descr'])){
@@ -69,6 +69,11 @@ class Download extends BaseModel
 		}
 		$result = $this->query($query, $this->curPage, $this->pageSize);
 		return $result;
+	}
+	
+	public function getCategorys()
+	{
+		return $this->hasOne(Category::className(), ['id'=>'categoryId']);
 	}
 	
 	

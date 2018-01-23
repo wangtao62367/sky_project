@@ -91,15 +91,5 @@ class VoteController extends CommonController
 
     }
     
-    private function exportBrowser(string $type,string $fileName)
-    {
-        if($type == 'Excel5'){
-            header('Content-Type: application/vnd.ms-excel');
-        }else {
-            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        }
-        header('Content-Disposition: attachment;filename="'.$fileName.'"');
-        header('Cache-Control: max-age=0');
-        
-    }
+   
 }

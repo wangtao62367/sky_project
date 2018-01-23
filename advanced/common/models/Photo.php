@@ -21,8 +21,8 @@ class Photo extends BaseModel
 		return [
 			['photo','required','message'=>'图片不能为空','on'=>['add','edit']],
 		    ['categoryId','required','message'=>'图片分类不能为空','on'=>['add','edit']],
-		    ['descr','required','message'=>'图片描述不能为空','on'=>['add','edit']],
-		    [['search','oldFile','link'],'safe']
+		    ['title','required','message'=>'图片标题不能为空','on'=>['add','edit']],
+		    [['search','oldFile','link','provider','leader','remarks'],'safe']
 		];
 	}
 	

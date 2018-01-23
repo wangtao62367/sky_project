@@ -38,6 +38,9 @@ use yii\helpers\ArrayHelper;
             <th>文件名称</th>
             <th>链接地址</th>
             <th>文件类型</th>
+            <th>提供者</th>
+            <th>院领导</th>
+            <th>下载量</th>
             <th>创建时间</th>
             <th>修改时间</th>
             <th>操作</th>
@@ -51,7 +54,10 @@ use yii\helpers\ArrayHelper;
             <td><input name="ids" class="item" type="checkbox" value="<?php echo $val['id'];?>" /></td>
             <td><?php echo $val['descr'];?></td>
             <td><?php echo $val['uri'];?></td>
-            <td><?php echo $val['categoryId'];?></td>
+            <td><?php echo $val['categorys']['text'];?></td>
+            <td><?php echo $val['provider'];?></td>
+            <td><?php echo $val['leader'];?></td>
+            <td><?php echo $val['loadCount'];?></td>
             <td><?php echo MyHelper::timestampToDate($val['createTime']);?></td>
             <td><?php echo MyHelper::timestampToDate($val['modifyTime']);?></td>
             <td>
