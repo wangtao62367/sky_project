@@ -6,6 +6,7 @@ namespace backend\controllers;
 use Yii;
 use common\models\Admin;
 use yii\web\Controller;
+use yii\helpers\VarDumper;
 /**
  * @name 后台用户
  * @author wangt
@@ -25,7 +26,9 @@ class PublicController extends Controller
         $model = new Admin();
         if(Yii::$app->request->isPost){
             $post = Yii::$app->request->post();
+            
             $result = $model->login($post);
+
             if($result){
                 return $this->redirect(['default/index']);
             }else{

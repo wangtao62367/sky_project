@@ -9,7 +9,7 @@ use backend\assets\AppAsset;
     <span>位置：</span>
     <ul class="placeul">
     <li><a href="#">新闻系统</a></li>
-    <li><a href="<?php echo Url::to(['image/manage'])?>">内容管理</a></li>
+    <li><a href="<?php echo Url::to(['content/manage'])?>">内容管理</a></li>
     <li><a href="<?php echo Url::to(['image/manage'])?>">图片列表</a></li>
     </ul>
 </div>
@@ -31,8 +31,8 @@ use backend\assets\AppAsset;
 	        <?php echo Html::activeTextInput($model, 'search[createTimeStart]',['class'=>'scinput','id'=>'createTimeStart','placeholder'=>'开始时间'])?> - 
 	        <?php echo Html::activeTextInput($model, 'search[createTimeEnd]',['class'=>'scinput','id'=>'createTimeEnd','placeholder'=>'结束时间'])?></li>
 	        <li><label>&nbsp;</label><?php echo Html::submitInput('查询',['class'=>'scbtn'])?></li>
-        	<li><a href="<?php echo Url::to(['image/add'])?>"><span><img src="/admin/images/t01.png" /></span>添加</a></li>
-        	<li><a href="javascript:;" class="batchDel"><span><img src="/admin/images/t03.png" /></span>删除</a></li>
+        	<li class="click"><a href="<?php echo Url::to(['image/add'])?>" class="add-btn">添加</a></li>
+        	<li><a href="javascript:;" class="batchDel del-btn">删除</a></li>
         </ul>
         <?php echo Html::endForm();?>
         
@@ -71,7 +71,7 @@ use backend\assets\AppAsset;
 		    <td><?php echo $val['leader'];?></td>
 		    <td><?php echo MyHelper::timestampToDate($val['createTime']);?></td>
             <td><?php echo MyHelper::timestampToDate($val['modifyTime']);?></td>
-		    <td>
+		    <td class="handle-box">
 		    <a href="<?php echo Url::to(['image/edit','id'=>$val['id']])?>">编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="<?php echo Url::to(['image/del','id'=>$val['id']])?>">删除</a>
 		    </td>
 		    </tr>
@@ -91,7 +91,11 @@ $uri = Yii::$app->request->getUrl();
 $curPage = $list['curPage'];
 $pageSize = $list['pageSize'];
 $count = $list['count'];
+$batchDelUrl = Url::to(['image/batchdel']);
 $js= <<<JS
+$('.batchDel').click(function(){
+    batchDel('$batchDelUrl');
+});
 initPagination({
 	el : "#Pagination",
 	count : $count,

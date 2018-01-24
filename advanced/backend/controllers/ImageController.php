@@ -132,13 +132,21 @@ class ImageController extends CommonController
 	    }
 	}
 	
+	public function actionBatchdel()
+	{
+		$this->setResponseJson();
+		$ids = Yii::$app->request->post('ids');
+		$idsArr = explode(',',trim($ids,','));
+		$result = (bool)Photo::updateAll(['isDelete'=>1],['in','id',$idsArr]);
+	}
+	
 	
 	
 	/**
 	 * @desc 上传图片
 	 * @return boolean[]|boolean[]|string[]
 	 */
-	public function actionUpload2()
+	private function actionUpload2()
 	{
 	    $this->setResponseJson();
 	    $files = $_FILES;
@@ -173,20 +181,6 @@ class ImageController extends CommonController
 	    return ['success'=>true,'message'=>'上传成功','fileFullName'=>Yii::$app->params['oss']['host'].$block,'fileName'=>$block];
 	}
 	
-	public function actionUpload()
-	{
-	    $this->setResponseJson();
-	    $files = $_FILES;
-	    if(empty($files)){
-	        return ['success'=>false];
-	    }
-	    //$file = $files['file'];
-	    $upload = new ImageUpload([
-	        'imageMaxSize' => 1024*1024*1024,
-	        'imagePath'    => 'image'
-	    ]);
-	    $result = $upload->Upload('file');
-	    return ['success'=>true,'message'=>'上传成功','fileFullName'=>Yii::$app->params['oss']['host'].$result,'fileName'=>$result];
-	}
+
 	
 }

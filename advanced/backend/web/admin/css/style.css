@@ -326,3 +326,6 @@ td .actived{background:#00ff40;padding:4px 8px;color:#fff;border-radius:5px}
 .export-btn{background: url(/admin/images/t04.png) no-repeat #e1e7ea;background-position-x: 10px;background-position-y: 5px;}
 .add-btn{background: url(/admin/images/t01.png) no-repeat #e1e7ea;background-position-x: 10px;background-position-y: 5px;}
 .del-btn{background: url(/admin/images/t03.png) no-repeat #e1e7ea;background-position-x: 10px;background-position-y: 5px;}
+
+table td.handle-box{text-indent: 0px;}
+table td.handle-box a{display:inline-block;margin:2px}

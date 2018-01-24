@@ -59,7 +59,7 @@ class ArticleController extends CommonController
         $article = new Article();
         $data = Yii::$app->request->get();
         $result = $article->getArticlesByExport($data);
-        var_dump($result);
+        //var_dump($result);
     }
     
     /**

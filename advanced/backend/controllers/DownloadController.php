@@ -95,4 +95,13 @@ class DownloadController extends CommonController
 		$idsArr = explode(',',trim($ids,','));
 		return Download::deleteAll(['in','id',$idsArr]);
 	}
+	/**
+	 * @desc 下载文件导出
+	 */
+	public function actionExport()
+	{
+		$model = new Download();
+		$data = Yii::$app->request->get();
+		$model->export($data);
+	}
 }

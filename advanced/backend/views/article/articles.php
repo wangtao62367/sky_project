@@ -102,7 +102,7 @@ use backend\assets\AppAsset;
             <td><?php echo $val['leader'] ;?> </td>
             <td><?php echo MyHelper::timestampToDate($val['createTime']);?></td>
             <td><?php echo MyHelper::timestampToDate($val['modifyTime']);?></td>
-            <td>
+            <td class="handle-box">
             	<a href="<?php echo Url::to(['article/edit','id'=>$val['id']])?>" class="tablelink">编辑</a>    
              	<a href="<?php echo Url::to(['article/del','id'=>$val['id']])?>" class="tablelink"> 删除</a>
             </td>
@@ -169,7 +169,6 @@ $('.publishEndTime').datetimepicker({
 $(document).on('click','.export-btn',function(){
     var form = $(this).parents('form')[0];
     $(form).attr('action','$exportUrl');
-    console.log(form);
     $(form).submit();
 })
 JS;

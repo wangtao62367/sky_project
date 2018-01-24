@@ -69,9 +69,9 @@ class CategoryController extends CommonController
     {
         $cate= new Category();
         $get = Yii::$app->request->get();
-        $data = $cate->categoris($get,$get);
+        $list = $cate->categoris($get);
         $parentCates = $cate->getParentCate();
-        return $this->render('manage',['model'=>$cate,'list'=>$data,'parentCates'=>$parentCates]);
+        return $this->render('manage',['model'=>$cate,'list'=>$list,'parentCates'=>$parentCates]);
     }
     /**
      * @desc 删除分类
@@ -98,6 +98,15 @@ class CategoryController extends CommonController
         $ids = Yii::$app->request->post('ids');
         $idsArr = explode(',',trim($ids,','));
         return Category::updateAll(['isDelete'=>1],['in','id',$idsArr]);
+    }
+    /**
+     * @desc 分类导出
+     */
+    public function actionExport()
+    {
+    	$cate= new Category();
+    	$data = Yii::$app->request->get();
+    	$cate->export($data);
     }
     
 }

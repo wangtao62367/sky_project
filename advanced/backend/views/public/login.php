@@ -17,6 +17,9 @@ $this->title = '欢迎登陆';
 	    	<li>
 	    		<?php echo Html::activePasswordInput($model, 'adminPwd',['class'=>'loginpwd','autocomplete'=>'off'])?>
 	    	</li>
+	    	<li style="margin-bottom:0px;margin: 5px;color:red">
+	    		<?php if(Yii::$app->session->hasFlash('error')){ echo Yii::$app->session->getFlash('error');}?>
+	    	</li>
 	    	<li>
 	    		<?php echo Html::submitInput('登陆',['class'=>'loginbtn'])?>
 	    		<label><?php echo Html::a('忘记密码？',Url::to(['public/forgetpwd']))?></label>
