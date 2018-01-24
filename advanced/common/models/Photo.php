@@ -54,7 +54,6 @@ class Photo extends BaseModel
 	
 	
 	
-	
 	public function getPageList(array $data)
 	{
 	    $this->curPage = isset($data['curPage']) && !empty($data['curPage']) ? $data['curPage'] : $this->curPage;
@@ -66,6 +65,15 @@ class Photo extends BaseModel
 	            }
 	            if(!empty($this->search['categoryId'])){
 	                $query= $query->andWhere('categoryId = :categoryId',[':categoryId'=>$this->search['categoryId']]);
+	            }
+	            if(!empty($this->search['provider'])){
+	                $query= $query->andWhere(['like','provider',$this->search['provider']]);
+	            }
+	            if(!empty($this->search['createTimeStart'])){
+	                $query= $query->andWhere(self::tableName().'.modifyTime >= :starttime',[':starttime'=>strtotime($this->search['createTimeStart'])]);
+	            }
+	            if(!empty($this->search['createTimeEnd'])){
+	                $query= $query->andWhere(self::tableName().'.modifyTime <= :endtime',[':endtime'=>strtotime($this->search['createTimeEnd'])]);
 	            }
 	        }
 	    }

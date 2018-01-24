@@ -8,6 +8,7 @@ use common\publics\MyHelper;
 use yii\base\Exception;
 use backend\models\ArticleCollectionWebsite;
 use common\publics\SimpleHtmlDom;
+use yii\helpers\ArrayHelper;
 
 class Article extends BaseModel
 {
@@ -50,9 +51,9 @@ class Article extends BaseModel
         return $this->hasOne(Category::className(), ['id'=>'categoryId']);
     }
     
-    public function articles(array $get,array $search)
+    public function articles(array $data,array $search)
     {
-        $this->curPage = isset($get['curPage']) && !empty($get['curPage']) ? $get['curPage'] : $this->curPage;
+        $this->curPage = isset($data['curPage']) && !empty($data['curPage']) ? $data['curPage'] : $this->curPage;
         $query = self::find()
                 ->with(['articletags'=>function(\yii\db\ActiveQuery $query){
                     $query->with(['tags']);
@@ -61,6 +62,95 @@ class Article extends BaseModel
                ->where(['isDelete'=>0])
                ->orderBy('modifyTime desc');
         if (!empty($search) && $this->load($search)){
+            $query = $this->queryFilter($data,$query);
+        }
+        return $this->query($query,$this->curPage,$this->pageSize);
+    }
+    
+    public function getArticlesByExport($data)
+    {
+        $query = self::find()
+            ->select([
+                self::tableName().'.id',
+                self::tableName().'.title',
+                self::tableName().'.url',
+                self::tableName().'.author',
+                self::tableName().'.contentCount',
+                self::tableName().'.source',
+                self::tableName().'.sourceLinke',
+                self::tableName().'.readCount',
+                self::tableName().'.categoryId',
+                self::tableName().'.publishTime',
+                self::tableName().'.isPublish',
+                self::tableName().'.imgCount',
+                self::tableName().'.imgProvider',
+                self::tableName().'.leader',
+                self::tableName().'.ishot',
+                self::tableName().'.createTime',
+                self::tableName().'.modifyTime',
+                self::tableName().'.remarks',
+            ])
+            ->with('categorys')
+            ->where([self::tableName().'.isDelete'=>0])
+            ->orderBy('ishot desc,modifyTime desc');
+        if (!empty($data) && $this->load($data)){
+            $query = $this->queryFilter($data,$query);
+        }
+        $result = $query->asArray()->all();
+        
+        $phpExcel = new \PHPExcel();
+        $objSheet = $phpExcel->getActiveSheet();
+        $objSheet->setTitle('社会主义新闻列表');
+        $objSheet->setCellValue('A1','序号')->setCellValue('B1','文章标题')->setCellValue('C1','文章作者')->setCellValue('D1','文章字数')
+        ->setCellValue('E1','来源')->setCellValue('F1','来源链接')->setCellValue('G1','预览数')->setCellValue('H1','文章分类')->setCellValue('I1','发布时间')
+        ->setCellValue('J1','是否发布')->setCellValue('K1','图片数')->setCellValue('L1','图片提供者')->setCellValue('M1','院领导')->setCellValue('N1','热点新闻')
+        ->setCellValue('O1','创建时间')->setCellValue('P1','修改时间')->setCellValue('Q1','备注');
+        $cell = 'A';
+        $num  = '1';
+        foreach ($result as $article){
+            foreach ($article as $v){
+                $objSheet->setCellValue($cell.$num,'姓名')->setCellValue('B1','分数');
+            }
+        }
+        $objSheet->setCellValue('A1','姓名')->setCellValue('B1','分数');
+        $objSheet->setCellValue('A2','张三')->setCellValue('B2','89');
+        
+        $objWriter = \PHPExcel_IOFactory::createWriter($phpExcel,'Excel2007');
+        
+        $this->exportBrowser('demo.xlsx');
+        $objWriter->save('php://output');
+        
+        return $result;
+    }
+    
+    public function attributeLabels()
+    {
+        return [
+            'id' => '序号',
+            'title' => '文章标题',
+            'url'   => '文章超链接',
+            'author' => '文章作者',
+            'contentCount' => '文章字数',
+            'source' => '来源',
+            'sourceLinke' => '来源链接',
+            'readCount' => '预览数',
+            'categoryId' => '分类ID',
+            'publishTime' => '发布时间',
+            'isPublish' => '是否发布',
+            'imgCount'  => '图片数',
+            'imgProvider' => '图片提供者',
+            'leader' => '院领导',
+            'ishot'  => '热点新闻',
+            'createTime' => '创建时间',
+            'modifyTime' => '编辑时间',
+            'remarks' => '备注'
+            
+        ];
+    }
+    
+    private function queryFilter($data,$query)
+    {
+        if (!empty($data) && $this->load($data)){
             if(!empty($this->search['keywords'])){
                 $query = $query->andWhere(['or',['like','author',$this->search['keywords']],['like','title',$this->search['keywords']]]);
             }
@@ -80,7 +170,7 @@ class Article extends BaseModel
                 $query = $query->andWhere('publishTime <= :publishTime',[':publishTime'=>strtotime($this->search['publishEndTime'])]);
             }
         }
-        return $this->query($query,$this->curPage,$this->pageSize);
+        return $query;
     }
     
     public function create(array $data)

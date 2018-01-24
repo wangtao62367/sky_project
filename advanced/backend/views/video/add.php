@@ -28,7 +28,7 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
 	<li><label>上传视频<b>*</b></label>
 	<?php echo Html::activeHiddenInput($model,'oldVideo',['id'=>'oldVideo']);?>
     <?php echo Html::activeHiddenInput($model, 'video',['class'=>'dfinput','id'=>'video'])?>
-    <?php echo Html::fileInput('files','',['class'=>'uploadFile','id'=>"uploadVideo","accept"=>"video/mp4"]);?>
+    
     <div style="margin-left: 86px">
     		<div id="btn-select-video"></div><p><i>视频上传过程中，切勿做其他操作</i></p>
     		<?php if(!empty($model->video)):?>
@@ -111,20 +111,6 @@ function selectVideo(){
     return  $('#uploadVideo').click();
 }
 
-$('#uploadVideo').change(function(){
-    var file = this.files && this.files[0];
-
-    var maxSize = 1024 * 1024 * 1024;//500kb
-    var ext = ['video/mp4'];
-    console.log($.inArray(file.type,ext));
-    if(file.size > maxSize){
-        alert("所选视频大小不能超过1GB");return;
-    }  
-    if($.inArray(file.type,ext) == -1){
-        alert("所选视频格式只能是mp4");return;
-    }
-    $('.selected-video').text(file.name);
-})
 
 $('#uploadFile').change(function(){
     var file = this.files && this.files[0];
@@ -137,6 +123,7 @@ $('#uploadFile').change(function(){
     if($.inArray(file.type,ext) == -1){
         alert("所选图片格式只能是jpg、png或jpeg");return;
     }
+   $('#selectedImg').text(file.name);
     //uploadFile();
 })
 
@@ -172,20 +159,18 @@ $('#btn-select-image').click(function(){
 });
 
 $('#formSubmit').click(function(){
-    var videoImg = $('#videoImg').val() ;
-    var categoryId = $('#categoryId').val() ;
     var descr = $('#descr').val() ;
-   // var uploadVideo = $('#uploadVideo')[0].files[0] ;
-    console.log(videoImg,categoryId,descr);
-    if(!videoImg  || !videoImg  || !descr ){
-        alert('数据不能为空');return;
+    if(!descr ){
+        alert('请输入视频名称');return;
     }
-    $(this).prop('disabled',true);
-	if($('#video').val()){
-		$('#myform').submit();
-	}else{
-    	upload.start();
-	}
+    if(upload.files.length > 0){
+        $(this).prop('disabled',true);
+        upload.start();
+    }else if($('#video').val()){
+        $('#myform').submit();
+    }else{
+        alert('请选择视频文件');return;
+    }
 });
 var upload =  uploader.init({
             el : 'btn-select-video',
@@ -204,7 +189,7 @@ var upload =  uploader.init({
         });
 function videoUploadSuccess(fileName){
     $('#video').val(fileName);
-    $('#oldVideo').val(fileName);
+    //$('#oldVideo').val(fileName);
 	$('#myform').submit();
 }
 

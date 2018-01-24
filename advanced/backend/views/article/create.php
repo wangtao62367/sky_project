@@ -7,6 +7,7 @@ use yii\helpers\ArrayHelper;
 use yii\base\Widget;
 use backend\models\ArticleCollectionWebsite;
 use backend\assets\AppAsset;
+use common\publics\MyHelper;
 
 $controller = Yii::$app->controller;
 $id = Yii::$app->request->get('id','');
@@ -48,7 +49,7 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
     	</div>
     </li>
     
-    <li class="publishTimeByUser" <?php echo $model->isPublish === 'userDefined' ? 'style="display:block"' : 'style="display:none"'; ?>><label>发布时间<b>*</b></label><?php echo Html::activeTextInput($model, 'publishTime',['class'=>'dfinput','style'=>'width:308px;','id'=>"publishTime"])?><i></i></li>
+    <li class="publishTimeByUser" <?php echo $model->isPublish === 'userDefined' ? 'style="display:block"' : 'style="display:none"'; ?>><label>发布时间<b>*</b></label><?php echo Html::activeTextInput($model, 'publishTime',['value'=> MyHelper::timestampToDate($model->publishTime) ,'class'=>'dfinput','style'=>'width:308px;','id'=>"publishTime"])?><i></i></li>
 	
 	<li><label>图片数量<b>*</b></label><?php echo Html::activeTextInput($model, 'imgCount',['class'=>'dfinput','value'=>0])?><i></i></li>
 	

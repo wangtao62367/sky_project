@@ -296,7 +296,7 @@ h2{font-weight:normal;}
 
 /*seachform*/
 .seachform{ height:42px;}
-.seachform li{float:left; margin-right:15px;}
+.seachform li{float:left; margin: 5px 15px 5px 0px;}
 .seachform li label{padding-right:10px; float:left; line-height:32px;}
 .scinput{width:150px; height:32px; line-height:32px; border-top:solid 1px #a7b5bc; border-left:solid 1px #a7b5bc; border-right:solid 1px #ced9df; border-bottom:solid 1px #ced9df; background:url(../images/inputbg.gif) repeat-x; text-indent:10px;}
 .scbtn{width:85px;height:35px; background:url(../images/btnbg.png) no-repeat center; font-size:14px;font-weight:bold;color:#fff; cursor:pointer;border-radius:3px; behavior:url(js/pie.htc);}
@@ -312,3 +312,17 @@ td .actived{background:#00ff40;padding:4px 8px;color:#fff;border-radius:5px}
     text-align: center;
     line-height: 199px;
 }
+/*按钮*/
+.export-btn,.add-btn,.del-btn{
+    height: 35px;
+    line-height: 35px;
+    width: 75px;
+    text-indent: 35px;
+    color: #3f3f3f;
+    border-radius: 3px;
+	display:inline-block; 
+    text-align: left;
+}
+.export-btn{background: url(/admin/images/t04.png) no-repeat #e1e7ea;background-position-x: 10px;background-position-y: 5px;}
+.add-btn{background: url(/admin/images/t01.png) no-repeat #e1e7ea;background-position-x: 10px;background-position-y: 5px;}
+.del-btn{background: url(/admin/images/t03.png) no-repeat #e1e7ea;background-position-x: 10px;background-position-y: 5px;}

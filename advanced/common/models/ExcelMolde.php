@@ -31,7 +31,7 @@ class ExcelMolde
 	}
 	
 	
-	private function exportBrowser(string $fileName)
+	public static function exportBrowser(string $fileName)
 	{
 		if($this->version == 'Excel5'){
 			header('Content-Type: application/vnd.ms-excel');

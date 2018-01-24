@@ -3,6 +3,7 @@ use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 use common\publics\MyHelper;
+use backend\assets\AppAsset;
 ?>
 <div class="place">
     <span>位置：</span>
@@ -25,6 +26,10 @@ use common\publics\MyHelper;
 	                <?php echo Html::activeDropDownList($model, 'search[categoryId]', ArrayHelper::map($parentCates,'id','text'),['prompt'=>'请选择','class'=>'sky-select'])?>
 	            </div>
 	        </li>
+	        <li><label>图片提供者</label><?php echo Html::activeTextInput($model, 'search[provider]',['class'=>'scinput'])?></li>
+	        <li><label>添加时间</label>
+	        <?php echo Html::activeTextInput($model, 'search[createTimeStart]',['class'=>'scinput','id'=>'createTimeStart','placeholder'=>'开始时间'])?> - 
+	        <?php echo Html::activeTextInput($model, 'search[createTimeEnd]',['class'=>'scinput','id'=>'createTimeEnd','placeholder'=>'结束时间'])?></li>
 	        <li><label>&nbsp;</label><?php echo Html::submitInput('查询',['class'=>'scbtn'])?></li>
         	<li><a href="<?php echo Url::to(['image/add'])?>"><span><img src="/admin/images/t01.png" /></span>添加</a></li>
         	<li><a href="javascript:;" class="batchDel"><span><img src="/admin/images/t03.png" /></span>删除</a></li>
@@ -94,7 +99,34 @@ initPagination({
 	pageSize : $pageSize,
     uri : '$uri'
 });
+//时间选择框
+var now = new Date();
+var yearEnd = now.getFullYear();
+var yearStart = yearEnd - 10;
+var maxDate = now.setFullYear(yearEnd);
+$.datetimepicker.setLocale('ch');
+$('#createTimeStart').datetimepicker({
+      format:"Y-m-d H:m:i",      //格式化日期
+      timepicker:true,    
+      maxDate : now,
+      maxTime : now,
+      yearStart: yearStart,     //设置最小年份
+      yearEnd:yearEnd,        //设置最大年份
+      todayButton:false    //开启选择今天按钮
+});
+
+$('#createTimeEnd').datetimepicker({
+      format:"Y-m-d H:m:i",      //格式化日期
+      timepicker:true,    
+      maxDate : now,
+      maxTime : now,
+      yearStart: yearStart,     //设置最小年份
+      yearEnd:yearEnd,        //设置最大年份
+      todayButton:true    //开启选择今天按钮
+});
 
 JS;
+AppAsset::addCss($this, '/admin/css/jquery.datetimepicker.css');
+AppAsset::addScript($this, '/admin/js/jquery.datetimepicker.full.js');
 $this->registerJs($js);
 ?>

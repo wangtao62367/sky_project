@@ -3,6 +3,8 @@ namespace common\models;
 
 
 
+use Yii;
+use common\publics\ImageUpload;
 
 /**
  * 下载中心
@@ -11,6 +13,8 @@ namespace common\models;
  */
 class Download extends BaseModel
 {
+    
+    public $oldUri;
 	
 	public static function tableName()
 	{
@@ -23,7 +27,7 @@ class Download extends BaseModel
 				['descr','required','message'=>'文件名不能为空','on'=>['add','edit']],
 				['categoryId','required','message'=>'视频分类不能为空','on'=>['add','edit']],
 				['uri','required','message'=>'文件下载路径不能为空','on'=>['add','edit']],
-				[['search','remarks','provider','leader','remarks'],'safe']
+				[['search','oldUri','remarks','provider','leader','remarks'],'safe']
 		];
 	}
 	
@@ -42,7 +46,14 @@ class Download extends BaseModel
 	{
 		$download->scenario = 'edit';
 		if($download->load($data) && $download->validate()){
-			return $download->save(false);
+			if($download->save(false)){
+			    if(!empty($download->oldUri)){
+			        //删除旧的文件
+			        $block = str_replace(Yii::$app->params['oss']['host'], '', $download->oldUri);
+			        $upload = new ImageUpload([]);
+			        $upload->deleteImage($block);
+			    }
+			}
 		}
 		return true;
 	}
@@ -64,6 +75,15 @@ class Download extends BaseModel
 				}
 				if(!empty($this->search['categoryId'])){
 					$query= $query->andWhere('categoryId = :categoryId',[':categoryId'=>$this->search['categoryId']]);
+				}
+				if(!empty($this->search['provider'])){
+				    $query= $query->andWhere(['like','provider',$this->search['provider']]);
+				}
+				if(!empty($this->search['createTimeStart'])){
+				    $query= $query->andWhere(self::tableName().'.modifyTime >= :starttime',[':starttime'=>strtotime($this->search['createTimeStart'])]);
+				}
+				if(!empty($this->search['createTimeEnd'])){
+				    $query= $query->andWhere(self::tableName().'.modifyTime <= :endtime',[':endtime'=>strtotime($this->search['createTimeEnd'])]);
 				}
 			}
 		}

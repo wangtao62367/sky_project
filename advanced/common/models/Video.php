@@ -4,6 +4,8 @@ namespace common\models;
 
 
 
+use Yii;
+use common\publics\ImageUpload;
 
 class Video extends BaseModel
 {
@@ -42,9 +44,17 @@ class Video extends BaseModel
     {
         $video->scenario = 'edit';
         if($video->load($data) && $video->validate()){
-            return $video->save(false);
+            if(!$video->save(false)){
+                return false;
+            }
+            if(!empty($video->oldVideo)){
+                //删除旧的文件
+                $block = str_replace(Yii::$app->params['oss']['host'], '', $video->oldVideo);
+                $upload = new ImageUpload([]);
+                $upload->deleteImage($block);
+            }
         }
-        return true;
+        return false;
     }
     
     public static function del(Video $video)
@@ -65,6 +75,15 @@ class Video extends BaseModel
                 }
                 if(!empty($this->search['categoryId'])){
                     $query= $query->andWhere('categoryId = :categoryId',[':categoryId'=>$this->search['categoryId']]);
+                }
+                if(!empty($this->search['provider'])){
+                    $query= $query->andWhere(['like','provider',$this->search['provider']]);
+                }
+                if(!empty($this->search['createTimeStart'])){
+                    $query= $query->andWhere(self::tableName().'.modifyTime >= :starttime',[':starttime'=>strtotime($this->search['createTimeStart'])]);
+                }
+                if(!empty($this->search['createTimeEnd'])){
+                    $query= $query->andWhere(self::tableName().'.modifyTime <= :endtime',[':endtime'=>strtotime($this->search['createTimeEnd'])]);
                 }
             }
         }

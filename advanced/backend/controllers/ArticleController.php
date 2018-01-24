@@ -51,6 +51,16 @@ class ArticleController extends CommonController
         $result = $article->articles($request->get(),$request->get());
         return $this->render('articles',['model'=>$article,'parentCates'=>$parentCates,'list'=>$result]);
     }
+    /**
+     * @desc 文章导出
+     */
+    public function actionExport()
+    {
+        $article = new Article();
+        $data = Yii::$app->request->get();
+        $result = $article->getArticlesByExport($data);
+        var_dump($result);
+    }
     
     /**
      * @desc 创建文章

@@ -18,8 +18,8 @@ use yii\helpers\Html;
 	<ul class="seachform">
         <li><label>班级名称</label><?php echo Html::activeTextInput($model, 'search[linkName]',['class'=>'scinput'])?></li>
         <li><label>&nbsp;</label><?php echo Html::submitInput('查询',['class'=>'scbtn'])?></li>
-        <li><a href="<?php echo Url::to(['bottomlink/add'])?>"><span><img src="/admin/images/t01.png" /></span>添加</a></li>
-        <li><a href="javascript:;" class="batchDel"><span><img src="/admin/images/t03.png" /></span>删除</a></li>
+        <li><a href="<?php echo Url::to(['bottomlink/add'])?>" class="add-btn">添加</a></li>
+        <li><a href="javascript:;" class="batchDel del-btn">删除</a></li>
     </ul>
     <?php echo Html::endForm();?>
 </div>

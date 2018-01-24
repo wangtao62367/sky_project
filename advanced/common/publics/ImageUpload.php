@@ -132,7 +132,7 @@ class ImageUpload
             //获取水印位置
             $position = self::getWatermarkPosition($watermarkPosition, $imageWH, ['w'=>$watermarkW,'h'=>$watermarkH]);
             //加文字水印
-            Image::text($origImage, $watermarkContent, Yii::getAlias('@webroot/admin/font/simhei.ttf'),$position,['color'=>$watermarkTextColor,'size'=>$watermarkTextFont])->save($saveImage, ['quality' => 100]); 
+            Image::text($origImage, $watermarkContent, Yii::getAlias('@webroot/admin/font/simhei.ttf'),$position,['color'=>$watermarkTextColor,'size'=>$watermarkTextFont])->save($saveImage, ['quality' => 40]); 
         }
         
         if($waterMarkConfig['watermarkCate'] == 'image'){
@@ -144,7 +144,7 @@ class ImageUpload
             //将字符编码改为utf-8
             $watermarkContent = mb_convert_encoding($watermarkContent, 'UTF-8', $encode);
             //加图片水印
-            Image::watermark($origImage, $watermarkContent, $position)->save($saveImage, ['quality' => 100]);
+            Image::watermark($origImage, $watermarkContent, $position)->save($saveImage, ['quality' => 40]);
         }
         
         if(is_file($saveImage)){

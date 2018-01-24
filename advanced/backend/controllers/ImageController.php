@@ -91,7 +91,7 @@ class ImageController extends CommonController
 	    if(Yii::$app->request->isPost){
 	        $data = Yii::$app->request->post();
 	        //先上传图片 再写数据
-	        if(!empty($_FILES)){
+	        if(!empty($_FILES) && !empty($_FILES['files']) && !empty($_FILES['files']['tmp_name'])){
 	        	$upload = new ImageUpload([
 	        			'imageMaxSize' => 1024*1024*500
 	        	]);

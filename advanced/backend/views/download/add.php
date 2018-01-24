@@ -26,7 +26,7 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
 <?php echo Html::beginForm('','post',['id'=>'myform']);?>
 <ul class="forminfo">
 	<li><label>上传文件<b>*</b></label>
-	<?php //echo Html::activeHiddenInput($model,'oldUri',['id'=>'oldUri']);?>
+	<?php echo Html::activeHiddenInput($model,'oldUri',['id'=>'oldUri']);?>
     <?php echo Html::activeHiddenInput($model, 'uri',['class'=>'dfinput','id'=>'uri'])?>
     <div style="margin-left: 86px">
     		<div id="btn-select-video"></div><p><i>文件上传过程中，切勿做其他操作</i></p>
@@ -85,15 +85,20 @@ $('#formSubmit').click(function(){
     //var uri = $('#uri').val() ;
     var categoryId = $('#categoryId').val() ;
     var descr = $('#descr').val() ;
-    if(!categoryId  || !descr ){
-        alert('数据不能为空');return;
+    if(!categoryId){
+        alert('请选择文件类型');return;
     }
-    $(this).prop('disabled',true);
-	if($('#uri').val()){
-		$('#myform').submit();
-	}else{
-    	upload.start();
-	}
+    if(!descr ){
+        alert('请输入文件名称');return;
+    }
+    if(upload.files.length > 0){
+        $(this).prop('disabled',true);
+        upload.start();
+    }else if($('#uri').val()){
+        $('#myform').submit();
+    }else{
+        alert('请选择文件');return;
+    }
 });
 var upload =  uploader.init({
             el : 'btn-select-video',
