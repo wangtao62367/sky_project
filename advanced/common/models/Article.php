@@ -162,10 +162,10 @@ class Article extends BaseModel
                 $query = $query->andWhere(['like','imgProvider',$this->search['imgProvider']]);
             }
             if(!empty($this->search['publishStartTime'])){
-                $query = $query->andWhere('publishTime >= :publishTime',[':publishTime'=>strtotime($this->search['publishStartTime'])]);
+                $query = $query->andWhere('publishTime >= :publishStartTime',[':publishStartTime'=>strtotime($this->search['publishStartTime'])]);
             }
             if(!empty($this->search['publishEndTime'])){
-                $query = $query->andWhere('publishTime <= :publishTime',[':publishTime'=>strtotime($this->search['publishEndTime'])]);
+                $query = $query->andWhere('publishTime <= :publishEndTime',[':publishEndTime'=>strtotime($this->search['publishEndTime'])]);
             }
         }
         return $query;

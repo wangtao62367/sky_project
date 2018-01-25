@@ -37,7 +37,7 @@ use yii\helpers\Html;
             <th>课程名称</th>
             <th>课时数</th>
             <th>是否必修</th>
-            <th>备注信息</th>
+            <th>主要内容</th>
             <th>创建时间</th>
             <th>修改时间</th>
             <th>操作</th>

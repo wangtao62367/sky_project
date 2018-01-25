@@ -34,16 +34,16 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
     <?php echo Html::activeTextInput($model, 'openClassTime',['class'=>'dfinput openClassTime','style'=>'width:240px;','placeholder'=>'开班时间'])?>
     </li>
     <li><label>教务员姓名<b>*</b></label><?php echo Html::activeTextInput($model, 'eduAdmin',['class'=>'dfinput'])?><i>教务员姓名不能为空</i></li>
-    <li><label>教务员电话<b>*</b></label><?php echo Html::activeTextInput($model, 'eduAdminPhone',['class'=>'dfinput'])?><i>教务员手机号不能为空</i></li>
+    <li><label>教务员电话<b>*</b></label><?php echo Html::activeInput('telephone',$model, 'eduAdminPhone',['class'=>'dfinput'])?><i>教务员手机号不能为空</i></li>
     
     <li><label>多媒体管理员<b>*</b></label><?php echo Html::activeTextInput($model, 'mediaAdmin',['class'=>'dfinput'])?><i>多媒体管理员姓名不能为空</i></li>
-    <li><label>多媒体管理员电话<b>*</b></label><?php echo Html::activeTextInput($model, 'mediaAdminPhone',['class'=>'dfinput'])?><i>多媒体管理员手机号不能为空</i></li>
+    <li><label>多媒体管理员电话<b>*</b></label><?php echo Html::activeInput('telephone',$model, 'mediaAdminPhone',['class'=>'dfinput'])?><i>多媒体管理员手机号不能为空</i></li>
     
     <li><label>开班时出席领导<b>*</b></label><?php echo Html::activeTextInput($model, 'openClassLeader',['class'=>'dfinput'])?><i>开班时出席领导不能为空</i></li>
     <li><label>结业时出席领导<b>*</b></label><?php echo Html::activeTextInput($model, 'closeClassLeader',['class'=>'dfinput'])?><i>结业时出席领导不能为空</i></li>
     
-    <li><label>本院教师任课节数<b>*</b></label><?php echo Html::activeTextInput($model, 'currentTeachs',['class'=>'dfinput','value'=>0])?><i>本院教师任课节数不能为空</i></li>
-    <li><label>邀约教师任课节数<b>*</b></label><?php echo Html::activeTextInput($model, 'invitTeachs',['class'=>'dfinput','value'=>0])?><i>邀约教师任课节数不能为空</i></li>
+    <li><label>本院教师任课节数<b>*</b></label><?php echo Html::activeInput('number',$model, 'currentTeachs',['class'=>'dfinput'])?><i>本院教师任课节数不能为空</i></li>
+    <li><label>邀约教师任课节数<b>*</b></label><?php echo Html::activeInput('number',$model, 'invitTeachs',['class'=>'dfinput'])?><i>邀约教师任课节数不能为空</i></li>
     <li><label>备&nbsp;&nbsp;注</label><?php echo Html::activeTextarea($model, 'remarks',['class'=>'textinput'])?><i></i></li>
     <?php if(Yii::$app->session->hasFlash('error')):?>
     	<li><label>&nbsp;</label><span class="error-tip"><?php echo Yii::$app->session->getFlash('error');?></span></li>

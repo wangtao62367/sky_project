@@ -3,6 +3,7 @@ namespace common\models;
 
 
 use Yii;
+use yii\db\ActiveQuery;
 
 /**
  * 班级
@@ -82,16 +83,42 @@ class GradeClass extends BaseModel
         $this->curPage = isset($data['curPage']) && !empty($data['curPage']) ? $data['curPage'] : $this->curPage;
         $gradeClassQuery = self::find()->select([])->where(['isDelete'=>self::GRADECLASS_UNDELETE])->orderBy('createTime desc,modifyTime desc');
         if($this->load($data)){
-            
-            if(!empty($this->search)){
-                if(!empty($this->search['className'])){
-                    $gradeClassQuery = $gradeClassQuery->andWhere(['like','className',$this->search['className']]);
-                }
-            }
-           
+        	$gradeClassQuery = $this->filterSearch($this->search, $gradeClassQuery);
         }
         $list = $this->query($gradeClassQuery, $this->curPage, $this->pageSize);
         return $list;
+    }
+    
+    public function filterSearch($search,ActiveQuery $query)
+    {
+    	if(!isset($search) || empty($search)){
+    		return $query;
+    	}
+    	if(isset($search['className']) && !empty($search['className'])){
+    		$query= $query->andWhere(['like','className',$search['className']]);
+    	}
+    	if(isset($search['classSize']) && !empty($search['classSize'])){
+    		$query = $query->andWhere(['classSize'=>$search['classSize']]);
+    	}
+    	if(isset($search['admin']) && !empty($search['admin'])){
+    		$query= $query->andWhere(['or',
+    				['like','eduAdmin',$search['admin']],
+    				['like','mediaAdmin',$search['admin']]
+    		]);
+    	}
+    	if(isset($search['leader']) && !empty($search['leader'])){
+    		$query= $query->andWhere(['or',
+    				['like','openClassLeader',$search['leader']],
+    				['like','closeClassLeader',$search['leader']]
+    		]);
+    	}
+    	if(!empty($search['startTime'])){
+    		$query = $query->andWhere('openClassTime >= :startTime',[':startTime'=>$search['startTime']]);
+    	}
+    	if(!empty($search['endTime'])){
+    		$query = $query->andWhere('openClassTime <= :endTime',[':endTime'=>$search['endTime']]);
+    	}
+		return $query;
     }
     
 }

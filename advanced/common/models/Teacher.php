@@ -2,6 +2,8 @@
 namespace common\models;
 
 
+use yii\db\ActiveQuery;
+
 /**
  * 教师
  * @author wangtao
@@ -29,7 +31,11 @@ class Teacher extends BaseModel
 		    ['positionalTitles', 'string', 'length' => [2, 50], 'tooLong'=>'教师职称描述长度为4-100个字符', 'tooShort'=>'教师职称描述长度为2-50个字','on'=>['create','edite']],
 		    ['phone','required','message'=>'教师手机号不能为空','on'=>['create','edit']],
 		    ['phone','match','pattern'=>'/^[1][34578][0-9]{9}$/','message'=>'教师手机号必须有效','on'=>['create','edit']],
-		    [['sex','createAdminId','curPage','pageSize','search'],'safe'],
+				
+			['duties','required','message'=>'教师行政职务不能为空','on'=>['create','edit']],
+			['from','required','message'=>'教师来源情况不能为空','on'=>['create','edit']],
+			['teachTopics','required','message'=>'教师授课专题不能为空','on'=>['create','edit']],
+		    [['sex','createAdminId','curPage','pageSize','search','studyField'],'safe'],
 		];
 	}
 	
@@ -62,17 +68,34 @@ class Teacher extends BaseModel
 	    $this->curPage = isset($data['curPage']) && !empty($data['curPage']) ? $data['curPage'] : $this->curPage;
 	    $teacherListQuery = self::find()->select([])->where(['isDelete'=>self::TEACHER_UNDELETE])->orderBy('createTime desc,modifyTime desc');
 		if($this->load($data)){
-			if(!empty($this->search)){
-				if(!empty($this->search['trueName'])){
-					$teacherListQuery = $teacherListQuery->andWhere(['like','trueName',$this->search['trueName']]);
-				}
-				if(!empty($this->search['sex'])){
-					$teacherListQuery = $teacherListQuery->andWhere('sex = :sex',[':sex'=>$this->search['sex']]);
-				}
-			}
+			$teacherListQuery = $this->filterSearch($this->search, $teacherListQuery);
 		}
 		$result = $this->query($teacherListQuery, $this->curPage, $this->pageSize);
 		return $result;
+	}
+	
+	public function filterSearch($search,ActiveQuery $query)
+	{
+		if(!isset($search) || empty($search)){
+			return $query;
+		}
+		if(isset($search['trueName']) && !empty($search['trueName'])){
+			$query= $query->andWhere(['like','trueName',$search['trueName']]);
+		}
+		if(isset($search['sex']) && !empty($search['sex'])){
+			$query = $query->andWhere(['sex'=>$search['sex']]);
+		}
+		if(isset($search['from']) && !empty($search['from'])){
+			$query = $query->andWhere(['like','from',$search['from']]);
+		}
+
+		if(!empty($search['startTime'])){
+			$query = $query->andWhere('createTime >= :startTime',[':startTime'=>strtotime($search['startTime'])]);
+		}
+		if(!empty($search['endTime'])){
+			$query = $query->andWhere('createTime <= :endTime',[':endTime'=>strtotime($search['endTime'])]);
+		}
+		return $query;
 	}
 	
 	

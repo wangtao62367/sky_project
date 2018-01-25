@@ -101,4 +101,13 @@ class GradeclassController extends CommonController
 	    $result = GradeClass::find()->select(['id','text'=>'className'])->where(['and',['isDelete'=>0],['like','className',$keywords]])->asArray()->all();
 	    return $result;
 	}
+	
+	/**
+	 * @desc 制作课表
+	 * @param int $id
+	 */
+	public function actionMakeSchedule(int $id)
+	{
+		
+	}
 }
