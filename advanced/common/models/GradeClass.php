@@ -30,11 +30,26 @@ class GradeClass extends BaseModel
             ['joinStartDate','required','message'=>'报名开始时间不能为空','on'=>['create','edit']],
             ['joinEndDate','required','message'=>'报名结束时间不能为空','on'=>['create','edit']],
             ['joinEndDate', 'compare', 'compareAttribute'=>'joinStartDate', 'operator' => '>=','message'=>'报名结束时间必须大于或等于开始时间','on'=>['create','edit']],
-            ['contact','required','message'=>'班级联络人不能为空','on'=>['create','edit']],
-            ['phone','required','message'=>'班级联络人手机号不能为空','on'=>['create','edit']],
-            ['phone','match','pattern'=>'/^[1][34578][0-9]{9}$/','message'=>'手机号无效','on'=>['create','edit']],
+//             ['contact','required','message'=>'班级联络人不能为空','on'=>['create','edit']],
+//             ['phone','required','message'=>'班级联络人手机号不能为空','on'=>['create','edit']],
+//             ['phone','match','pattern'=>'/^[1][34578][0-9]{9}$/','message'=>'手机号无效','on'=>['create','edit']],
+            
+            ['openClassTime','required','message'=>'开班时间不能为空','on'=>['create','edit']],
+            ['eduAdmin','required','message'=>'教务员不能为空','on'=>['create','edit']],
+            ['eduAdminPhone','required','message'=>'教务员手机号不能为空','on'=>['create','edit']],
+            ['eduAdminPhone','match','pattern'=>'/^[1][34578][0-9]{9}$/','message'=>'教务员手机号无效','on'=>['create','edit']],
+            ['mediaAdmin','required','message'=>'多媒体管理员不能为空','on'=>['create','edit']],
+            ['mediaAdminPhone','required','message'=>'多媒体管理员手机号不能为空','on'=>['create','edit']],
+            ['mediaAdminPhone','match','pattern'=>'/^[1][34578][0-9]{9}$/','message'=>'多媒体管理员手机号无效','on'=>['create','edit']],
+            ['openClassLeader','required','message'=>'出席开班时的院领导不能为空','on'=>['create','edit']],
+            ['closeClassLeader','required','message'=>'出席结业时的院领导不能为空','on'=>['create','edit']],
+            ['currentTeachs','required','message'=>'本院教师任课节数不能为空','on'=>['create','edit']],
+            ['invitTeachs','required','message'=>'邀约教师任课节数不能为空','on'=>['create','edit']],
+            ['currentTeachs','number','min'=>0,'message'=>'本院教师任课节数数据无效','on'=>['create','edit']],
+            ['invitTeachs','number','min'=>0,'message'=>'邀约教师任课节数数据无效','on'=>['create','edit']],
+            
             ['createAdminId','default','value'=>Yii::$app->user->id],
-            [['curPage','pageSize','search','marks'],'safe']
+            [['curPage','pageSize','search','remarks'],'safe']
         ];    
     }
     

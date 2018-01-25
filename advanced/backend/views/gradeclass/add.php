@@ -14,7 +14,7 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
     <span>位置：</span>
     <ul class="placeul">
         <li><a href="javascript:;">教务系统</a></li>
-        <li><a href="<?php echo Url::to(['teachplace/manage'])?>">班级管理</a></li>
+        <li><a href="<?php echo Url::to(['gradeclass/manage'])?>">班级管理</a></li>
         <li><a href="<?php echo $url?>"><?php echo $title?></a></li>
     </ul>
 </div>
@@ -29,9 +29,22 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
     <li><label>报名时间<b>*</b></label><?php echo Html::activeTextInput($model, 'joinStartDate',['class'=>'dfinput joinStartDate','style'=>'width:240px;','placeholder'=>'开始时间'])?> - 
     <?php echo Html::activeTextInput($model, 'joinEndDate',['class'=>'dfinput joinEndDate','style'=>'width:240px;','placeholder'=>'开始时间'])?>
     </li>
-    <li><label>班级联络人<b>*</b></label><?php echo Html::activeTextInput($model, 'contact',['class'=>'dfinput'])?><i>班级联络人不能为空</i></li>
-    <li><label>手机号<b>*</b></label><?php echo Html::activeTextInput($model, 'phone',['class'=>'dfinput'])?><i>手机号不能为空</i></li>
-    <li><label>备&nbsp;&nbsp;注</label><?php echo Html::activeTextarea($model, 'marks',['class'=>'textinput'])?><i></i></li>
+    
+    <li><label>开班时间<b>*</b></label>
+    <?php echo Html::activeTextInput($model, 'openClassTime',['class'=>'dfinput openClassTime','style'=>'width:240px;','placeholder'=>'开班时间'])?>
+    </li>
+    <li><label>教务员姓名<b>*</b></label><?php echo Html::activeTextInput($model, 'eduAdmin',['class'=>'dfinput'])?><i>教务员姓名不能为空</i></li>
+    <li><label>教务员电话<b>*</b></label><?php echo Html::activeTextInput($model, 'eduAdminPhone',['class'=>'dfinput'])?><i>教务员手机号不能为空</i></li>
+    
+    <li><label>多媒体管理员<b>*</b></label><?php echo Html::activeTextInput($model, 'mediaAdmin',['class'=>'dfinput'])?><i>多媒体管理员姓名不能为空</i></li>
+    <li><label>多媒体管理员电话<b>*</b></label><?php echo Html::activeTextInput($model, 'mediaAdminPhone',['class'=>'dfinput'])?><i>多媒体管理员手机号不能为空</i></li>
+    
+    <li><label>开班时出席领导<b>*</b></label><?php echo Html::activeTextInput($model, 'openClassLeader',['class'=>'dfinput'])?><i>开班时出席领导不能为空</i></li>
+    <li><label>结业时出席领导<b>*</b></label><?php echo Html::activeTextInput($model, 'closeClassLeader',['class'=>'dfinput'])?><i>结业时出席领导不能为空</i></li>
+    
+    <li><label>本院教师任课节数<b>*</b></label><?php echo Html::activeTextInput($model, 'currentTeachs',['class'=>'dfinput','value'=>0])?><i>本院教师任课节数不能为空</i></li>
+    <li><label>邀约教师任课节数<b>*</b></label><?php echo Html::activeTextInput($model, 'invitTeachs',['class'=>'dfinput','value'=>0])?><i>邀约教师任课节数不能为空</i></li>
+    <li><label>备&nbsp;&nbsp;注</label><?php echo Html::activeTextarea($model, 'remarks',['class'=>'textinput'])?><i></i></li>
     <?php if(Yii::$app->session->hasFlash('error')):?>
     	<li><label>&nbsp;</label><span class="error-tip"><?php echo Yii::$app->session->getFlash('error');?></span></li>
     <?php endif;?>
@@ -64,6 +77,22 @@ $('.joinEndDate').datetimepicker({
       todayButton:true    //开启选择今天按钮
 });
 
+$('.openClassTime').datetimepicker({
+      format:"Y-m-d",      //格式化日期
+      timepicker:false,    //关闭时间选项
+      yearStart: yearStart,//设置最小年份
+      yearEnd:yearEnd,     //设置最大年份
+      todayButton:true     //开启选择今天按钮
+});
 JS;
+$css = <<<CSS
+.forminfo li label {
+    width: 115px;
+    line-height: 34px;
+    display: block;
+    float: left;
+}
+CSS;
 $this->registerJs($js);
+$this->registerCss($css);
 ?>

@@ -18,9 +18,9 @@ use yii\helpers\Html;
 	<ul class="seachform">
         <li><label>班级名称</label><?php echo Html::activeTextInput($model, 'search[className]',['class'=>'scinput'])?></li>
         <li><label>&nbsp;</label><?php echo Html::submitInput('查询',['class'=>'scbtn'])?></li>
-        <li><a href="<?php echo Url::to(['gradeclass/add'])?>"><span><img src="/admin/images/t01.png" /></span>添加</a></li>
-        <li><a href="javascript:;" class="batchDel"><span><img src="/admin/images/t03.png" /></span>删除</a></li>
-        <li><span><img src="/admin/images/t04.png" /></span>导出</li>
+        <li><a href="<?php echo Url::to(['gradeclass/add'])?>" class="add-btn">添加</a></li>
+        <li><a href="javascript:;" class="del-btn batchDel">删除</a></li>
+        <li><a href="javascript:;" class="export-btn">导出</a></li>
     </ul>
     <?php echo Html::endForm();?>
 </div>
@@ -32,8 +32,15 @@ use yii\helpers\Html;
             <th>班级名称</th>
             <th>班级人数</th>
             <th>报名时间</th>
-            <th>联络人</th>
-            <th>手机号</th>
+            <th>开班时间</th>
+            <th>教务员</th>
+            <th>教务员电话</th>
+            <th>媒体管理员</th>
+            <th>媒体管理员电话</th>
+            <th>开班出席领导</th>
+            <th>结业出席领导</th>
+            <th>本院教师任课节数</th>
+            <th>邀约教师任课节数</th>
             <th>创建时间</th>
             <th>修改时间</th>
             <th>操作</th>
@@ -48,8 +55,15 @@ use yii\helpers\Html;
             <td><?php echo $val['className'];?></td>
             <td><?php echo $val['classSize'];?></td>
             <td><?php echo $val['joinStartDate'].'~'.$val['joinEndDate'];?></td>
-            <td><?php echo $val['contact'];?></td>
-            <td><?php echo $val['phone'];?></td>
+            <td><?php echo $val['openClassTime'];?></td>
+            <td><?php echo $val['eduAdmin'];?></td>
+            <td><?php echo $val['eduAdminPhone'];?></td>
+            <td><?php echo $val['mediaAdmin'];?></td>
+            <td><?php echo $val['mediaAdminPhone'];?></td>
+            <td><?php echo $val['openClassLeader'];?></td>
+            <td><?php echo $val['closeClassLeader'];?></td>
+            <td><?php echo $val['currentTeachs'];?></td>
+            <td><?php echo $val['invitTeachs'];?></td>
             <td><?php echo MyHelper::timestampToDate($val['createTime']);?></td>
             <td><?php echo MyHelper::timestampToDate($val['modifyTime']);?></td>
             <td>
@@ -75,6 +89,7 @@ $curPage = $list['curPage'];
 $pageSize = $list['pageSize'];
 $count = $list['count'];
 $uri = Yii::$app->request->getUrl();
+$exportUrl = Url::to(['gradeclass/export']);
 $js = <<<JS
 $('.batchDel').click(function(){
      batchDel('$batchDelUrl');
@@ -88,6 +103,12 @@ initPagination({
 	pageSize : $pageSize,
     uri : '$uri'
 });
+//导出
+$(document).on('click','.export-btn',function(){
+    var form = $(this).parents('form')[0];
+    $(form).attr('action','$exportUrl');
+    $(form).submit();
+})
 JS;
 $this->registerJs($js);
 $this->registerCss($css);
