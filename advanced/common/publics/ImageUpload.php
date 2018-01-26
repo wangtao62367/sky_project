@@ -35,12 +35,12 @@ class ImageUpload
     private $bucket;
     
     public function __construct($config){
-        $this->imageMaxSize= isset($config['imageMaxSize']) && !empty($config['imageMaxSize']) ? $config['imageMaxSize'] : 1024 * 1024 * 500;
-        $this->isThumbnail = isset($config['isThumbnail']) && !empty($config['isThumbnail']) ? $config['isThumbnail'] : false;
-        $this->thumbnails   = isset($config['thumbnails']) && !empty($config['thumbnails']) ? $config['thumbnails'] : [];
+        $this->imageMaxSize= isset($config['imageMaxSize']) ? $config['imageMaxSize'] : 1024 * 1024 * 500;
+        $this->isThumbnail = isset($config['isThumbnail']) ? $config['isThumbnail'] : false;
+        $this->thumbnails   = isset($config['thumbnails']) ? $config['thumbnails'] : [];
         
-        $this->isWatermark = isset($config['isWatermark']) && !empty($config['isWatermark']) ? $config['isWatermark'] : true;
-        $this->imagePath   = isset($config['imagePath']) && !empty($config['imagePath']) ? '/upload/'.$config['imagePath'].self::DS : '/upload/image/'.date('Y').self::DS.date('m').self::DS.date('d').self::DS;
+        $this->isWatermark = isset($config['isWatermark'])  ? $config['isWatermark'] : true;
+        $this->imagePath   = isset($config['imagePath']) ? '/upload/'.$config['imagePath'].self::DS : '/upload/image/'.date('Y').self::DS.date('m').self::DS.date('d').self::DS;
         
         $this->bucket = Yii::$app->params['oss']['bucket'];
         $this->OSSclient =  new OssClient(Yii::$app->params['oss']['akey'], Yii::$app->params['oss']['skey'], Yii::$app->params['oss']['endpoint'], false);

@@ -14,12 +14,11 @@ use common\models\Adv;
 </div>
 
 <div class="rightinfo">
-	<div class="tools">
-    	<ul class="toolbar">
-            <li><a href="<?php echo Url::to(['adv/add'])?>"><span><img src="/admin/images/t01.png" /></span>添加</a></li>
-            <li><a href="javascript:;" class="batchDel"><span><img src="/admin/images/t03.png" /></span>删除</a></li>
-        </ul>
-    </div>
+	<ul class="seachform">
+		<li><a href="<?php echo Url::to(['adv/add'])?>" class="add-btn">添加</a></li>
+        <li><a href="javascript:;" class="del-btn batchDel">删除</a></li>
+        <li><a href="javascript:;" class="excel-btn">导出</a></li>
+	</ul>
 </div>
 
 <table class="tablelist">
@@ -53,11 +52,18 @@ use common\models\Adv;
             </td>
             <td><?php echo $val['link'];?></td>
             <td><?php echo Adv::$position_text[$val['position']];?></td>
-            <td><?php echo $val['status'] == 1 ? '开启' : '关闭' ;?></td>
+            <td><?php echo $val['status'] == 1 ? '<font class="open">开启中</font>' : '<font class="close">已关闭</font>' ;?></td>
             <td><?php echo MyHelper::timestampToDate($val['createTime']);?></td>
             <td><?php echo MyHelper::timestampToDate($val['modifyTime']);?></td>
-            <td>
+            <td class="handle-box">
             <a href="<?php echo Url::to(['adv/edit','id'=>$val['id']]);?>" class="tablelink">编辑</a>  
+            
+            <?php if($val['status'] == 1):?>
+            <a href="<?php echo Url::to(['adv/close','id'=>$val['id']]);?>" class="tablelink">关闭</a>  
+            <?php else :?>
+            <a href="<?php echo Url::to(['adv/open','id'=>$val['id']]);?>" class="tablelink">开启</a>  
+            <?php endif;?>
+            
             <a href="<?php echo Url::to(['adv/del','id'=>$val['id']]);?>" class="tablelink"> 删除</a>
             </td>
         </tr> 

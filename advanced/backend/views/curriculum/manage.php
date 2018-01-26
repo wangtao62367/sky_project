@@ -25,8 +25,8 @@ use yii\helpers\Html;
         </li>
         <li><label>&nbsp;</label><?php echo Html::submitInput('查询',['class'=>'scbtn'])?></li>
         <li><a href="<?php echo Url::to(['curriculum/add'])?>" class="add-btn">添加</a></li>
-        <li><a href="javascript:;" class="batchDel del-btn">删除</a></li>
-        <li><span><img src="/admin/images/t04.png" /></span>导出</li>
+        <li><a href="javascript:;" class="del-btn batchDel">删除</a></li>
+        <li><a href="javascript:;" class="excel-btn">导出</a></li>
     </ul>
     <?php echo Html::endForm();?>
 </div>

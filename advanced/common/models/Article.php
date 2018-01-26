@@ -5,10 +5,8 @@ namespace common\models;
 
 
 use common\publics\MyHelper;
-use yii\base\Exception;
 use backend\models\ArticleCollectionWebsite;
 use common\publics\SimpleHtmlDom;
-use yii\helpers\ArrayHelper;
 
 class Article extends BaseModel
 {

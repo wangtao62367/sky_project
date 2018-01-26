@@ -30,7 +30,7 @@ use yii\helpers\Html;
         <li><label>&nbsp;</label><?php echo Html::submitInput('查询',['class'=>'scbtn'])?></li>
         <li><a href="<?php echo Url::to(['teachplace/add'])?>" class="add-btn">添加</a></li>
         <li><a href="javascript:;" class="del-btn batchDel">删除</a></li>
-        <li><a href="javascript:;" class="export-btn">导出</a></li>
+        <li><a href="javascript:;" class="excel-btn">导出</a></li>
     </ul>
     <?php echo Html::endForm();?>
 </div>

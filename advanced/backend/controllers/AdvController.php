@@ -6,6 +6,7 @@ namespace backend\controllers;
 use Yii;
 use common\controllers\CommonController;
 use common\models\Adv;
+use common\publics\ImageUpload;
 /**
  * 
  * 
@@ -36,6 +37,19 @@ class AdvController extends CommonController
         $model = new Adv();
         if(Yii::$app->request->isPost){
             $data = Yii::$app->request->post();
+            //先上传图片 再写数据
+            if(isset($_FILES['files']) && !empty($_FILES['files']) && !empty($_FILES['files']['tmp_name']) ){
+                
+                $upload = new ImageUpload([
+                    'imageMaxSize' => 1024*1024*500,
+                    'isWatermark'  => false
+                ]);
+
+                $result = $upload->Upload('files');
+                $imageName = Yii::$app->params['oss']['host'].$result;
+                $data['Adv']['imgs'] = $imageName;
+            }
+            
             $result = $model->add($data);
             if($result){
                 return $this->showSuccess('adv/manage');
@@ -58,6 +72,18 @@ class AdvController extends CommonController
         }
         if(Yii::$app->request->isPost){
             $data = Yii::$app->request->post();
+            //先上传图片 再写数据
+            if(isset($_FILES['files']) && !empty($_FILES['files']) && !empty($_FILES['files']['tmp_name']) ){
+                
+                $upload = new ImageUpload([
+                    'imageMaxSize' => 1024*1024*500,
+                    'isWatermark'  => false
+                ]);
+                $result = $upload->Upload('files');
+                $imageName = Yii::$app->params['oss']['host'].$result;
+                $data['Adv']['imgs'] = $imageName;
+            }
+            
             $result = Adv::edit($data,$adv);
             if($result){
                 return $this->showSuccess('adv/manage');
@@ -79,6 +105,34 @@ class AdvController extends CommonController
             return $this->showDataIsNull('adv/manage');
         }
         if (Adv::del($adv)){
+            return $this->redirect(['adv/manage']);
+        }
+    }
+    /**
+     * @desc 开启广告
+     * @param int $id
+     */
+    public function actionOpen(int $id)
+    {
+        $adv = Adv::findOne($id);
+        if(empty($adv)){
+            return $this->showDataIsNull('adv/manage');
+        }
+        if(Adv::open($adv)){
+            return $this->redirect(['adv/manage']);
+        }
+    }
+    /**
+     * @desc 关闭广告
+     * @param int $id
+     */
+    public function actionClose(int $id)
+    {
+        $adv = Adv::findOne($id);
+        if(empty($adv)){
+            return $this->showDataIsNull('adv/manage');
+        }
+        if(Adv::close($adv)){
             return $this->redirect(['adv/manage']);
         }
     }

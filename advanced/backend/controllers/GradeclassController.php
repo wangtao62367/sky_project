@@ -108,6 +108,13 @@ class GradeclassController extends CommonController
 	 */
 	public function actionMakeSchedule(int $id)
 	{
-		
+	    $gradeClass = GradeClass::findOne($id);
+	    if(empty($gradeClass)){
+	        return $this->showDataIsNull('gradeclass/manage');
+	    }
+	    
+	    
+	    return $this->render('make-schedule',['className'=>$gradeClass->className,'classId'=>$gradeClass->id]);
+	    
 	}
 }

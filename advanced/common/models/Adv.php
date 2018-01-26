@@ -72,4 +72,16 @@ class Adv extends BaseModel
         }
     }
     
+    public static function open(Adv $adv)
+    {
+        $adv->status = 1;
+        return $adv->save(false);
+    }
+    
+    public static function close(Adv $adv)
+    {
+        $adv->status = 0;
+        return $adv->save(false);
+    }
+    
 }

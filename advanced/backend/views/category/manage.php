@@ -32,7 +32,7 @@ use yii\helpers\ArrayHelper;
         <li><label>&nbsp;</label><?php echo Html::submitInput('查询',['class'=>'scbtn'])?></li>
         <li class="click"><a href="<?php echo Url::to(['category/add'])?>" class="add-btn">添加</a></li>
         <li><a href="javascript:;" class="batchDel del-btn">删除</a></li>
-        <li><a href="javascript:;" class="export-btn">导出</a></li>
+        <li><a href="javascript:;" class="excel-btn">导出</a></li>
     </ul>
     <?php echo Html::endForm();?>
 </div>
