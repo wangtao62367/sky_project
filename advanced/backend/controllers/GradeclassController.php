@@ -5,6 +5,8 @@ namespace backend\controllers;
 use Yii;
 use common\controllers\CommonController;
 use common\models\GradeClass;
+use common\models\Schedule;
+use yii\helpers\Url;
 /**
  * @name 班级管理
  * @author wt
@@ -112,9 +114,16 @@ class GradeclassController extends CommonController
 	    if(empty($gradeClass)){
 	        return $this->showDataIsNull('gradeclass/manage');
 	    }
+	    $model = new Schedule();
+	    if(Yii::$app->request->isPost){
+	    	$data = Yii::$app->request->post();
+	    	$result = $model->add($data);
+	    	if($result){
+	    		return $this->showSuccess(Url::to(['schedule/manage','Schedule[search][gradeClass]'=>$gradeClass->className]));
+	    	}
+	    	Yii::$app->session->setFlash('error',$model->getErrorDesc());
+	    }
 	    
-	    
-	    return $this->render('make-schedule',['className'=>$gradeClass->className,'classId'=>$gradeClass->id]);
-	    
+	    return $this->render('make_schedule',['model'=>$model,'className'=>$gradeClass->className,'classId'=>$gradeClass->id]); 
 	}
 }

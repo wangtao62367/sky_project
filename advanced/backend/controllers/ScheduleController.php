@@ -34,7 +34,6 @@ class ScheduleController extends CommonController
 	    $schedule = new Schedule();
 	    if(Yii::$app->request->isPost){
 	        $data = Yii::$app->request->post();
-	        var_dump($data);
 	        $result = $schedule->add($data);
 	        if($result){
 	            return $this->showSuccess('schedule/manage');

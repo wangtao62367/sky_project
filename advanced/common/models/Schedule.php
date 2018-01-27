@@ -2,6 +2,8 @@
 namespace common\models;
 
 
+use yii\db\ActiveQuery;
+
 /**
  * 课表
  * @author wangtao
@@ -25,7 +27,7 @@ class Schedule extends BaseModel
 			[['curriculumId','curriculumText'],'required','message'=>'课程不能为空','on'=>['add','edit']],
 		    [['teacherId','teacherName'],'required','message'=>'授课教师不能为空','on'=>['add','edit']],
 		    [['teachPlaceId','teachPlace'],'required','message'=>'教学地点不能为空','on'=>['add','edit']],
-		    [['gradeClassId','gradeClass'],'required','message'=>'教学班级不能为空','on'=>['add','edit']],
+		    [['gradeClassId','gradeClass'],'required','message'=>'授课班级不能为空','on'=>['add','edit']],
 		    [['lessonDate','lessonStartTime','lessonEndTime'],'required','message'=>'上课时间不能为空','on'=>['add','edit']],
 		    [['search','isPublish','publishTitle','publishEndDate','marks'],'safe'],
 		];
@@ -74,13 +76,46 @@ class Schedule extends BaseModel
     	    //->joinWith('gradeclass')
     	    ->where([self::tableName().'.isDelete'=>self::CURRICULUM_UNDELETE])->orderBy('createTime desc,modifyTime desc');
 		if($this->load($data)){
-			
-			if(!empty($this->search)){
-				
-			}
-			
+			$scheduleListQuery = $this->filterSearch($this->search,$scheduleListQuery);
 		}
 		$result = $this->query($scheduleListQuery, $this->curPage, $this->pageSize);
 		return $result;
+	}
+	
+	public function filterSearch($search,ActiveQuery $query) {
+		if(!isset($search) || empty($search)){
+			return $query;
+		}
+		if(isset($search['gradeClassId']) && !empty($search['gradeClassId'])){
+			$query= $query->andWhere(['gradeClassId'=>$search['gradeClassId']]);
+		}
+		if(isset($search['gradeClass']) && !empty($search['gradeClass'])){
+			$query= $query->andWhere(['like','gradeClass',$search['gradeClass']]);
+		}
+		if(isset($search['curriculumId']) && !empty($search['curriculumId'])){
+			$query= $query->andWhere(['curriculumId'=>$search['curriculumId']]);
+		}
+		if(isset($search['curriculumText']) && !empty($search['curriculumText'])){
+			$query= $query->andWhere(['like','curriculumText',$search['curriculumText']]);
+		}
+		if(isset($search['teacherId']) && !empty($search['teacherId'])){
+			$query= $query->andWhere(['teacherId'=>$search['teacherId']]);
+		}
+		if(isset($search['teacherName']) && !empty($search['teacherName'])){
+			$query= $query->andWhere(['like','teacherName',$search['teacherName']]);
+		}
+		if(isset($search['teachPlaceId']) && !empty($search['teachPlaceId'])){
+			$query= $query->andWhere(['teachPlaceId'=>$search['teachPlaceId']]);
+		}
+		if(isset($search['teachPlace']) && !empty($search['teachPlace'])){
+			$query= $query->andWhere(['like','teachPlace',$search['teachPlace']]);
+		}
+		if(!empty($search['startTime'])){
+			$query = $query->andWhere('lessonDate >= :startTime',[':startTime'=>$search['startTime']]);
+		}
+		if(!empty($search['endTime'])){
+			$query = $query->andWhere('lessonDate <= :endTime',[':endTime'=>$search['endTime']]);
+		}
+		return $query;
 	}
 }

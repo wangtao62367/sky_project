@@ -16,8 +16,16 @@ use yii\helpers\Html;
 <div class="rightinfo">
 	<?php echo Html::beginForm(Url::to(['schedule/manage']),'get');?>
 	<ul class="seachform">
-        <li><label>课程名称</label><?php echo Html::activeTextInput($model, 'search[text]',['class'=>'scinput'])?></li>
-        <li><label>&nbsp;</label><input name="" type="button" class="scbtn" value="查询"/></li>
+		<li><label>授课班级</label><?php echo Html::activeTextInput($model, 'search[gradeClass]',['class'=>'scinput'])?></li>
+        <li><label>课程名称</label><?php echo Html::activeTextInput($model, 'search[curriculumText]',['class'=>'scinput'])?></li>
+        <li><label>授课教师</label><?php echo Html::activeTextInput($model, 'search[teacherName]',['class'=>'scinput'])?></li>
+        <li><label>授课地点</label><?php echo Html::activeTextInput($model, 'search[teachPlace]',['class'=>'scinput'])?></li>
+        <li>
+        	<label>授课日期</label>
+        	<?php echo Html::activeTextInput($model, 'search[startTime]',['class'=>'scinput startTime','placeholder'=>'开始日期'])?> - 
+    		<?php echo Html::activeTextInput($model, 'search[endTime]',['class'=>'scinput endTime','placeholder'=>'结束日期'])?>
+        </li>
+        <li><label>&nbsp;</label><?php echo Html::submitInput('查询',['class'=>'scbtn'])?></li>
         <li class="click"><a href="<?php echo Url::to(['schedule/add'])?>" class="add-btn">添加</a></li>
         <li><a href="javascript:;" class="batchDel del-btn">删除</a></li>
         <li><a href="javascript:;" class="excel-btn">导出</a></li>
@@ -29,11 +37,11 @@ use yii\helpers\Html;
 	<thead>
     	<tr>
             <th><input name="" type="checkbox" class="s-all" value="" /></th>
+            <th>授课班级</th>
             <th>课程名称</th>
             <th>上课时间</th>
             <th>授课教师</th>
             <th>授课地点</th>
-            <th>教学班级</th>
             <th>是否发布</th>
             <th>创建时间</th>
             <th>修改时间</th>
@@ -46,11 +54,11 @@ use yii\helpers\Html;
     	<?php foreach ($list['data'] as $val):?>
     	<tr>
             <td><input name="ids" type="checkbox" class="item" value="<?php echo $val['id'];?>" /></td>
+            <td><?php echo $val['gradeClass'];?></td>
             <td><?php echo $val['curriculumText'];?></td>
             <td><?php echo $val['lessonDate'] . ' ' . $val['lessonStartTime'] . '~' . $val['lessonEndTime'];?></td>
             <td><?php echo $val['teacherName'];?></td>
             <td><?php echo $val['teachPlace'];?></td>
-            <td><?php echo $val['gradeClass'];?></td>
             <td><?php echo $val['isPublish'] == 1 ? '已发布' : '未发布';?></td>
             <td><?php echo MyHelper::timestampToDate($val['createTime']);?></td>
             <td><?php echo MyHelper::timestampToDate($val['modifyTime']);?></td>
@@ -90,6 +98,32 @@ initPagination({
 	pageSize : $pageSize,
     uri : '$uri'
 });
+//时间选择框
+var now = new Date();
+var yearEnd = now.getFullYear() + 1;
+var yearStart = yearEnd - 10;
+var maxDate = now.setFullYear(yearEnd);
+$.datetimepicker.setLocale('ch');
+$('.startTime').datetimepicker({
+      format:"Y-m-d",      //格式化日期
+      timepicker:false,    
+      maxDate : maxDate,
+      //maxTime : now,
+      yearStart: yearStart,     //设置最小年份
+      yearEnd:yearEnd,        //设置最大年份
+      todayButton:false    //开启选择今天按钮
+});
+
+$('.endTime').datetimepicker({
+      format:"Y-m-d",      //格式化日期
+      timepicker:false,    
+      maxDate : maxDate,
+      //maxTime : now,
+      yearStart: yearStart,     //设置最小年份
+      yearEnd:yearEnd,        //设置最大年份
+      todayButton:true    //开启选择今天按钮
+});
+
 JS;
 $this->registerJs($js);
 $this->registerCss($css);

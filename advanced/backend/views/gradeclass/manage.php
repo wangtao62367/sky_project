@@ -78,6 +78,7 @@ use backend\assets\AppAsset;
             <td class="handle-box">
             <a href="<?php echo Url::to(['gradeclass/edit','id'=>$val['id']]);?>" class="tablelink">编辑</a>     
             <a href="<?php echo Url::to(['gradeclass/make-schedule','id'=>$val['id']]);?>" class="tablelink">制作课表</a>  
+            <a href="<?php echo Url::to(['schedule/manage','Schedule[search][gradeClass]'=>$val['className']]);?>" class="tablelink">查看课表</a>  
             <a href="<?php echo Url::to(['gradeclass/del','id'=>$val['id']]);?>" class="tablelink"> 删除</a>
             </td>
         </tr> 

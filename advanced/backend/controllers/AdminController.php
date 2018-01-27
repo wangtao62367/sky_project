@@ -59,7 +59,7 @@ class AdminController extends CommonController
     		$post = Yii::$app->request->post();
     		$result = Admin::edit($post,$admin);
     		if($result){
-    			return $this->showSuccess('default/main');
+    			return $this->showSuccess('admin/main');
     		}else {
     			Yii::$app->session->setFlash('error',$admin->getErrorDesc());
     		}
