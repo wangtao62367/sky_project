@@ -152,7 +152,6 @@ function showSearchResult(_this,res){
     for(var i = 0;i < res.length;i++){
         resultHtml += '<p data-id="'+res[i].id+'" data-text="'+res[i].text+'">'+res[i].text+'</p>';
     }
-console.log(resultHtml);
     $(_this).parents('li').find('.searchresult').empty();
     $(_this).parents('li').find('.searchresult').append(resultHtml);
 }

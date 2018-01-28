@@ -1,3 +1,4 @@
+[v-cloak] { display: none;}
 select{opacity: 1;}
 .sky-select{height: 32px;width: 100px;border: solid 1px #ced9df;margin: 5px 0px;}
 .modal{display: block;position: absolute;left: 0;top: 0;right: 0;bottom: 0;background: #000000;opacity: 0.2;}

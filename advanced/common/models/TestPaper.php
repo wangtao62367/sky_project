@@ -28,6 +28,8 @@ class TestPaper extends BaseModel
     {
         return [
             ['title','required','message'=>'试卷题干不能为空','on'=>['add','edit']],
+        	['timeToAnswer','required','message'=>'试卷作答时间不能为空','on'=>['add','edit']],
+        	['gradeClassId','required','message'=>'试卷所属班级不能为空','on'=>['add','edit']],
             [['search','questions','marks','publishTime','publishCode'],'safe'],
         ];
     }
@@ -36,7 +38,13 @@ class TestPaper extends BaseModel
     {
         $this->scenario = 'add';
         if($this->load($data) && $this->validate(false)){
+        	//分别获取不同类型的试题数量
+        	$optionCateCounts = array_count_values(array_column($this->questions, 'cate'));
+        	$this->radioCount = $optionCateCounts['radio'];
+        	$this->multiCount = $optionCateCounts['multi'];
+        	$this->t_fCount   = $optionCateCounts['trueOrfalse'];
             $this->questionCount = count($this->questions);
+            $this->otherCount = $this->questionCount - array_sum(array_values($optionCateCounts));
             $this->getPublishTime($this->publishCode);
             if($this->save(false)){
                self::addQuestion($this->questions,$this->id);
@@ -50,7 +58,13 @@ class TestPaper extends BaseModel
     {
         $testPaper->scenario = 'edit';
         if($testPaper->load($data) && $testPaper->validate()){
-            $testPaper->questionCount = count($testPaper->questions);
+        	//分别获取不同类型的试题数量
+        	$optionCateCounts = array_count_values(array_column($this->questions, 'cate'));
+        	$this->radioCount = $optionCateCounts['radio'];
+        	$this->multiCount = $optionCateCounts['multi'];
+        	$this->t_fCount   = $optionCateCounts['trueOrfalse'];
+        	$this->questionCount = count($this->questions);
+        	$this->otherCount = $this->questionCount - array_sum(array_values($optionCateCounts));
             $testPaper->getPublishTime($testPaper->publishCode);
             //return self::addQuestion($testPaper->questions,$testPaper->id);
             if($testPaper->save(false)){

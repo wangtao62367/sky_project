@@ -22,7 +22,7 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
 
 <div class="formtitle"><span><?php echo $title?></span></div>
 
-<ul class="forminfo" id="app">
+<ul v-cloak class="forminfo" id="app">
     <li><label>问卷主题<b>*</b></label>
     	<textarea class="textinput" style="height: 50px;" v-model="naire.title" placeholder="请填写问卷题干"></textarea>
     </li>
@@ -146,5 +146,5 @@ JS;
 $this->registerJs($js);
 AppAsset::addCss($this, '/admin/css/addQuestion.css');
 AppAsset::addScript($this, '/admin/js/vue.min.js');
-AppAsset::addScript($this, '/admin/js/addQuestion.js');
+AppAsset::addScript($this, '/admin/js/addNaireQuestion.js');
 ?>

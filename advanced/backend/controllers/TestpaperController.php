@@ -6,6 +6,7 @@ namespace backend\controllers;
 use Yii;
 use common\controllers\CommonController;
 use common\models\TestPaper;
+use common\models\GradeClass;
 /**
  * @name 试卷管理
  * @author wangtao
@@ -31,6 +32,7 @@ class TestpaperController extends CommonController
      */
     public function actionAdd()
     {
+    	
         $testPaper = new TestPaper();
         if(Yii::$app->request->isAjax){
             $this->setResponseJson();
@@ -40,7 +42,7 @@ class TestpaperController extends CommonController
             return 0;
         }
         $testPaper->publishCode = 'now';
-        return $this->render('add',['model'=>$testPaper,'title'=>'创建试卷']);
+        return $this->render('add',['model'=>$testPaper,'className'=>'','title'=>'创建试卷']);
     }
 	/**
 	 * @desc 编辑试卷
@@ -60,8 +62,9 @@ class TestpaperController extends CommonController
     	    if($result) return 1;
     	    return 0;
     	}
-    	
-    	return $this->render('add',['model'=>$testPaper,'title'=>'编辑试卷']);
+    	$gradeClass = GradeClass::find()->select('className')->where('id =:id',[':id'=>$testPaper->gradeClassId])->one();
+    	$className = $gradeClass ? $gradeClass->className : '';
+    	return $this->render('add',['model'=>$testPaper,'className'=>$className,'title'=>'编辑试卷']);
     }
     
     /**

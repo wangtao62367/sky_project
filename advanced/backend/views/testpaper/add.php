@@ -22,7 +22,7 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
 
 <div class="formtitle"><span><?php echo $title?></span></div>
 
-<ul class="forminfo" id="app">
+<ul v-cloak class="forminfo" id="app">
     <li><label>试卷主题<b>*</b></label>
     	<textarea class="textinput" style="height: 50px;" v-model="paper.title" placeholder="请填写试卷题干"></textarea>
     </li>
@@ -61,6 +61,17 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
 		    </select>
     	</div>
     </li>
+    
+    <li><label>所属班级<b>*</b></label>
+    	<input type="hidden" class="dfinput" v-model="paper.gradeClassId" />
+    	<input type="text" class="dfinput ajaxSearch gradeClass" v-model="paper.gradeClass" />
+    	<div class="searchresult" style="display: none"> </div>
+    </li>
+    
+    <li><label>作答时间<b>*</b></label>
+    	<input type="number" min=1 class="dfinput" v-model="paper.timeToAnswer" /><i>单位：分钟</i>
+    </li>
+    
     <li><label>备注：</label><textarea v-model="paper.marks"  cols="" rows="" class="textinput" placeholder="请填写试卷备注信息（选填）"></textarea></li>
     <li><label>&nbsp;</label><input @click="createPaper()" type="button" class="btn" value="创建试卷"/></li>
 </ul>
@@ -73,14 +84,32 @@ $title = $model->title;
 $marks = $model->marks;
 $publishCode = $model->publishCode ;
 $questions = json_encode($model->questions);
+$gradeClassId = $model->gradeClassId;
+$gradeClass   = $className;
+
+$getGradeClass = Url::to(['gradeclass/ajax-classes']);
+$addGradeClass = Url::to(['gradeclass/add']);
 $js = <<<JS
+function getOptionTypeText(optionsType){
+	switch(optionsType){
+		case 'radio':
+			return '单选题';
+		break;
+		case 'multi':
+			return '多选题';
+		break;
+		case 'trueOrfalse':
+			return '判断题';
+		break;
+	}
+}
 $(document).on('click','.sure',function(){
 	var questTitle = $('.questTitle').val();
 	if(questTitle == ''){
 		alert('试题题干不能为空');return false;
 	}
 	var optionsType = $('input[type=radio]:checked').val();
-	var optionsTypeText = optionsType == 'radio' ? '单选题' : '多选题';
+	var optionsTypeText = getOptionTypeText(optionsType);
 	
 	var optionsObjs = $('input[name=opts]');
 	var rightAnswerObjs = $("input[type=checkbox]");
@@ -124,6 +153,9 @@ var vm = new Vue({
 		paper : {
 			title : '$title',
             marks : '$marks',
+			gradeClassId : '$gradeClassId',
+			gradeClass : '$gradeClass',
+			timeToAnswer : 120,
             publishCode  : '$publishCode',
 			questions : JSON.parse('$questions')
 		}
@@ -157,8 +189,123 @@ var vm = new Vue({
 	
 })
 
+//搜索班级
+$(document).on('click','.searchresult p',function(){
+    var id = $(this).data('id');
+    var text = $(this).data('text');
+//     $(this).parents('li').find('input[type="text"]').val(text);
+//     $(this).parents('li').find('input[type="hidden"]').val(id);
+	vm.paper.gradeClass = text;
+	vm.paper.gradeClassId = id;
+    $(this).parent('.searchresult').hide();
+});
+
+$(document).on('focus','.ajaxSearch',function(){
+    var url = getInputAjaxtUrl(this);
+	if(!$(this).val()){
+   		ajacGetSearch(url,'',this);
+    	$(this).parents('li').find('.searchresult').show();
+	}
+});
+
+// $(document).on('focusout','input[type="text"]',function(){
+//     $(this).parents('li').find('.searchresult').hide();
+// });
+
+$(document).on('input propertychange','.ajaxSearch',throttle(getGradeClass,500,1000));
+
+function getGradeClass(el){
+    var keywords = $(el.target).val();
+    var url = getInputAjaxtUrl(el.target);
+    ajacGetSearch(url,keywords,el.target);
+}
+
+function getInputAjaxtUrl(_this){
+    return '$getGradeClass';
+}
+
+function ajacGetSearch(url,keywords,_this){
+    $.get(url,{keywords:keywords},function(res){
+        showSearchResult(_this,res,keywords);
+    })
+}
+
+
+function showSearchResult(_this,res){
+    var resultHtml = '';
+	if(res.length == 0){
+		url = '$addGradeClass';
+		resultHtml = '<span class="search-no-data">没有数据，<a href="'+url+'">立即去添加?</a><span>';
+	} else{
+	    for(var i = 0;i < res.length;i++){
+	        resultHtml += '<p data-id="'+res[i].id+'" data-text="'+res[i].text+'">'+res[i].text+'</p>';
+	    }
+	}
+    $(_this).parents('li').find('.searchresult').empty();
+    $(_this).parents('li').find('.searchresult').append(resultHtml);
+}
+
+//节流函数
+function throttle(func, wait, mustRun) {
+    var timeout,
+        startTime = new Date();
+
+    return function() {
+        var context = this,
+            args = arguments,
+            curTime = new Date();
+
+        clearTimeout(timeout);
+        // 如果达到了规定的触发时间间隔，触发 handler
+        if(curTime - startTime >= mustRun){
+            func.apply(context,args);
+            startTime = curTime;
+        // 没达到触发间隔，重新设定定时器
+        }else{
+            timeout = setTimeout(function(){
+                func.apply(context,args);
+            }, wait);
+        }
+    };
+};
 JS;
+$css = <<<CSS
+.searchresult{
+    position: absolute;
+    width: 345px;
+    min-height: 50px;
+    max-height: 100px;
+    margin-left: 86px;
+    border-top: 0px;
+    border-left: solid 1px #a7b5bc;
+    border-right: solid 1px #ced9df;
+    border-bottom: solid 1px #ced9df;
+    background: #fff;
+    overflow: hidden;
+    overflow-y: scroll;
+    text-indent: 10px;
+    display:none;
+}
+.searchresult p{
+    padding : 5px 0px;
+    cursor: pointer;
+}
+.searchresult p:hover{
+    background:#e8e5e5;
+}
+.xdsoft_datetimepicker  .xdsoft_calendar td > div{
+   padding-right:10px;
+   padding-top: 5px
+}
+span.search-no-data{
+    text-align: center;
+    height: 50px;
+    line-height: 50px;
+}
+span.search-no-data a{color:red;}
+CSS;
 $this->registerJs($js);
+$this->registerCss($css);
 AppAsset::addCss($this, '/admin/css/addQuestion.css');
 AppAsset::addScript($this, '/admin/js/vue.min.js');
 AppAsset::addScript($this, '/admin/js/addQuestion.js');
