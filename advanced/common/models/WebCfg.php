@@ -102,6 +102,18 @@ class WebCfg extends BaseModel
         if(!empty($data['description']) && $data['description'] != $webCfgs['description']){
             self::updateAll(['value'=>$data['description']],['name'=>'description']);
         }
+        if(!empty($data['copyRight']) && $data['copyRight'] != $webCfgs['copyRight']){
+        	self::updateAll(['value'=>$data['copyRight']],['name'=>'copyRight']);
+        }
+        if(!empty($data['technicalSupport']) && $data['technicalSupport'] != $webCfgs['technicalSupport']){
+        	self::updateAll(['value'=>$data['technicalSupport']],['name'=>'technicalSupport']);
+        }
+        if(!empty($data['address']) && $data['address'] != $webCfgs['address']){
+        	self::updateAll(['value'=>$data['address']],['name'=>'address']);
+        }
+        if(!empty($data['postCodes']) && $data['postCodes'] != $webCfgs['postCodes']){
+        	self::updateAll(['value'=>$data['postCodes']],['name'=>'postCodes']);
+        }
         if(is_numeric($data['status']) && $data['status'] != $webCfgs['status']){
             self::updateAll(['value'=>$data['status']],['name'=>'status']);
             if($data['status'] == 0 ){

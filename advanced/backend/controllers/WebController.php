@@ -32,6 +32,23 @@ class WebController extends CommonController
         return $this->render('web-set',['webCfg'=>$webCfg]);
     }
     
+    private function actionImgSet()
+    {
+    	$webCfg = WebCfg::getWebCfg();
+    	if(Yii::$app->request->isPost){
+    		$data = Yii::$app->request->post();
+    		$result = WebCfg::saveImgSet($data,$webCfg);
+    		if($result){
+    			return $this->showSuccess('web/img-set');
+    		}
+    	}
+    	return $this->render('img-set',['webCfg'=>$webCfg]);
+    }
+    
+    /**
+     * @desc 水印设置
+     * @return \yii\web\Response|string
+     */
     public function actionWatermarkSet()
     {
     	$webCfg = WebCfg::getWebCfg();

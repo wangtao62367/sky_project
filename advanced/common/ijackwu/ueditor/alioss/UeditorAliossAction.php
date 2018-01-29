@@ -54,6 +54,7 @@ class UeditorAliossAction extends UEditorAction
                 $fieldName = $this->config['fileFieldName'];
                 break;
         }
+        exit(json_encode($_FILES));
         /* 生成上传实例对象并完成上传 */
         $up = new Uploader($fieldName, $config, $base64);
         /**

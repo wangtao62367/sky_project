@@ -16,7 +16,7 @@ use backend\assets\AppAsset;
 <div class="formbody">
 <div class="formtitle">
 <a href="javascript:;"><span class="active">网站基础设置</span></a>
-<a href="javascript:;"><span>图片上传设置</span></a>
+<!-- <a href="<?php echo Url::to(['web/img-set'])?>"><span>图片设置</span></a> -->
 <a href="<?php echo Url::to(['web/watermark-set'])?>"><span>图片水印设置</span></a>
 </div>
 
@@ -51,6 +51,26 @@ use backend\assets\AppAsset;
      <li>
     	<label>网站描述</label>
     	<?php echo Html::textInput('description',$webCfg['description'],['class'=>'dfinput','placeholder'=>'网站描述']);?><i>网站描述，有利于网站SEO搜索优化</i>
+    </li>
+    
+    <li>
+    	<label>版权所有</label>
+    	<?php echo Html::textInput('copyRight',$webCfg['copyRight'],['class'=>'dfinput','placeholder'=>'版权所有']);?><i>网址底部版权信息展示</i>
+    </li>
+    
+    <li>
+    	<label>技术支持</label>
+    	<?php echo Html::textInput('technicalSupport',$webCfg['technicalSupport'],['class'=>'dfinput','placeholder'=>'技术支持']);?><i>网址底部技术支持展示</i>
+    </li>
+    
+    <li>
+    	<label>学院地址</label>
+    	<?php echo Html::textInput('address',$webCfg['address'],['class'=>'dfinput','placeholder'=>'学院地址']);?><i>网址底部学院地址展示</i>
+    </li>
+    
+    <li>
+    	<label>邮        编</label>
+    	<?php echo Html::textInput('postCodes',$webCfg['postCodes'],['class'=>'dfinput','placeholder'=>'邮编']);?><i>网址底部学院地址邮编展示</i>
     </li>
     
     <li>

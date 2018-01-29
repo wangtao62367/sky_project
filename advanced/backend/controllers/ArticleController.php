@@ -32,10 +32,10 @@ class ArticleController extends CommonController
                     "imagePathFormat" => "upload/article/{yyyy}{mm}{dd}/{time}{rand:6}", //上传保存路径
                     "imageRoot" => '',//Yii::getAlias("@frontend").'/web',
                     
-                    "videoRoot" => '',
+                	"videoFieldName"=> "upfile",
                     "videoUrlPrefix"  => Yii::$app->params['oss']['host'],//图片访问路径前缀
                     "videoPathFormat" => "upload/video/{yyyy}{mm}{dd}/{time}{rand:6}", //上传保存路径
-                    //"videoAllowFiles" => ['mp4'],
+                    "videoAllowFiles" => ['.mp4'],
                     "videoMaxSize"    => 1024*1024*1024
                     
                 ],

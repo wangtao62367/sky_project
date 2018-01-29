@@ -16,7 +16,7 @@ use backend\assets\AppAsset;
 <div class="formbody">
 	<div class="formtitle">
 	<a href="<?php echo Url::to(['web/setting'])?>"><span>网站基础设置</span></a>
-	<a href="javascript:;"><span>图片上传设置</span></a>
+	<!-- <a href="<?php echo Url::to(['web/img-set'])?>"><span>图片设置</span></a> -->
 	<a href="javascript:;"><span class="active">图片水印设置</span></a>
 	</div>
 
