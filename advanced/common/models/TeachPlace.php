@@ -2,6 +2,8 @@
 namespace common\models;
 
 
+use common\publics\MyHelper;
+
 /**
  * 教学点
  * @author wangtao
@@ -70,5 +72,38 @@ class TeachPlace extends BaseModel
         }
         $list = $this->query($teachPlaceQuery, $this->curPage, $this->pageSize);
         return $list;
+    }
+    
+    public function export(array $data)
+    {
+        $teachPlaceQuery = self::find()->select(['id','text','address','website','contacts','phone','equipRemarks','createTime','modifyTime'])->where(['isDelete'=>self::TEACHPLACE_UNDELETE])->orderBy('createTime desc,modifyTime desc');
+        if($this->load($data) && !empty($this->search) ){
+            if(!empty($this->search['keywords'])){
+                $teachPlaceQuery = $teachPlaceQuery->andWhere([
+                    'or',
+                    ['like','text',$this->search['keywords']],
+                    ['like','address',$this->search['keywords']],
+                ]);
+            }
+        }
+        $result = $teachPlaceQuery->asArray()->all();
+        
+        $phpExcel = new \PHPExcel();
+        $objSheet = $phpExcel->getActiveSheet();
+        $objSheet->getDefaultStyle()->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER)->setVertical(\PHPExcel_Style_Alignment::VERTICAL_CENTER);
+        $objSheet->setTitle('教学点列表');
+        $objSheet->setCellValue('A1','序号')->setCellValue('B1','教学点')->setCellValue('C1','联络人')->setCellValue('D1','联系手机')
+        ->setCellValue('E1','设备情况')->setCellValue('F1','详细地址')->setCellValue('G1','教学网址')
+        ->setCellValue('H1','创建时间')->setCellValue('I1','修改时间');
+        $num  = 2;
+        foreach ($result as $val){
+            $objSheet->setCellValue('A'.$num,$val['id'])->setCellValue('B'.$num,$val['text'])->setCellValue('C'.$num,$val['contacts'])->setCellValue('D'.$num,$val['phone'])
+            ->setCellValue('E'.$num,$val['equipRemarks'])->setCellValue('F'.$num,$val['address'])->setCellValue('G'.$num,$val['website'])
+            ->setCellValue('H'.$num,MyHelper::timestampToDate($val['createTime']))->setCellValue('I'.$num,MyHelper::timestampToDate($val['modifyTime']));
+            $num ++;
+        }
+        $objWriter = \PHPExcel_IOFactory::createWriter($phpExcel,'Excel2007');
+        ExcelMolde::exportBrowser('教学点列表.xlsx');
+        $objWriter->save('php://output');
     }
 }

@@ -166,7 +166,7 @@ $('.publishEndTime').datetimepicker({
 });
 
 //导出
-$(document).on('click','.export-btn',function(){
+$(document).on('click','.excel-btn',function(){
     var form = $(this).parents('form')[0];
     $(form).attr('action','$exportUrl');
     $(form).submit();

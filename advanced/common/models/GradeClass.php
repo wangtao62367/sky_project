@@ -4,6 +4,7 @@ namespace common\models;
 
 use Yii;
 use yii\db\ActiveQuery;
+use common\publics\MyHelper;
 
 /**
  * 班级
@@ -88,6 +89,37 @@ class GradeClass extends BaseModel
         $list = $this->query($gradeClassQuery, $this->curPage, $this->pageSize);
         return $list;
     }
+    
+    public function export(array $data)
+    {
+        $query= self::find()->select([])->where(['isDelete'=>self::GRADECLASS_UNDELETE])->orderBy('createTime desc,modifyTime desc');
+        if($this->load($data)){
+            $query= $this->filterSearch($this->search, $query);
+        }
+        $result = $query->asArray()->all();
+        
+        $phpExcel = new \PHPExcel();
+        $objSheet = $phpExcel->getActiveSheet();
+        $objSheet->getDefaultStyle()->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER)->setVertical(\PHPExcel_Style_Alignment::VERTICAL_CENTER);
+        $objSheet->setTitle('班级列表');
+        $objSheet->setCellValue('A1','序号')->setCellValue('B1','班级名称')->setCellValue('C1','班级人数')->setCellValue('D1','报名时间')
+        ->setCellValue('E1','开班时间')->setCellValue('F1','教务员')->setCellValue('G1','教务员电话')->setCellValue('H1','媒体管理员')
+        ->setCellValue('I1','媒体管理员电话')->setCellValue('J1','开班出席领导')->setCellValue('K1','结业出席领导')->setCellValue('L1','本院教师任课节数')
+        ->setCellValue('M1','邀约教师任课节数')->setCellValue('N1','创建时间')->setCellValue('O1','修改时间');
+        $num = 2;
+        foreach ($result as $val){
+            $objSheet->setCellValue('A'.$num,$val['id'])->setCellValue('B'.$num,$val['className'])->setCellValue('C'.$num,$val['classSize'])->setCellValue('D'.$num,$val['joinStartDate'].'~'.$val['joinEndDate'])
+            ->setCellValue('E'.$num,$val['openClassTime'])->setCellValue('F'.$num,$val['eduAdmin'])->setCellValue('G'.$num,$val['eduAdminPhone'])
+            ->setCellValue('H'.$num,$val['mediaAdmin'])->setCellValue('I'.$num,$val['mediaAdminPhone'])->setCellValue('J'.$num,$val['openClassLeader'])
+            ->setCellValue('K'.$num,$val['closeClassLeader'])->setCellValue('L'.$num,$val['currentTeachs'])->setCellValue('M'.$num,$val['invitTeachs'])
+            ->setCellValue('N'.$num,MyHelper::timestampToDate($val['createTime']))->setCellValue('O'.$num,MyHelper::timestampToDate($val['modifyTime']));
+            $num ++;
+        }
+        $objWriter = \PHPExcel_IOFactory::createWriter($phpExcel,'Excel2007');
+        ExcelMolde::exportBrowser('班级列表.xlsx');
+        $objWriter->save('php://output');
+    }
+    
     
     public function filterSearch($search,ActiveQuery $query)
     {

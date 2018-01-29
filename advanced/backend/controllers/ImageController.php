@@ -131,7 +131,9 @@ class ImageController extends CommonController
 	        return $this->redirect(['image/manage']);
 	    }
 	}
-	
+	/**
+	 * @desc 批量删除图片
+	 */
 	public function actionBatchdel()
 	{
 		$this->setResponseJson();

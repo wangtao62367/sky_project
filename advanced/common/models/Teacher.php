@@ -3,6 +3,7 @@ namespace common\models;
 
 
 use yii\db\ActiveQuery;
+use common\publics\MyHelper;
 
 /**
  * 教师
@@ -96,6 +97,33 @@ class Teacher extends BaseModel
 			$query = $query->andWhere('createTime <= :endTime',[':endTime'=>strtotime($search['endTime'])]);
 		}
 		return $query;
+	}
+	
+	public function export(array $data)
+	{
+	    $query= self::find()->select([])->where(['isDelete'=>self::TEACHER_UNDELETE])->orderBy('createTime desc,modifyTime desc');
+	    if($this->load($data)){
+	        $query= $this->filterSearch($this->search, $query);
+	    }
+	    $result = $query->asArray()->all();
+	    
+	    $phpExcel = new \PHPExcel();
+	    $objSheet = $phpExcel->getActiveSheet();
+	    $objSheet->getDefaultStyle()->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER)->setVertical(\PHPExcel_Style_Alignment::VERTICAL_CENTER);
+	    $objSheet->setTitle('教师列表');
+	    $objSheet->setCellValue('A1','序号')->setCellValue('B1','教师姓名')->setCellValue('C1','手机号')->setCellValue('D1','性别')
+	    ->setCellValue('E1','职称')->setCellValue('F1','行政职务')->setCellValue('G1','来源情况')->setCellValue('H1','授课专题')
+	    ->setCellValue('I1','创建时间')->setCellValue('J1','修改时间');
+	    $num  = 2;
+	    foreach ($result as $val){
+	        $objSheet->setCellValue('A'.$num,$val['id'])->setCellValue('B'.$num,$val['trueName'])->setCellValue('C'.$num,$val['phone'])->setCellValue('D'.$num,$val['sex'] == 1 ? '男':'女')
+	        ->setCellValue('E'.$num,$val['positionalTitles'])->setCellValue('F'.$num,$val['duties'])->setCellValue('G'.$num,$val['from'])->setCellValue('H'.$num,$val['teachTopics'])
+	        ->setCellValue('I'.$num,MyHelper::timestampToDate($val['createTime']))->setCellValue('J'.$num,MyHelper::timestampToDate($val['modifyTime']));
+	        $num ++;
+	    }
+	    $objWriter = \PHPExcel_IOFactory::createWriter($phpExcel,'Excel2007');
+	    ExcelMolde::exportBrowser('教师列表.xlsx');
+	    $objWriter->save('php://output');
 	}
 	
 	

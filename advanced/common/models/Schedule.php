@@ -3,6 +3,7 @@ namespace common\models;
 
 
 use yii\db\ActiveQuery;
+use common\publics\MyHelper;
 
 /**
  * 课表
@@ -80,6 +81,37 @@ class Schedule extends BaseModel
 		}
 		$result = $this->query($scheduleListQuery, $this->curPage, $this->pageSize);
 		return $result;
+	}
+	
+	public function export(array $data)
+	{
+	    $query = self::find()
+	    ->select([])
+	    //->joinWith('teachplaces')
+	    //->joinWith('gradeclass')
+	    ->where([self::tableName().'.isDelete'=>self::CURRICULUM_UNDELETE])->orderBy('createTime desc,modifyTime desc');
+	    if($this->load($data)){
+	        $query= $this->filterSearch($this->search,$query);
+	    }
+	    $result = $query->asArray()->all();
+	    
+	    $phpExcel = new \PHPExcel();
+	    $objSheet = $phpExcel->getActiveSheet();
+	    $objSheet->getDefaultStyle()->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER)->setVertical(\PHPExcel_Style_Alignment::VERTICAL_CENTER);
+	    $objSheet->setTitle('课表列表');
+	    $objSheet->setCellValue('A1','序号')->setCellValue('B1','授课班级')->setCellValue('C1','课程名称')->setCellValue('D1','上课时间')
+	    ->setCellValue('E1','授课教师')->setCellValue('F1','授课地点')->setCellValue('G1','是否发布')
+	    ->setCellValue('H1','创建时间')->setCellValue('I1','修改时间');
+	    $num  = 2;
+	    foreach ($result as $val){
+	        $objSheet->setCellValue('A'.$num,$val['id'])->setCellValue('B'.$num,$val['gradeClass'])->setCellValue('C'.$num,$val['curriculumText'])->setCellValue('D'.$num,$val['lessonDate'] . ' ' . $val['lessonStartTime'] . '~' . $val['lessonEndTime'])
+	        ->setCellValue('E'.$num,$val['teacherName'])->setCellValue('F'.$num,$val['teachPlace'])->setCellValue('G'.$num,$val['isPublish'] == 1?'已发布':'未发布')
+	        ->setCellValue('H'.$num,MyHelper::timestampToDate($val['createTime']))->setCellValue('I'.$num,MyHelper::timestampToDate($val['modifyTime']));
+	        $num ++;
+	    }
+	    $objWriter = \PHPExcel_IOFactory::createWriter($phpExcel,'Excel2007');
+	    ExcelMolde::exportBrowser('课表列表.xlsx');
+	    $objWriter->save('php://output');
 	}
 	
 	public function filterSearch($search,ActiveQuery $query) {

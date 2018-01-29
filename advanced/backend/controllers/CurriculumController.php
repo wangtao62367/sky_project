@@ -102,4 +102,14 @@ class CurriculumController extends CommonController
 	    $result = Curriculum::find()->select(['id','text'=>'text'])->where(['and',['isDelete'=>0],['like','text',$keywords]])->asArray()->all();
 	    return $result;
 	}
+	
+	/**
+	 * @desc 导出课程列表
+	 */
+	public function actionExport()
+	{
+	    $curriculum= new Curriculum();
+	    $data = Yii::$app->request->get();
+	    $curriculum->export($data);
+	}
 }

@@ -93,4 +93,15 @@ class TestpaperController extends CommonController
         $idsArr = explode(',',trim($ids,','));
         return TestPaper::updateAll(['isDelete'=>1],['in','id',$idsArr]);
     }
+    
+    /**
+     * @desc 试卷导出
+     */
+    public function actionExport()
+    {
+        $testPaper = new TestPaper();
+        $data = Yii::$app->request->get();
+        $testPaper->export($data);
+    }
+    
 }

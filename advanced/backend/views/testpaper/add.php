@@ -72,7 +72,11 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
     	<input type="number" min=1 class="dfinput" v-model="paper.timeToAnswer" /><i>单位：分钟</i>
     </li>
     
-    <li><label>备注：</label><textarea v-model="paper.marks"  cols="" rows="" class="textinput" placeholder="请填写试卷备注信息（选填）"></textarea></li>
+    <li><label>来        源<b>*</b></label>
+    	<input type="text" min=1 class="dfinput" v-model="paper.from" /><i>单位：分钟</i><i>出自于那个部门或处室</i>
+    </li>
+    
+    <li><label>备        注</label><textarea v-model="paper.marks"  cols="" rows="" class="textinput" placeholder="请填写试卷备注信息（选填）"></textarea></li>
     <li><label>&nbsp;</label><input @click="createPaper()" type="button" class="btn" value="创建试卷"/></li>
 </ul>
 
@@ -86,6 +90,8 @@ $publishCode = $model->publishCode ;
 $questions = json_encode($model->questions);
 $gradeClassId = $model->gradeClassId;
 $gradeClass   = $className;
+$timeToAnswer = $model->timeToAnswer;
+$from = $model->from;
 
 $getGradeClass = Url::to(['gradeclass/ajax-classes']);
 $addGradeClass = Url::to(['gradeclass/add']);
@@ -155,7 +161,8 @@ var vm = new Vue({
             marks : '$marks',
 			gradeClassId : '$gradeClassId',
 			gradeClass : '$gradeClass',
-			timeToAnswer : 120,
+			timeToAnswer : '$timeToAnswer',
+            from : '$from',
             publishCode  : '$publishCode',
 			questions : JSON.parse('$questions')
 		}

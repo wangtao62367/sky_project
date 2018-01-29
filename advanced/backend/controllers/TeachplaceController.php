@@ -101,4 +101,13 @@ class TeachplaceController extends CommonController
         $result = TeachPlace::find()->select(['id','text'=>'text'])->where(['and',['isDelete'=>0],['like','text',$keywords]])->asArray()->all();
         return $result;
     }
+    /**
+     * @desc 导出教学点
+     */
+    public function actionExport()
+    {
+        $teachPlace = new TeachPlace();
+        $data = Yii::$app->request->get();
+        $teachPlace->export($data);
+    }
 }

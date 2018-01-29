@@ -3,6 +3,8 @@ namespace common\models;
 
 
 
+use common\publics\MyHelper;
+
 /**
  * 课程
  * @author wangtao
@@ -75,5 +77,41 @@ class Curriculum extends BaseModel
         }
         $result = $this->query($curriculumListQuery, $this->curPage, $this->pageSize);
         return $result;
+    }
+    
+    public function export(array $data)
+    {
+        $query = self::find()->select([])->where(['isDelete'=>self::CURRICULUM_UNDELETE])->orderBy('createTime desc,modifyTime desc');
+        if($this->load($data)){
+            
+            if(!empty($this->search)){
+                if(!empty($this->search['text'])){
+                    $query= $query->andWhere(['like','text',$this->search['text']]);
+                }
+                if(!empty($this->search['isRequired'])){
+                    $query= $query->andWhere('isRequired = :isRequired',[':isRequired'=>$this->search['isRequired']]);
+                }
+            }
+            
+        }
+        $result = $query->asArray()->all();
+        
+        $phpExcel = new \PHPExcel();
+        $objSheet = $phpExcel->getActiveSheet();
+        $objSheet->getDefaultStyle()->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER)->setVertical(\PHPExcel_Style_Alignment::VERTICAL_CENTER);
+        $objSheet->setTitle('课程列表');
+        $objSheet->setCellValue('A1','序号')->setCellValue('B1','课程名称')->setCellValue('C1','课时数')->setCellValue('D1','是否必修')
+        ->setCellValue('E1','主要内容')
+        ->setCellValue('F1','创建时间')->setCellValue('G1','修改时间');
+        $num  = 2;
+        foreach ($result as $val){
+            $objSheet->setCellValue('A'.$num,$val['id'])->setCellValue('B'.$num,$val['text'])->setCellValue('C'.$num,$val['period'])->setCellValue('D'.$num,$val['isRequired'] == 1 ? '必修':'选修')
+            ->setCellValue('E'.$num,$val['remarks'])
+            ->setCellValue('F'.$num,MyHelper::timestampToDate($val['createTime']))->setCellValue('G'.$num,MyHelper::timestampToDate($val['modifyTime']));
+            $num ++;
+        }
+        $objWriter = \PHPExcel_IOFactory::createWriter($phpExcel,'Excel2007');
+        ExcelMolde::exportBrowser('课程列表.xlsx');
+        $objWriter->save('php://output');
     }
 }

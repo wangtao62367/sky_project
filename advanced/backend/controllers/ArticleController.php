@@ -15,7 +15,11 @@ use common\models\ArticleTag;
  */
 class ArticleController extends CommonController
 {
-
+    /**
+     * @desc 文章富文本上传文件
+     * {@inheritDoc}
+     * @see \yii\base\Controller::actions()
+     */
     public function actions()
     {
         return [

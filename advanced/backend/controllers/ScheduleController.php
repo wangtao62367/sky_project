@@ -91,4 +91,14 @@ class ScheduleController extends CommonController
 	    $idsArr = explode(',',trim($ids,','));
 	    return Schedule::updateAll(['isDelete'=>1],['in','id',$idsArr]);
 	}
+	/**
+	 * @desc 导出课表
+	 */
+	public function actionExport()
+	{
+	    $schedule = new Schedule();
+	    
+	    $data = Yii::$app->request->get();
+	    $schedule->export($data);
+	}
 }

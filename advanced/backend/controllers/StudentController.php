@@ -43,7 +43,7 @@ class StudentController extends CommonController
         return $this->render('verify_list',['model'=>$model,'list'=>$list]);
     }
     /**
-     * @desc 查看/审核
+     * @desc 查看审核学员
      */
     public function actionInfo(int $id)
     {

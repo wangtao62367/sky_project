@@ -5,9 +5,17 @@ namespace common\models;
 
 
 use common\models\BaseModel;
+use yii\db\ActiveQuery;
+use yii\helpers\ArrayHelper;
+use common\publics\MyHelper;
 
 class TestPaper extends BaseModel
 {
+    const TESTPAPER_VERIFY_NEW = '0';
+    
+    const TESTPAPER_VERIFY_YES = '1';
+    
+    const TESTPAPER_VERIFY_NO  = '3';
     
     public $questions = [];
     
@@ -17,6 +25,12 @@ class TestPaper extends BaseModel
     		'oneHours' => '1小时候发布',
     		'oneDay' => '1天以后发布',
     		'nopublish' => '暂时不发布',
+    ];
+    
+    public static $verifyText = [
+        self::TESTPAPER_VERIFY_NEW => '未审核',
+        self::TESTPAPER_VERIFY_YES => '已审核',
+        self::TESTPAPER_VERIFY_NO  => '审核失败',
     ];
     
     public static function tableName()
@@ -30,7 +44,8 @@ class TestPaper extends BaseModel
             ['title','required','message'=>'试卷题干不能为空','on'=>['add','edit']],
         	['timeToAnswer','required','message'=>'试卷作答时间不能为空','on'=>['add','edit']],
         	['gradeClassId','required','message'=>'试卷所属班级不能为空','on'=>['add','edit']],
-            [['search','questions','marks','publishTime','publishCode'],'safe'],
+            ['from','required','message'=>'试卷来源不能为空','on'=>['add','edit']],
+            [['search','questions','marks','publishTime','publishCode','from'],'safe'],
         ];
     }
     
@@ -39,12 +54,11 @@ class TestPaper extends BaseModel
         $this->scenario = 'add';
         if($this->load($data) && $this->validate(false)){
         	//分别获取不同类型的试题数量
-        	$optionCateCounts = array_count_values(array_column($this->questions, 'cate'));
-        	$this->radioCount = $optionCateCounts['radio'];
-        	$this->multiCount = $optionCateCounts['multi'];
-        	$this->t_fCount   = $optionCateCounts['trueOrfalse'];
-            $this->questionCount = count($this->questions);
-            $this->otherCount = $this->questionCount - array_sum(array_values($optionCateCounts));
+        	if(empty($this->questions)){
+        	    $this->addError('question','试题不能为空，请选择试题');
+        	    return false;
+        	}
+        	self::handleQuetionCount($this->questions,$this);
             $this->getPublishTime($this->publishCode);
             if($this->save(false)){
                self::addQuestion($this->questions,$this->id);
@@ -59,12 +73,11 @@ class TestPaper extends BaseModel
         $testPaper->scenario = 'edit';
         if($testPaper->load($data) && $testPaper->validate()){
         	//分别获取不同类型的试题数量
-        	$optionCateCounts = array_count_values(array_column($this->questions, 'cate'));
-        	$this->radioCount = $optionCateCounts['radio'];
-        	$this->multiCount = $optionCateCounts['multi'];
-        	$this->t_fCount   = $optionCateCounts['trueOrfalse'];
-        	$this->questionCount = count($this->questions);
-        	$this->otherCount = $this->questionCount - array_sum(array_values($optionCateCounts));
+            if(empty($testPaper->questions)){
+                $this->addError('question','试题不能为空，请选择试题');
+                return false;
+            }
+            self::handleQuetionCount($testPaper->questions,$testPaper);
             $testPaper->getPublishTime($testPaper->publishCode);
             //return self::addQuestion($testPaper->questions,$testPaper->id);
             if($testPaper->save(false)){
@@ -73,6 +86,16 @@ class TestPaper extends BaseModel
             }
         }
         return false;
+    }
+    
+    private static function handleQuetionCount($questions,$obj)
+    {
+        $optionCateCounts = array_count_values(array_column($questions, 'cate'));
+        $obj->radioCount = isset($optionCateCounts['radio']) && !empty($optionCateCounts['radio']) ? $optionCateCounts['radio'] : 0;
+        $obj->multiCount = isset($optionCateCounts['multi']) && !empty($optionCateCounts['multi']) ? $optionCateCounts['multi'] : 0;
+        $obj->t_fCount   = isset($optionCateCounts['trueOrfalse']) && !empty($optionCateCounts['trueOrfalse']) ? $optionCateCounts['trueOrfalse'] : 0;
+        $obj->questionCount = count($questions);
+        $obj->otherCount = $obj->questionCount - array_sum(array_values($optionCateCounts));
     }
     
     public static function getPaperById(int $id)
@@ -176,27 +199,90 @@ class TestPaper extends BaseModel
     public function getPageList($get,$search)
     {
         $this->curPage = isset($get['curPage']) && !empty($get['curPage']) ? $get['curPage'] : $this->curPage;
-        $query = self::find()
-            ->select([
-                'id',
-                'title',
-                'questionCount',
-                'isPublish',
-            	'publishTime',
-                'verify',
-                'createTime',
-                'modifyTime'
-            ])
-            ->where(['isDelete'=>0])
-            ->orderBy('modifyTime desc');
+        $query = $this->getQuery();
         if (!empty($search) && $this->load($search)){
-            if(!empty($this->search['keywords'])){
-                $query = $query->andWhere(['like','title',$this->search['keywords']]);
-            }
-            if(!empty($this->search['isPublish']) && $this->search['isPublish'] != 'unkown'){
-                $query = $query->andWhere('isPublish = :isPublish',[':isPublish'=>$this->search['isPublish']]);
-            }
+            $query = $this->filterSearch($this->search, $query);
         }
         return $this->query($query,$this->curPage,$this->pageSize);
+    }
+    
+    public function getQuery()
+    {
+        return self::find()
+        ->select([
+            self::tableName().'.id',
+            'title',
+            'radioCount',
+            'multiCount',
+            't_fCount',
+            'otherCount',
+            'questionCount',
+            'isPublish',
+            'publishTime',
+            'verify',
+            'timeToAnswer',
+            'gradeClassId',
+            'from',
+            self::tableName().'.createTime',
+            self::tableName().'.modifyTime'
+        ])
+        ->joinWith('gradeClass')
+        ->where([self::tableName().'.isDelete'=>0])
+        ->orderBy(self::tableName().'.modifyTime desc');
+    }
+    
+    public function filterSearch($search,ActiveQuery $query)
+    {
+        if(isset($search['keywords']) && !empty($search['keywords'])){
+            $query = $query->andWhere(['like','title',$search['keywords']]);
+        }
+        if(isset($search['isPublish']) && !empty($search['isPublish']) && $search['isPublish'] != 'unkown'){
+            $query = $query->andWhere('isPublish = :isPublish',[':isPublish'=>$search['isPublish']]);
+        }
+        if(isset($search['from']) && !empty($search['from'])){
+            $query = $query->andWhere(['like','from',$search['from']]);
+        }
+        if(isset($search['gradeClass']) && !empty($search['gradeClass'])){
+            $gradeClassArr = GradeClass::find()->select(['id'])->where(['like','className',$search['gradeClass']])->asArray()->all();
+            if(!empty($gradeClassArr)){
+                $ids = ArrayHelper::getColumn($gradeClassArr, 'id');
+                $query = $query->andWhere(['in','gradeClassId',$ids]);
+            }
+        }
+        return $query;
+    }
+    
+    public function export(array $data){
+        $query = $this->getQuery();
+        if (!empty($data) && $this->load($data)){
+            $query = $this->filterSearch($this->search, $query);
+        }
+        $result = $query->asArray()->all();
+        
+        $phpExcel = new \PHPExcel();
+        $objSheet = $phpExcel->getActiveSheet();
+        $objSheet->getDefaultStyle()->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER)->setVertical(\PHPExcel_Style_Alignment::VERTICAL_CENTER);
+        $objSheet->setTitle('试卷列表');
+        $objSheet->setCellValue('A1','序号')->setCellValue('B1','试卷主题')->setCellValue('C1','作答时间（分钟）')->setCellValue('D1','作答班级')
+        ->setCellValue('E1','试题总数')->setCellValue('F1','单选题数')->setCellValue('G1','多选题数')->setCellValue('H1','判断题数')->setCellValue('I1','其他题数')
+        ->setCellValue('J1','发布状态')->setCellValue('K1','发布时间')->setCellValue('L1','审核状态')->setCellValue('M1','试卷来源')
+        ->setCellValue('N1','创建时间')->setCellValue('O1','修改时间');
+        $num  = 2;
+        foreach ($result as $val){
+            $objSheet->setCellValue('A'.$num,$val['id'])->setCellValue('B'.$num,$val['title'])->setCellValue('C'.$num,$val['timeToAnswer'])->setCellValue('D'.$num,$val['gradeClass']['className'])
+            ->setCellValue('E'.$num,$val['questionCount'])->setCellValue('F'.$num,$val['radioCount'])->setCellValue('G'.$num,$val['multiCount'])->setCellValue('H'.$num,$val['t_fCount'])
+            ->setCellValue('I'.$num,$val['otherCount'])->setCellValue('J'.$num,$val['isPublish'] == 1?'已发布':'未发布')->setCellValue('K'.$num,MyHelper::timestampToDate($val['publishTime']))->setCellValue('L'.$num,self::$verifyText[$val['verify']])
+            ->setCellValue('M'.$num,$val['from'])->setCellValue('N'.$num,MyHelper::timestampToDate($val['createTime']))->setCellValue('O'.$num,MyHelper::timestampToDate($val['modifyTime']));
+            $num ++;
+        }
+        $objWriter = \PHPExcel_IOFactory::createWriter($phpExcel,'Excel2007');
+        ExcelMolde::exportBrowser('试卷列表.xlsx');
+        $objWriter->save('php://output');
+    }
+    
+    
+    public function getGradeClass()
+    {
+        return $this->hasOne(GradeClass::className(), ['id'=>'gradeClassId']);
     }
 }
