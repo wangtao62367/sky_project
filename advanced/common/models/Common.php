@@ -51,4 +51,22 @@ class Common extends BaseModel
             'typeDesc'
         ])->where('code = :code and type = :type',[':code'=>$code,':type'=>$type])->one();
     }
+    
+    public function getNav()
+    {
+    	return self::find()->select([
+    			self::tableName().'.id',
+    			self::tableName().'.code',
+    			self::tableName().'.codeDesc',
+    			self::tableName().'.type',
+    			self::tableName().'.typeDesc'
+    	])
+    	->joinWith('cates')
+    	->where(self::tableName().'.type = :type',[':type'=>'navigation'])->orderBy('sorts asc')->asArray()->all();
+    }
+    
+    public function getCates()
+    {
+    	return $this->hasMany(Category::className(), ['parentId'=>'id']);
+    }
 }
