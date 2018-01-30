@@ -5,6 +5,8 @@ namespace common\models;
 
 
 
+use yii\db\ActiveQuery;
+
 class Student extends BaseModel
 {
     
@@ -47,21 +49,41 @@ class Student extends BaseModel
     {
         $this->curPage = isset($data['curPage']) && !empty($data['curPage']) ? $data['curPage'] : $this->curPage;
         $query = self::find()->select([])->where(['isDelete'=>0])->orderBy('createTime desc,modifyTime desc');
-        if($this->load($data)){
-            if(!empty($this->search)){
-                if(isset($this->search['trueName']) && !empty($this->search['trueName'])){
-                    $query = $query->andWhere(['like','trueName',$this->search['trueName']]);
-                }
-                if(isset($this->search['sex']) && !empty($this->search['sex'])){
-                    $query = $query->andWhere('sex = :sex',[':sex'=>$this->search['sex']]);
-                }
-                if(isset($this->search['verify']) && is_numeric($this->search['verify'])){
-                    $query = $query->andWhere('verify = :verify',[':verify'=>$this->search['verify']]);
-                }
-            }
+        if($this->load($data) && !empty($this->search)){
+            $query = $this->filterSearch($this->search, $query);
         }
         $result = $this->query($query, $this->curPage, $this->pageSize);
         return $result;
+    }
+    
+    public function filterSearch(array $search,ActiveQuery $query)
+    {
+        if(isset($search['trueName']) && !empty($search['trueName'])){
+            $query = $query->andWhere(['like','trueName',$search['trueName']]);
+        }
+        if(isset($search['gradeClass']) && !empty($search['gradeClass'])){
+            $query = $query->andWhere(['like','gradeClass',$search['gradeClass']]);
+        }
+        if(isset($search['sex']) && !empty($search['sex'])){
+            $query = $query->andWhere('sex = :sex',[':sex'=>$search['sex']]);
+        }
+        
+        if(isset($search['nationCode']) && !empty($search['nationCode'])){
+            $query = $query->andWhere('nationCode = :nationCode',[':nationCode'=>$search['nationCode']]);
+        }
+        
+        if(isset($search['startTime']) && !empty($search['startTime'])){
+            $query = $query->andWhere('createTime >= :startTime',[':startTime'=>strtotime($search['startTime'])]);
+        }
+        
+        if(isset($search['startTime']) && !empty($search['startTime'])){
+            $query = $query->andWhere('createTime <= :endTime',[':endTime'=>strtotime($search['endTime'])]);
+        }
+        
+        if(isset($search['verify']) && is_numeric($search['verify'])){
+            $query = $query->andWhere('verify = :verify',[':verify'=>$search['verify']]);
+        }
+        return $query;
     }
     
     

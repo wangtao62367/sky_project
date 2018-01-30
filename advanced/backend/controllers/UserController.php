@@ -5,7 +5,6 @@ namespace backend\controllers;
 use Yii;
 use common\controllers\CommonController;
 use common\models\User;
-use common\models\Role;
 /**
  * @name 用户管理
  * @author wangt
@@ -21,8 +20,8 @@ class UserController extends CommonController
     {
         $model = new User();
         //$roles = Role::getRoles();
-        $request = Yii::$app->request;
-        $list = $model->users($request->get(), $request->get()); 
+        $data = Yii::$app->request->get();
+        $list = $model->users($data); 
         return $this->render('manage',['model'=>$model,'list'=>$list]);
     }
     

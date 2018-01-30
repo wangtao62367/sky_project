@@ -17,10 +17,14 @@ use yii\helpers\Html;
 <?php echo Html::beginForm(Url::to(['user/manage']),'get');?>
 	<ul class="seachform">
         <li><label>用户账号</label><?php echo Html::activeTextInput($model, 'search[keywords]',['class'=>'scinput','placeholder'=>'用户账号/手机/邮箱'])?></li>
+        <li>
+        	<label>注册时间</label>
+        	<?php echo Html::activeTextInput($model, 'search[startTime]',['class'=>'scinput startTime','placeholder'=>'开始时间'])?> - 
+    		<?php echo Html::activeTextInput($model, 'search[endTime]',['class'=>'scinput endTime','placeholder'=>'结束时间'])?>
+        </li>
         <li><label>&nbsp;</label><?php echo Html::submitInput('查询',['class'=>'scbtn'])?></li>
-        <li class="click"><a href="<?php echo Url::to(['user/reg'])?>"><span><img src="/admin/images/t01.png" /></span>添加</a></li>
-        <li><a href="javascript:;" class="batchDel"><span><img src="/admin/images/t03.png" /></span>删除</a></li>
-        <li><span><img src="/admin/images/t04.png" /></span>导出</li>
+        <li><a href="<?php echo Url::to(['user/reg'])?>" class="add-btn">添加</a></li>
+        <li><a href="javascript:;" class="del-btn batchDel">删除</a></li>
     </ul>
 <?php echo Html::endForm();?>
 </div>
@@ -35,7 +39,7 @@ use yii\helpers\Html;
             <th>最近登录IP</th>
             <th>登录次数</th>
             <th>状态</th>
-            <th>创建时间</th>
+            <th>注册时间</th>
             <th>修改时间</th>
             <th>操作</th>
         </tr>
@@ -54,7 +58,7 @@ use yii\helpers\Html;
             <td><?php echo $val['isFrozen'] == '1' ? '<font class="frozen">冻结</font>' : '<font class="actived">激活</font>';?></td>
             <td><?php echo MyHelper::timestampToDate($val['createTime']);?></td>
             <td><?php echo MyHelper::timestampToDate($val['modifyTime']);?></td>
-            <td>
+            <td class="handle-box">
             <a href="<?php echo Url::to(['user/edit','id'=>$val['id']]);?>" class="tablelink">编辑</a> 
             <?php if($val['isFrozen'] == 0):?>
             <a href="<?php echo Url::to(['user/frozen','id'=>$val['id']]);?>" class="tablelink">冻结</a> 
@@ -94,6 +98,32 @@ initPagination({
 	curPage : $curPage,
 	pageSize : $pageSize,
     uri : '$uri'
+});
+
+//时间选择框
+var now = new Date();
+var yearEnd = now.getFullYear();
+var yearStart = yearEnd - 10;
+var maxDate = now.setFullYear(yearEnd);
+$.datetimepicker.setLocale('ch');
+$('.startTime').datetimepicker({
+      format:"Y-m-d H:i:s",      //格式化日期
+      timepicker:true,    
+      maxDate : maxDate,
+      maxTime : now,
+      yearStart: yearStart,     //设置最小年份
+      yearEnd:yearEnd,        //设置最大年份
+      todayButton:false    //开启选择今天按钮
+});
+
+$('.endTime').datetimepicker({
+      format:"Y-m-d H:i:s",      //格式化日期
+      timepicker:true,    
+      maxDate : maxDate,
+      maxTime : now,
+      yearStart: yearStart,     //设置最小年份
+      yearEnd:yearEnd,        //设置最大年份
+      todayButton:true    //开启选择今天按钮
 });
 JS;
 $this->registerJs($js);

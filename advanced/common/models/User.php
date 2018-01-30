@@ -4,6 +4,7 @@ namespace common\models;
 
 use Yii;
 use yii\web\IdentityInterface;
+use yii\db\ActiveQuery;
 
 class User extends BaseModel implements IdentityInterface
 {
@@ -90,7 +91,7 @@ class User extends BaseModel implements IdentityInterface
     }
     
     
-    public function users(array $data,array $search)
+    public function users(array $data)
     {
         $query = self::find()
             ->select([
@@ -111,16 +112,30 @@ class User extends BaseModel implements IdentityInterface
             ->orderBy('createTime desc,modifyTime desc')
             ->where(['isDelete'=>self::USER_UNDELETE]);
         $this->curPage = isset($data['curPage']) && !empty($data['curPage']) ? $data['curPage'] : $this->curPage;
-        if(!empty($search) && $this->load($search)){
-            if(!empty($this->search['keywords'])){
-                $query = $query->andWhere(['or',
-                    ['like','account',$this->search['keywords']],
-                    ['like','email',$this->search['keywords']],
-                    ['like','phone',$this->search['keywords']]
-                ] );
-            }
+        if(!empty($data) && $this->load($data) && !empty($this->search)){
+           $query = $this->filterSearch($this->search, $query);
         }
         return $this->query($query,$this->curPage,$this->pageSize);
+    }
+    
+    public function filterSearch(array $search,ActiveQuery $query)
+    {
+        if(!empty($search['keywords'])){
+            $query = $query->andWhere(['or',
+                ['like','account',$search['keywords']],
+                ['like','email',$search['keywords']],
+                ['like','phone',$search['keywords']]
+            ] );
+        }
+        
+        if(isset($search['startTime']) && !empty($search['startTime'])){
+            $query = $query->andWhere('createTime >= :startTime',[':startTime'=>strtotime($search['startTime'])]);
+        }
+        
+        if(isset($search['startTime']) && !empty($search['startTime'])){
+            $query = $query->andWhere('createTime <= :endTime',[':endTime'=>strtotime($search['endTime'])]);
+        }
+        return $query;
     }
     
     

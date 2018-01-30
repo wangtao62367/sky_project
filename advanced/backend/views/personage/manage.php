@@ -2,25 +2,26 @@
 use yii\helpers\Url;
 use common\publics\MyHelper;
 use yii\helpers\Html;
+use common\models\Common;
 
 ?>
 <div class="place">
     <span>位置：</span>
     <ul class="placeul">
-        <li><a href="javascript:;">教务系统</a></li>
-        <li><a href="<?php echo Url::to(['teachplace/manage'])?>">教学点管理</a></li>
-        <li><a href="<?php echo Url::to(['teachplace/manage'])?>">教学点列表</a></li>
+        <li><a href="javascript:;">网站管理系统</a></li>
+        <li><a href="<?php echo Url::to(['personage/manage'])?>">社院人物管理</a></li>
+        <li><a href="<?php echo Url::to(['personage/manage'])?>">人物列表</a></li>
     </ul>
 </div>
 
 <div class="rightinfo">
-	<?php echo Html::beginForm(Url::to(['teachplace/manage']),'get');?>
+	<?php echo Html::beginForm(Url::to(['personage/manage']),'get');?>
 	<ul class="seachform">
-        <li><label>教学点</label>
-        <?php echo Html::activeTextInput($model, 'search[keywords]',['class'=>'scinput','placeholder'=>'教学地点或详细地址'])?>
+        <li><label>姓名</label>
+        <?php echo Html::activeTextInput($model, 'search[fullName]',['class'=>'scinput','placeholder'=>'姓名'])?>
         </li>
-        <li><label>联络人</label>
-        <?php echo Html::activeTextInput($model, 'search[contacts]',['class'=>'scinput','placeholder'=>'教学点联络人'])?>
+        <li><label>人物角色</label>
+        <?php echo Html::activeTextInput($model, 'search[role]',['class'=>'scinput','placeholder'=>'教学点联络人'])?>
         </li>
         <li>
         	<label>创建时间</label>
@@ -28,9 +29,9 @@ use yii\helpers\Html;
     		<?php echo Html::activeTextInput($model, 'search[endTime]',['class'=>'scinput endTime','placeholder'=>'结束时间'])?>
         </li>
         <li><label>&nbsp;</label><?php echo Html::submitInput('查询',['class'=>'scbtn'])?></li>
-        <li><a href="<?php echo Url::to(['teachplace/add'])?>" class="add-btn">添加</a></li>
+        <li><a href="<?php echo Url::to(['personage/add'])?>" class="add-btn">添加</a></li>
         <li><a href="javascript:;" class="del-btn batchDel">删除</a></li>
-        <li><a href="javascript:;" class="excel-btn">导出</a></li>
+        <!-- <li><a href="javascript:;" class="excel-btn">导出</a></li> -->
     </ul>
     <?php echo Html::endForm();?>
 </div>
@@ -39,12 +40,9 @@ use yii\helpers\Html;
 	<thead>
     	<tr>
             <th><input type="checkbox" class="s-all" value="" /></th>
-            <th>教学点</th>
-            <th>联络人</th>
-            <th>联络手机</th>
-            <th>设备情况</th>
-            <th>详细地址</th>
-            <th>教学点网址</th>
+            <th>姓名</th>
+            <th>人物角色</th>
+            <th>职务</th>
             <th>创建时间</th>
             <th>修改时间</th>
             <th>操作</th>
@@ -56,17 +54,14 @@ use yii\helpers\Html;
     	<?php foreach ($list['data'] as $val):?>
     	<tr>
             <td><input name="ids" type="checkbox" class="item" value="<?php echo $val['id'];?>" /></td>
-            <td><?php echo $val['text'];?></td>
-            <td><?php echo $val['contacts'];?></td>
-            <td><?php echo $val['phone'];?></td>
-            <td><?php echo $val['equipRemarks'];?></td>
-            <td><?php echo $val['address'];?></td>
-            <td><?php echo $val['website'];?></td>
+            <td><?php echo $val['fullName'];?></td>
+            <td><?php echo $val['role']['codeDesc'];?></td>
+            <td><?php echo $val['duties'];?></td>
             <td><?php echo MyHelper::timestampToDate($val['createTime']);?></td>
             <td><?php echo MyHelper::timestampToDate($val['modifyTime']);?></td>
             <td class="handle-box">
-            <a href="<?php echo Url::to(['teachplace/edit','id'=>$val['id']]);?>" class="tablelink">编辑</a>     
-            <a href="<?php echo Url::to(['teachplace/del','id'=>$val['id']]);?>" class="tablelink"> 删除</a>
+            <a href="<?php echo Url::to(['personage/edit','id'=>$val['id']]);?>" class="tablelink">编辑</a>     
+            <a href="<?php echo Url::to(['personage/del','id'=>$val['id']]);?>" class="tablelink"> 删除</a>
             </td>
         </tr> 
         <?php endforeach;?>
@@ -82,12 +77,12 @@ use yii\helpers\Html;
 $css = <<<CSS
 
 CSS;
-$batchDelUrl = Url::to(['teachplace/batchdel']);
+$batchDelUrl = Url::to(['personage/batchdel']);
 $curPage = $list['curPage'];
 $pageSize = $list['pageSize'];
 $count = $list['count'];
 $uri = Yii::$app->request->getUrl();
-$exportUrl = Url::to(['teachplace/export']);
+$exportUrl = Url::to(['personage/export']);
 $js = <<<JS
 $('.batchDel').click(function(){
      batchDel('$batchDelUrl');
@@ -126,11 +121,11 @@ $('.endTime').datetimepicker({
       todayButton:true    //开启选择今天按钮
 });
 //导出
-$(document).on('click','.excel-btn',function(){
-    var form = $(this).parents('form')[0];
-    $(form).attr('action','$exportUrl');
-    $(form).submit();
-})
+// $(document).on('click','.excel-btn',function(){
+//     var form = $(this).parents('form')[0];
+//     $(form).attr('action','$exportUrl');
+//     $(form).submit();
+// })
 JS;
 $this->registerJs($js);
 $this->registerCss($css);

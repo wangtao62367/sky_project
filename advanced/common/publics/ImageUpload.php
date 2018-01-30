@@ -110,7 +110,14 @@ class ImageUpload
     
     public function deleteImage($ossBlock)
     {
+        
         $this->OSSclient->deleteObject($this->bucket, ltrim($ossBlock,'/'));
+        return true;
+    }
+    
+    public function deleteImages($ossBlocks)
+    {
+        $this->OSSclient->deleteObjects($this->bucket, $ossBlocks);
         return true;
     }
     

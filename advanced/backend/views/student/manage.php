@@ -18,15 +18,30 @@ use common\models\Student;
 	<?php echo Html::beginForm(Url::to(['student/manage']),'get');?>
 	<ul class="seachform">
         <li><label>学员姓名</label><?php echo Html::activeTextInput($model, 'search[trueName]',['class'=>'scinput'])?></li>
+        
+        <li><label>所在班级</label><?php echo Html::activeTextInput($model, 'search[gradeClass]',['class'=>'scinput'])?></li> 
+        <li>
+        	<label>报名时间</label>
+        	<?php echo Html::activeTextInput($model, 'search[startTime]',['class'=>'scinput startTime','placeholder'=>'开始时间'])?> - 
+    		<?php echo Html::activeTextInput($model, 'search[endTime]',['class'=>'scinput endTime','placeholder'=>'结束时间'])?>
+        </li>
+        
         <li><label>学员性别</label>
         	<div class="vocation">
                 <?php echo Html::activeDropDownList($model, 'search[sex]', ['1'=>'男','2'=>'女'],['prompt'=>'请选择','class'=>'sky-select'])?>
             </div>
         </li>
+        
+        <li><label>学员名族</label>
+        	<div class="vocation">
+                <?php echo Html::activeDropDownList($model, 'search[nationCode]', Yii::$app->params['nations'],['prompt'=>'请选择','class'=>'sky-select'])?>
+            </div>
+        </li>
+        
         <li><label>&nbsp;</label><?php echo Html::submitInput('查询',['class'=>'scbtn'])?></li>
-        <li><a href="javascript:;" class="batchDel"><span><img src="/admin/images/t03.png" /></span>删除</a></li>
-        <li class="click"><a href="<?php echo Url::to(['statistics/student'])?>"><span><img src="/admin/images/t04.png" width="24px"/></span>统计</a></li>
-        <li class="click"><a href="<?php echo Url::to(['student/export'])?>"><span><img src="/admin/images/f05.png" width="24px"/></span>导出</a></li>
+        <li><a href="javascript:;" class="del-btn batchDel">删除</a></li>
+        <li><a href="<?php echo Url::to(['statistics/student'])?>" class="export-btn">统计</a></li>
+        <li><a href="javascript:;" class="excel-btn">导出</a></li>
     </ul>
     <?php echo Html::endForm();?>
 </div>
@@ -41,7 +56,7 @@ use common\models\Student;
             <th>名族</th>
             <th>职称</th>
             <th>所学专业</th>
-            <th>所学班级</th>
+            <th>所在班级</th>
             <th>报名时间</th>
             <th>操作</th>
         </tr>
@@ -83,6 +98,7 @@ $curPage = $list['curPage'];
 $pageSize = $list['pageSize'];
 $count = $list['count'];
 $uri = Yii::$app->request->getUrl();
+$exportUrl = Url::to(['student/export']);
 $js = <<<JS
 $('.batchDel').click(function(){
     batchDel('$batchDelUrl');
@@ -95,6 +111,39 @@ initPagination({
 	pageSize : $pageSize,
     uri : '$uri'
 });
+
+//时间选择框
+var now = new Date();
+var yearEnd = now.getFullYear() + 1;
+var yearStart = yearEnd - 10;
+var maxDate = now.setFullYear(yearEnd);
+$.datetimepicker.setLocale('ch');
+$('.startTime').datetimepicker({
+      format:"Y-m-d H:i:s",      //格式化日期
+      timepicker:true,    
+      maxDate : maxDate,
+      //maxTime : now,
+      yearStart: yearStart,     //设置最小年份
+      yearEnd:yearEnd,        //设置最大年份
+      todayButton:false    //开启选择今天按钮
+});
+
+$('.endTime').datetimepicker({
+      format:"Y-m-d H:i:s",      //格式化日期
+      timepicker:true,    
+      maxDate : maxDate,
+      //maxTime : now,
+      yearStart: yearStart,     //设置最小年份
+      yearEnd:yearEnd,        //设置最大年份
+      todayButton:true    //开启选择今天按钮
+});
+
+//导出
+$(document).on('click','.excel-btn',function(){
+    var form = $(this).parents('form')[0];
+    $(form).attr('action','$exportUrl');
+    $(form).submit();
+})
 JS;
 $this->registerJs($js);
 $this->registerCss($css);

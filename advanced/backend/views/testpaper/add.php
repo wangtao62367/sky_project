@@ -73,7 +73,7 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
     </li>
     
     <li><label>来        源<b>*</b></label>
-    	<input type="text" min=1 class="dfinput" v-model="paper.from" /><i>单位：分钟</i><i>出自于那个部门或处室</i>
+    	<input type="text" min=1 class="dfinput" v-model="paper.from" /><i>出自于那个部门或处室</i>
     </li>
     
     <li><label>备        注</label><textarea v-model="paper.marks"  cols="" rows="" class="textinput" placeholder="请填写试卷备注信息（选填）"></textarea></li>

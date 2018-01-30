@@ -37,7 +37,7 @@ use backend\assets\AppAsset;
 	<li class="imageSet"><label>水印图片</label>
 		<?php echo Html::hiddenInput('oldwaterImage', $webCfg['watermarkContent'],['id'=>'oldwaterImage']);?>
         <?php echo Html::hiddenInput('waterImage', $webCfg['watermarkContent'],['id'=>'waterImage'])?>
-        <?php echo Html::fileInput('file','',['class'=>'uploadFile','id'=>"uploadFile"]);?>
+        <?php echo Html::fileInput('file','',['class'=>'uploadFile','id'=>"uploadFile","accept"=>"image/png, image/jpeg,image/jpg"]);?>
         <div class="select-btn-box"><a href="javascript:;" class="btn"  id="btn-select-image">选择图片</a><p id="selectedImg"></p></div>
         <div href="javascript:;" class="image-box">
         	<?php if($webCfg['watermarkCate'] == 'image'):?>

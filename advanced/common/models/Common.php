@@ -40,4 +40,15 @@ class Common extends BaseModel
     	$query = self::find()->select([self::tableName().'.id','codeDesc','sorts'])->joinWith('categorys')->where([self::tableName().'.type'=>'navigation'])->andWhere('code != :code',[':code'=>'sylb'])->orderBy('sorts ASC');
     	return $this->query($query,$this->curPage,30);
     }
+    
+    public static function getInfo($code,$type)
+    {
+        return self::find()->select([
+            'id',
+            'code',
+            'codeDesc',
+            'type',
+            'typeDesc'
+        ])->where('code = :code and type = :type',[':code'=>$code,':type'=>$type])->one();
+    }
 }
