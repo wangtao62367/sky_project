@@ -26,7 +26,7 @@ use yii\helpers\ArrayHelper;
     
     <tbody>
 
-    	<?php foreach ($list['data'] as $val):?>
+    	<?php foreach ($list as $val):?>
     	<tr>
             <td><?php echo $val['codeDesc'];?></td>
             <td><?php echo implode(',', ArrayHelper::getColumn($val['categorys'], 'text')) ;?></td>
@@ -38,26 +38,18 @@ use yii\helpers\ArrayHelper;
     </tbody>
 </table>
 
-<div id="Pagination" class="pagination"><!-- 这里显示分页 --></div>
 <?php 
 $css = <<<CSS
 .tablelist{
 margin-top:20px
 }
 CSS;
-$curPage = $list['curPage'];
-$pageSize = $list['pageSize'];
-$count = $list['count'];
-$uri = Yii::$app->request->getUrl();
+// $curPage = $list['curPage'];
+// $pageSize = $list['pageSize'];
+// $count = $list['count'];
+// $uri = Yii::$app->request->getUrl();
 $js = <<<JS
 
-initPagination({
-	el : "#Pagination",
-	count : $count,
-	curPage : $curPage,
-	pageSize : $pageSize,
-    uri : '$uri'
-});
 JS;
 $this->registerJs($js);
 $this->registerCss($css);

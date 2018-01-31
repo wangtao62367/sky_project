@@ -150,6 +150,11 @@ class Category extends BaseModel
     	return self::find()->select(['id','text'])->where(['isDelete'=>0,'type'=>$type])->asArray()->all();
     }
     
+    public static function getCatesByCode(string $cateCode)
+    {
+        return self::find()->select(['id','text','type'])->where(['isDelete'=>0,'cateCode'=>$cateCode])->one();
+    }
+    
     public static function del(Category $cate)
     {
         $cate->isDelete = 1;

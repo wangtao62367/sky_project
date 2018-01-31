@@ -21,6 +21,7 @@ class NavController extends CommonController
 	{
 		$navList = new Common();
 		$list = $navList->getPageList();
+
 		return $this->render('manage',['list'=>$list]);
 	}
 }

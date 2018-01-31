@@ -37,8 +37,9 @@ class Common extends BaseModel
     
     public function getPageList()
     {
-    	$query = self::find()->select([self::tableName().'.id','codeDesc','sorts'])->joinWith('categorys')->where([self::tableName().'.type'=>'navigation'])->andWhere('code != :code',[':code'=>'sylb'])->orderBy('sorts ASC');
-    	return $this->query($query,$this->curPage,30);
+    	$query = self::find()->select([self::tableName().'.id','codeDesc','sorts'])->joinWith('categorys')->where([self::tableName().'.type'=>'navigation'])->andWhere(self::tableName().'.code != :code',[':code'=>'sylb'])->orderBy('sorts ASC');
+    	
+    	return $query->asArray()->all();
     }
     
     public static function getInfo($code,$type)
