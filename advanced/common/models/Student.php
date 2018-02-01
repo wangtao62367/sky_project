@@ -68,6 +68,10 @@ class Student extends BaseModel
             $query = $query->andWhere('sex = :sex',[':sex'=>$search['sex']]);
         }
         
+        if(isset($search['isBest']) && !empty($search['isBest'])){
+            $query = $query->andWhere('isBest = :isBest',[':isBest'=>$search['isBest']]);
+        }
+        
         if(isset($search['nationCode']) && !empty($search['nationCode'])){
             $query = $query->andWhere('nationCode = :nationCode',[':nationCode'=>$search['nationCode']]);
         }

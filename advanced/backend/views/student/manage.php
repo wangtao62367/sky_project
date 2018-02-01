@@ -38,6 +38,12 @@ use common\models\Student;
             </div>
         </li>
         
+        <li><label>是否优秀学员</label>
+        	<div class="vocation">
+                <?php echo Html::activeDropDownList($model, 'search[isBest]', ['1'=>'是','0'=>'否'],['prompt'=>'请选择','class'=>'sky-select'])?>
+            </div>
+        </li>
+        
         <li><label>&nbsp;</label><?php echo Html::submitInput('查询',['class'=>'scbtn'])?></li>
         <li><a href="javascript:;" class="del-btn batchDel">删除</a></li>
         <li><a href="<?php echo Url::to(['statistics/student'])?>" class="export-btn">统计</a></li>
@@ -58,6 +64,7 @@ use common\models\Student;
             <th>所学专业</th>
             <th>所在班级</th>
             <th>报名时间</th>
+            <th>优秀学员</th>
             <th>操作</th>
         </tr>
     </thead>
@@ -75,8 +82,14 @@ use common\models\Student;
             <td><?php echo $val['currentMajor'];?></td>
             <td><?php echo $val['gradeClass'];?></td>
             <td><?php echo MyHelper::timestampToDate($val['createTime']);?></td>
-            <td>
-            <a href="<?php echo Url::to(['student/info','id'=>$val['id']]);?>" class="tablelink">查看</a>     
+            <td><?php echo $val['isBest'] == 1 ? '是':'否';?></td>
+            <td class="handle-box">
+            <a href="<?php echo Url::to(['student/info','id'=>$val['id']]);?>" class="tablelink">查看</a> 
+            <?php if($val['isBest'] == 0):?> 
+            <a href="<?php echo Url::to(['student/set-best','id'=>$val['id']]);?>" class="tablelink">加入优秀学员</a>
+            <?php else:?>    
+            <a href="<?php echo Url::to(['student/edit-best','id'=>$val['id']]);?>" class="tablelink">修改优秀学员</a>
+            <?php endif;?>
             <a href="<?php echo Url::to(['student/del','id'=>$val['id']]);?>" class="tablelink"> 删除</a>
             </td>
         </tr> 

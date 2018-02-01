@@ -8,6 +8,7 @@ namespace backend\controllers;
 use Yii;
 use common\controllers\CommonController;
 use common\models\Student;
+use common\models\BestStudent;
 /**
  * @name 学员管理
  * @author wt
@@ -118,12 +119,57 @@ class StudentController extends CommonController
     {
     	$student = Student::findOne($id);
     	if(empty($student)){
-    		return $this->showDataIsNull('student/verify-list');
+    		return $this->showDataIsNull('student/manage');
     	}
     	if(Student::del($student)){
     		return $this->redirect(['student/manage']);
     	}
     }
     
+    /**
+     * @desc 加入优秀学员
+     * @param int $id
+     * @return unknown
+     */
+    public function actionSetBest(int $id)
+    {
+        $student = Student::findOne($id);
+        if(empty($student)){
+            return $this->showDataIsNull('student/manage');
+        }
+        $model = new BestStudent();
+        if(Yii::$app->request->isPost){
+            $data = Yii::$app->request->post();
+            $result = $model->add($data);
+            if($result){
+                $student->isBest = 1;
+                $student->save(false);
+                return $this->showSuccess('student/manage');
+            }else{
+                Yii::$app->session->setFlash('error',$model->getErrorDesc());
+            }
+        }
+        
+        return $this->render('set_best',['model'=>$model,'info'=>$student,'title'=>'设为优秀学员']);
+    }
+    
+    
+    public function actionEditBest(int $id)
+    {
+        $model = BestStudent::find()->where('studentId = :id',[':id'=>$id])->one();
+        if(empty($model)){
+            return $this->showDataIsNull('student/manage');
+        }
+        if(Yii::$app->request->isPost){
+            $data = Yii::$app->request->post();
+            $result = BestStudent::edit($data,$model);
+            if($result){
+                return $this->showSuccess('student/manage');
+            }else{
+                Yii::$app->session->setFlash('error',$model->getErrorDesc());
+            }
+        }
+        return $this->render('edit_best',['model'=>$model,'title'=>'设为优秀学员']);
+    }
     
 }
