@@ -11,6 +11,26 @@ use common\models\BottomLink;
 
 class CommonController extends Controller
 {
+    
+    public $cachePages = [];
+    
+    public $cacheDuration = 3600;
+    
+    public $cacheDependcy;
+    
+    public function behaviors()
+    {
+        // 声明缓存配置
+        return [ // 需要注意的这里是二维数组
+            [
+                'class' => 'yii\filters\PageCache', // 设置需要加载的缓存文件
+                'only' => $this->cachePages, // 设置需要缓存的控制器
+                'duration' => $this->cacheDuration, // 设置过期时间
+                'dependency' => $this->cacheDependcy
+            ]
+        ];
+    }
+    
 	
 	public function init()
 	{

@@ -1,0 +1,251 @@
+*{margin: 0;padding: 0;font-size: 14px;font-family: "微软雅黑";}
+body{background-color: #d3d2d8;}
+a{text-decoration: none;}
+ul{list-style: none;}
+/*头部*/
+.header{
+	height: 288px;
+	width: 100%;
+	min-width: 1200px;
+	max-width: 2000px;
+	margin: 0 auto;
+	background: url(../img/index/网站顶部背景.jpg) no-repeat center !important; 
+	background-size: 2000px 288px;
+}
+.header .container{
+	width: 1200px;
+	margin: 0 auto;
+}
+.header .container .nav .aboutSchool{
+	color:red;
+}
+.header .full-text-search {padding-top: 10px;color: red;text-align: right;}
+.full-text-search .search-form-sp,.full-text-search .search-btn-sp,.full-text-search input{
+	-moz-box-sizing: border-box;  /*Firefox3.5+*/
+	-webkit-box-sizing: border-box; /*Safari3.2+*/
+	-o-box-sizing: border-box; /*Opera9.6*/
+	-ms-box-sizing: border-box; /*IE8*/
+	box-sizing: border-box; /*W3C标准(IE9+，Safari5.1+,Chrome10.0+,Opera10.6+都符合box-sizing的w3c标准语法)*/
+}
+.header .full-text-search .search-form-sp{
+	display: inline-block;
+	width: 200px;
+	height: 25px;
+	border: 1px solid red;
+}
+.full-text-search input,.full-text-search input:focus,.full-text-search input:active{
+	background-color: transparent;
+	border: 0px;
+	width: 200px;
+	height: 25px;
+	outline:none;
+	padding-left: 2px;
+}
+.full-text-search .search-btn-sp{
+	width: 40px;
+}
+.full-text-search .search-btn-sp button{
+	background-color: red;
+	border: 0;
+	height: 25px;
+	line-height: 25px;
+	padding-top: 1px;
+	margin-left: -4px;
+	color: #fff;
+}
+.header .full-text-search a{text-decoration: none;color: red;font-weight: bold;margin-left: 5px;}
+.header .header-crousel{height: 200px;margin-top: -10px;text-align: right;}
+.header .header-crousel img{background-clip: padding-box;}
+/*首页导航*/
+.header .nav{height: 44px;line-height: 44px;}
+.header .nav li{float: left;padding: 0 10px;}
+.header .nav a{font-size: 16px;font-weight: bold;color: #fff;}
+
+/*内容区域*/
+section{width: 1200px;height:auto;margin: 0 auto;background-color: #FFFFFF !important;}
+.section img{
+	display:block;
+	float:left;
+	display:block;
+	width:1200px;
+	height:182px;
+}
+
+.section .navigation{
+	width:280px;
+	_height:1000px;
+	float:left;
+}
+.section .navigation ul{
+	float:left;
+	margin:0 auto;
+	width:280px;
+}
+.section .navigation li{
+	background:url(../img/abouSchool/子菜单.png) no-repeat center;
+}
+
+.section .navigation li,.section .navigation li a{
+	display: block;
+	font-size:16px;
+	font-family:"微软雅黑";
+	font-weight: bold;
+	text-align:center;
+	margin:8px auto;
+	border-radius: 5px;
+	width:254px;
+	height:37px;
+	line-height:37px;
+	cursor: pointer;
+}
+.section .navigation .download{
+	font-size:20px;
+	font-weight:bold;
+	color:white;
+	background-color:#D34231;
+	display:block;
+	width:254px;
+	height:37px;
+	margin-top:13px;
+}
+.section .navigation .downloadCenter{
+	color:#D34231;
+}
+.section .navigation .instruction{
+	color:red;
+}
+
+.section .container{
+	background-color:white;
+	height:1050px;
+	width:1200px;
+}
+.section .container .content{
+	width:920px;
+	height:800px;
+	float:left;
+}
+.section .container .content .caption{
+	width:920px;
+	float:left;
+}
+.section .container .content h2{
+	font-size:23px;
+	font-family:"微软雅黑";
+	color:#D34231;
+	float:left;
+	margin:23px;
+}
+
+.section .container .content p{
+	font-size:14px;
+	font-family:"微软雅黑";
+	font-weight:bold;
+	color:#D34231;
+	float:right;
+	margin:36px 23px;
+}
+.section .container .content ._hr{
+	width:900px;
+	height:3px;
+	float:left;
+	margin-top:-30px;
+	margin-left:15px;
+}
+.section .container .content hr{
+	color:lightgray;
+	background-color:lightgray;
+	height:3px;
+	border:0;
+	float:left;
+}
+.section .container .content .first{
+	width:100px;
+	background-color:#D34231;
+}
+.section .container .content .second{
+	width:780px;
+}
+.section .container .content .text{
+	width:890px;
+	height:800px;
+	position: relative;
+	float:left;
+}
+.section .container .content .text .newsList{
+	width:800px;
+	height:600px;
+	float:left;
+	margin-left:30px;
+}
+.section .container .content .text .newsList ul{
+	width:800px;
+}
+.section .container .content .text .newsList ul li,.section .container .content .text .newsList ul li a{
+	font-size:16px;
+	font-family:"兰亭黑";
+	margin-bottom:25px;
+	padding-left:20px;
+	color:#D34231;
+	font-weight:bold; 
+	height:18px;
+	line-height:18px;
+	width:800px;
+	box-sizing:border-box;
+}
+.section .container .content .text .newsList ul li{
+	background:url(../img/news/list.png) no-repeat;
+}
+.section .container .content .text .page{
+	float:left;
+	margin:85px 140px;
+}
+.section .container .content .text .page ul{
+	margin:0 auto;
+}
+.section .container .content .text .page ul li{
+	float:left;
+	border:1px solid #D34231;
+	margin:0 8px;
+	border-radius:5px;
+}
+.section .container .content .text .page ul li,.section .container .content .text .page ul li a{
+	display:block;
+	width:40px;
+	height:30px;
+	text-align:center;
+	line-height:30px;
+	font-size:10px;
+	font-family:"微软雅黑";
+	color:#D34231;
+	font-weight:bold;
+}
+.section .container .content .text .page .firstPage{
+	background-color:#D34231;
+	color:white;
+}
+.footer{
+	width:1200px;
+	height:230px;
+	margin:0 auto;
+	background:url(../img/abouSchool/页尾背景图片.jpg) no-repeat;
+	position:relative;
+	box-sizing:border-box;
+}
+.footer p{
+	width:1200px;
+	text-align:center;
+	font-size:18px;
+	font-family:"兰亭黑";
+	font-weight:bold;
+	padding-top:25px;
+}
+.footer .add{
+	padding-top:8px;
+	padding-bottom:25px;
+}
+.footer img{
+	display:block;
+	margin:0 auto;
+	margin-bottom:25px;
+}

@@ -12,7 +12,7 @@ class SiteController extends CommonController
 	public function actionIndex()
 	{
 	    $data = SiteLogic::index();
-	    var_dump($data);
-		//return $this->render('index');
+	    $this->cachePages = ['index'];
+	    return $this->render('index');
 	}
 }
