@@ -18,7 +18,7 @@ class CommonController extends Controller
     
     public $cacheDependcy;
     
-    public function behaviors()
+   /*  public function behaviors()
     {
         // 声明缓存配置
         return [ // 需要注意的这里是二维数组
@@ -29,7 +29,7 @@ class CommonController extends Controller
                 'dependency' => $this->cacheDependcy
             ]
         ];
-    }
+    } */
     
 	
 	public function init()

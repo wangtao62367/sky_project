@@ -1,113 +1,44 @@
-*{margin: 0;padding: 0;font-size: 14px;font-family: "微软雅黑";}
-body{background-color: #d3d2d8;}
-a{text-decoration: none;}
-ul{list-style: none;}
-/*头部*/
-.header{
-	height: 288px;
-	width: 100%;
-	min-width: 1200px;
-	max-width: 2000px;
-	margin: 0 auto;
-	background: url(../img/index/网站顶部背景.jpg) no-repeat center !important; 
-	background-size: 2000px 288px;
+.content em {
+    font-weight: bold;
 }
-.header .container{
-	width: 1200px;
-	margin: 0 auto;
-}
-.header .container .nav .aboutSchool{
-	color:red;
-}
-.header .full-text-search {padding-top: 10px;color: red;text-align: right;}
-.full-text-search .search-form-sp,.full-text-search .search-btn-sp,.full-text-search input{
-	-moz-box-sizing: border-box;  /*Firefox3.5+*/
-	-webkit-box-sizing: border-box; /*Safari3.2+*/
-	-o-box-sizing: border-box; /*Opera9.6*/
-	-ms-box-sizing: border-box; /*IE8*/
-	box-sizing: border-box; /*W3C标准(IE9+，Safari5.1+,Chrome10.0+,Opera10.6+都符合box-sizing的w3c标准语法)*/
-}
-.header .full-text-search .search-form-sp{
-	display: inline-block;
-	width: 200px;
-	height: 25px;
-	border: 1px solid red;
-}
-.full-text-search input,.full-text-search input:focus,.full-text-search input:active{
-	background-color: transparent;
-	border: 0px;
-	width: 200px;
-	height: 25px;
-	outline:none;
-	padding-left: 2px;
-}
-.full-text-search .search-btn-sp{
-	width: 40px;
-}
-.full-text-search .search-btn-sp button{
-	background-color: red;
-	border: 0;
-	height: 25px;
-	line-height: 25px;
-	padding-top: 1px;
-	margin-left: -4px;
-	color: #fff;
-}
-.header .full-text-search a{text-decoration: none;color: red;font-weight: bold;margin-left: 5px;}
-.header .header-crousel{height: 200px;margin-top: -10px;text-align: right;}
-.header .header-crousel img{background-clip: padding-box;}
-/*首页导航*/
-.header .nav{height: 44px;line-height: 44px;}
-.header .nav li{float: left;padding: 0 10px;}
-.header .nav a{font-size: 16px;font-weight: bold;color: #fff;}
 
-/*内容区域*/
-section{width: 1200px;height:auto;margin: 0 auto;background-color: #FFFFFF !important;min-height:589px;}
-.section .container{
-	width:1200px;
-	min-height:589px;
-	margin:0 auto;
-	position:relative;
-}
-.section .container .position,.section .container .position a{
+.section .position,.section .position a{
 	font-size:16px;
 	font-family:"微软雅黑";
 	color:#D34231;
 }
-.section .container .position{
-	padding-top:25px;
+.section .position{
 	margin-left:30px;
 }
-.section .container .inst li{
+.section .inst li,section .inst ul li p,section .inst ul li .bdsharebuttonbox{
 	float:left;
 }
-.section .container h2{
+.section h2{
 	font-size:30px;
-	font-family:"微软雅黑";
-	width:1200px;
 	margin:55px auto;
 	text-align:center;
 }
-.section .container .inst{
-	width:1200px;
+.section .inst{
 	height:20px;
 	font-size:16px;
-	font-family:"微软雅黑";
 	margin:10 auto;
 }
-.section .container .inst ul{
-	width:550px;
+.section .inst ul{
+	width:1100px;
 	height:20px;
 	margin:0 auto;
+	text-align:right
 }
-section .container .inst ul li{
+section .inst ul li{
 	display:block;
 	height:20px;
+	position: relative;
 }
-section .container .inst .second{
+
+section .inst .second{
 	margin:0 40px;
 }
-.section .container .inst img{
+.section .inst img{
 	width:16px;
 	height:16px;
 }
@@ -119,23 +50,25 @@ hr{
 	width:1100px;
 	margin:10px auto;
 }
-.container .content{
+.content{
 	width:1100px;
+	min-height:500px;
 	margin:0 auto;	
 }
-.container .content p,.container .content img{
+.content p,.content img{
 	display:block;
 	margin:0 auto;
 }
-.container .content p{
-	width:1100px;
-	margin:0 auto;
+.content p{
+	margin: 15px 0;
+    text-indent: 2em;
 }
-.container .upAndDown{
-	width:1200px;
+.upAndDown{
 	height:206px;
+	margin:0 auto;
+	overflow: hidden;
 }
-.container .upAndDown p,.container .upAndDown p a{
+.upAndDown p,.upAndDown p a{
 	font-size:16px;
 	font-family:"微软雅黑";
 	color:#D34231;
@@ -146,40 +79,16 @@ hr{
 	height:46px;
 	line-height:46px;
 }
-.container .upAndDown p{
+.upAndDown p{
 	margin-top:80px;
 	margin-bottom:80px;
 }
-.container .upAndDown .left{
+.upAndDown .left{
 	float:left;
 	padding-left:20px;
 }
-.container .upAndDown .right{
+.upAndDown .right{
 	float:right;
 	padding-right:20px;
 }
-.footer{
-	width:1200px;
-	height:230px;
-	margin:0 auto;
-	background:url(../img/abouSchool/页尾背景图片.jpg) no-repeat;
-	position:relative;
-	box-sizing:border-box;
-}
-.footer p{
-	width:1200px;
-	text-align:center;
-	font-size:18px;
-	font-family:"兰亭黑";
-	font-weight:bold;
-	padding-top:25px;
-}
-.footer .add{
-	padding-top:8px;
-	padding-bottom:25px;
-}
-.footer img{
-	display:block;
-	margin:0 auto;
-	margin-bottom:25px;
-}
+

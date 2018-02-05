@@ -35,7 +35,7 @@ class Article extends BaseModel
             ['summary','required','message'=>'文章摘要不能为空','on'=>['create','edit']],
             ['content','required','message'=>'文章内容不能为空','on'=>['create','edit']],
             ['categoryId','required','message'=>'文章分类不能为空','on'=>['create','edit']],
-            [['isPublish','publishCode','publishTime','tags','search','imgCount','sourceLinke','imgProvider','remarks','leader','contentCount','source','ishot','url'],'safe']
+            [['isPublish','titleImg','publishCode','publishTime','tags','search','imgCount','sourceLinke','imgProvider','remarks','leader','contentCount','source','ishot','url'],'safe']
         ];
     }
     
@@ -173,7 +173,7 @@ class Article extends BaseModel
     {
         $this->scenario = 'create';
         if($this->load($data) && $this->validate()){
-            $this->getPublishTime($this->publishCode);
+            self::getPublishTime($this->publishCode,$this);
             if(!empty($this->url)){
                 if(!MyHelper::urlIsValid($this->url)){
                     $this->addError('url','文章超链接地址无效');
@@ -188,31 +188,43 @@ class Article extends BaseModel
         return false;
     }
     
-    private function getPublishTime(string $publishCode)
+    public function edit(array $data,Article $article)
+    {
+        $article->scenario = 'edit';
+        if($article->load($data) && $article->validate()){
+            self::getPublishTime($article->publishCode,$article);
+            if($article->save(false)){
+                return true;//self::batchAddArticleTags($this->tags,$this->id);
+            };
+        }
+        return false;
+    }
+    
+    private static function getPublishTime(string $publishCode,$obj)
     {
         switch ($publishCode){
             case 'now':
-                $this->isPublish  = 1;
-                $this->publishTime= TIMESTAMP;
+                $obj->isPublish  = 1;
+                $obj->publishTime= TIMESTAMP;
                 break;
             case 'min30':
-                $this->isPublish  = 0;
-                $this->publishTime= TIMESTAMP + 30 * 60;
+                $obj->isPublish  = 0;
+                $obj->publishTime= TIMESTAMP + 30 * 60;
                 break;
             case 'oneHours':
-                $this->isPublish  = 0;
-                $this->publishTime= TIMESTAMP + 60 * 60;
+                $obj->isPublish  = 0;
+                $obj->publishTime= TIMESTAMP + 60 * 60;
                 break;
             case 'oneDay':
-                $this->isPublish  = 0;
-                $this->publishTime= TIMESTAMP + 60 * 60 * 24;
+                $obj->isPublish  = 0;
+                $obj->publishTime= TIMESTAMP + 60 * 60 * 24;
                 break;
             case 'userDefined':
-                $this->isPublish  = 0;
-                $this->publishTime = strtotime($this->publishTime);
+                $obj->isPublish  = 0;
+                $obj->publishTime = strtotime($obj->publishTime);
                 break;
             default:
-                $this->isPublish  = 0;
+                $obj->isPublish  = 0;
                 break;
         }
     }

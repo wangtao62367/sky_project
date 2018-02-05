@@ -45,9 +45,21 @@ class SiteLogic
             'jyjd' => self::getEducationBase(),
             //视讯社院
             'sxsy' => self::getSxsy(),
+            //首页轮播
+            'carousel' => self::getCarousel()
         ];
         return $data;
     }
+    
+    /**
+     * 获取首页轮播
+     */
+    public static function getCarousel()
+    {
+        $result = Article::find()->select(['id','title','titleImg','ishot'])->where(['isPublish'=>1,'isDelete'=>0])->orderBy('ishot desc,publishTime desc')->limit(5)->all();
+        return $result;
+    }
+    
     /**
      * 获取公告通知列表
      */

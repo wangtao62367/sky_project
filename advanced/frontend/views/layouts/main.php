@@ -9,6 +9,7 @@ use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
+use yii\helpers\Url;
 
 AppAsset::register($this);
 $params = $this->params;
@@ -38,7 +39,7 @@ $params = $this->params;
 						<img src="<?php echo $params['webCfgs']['logo'] ? $params['webCfgs']['logo']: '/front/img/index/logo.png';?>" width="140px" />
 						<div class="logo-title">
 							<h3><?php echo $params['webCfgs']['siteName'];?></h3>
-							<h3>四川省中华文化学院</h3>
+							<h3><?php echo $params['webCfgs']['siteName2'];?></h3>
 						</div>
 					</div>
 					<div class="crousel-parent">
@@ -54,11 +55,11 @@ $params = $this->params;
 					<ul>
 						<li><a class="active"  href="#">学院首页</a></li>
 						<?php foreach ($params['nav'] as $v):?>
-						<li><a href="#"><?php echo $v['codeDesc'];?>
+						<li><a href="<?php echo Url::to(['news/list','pid'=>$v['id'],'cateid'=>0])?>"><?php echo $v['codeDesc'];?>
 							</a>
 							<ul class="nav-item" >
 								<?php foreach ($v['cates'] as $cate):?>
-								<li><a href="#"><?php echo $cate['text'];?></a></li>
+								<li><a href="<?php echo Url::to(['news/list','pid'=>$v['id'],'cateid'=>$cate['id']])?>"><?php echo $cate['text'];?></a></li>
 								<?php endforeach;?>
 							</ul>
 						</li>
@@ -98,6 +99,7 @@ $params = $this->params;
 		</footer>
 
 <?php $this->endBody() ?>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdPic":"","bdStyle":"0","bdSize":"16"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
 </body>
 </html>
 <?php $this->endPage() ?>

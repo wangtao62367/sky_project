@@ -56,7 +56,7 @@ class NewsLogic
      */
     public static function getCrumbs($article)
     {
-        $category = Category::find()->select([Category::tableName().'.id','text','parentId'])->joinWith('parents')->where([Category::tableName().'.id'=>$article->categoryId,'isDelete'=>0])->one();
+        $category = Category::find()->select([Category::tableName().'.id','text','parentId','codeDesc'])->joinWith('parents')->where([Category::tableName().'.id'=>$article->categoryId,'isDelete'=>0])->asArray()->one();
         return $category;
     }
 }

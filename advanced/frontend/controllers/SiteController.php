@@ -13,6 +13,6 @@ class SiteController extends CommonController
 	{
 	    $data = SiteLogic::index();
 	    $this->cachePages = ['index'];
-	    return $this->render('index');
+	    return $this->render('index',['data'=>$data]);
 	}
 }

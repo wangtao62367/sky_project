@@ -93,8 +93,8 @@ class WebCfg extends BaseModel
         if(!empty($data['siteTitle']) && $data['siteTitle'] != $webCfgs['siteTitle']){
             self::updateAll(['value'=>$data['siteTitle']],['name'=>'siteTitle']);
         }
-        if(!empty($data['siteName']) && $data['siteName'] != $webCfgs['siteName']){
-            self::updateAll(['value'=>$data['siteName']],['name'=>'siteName']);
+        if(!empty($data['siteName2']) && $data['siteName2'] != $webCfgs['siteName2']){
+            self::updateAll(['value'=>$data['siteName2']],['name'=>'siteName2']);
         }
         if(!empty($data['keywords']) && $data['keywords'] != $webCfgs['keywords']){
             self::updateAll(['value'=>$data['keywords']],['name'=>'keywords']);
@@ -108,6 +108,11 @@ class WebCfg extends BaseModel
         if(!empty($data['technicalSupport']) && $data['technicalSupport'] != $webCfgs['technicalSupport']){
         	self::updateAll(['value'=>$data['technicalSupport']],['name'=>'technicalSupport']);
         }
+        
+        if(!empty($data['recordNumber']) && $data['recordNumber'] != $webCfgs['recordNumber']){
+            self::updateAll(['value'=>$data['recordNumber']],['name'=>'recordNumber']);
+        }
+        
         if(!empty($data['address']) && $data['address'] != $webCfgs['address']){
         	self::updateAll(['value'=>$data['address']],['name'=>'address']);
         }

@@ -1,76 +1,65 @@
 <?php
-
-
 use yii\helpers\Url;
-
+use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
+use common\publics\MyHelper;
+use backend\assets\AppAsset;
 ?>
 <div class="place">
     <span>位置：</span>
     <ul class="placeul">
-        <li><a href="javascript:;">新闻系统</a></li>
-        <li><a href="<?php echo Url::to(['content/manage'])?>">内容管理</a></li>
-        <li><a href="<?php echo Url::to(['carousel/manage'])?>">导航管理</a></li>
+    <li><a href="#">新闻系统</a></li>
+    <li><a href="<?php echo Url::to(['carousel/manage'])?>">内容管理</a></li>
+    <li><a href="<?php echo Url::to(['carousel/manage'])?>">图片列表</a></li>
     </ul>
 </div>
-
+    
 <div class="rightinfo">
-
-<div class="tools">
-
-<ul class="toolbar">
-	<li class="click"><a href="<?php echo Url::to(['carousel/add'])?>" class="add-btn">添加</a></li>
-    <li><a href="javascript:;" class="batchDel del-btn">删除</a></li>
-
-</ul>
-
-</div>
-
-
-
-
+    
+    <div class="tools">
+    	<ul class="seachform">
+        	<li class="click"><a href="<?php echo Url::to(['carousel/add'])?>" class="add-btn">添加</a></li>
+        	<li><a href="javascript:;" class="batchDel del-btn">删除</a></li>
+        </ul>
+    </div>
+    
     <table class="imgtable">
     
 	    <thead>
 		    <tr>
-		    <th width="100px;">轮播图</th>
+		    <th><input name="" type="checkbox" class="s-all" /></th>
+		    <th width="300px;">轮播图</th>
 		    <th>链接地址</th>
+		    <th>创建时间</th>
 		    <th>操作</th>
 		    </tr>
 	    </thead>
     
 	    <tbody>
-	    
+	    	<?php foreach ($list['data'] as $val):?>
 		    <tr>
-		    <td class="imgtd"><img src="/admin/images/img11.png" /></td>
-		    <td><a href="#">非常不错的国外后台模板，支持HTML5</a><p>发布时间：2013-10-12 09:25:18</p></td>
-		    <td>后台界面<p>ID: 82122</p></td>
+		    <td><input name="ids" class="item" type="checkbox" value="<?php echo $val['id'];?>" /></td>
+		    <td class="imgtd"><img src="<?php echo $val['img']?>" /></td>
+		    <td><?php echo $val['link'];?></td>
+            <td><?php echo MyHelper::timestampToDate($val['modifyTime']);?></td>
+		    <td class="handle-box">
+		     <a href="<?php echo Url::to(['carousel/edit','id'=>$val['id']])?>">编辑</a>
+		     <a href="<?php echo Url::to(['carousel/del','id'=>$val['id']])?>">删除</a>
+		    </td>
 		    </tr>
-		    
-		    <tr>
-		    <td class="imgtd"><img src="/admin/images/img12.png" /></td>
-		    <td><a href="#">一套简约形状图标UI下载</a><p>发布时间：2013-10-12 09:25:18</p></td>
-		    <td>图标设计<p>ID: 82122</p></td>
-		   
-		    </tr>
-		    
-		    <tr>
-		    <td class="imgtd"><img src="/admin/images/img13.png" /></td>
-		    <td><a href="#">配色软件界面设计PSD下载</a><p>发布时间：2013-10-12 09:25:18</p></td>
-		    <td>软件界面<p>ID: 82122</p></td>
-		    
-		    </tr>
+		    <?php endforeach;?>
 	    
 	    </tbody>
     
     </table>
-
 </div>
-    
- <?php 
- $css =<<<CSS
-.imgtable{margin:0 auto;;margin-top:20px;width: 98%;}
+<?php 
+$batchDelUrl = Url::to(['image/batchdel']);
+$js= <<<JS
+$('.batchDel').click(function(){
+    batchDel('$batchDelUrl');
+});
 
-CSS;
- 
-$this->registerCss($css);
- ?>
+JS;
+$this->registerJs($js);
+?>

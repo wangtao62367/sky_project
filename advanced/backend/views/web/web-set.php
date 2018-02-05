@@ -23,6 +23,7 @@ use backend\assets\AppAsset;
 <?php echo Html::beginForm('','post',['enctype'=>"multipart/form-data"]);?>
 <ul class="forminfo">
     <li><label>网站名称</label><?php echo Html::textInput('siteName',$webCfg['siteName'],['class'=>'dfinput'])?><i></i></li>
+    <li><label>网站名称（2）</label><?php echo Html::textInput('siteName2',$webCfg['siteName2'],['class'=>'dfinput'])?><i></i></li>
     <li><label>网站logo</label>
     	<?php echo Html::hiddenInput('oldLogo', $webCfg['logo'],['id'=>'oldLogo']);?>
         <?php echo Html::hiddenInput('logo', $webCfg['logo'],['id'=>'logo'])?>
@@ -35,7 +36,7 @@ use backend\assets\AppAsset;
         		<img alt="" src="/admin/images/ico04.png" />
         	<?php endif;?>
         </div>
-        <i>logo图片建议大小为 200像素 * 200像素</i>
+        <i>logo图片建议大小为140像素 * 140像素</i>
     </li>
     
     <li>
@@ -61,6 +62,11 @@ use backend\assets\AppAsset;
     <li>
     	<label>技术支持</label>
     	<?php echo Html::textInput('technicalSupport',$webCfg['technicalSupport'],['class'=>'dfinput','placeholder'=>'技术支持']);?><i>网址底部技术支持展示</i>
+    </li>
+    
+    <li>
+    	<label>网站备案号</label>
+    	<?php echo Html::textInput('recordNumber',$webCfg['recordNumber'],['class'=>'dfinput','placeholder'=>'网站备案号']);?><i>网站备案号</i>
     </li>
     
     <li>

@@ -7,6 +7,7 @@ use common\controllers\CommonController;
 use common\models\Article;
 use common\models\Category;
 use common\models\ArticleTag;
+use common\publics\ImageUpload;
 
 /**
  * @name 文章管理
@@ -55,16 +56,6 @@ class ArticleController extends CommonController
         $result = $article->articles($request->get(),$request->get());
         return $this->render('articles',['model'=>$article,'parentCates'=>$parentCates,'list'=>$result]);
     }
-    /**
-     * @desc 文章导出
-     */
-    public function actionExport()
-    {
-        $article = new Article();
-        $data = Yii::$app->request->get();
-        $result = $article->getArticlesByExport($data);
-        //var_dump($result);
-    }
     
     /**
      * @desc 创建文章
@@ -76,6 +67,20 @@ class ArticleController extends CommonController
         $parentCates = Category::getArticleCates();
         if(Yii::$app->request->isPost){
             $post = Yii::$app->request->post();
+            
+            //先上传图片 再写数据
+            if(isset($_FILES['image']) && !empty($_FILES['image']) && !empty($_FILES['image']['tmp_name']) ){
+                
+                $upload = new ImageUpload([
+                    'imageMaxSize' => 1024*1024*500,
+                    'isWatermark'  => false,
+                    'imagePath'    => 'article'
+                ]);
+                $result = $upload->Upload('image');
+                $imageName = Yii::$app->params['oss']['host'].$result;
+                $post['Article']['titleImg'] = $imageName;
+            }
+            
             $result = $article->create($post);
             if($result){
                 return $this->showSuccess('article/articles');
@@ -98,15 +103,32 @@ class ArticleController extends CommonController
         $article->tags = array_column(array_column($tags, 'tags'), 'tagName');
         $parentCates = Category::getArticleCates();
         if(Yii::$app->request->isPost){
-            $article->scenario = 'edit';
             $post = Yii::$app->request->post();
-            if(!$article->load($post) || !$article->validate()){
-                Yii::$app->session->setFlash('error',array_values($article->getFirstErrors())[0]);
-            }else{
-                $article->modifyTime = TIMESTAMP;
-                if($article->save(false) ){  //&& Article::batchAddArticleTags($article->tags,$article->id)
-                    return $this->showSuccess('article/articles');
+            //先上传图片 再写数据
+            if(isset($_FILES['image']) && !empty($_FILES['image']) && !empty($_FILES['image']['tmp_name']) ){
+                
+                $upload = new ImageUpload([
+                    'imageMaxSize' => 1024*1024*500,
+                    'isWatermark'  => false,
+                    'imagePath'    => 'article'
+                ]);
+                $result = $upload->Upload('image');
+                $imageName = Yii::$app->params['oss']['host'].$result;
+                $post['Article']['titleImg'] = $imageName;
+                if(!empty($article->titleImg)){
+                    //删除旧的文件
+                    $block = str_replace(Yii::$app->params['oss']['host'], '', $article->titleImg);
+                    $upload->deleteImage($block);
                 }
+            }
+
+            $model = new Article();
+            $result = $model->edit($post, $article);
+
+            if($result){
+                return $this->showSuccess('article/articles');
+            }else {
+                Yii::$app->session->setFlash('error',array_values($article->getFirstErrors())[0]);
             }
         }
         return $this->render('create',['model'=>$article,'parentCates'=>$parentCates,'title'=>'编辑文章']);
@@ -164,9 +186,15 @@ class ArticleController extends CommonController
         return $resutlt;
     }
     
-    public function actionTest()
+    /**
+     * @desc 文章导出
+     */
+    public function actionExport()
     {
-        print_r(Yii::$app->params['nations']);
-
+        $article = new Article();
+        $data = Yii::$app->request->get();
+        $result = $article->getArticlesByExport($data);
+        //var_dump($result);
     }
+    
 }

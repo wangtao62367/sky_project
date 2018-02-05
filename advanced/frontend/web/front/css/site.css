@@ -2,6 +2,8 @@
 body{background-color: #d3d2d8;}
 a{text-decoration: none;}
 ul{list-style: none;}
+address, cite, dfn, em, var, i {font-style: normal;}
+
 /*头部*/
 .header{height: 288px;width: 100%;min-width: 1200px;max-width: 2000px;margin: 0 auto;background: url(../img/index/top_bg.jpg) no-repeat center !important; background-size: 2000px 288px;}
 /*头部搜索框*/

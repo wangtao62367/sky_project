@@ -4,9 +4,13 @@ namespace frontend\controllers;
 
 
 
-
+use Yii;
 use frontend\logic\NewsLogic;
-
+/**
+ * 新闻
+ * @author 
+ *
+ */
 class NewsController extends CommonController
 {
     
@@ -23,8 +27,15 @@ class NewsController extends CommonController
             'next'=> NewsLogic::getNextByCurrent($currentNews),
             'crumbs' => NewsLogic::getCrumbs($currentNews),
         ];
+        return $this->render('detail',['data'=>$data]);
+    }
+    
+    public function actionList()
+    {
+        $pid = Yii::$app->request->get('pid',0);
+        $cateid = Yii::$app->request->get('cateid',0);
         
-        var_dump($data);
+        
     }
     
     

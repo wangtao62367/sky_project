@@ -26,9 +26,23 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
 <div class="formbody">
 
 <div class="formtitle"><span><?php echo $title?></span></div>
-<?php echo Html::beginForm();?>
+<?php echo Html::beginForm('','post',['enctype'=>"multipart/form-data"]);?>
 <ul class="forminfo">
     <li><label>文章主题<b>*</b></label><?php echo Html::activeTextInput($model, 'title',['class'=>'dfinput'])?><i>文章主题不能为空</i></li>
+    
+    <li><label>文章主图</label>
+       <?php echo Html::fileInput('image','',['class'=>'uploadFile','id'=>"uploadFile"]);?>
+        <div class="select-btn-box"><a href="javascript:;" class="btn"  id="btn-select-image">选择图片</a><p id="selectedImg"></p></div>
+        <div class="image-box">
+        	<?php if(!empty($model->titleImg)):?>
+        		<img alt="" width="100%" src="<?php echo $model->titleImg;?>" />
+        	<?php else :?>
+        		<img alt="" src="/admin/images/ico04.png" />
+        	<?php endif;?>
+        </div>
+        <i>图片大小不超过500KB，且格式必须是png、jpeg或jpg的图片。（建议图片尺寸为：780像素 * 370像素）</i>
+    </li>
+    
     <li><label>文章摘要<b>*</b></label><?php echo Html::activeTextarea($model, 'summary',['class'=>'textinput'])?><i></i></li>
     <li><label>文章超链接</label>
     <?php echo Html::activeTextInput($model, 'url',['class'=>'dfinput']);?><i>链接地址必须是URL全连接；如：百度 http://www.baidu.com</i>
@@ -49,7 +63,7 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
     	</div>
     </li>
     
-    <li class="publishTimeByUser" <?php echo $model->isPublish === 'userDefined' ? 'style="display:block"' : 'style="display:none"'; ?>><label>发布时间<b>*</b></label><?php echo Html::activeTextInput($model, 'publishTime',['value'=> MyHelper::timestampToDate($model->publishTime) ,'class'=>'dfinput','style'=>'width:308px;','id'=>"publishTime"])?><i></i></li>
+    <li class="publishTimeByUser" <?php echo $model->isPublish === 'userDefined' ? 'style="display:block"' : 'style="display:none"'; ?>><label>发布时间<b>*</b></label><?php echo Html::activeTextInput($model, 'publishTime',['class'=>'dfinput','style'=>'width:308px;','id'=>"publishTime"])?><i></i></li>
 	
 	<li><label>图片数量<b>*</b></label><?php echo Html::activeTextInput($model, 'imgCount',['class'=>'dfinput','value'=>0])?><i></i></li>
 	
@@ -154,11 +168,31 @@ $('#publishTime').datetimepicker({
       todayButton:true    //开启选择今天按钮
 });
 
+//文章主图上传
+$(document).on('click','#btn-select-image',function(){
+	$('#uploadFile').click();
+})
+$('#uploadFile').change(function(){
+    var file = this.files && this.files[0];
+    console.log(file);
+    var maxSize = 500 * 1025;//500kb
+    var ext = ['image/jpeg','image/png','image/jpg'];
+    console.log($.inArray(file.type,ext));
+    if(file.size > maxSize){
+        alert("所选图片大小不能超过500KB");return;
+    }
+    if($.inArray(file.type,ext) == -1){
+        alert("所选图片格式只能是jpg、png或jpeg");return;
+    }
+	$("#selectedImg").text(file.name);
+})
+
 JS;
 AppAsset::addScript($this, '/admin/js/ueditor/ueditor.config.js');
 AppAsset::addScript($this, '/admin/js/ueditor/ueditor.all.min.js');
 AppAsset::addCss($this, '/admin/css/jquery.datetimepicker.css');
 AppAsset::addScript($this, '/admin/js/jquery.datetimepicker.full.js');
+AppAsset::addCss($this, '/admin/css/webset.css');
 $this->registerJs($js);
 $this->registerCss($css);
 ?>

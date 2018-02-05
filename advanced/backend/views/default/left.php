@@ -38,6 +38,8 @@ $this->title = '左侧导航';
     <ul class="menuson">
     	<li><cite></cite><a target="rightFrame" href="<?php echo Url::to(['adv/manage'])?>">广告设置</a><i></i></li>
         <li><cite></cite><a target="rightFrame" href="<?php echo Url::to(['nav/manage'])?>">导航设置</a><i></i></li>
+        <li><cite></cite><a target="rightFrame" href="<?php echo Url::to(['educationbase/manage'])?>">教育基地设置</a><i></i></li>
+        <!-- <li><cite></cite><a target="rightFrame" href="<?php echo Url::to(['carousel/manage'])?>">首页轮播</a><i></i></li>  -->
         <li><cite></cite><a target="rightFrame" href="<?php echo Url::to(['bottomlink/manage'])?>">底部链接</a><i></i></li>
         <li><cite></cite><a target="rightFrame" href="<?php echo Url::to(['personage/manage'])?>">社院人物</a><i></i></li>
     </ul>
