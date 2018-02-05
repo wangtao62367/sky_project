@@ -96,8 +96,8 @@ ul.articlelist{padding: 20px 10px;}
 .section-2 .btn-box{height: 293px;}
 .section-2 .title,.section-3 .title,.section-4 .title{text-indent: 0px;}
 .section-2 h4,.section-3 h4,.section-4 h4{width: 135px;height: 35px;line-height: 35px;float: left;margin-top: 12px;text-align: center;margin-left: 15px;}
-.news-selected{background: url(../img/index/列表选中背景.png) center no-repeat !important;color: #fff;font-size: 16px;;}
-.news-unselected{background: url(../img/index/列表未选中背景.png) center no-repeat!important;color: #9f2c2b;font-size: 16px;}
+.news-selected{background: url(../img/index/列表选中背景.png) center no-repeat !important;color: #fff;font-size: 16px;cursor: pointer;}
+.news-unselected{background: url(../img/index/列表未选中背景.png) center no-repeat!important;color: #9f2c2b;font-size: 16px;cursor: pointer;}
 .section-2 .btn-box a{display: inline-block;height: 91px;width: 183px;margin-right: 4px;margin-bottom: 4px;}
 .section-2 .btn-box a.btn-img-itme1{background: url(../img/index/001.png)center no-repeat !important;}
 .section-2 .btn-box a.btn-img-itme2{background: url(../img/index/002.png)center no-repeat !important;}
@@ -106,7 +106,7 @@ ul.articlelist{padding: 20px 10px;}
 .section-2 .btn-box a.btn-img-itme5{background: url(../img/index/005.png)center no-repeat !important;}
 .section-2 .btn-box a.btn-img-itme6{background: url(../img/index/006.png)center no-repeat !important;}
 /*首页banner*/
-.main-banner{max-width: 1200px;max-height: 100px;display: block;margin: 0 auto;margin-top: 25px;margin-left: -15px;margin-right: -15px;}
+.main-banner{width: 1200px;max-height: 100px;display: block;margin: 0 auto;margin-top: 25px;margin-left: -15px;margin-right: -15px;}
 /*文化交流  党群建设  教学培训  学员天地等*/
 .section-3,.section-4{height: 293px;margin-top: 25px;}
 .section-3 .news-box1,.section-3 .news-box2,.section-3 .news-box3,.section-4 .news-box1{float: left;height: 293px;width: 381px;background: url(../img/index/选框.png)center no-repeat !important;}
