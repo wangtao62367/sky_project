@@ -32,7 +32,11 @@ $params = $this->params;
 				<div class="full-text-search">
 					<span class="search-form-sp"><input type="text" name="keywords" /></span>
 					<span class="search-btn-sp"><button>搜索</button></span>
-					<a href="#">登录</a> | <a href="#">注册</a>
+					<?php if(Yii::$app->user->isGuest):?>
+					<a href="<?php echo Url::to(['user/login']);?>">登录</a> | <a href="<?php echo Url::to(['user/reg']);?>">注册</a>
+					<?php else :?>
+					欢迎您，<a href="<?php echo Url::to(['user/center']);?>"><?php echo Yii::$app->user->identity->account;?></a> | <a href="<?php echo Url::to(['user/logout']);?>">退出</a>
+					<?php endif;?>
 				</div>
 				<div class="header-crousel">
 					<div class="logo">
