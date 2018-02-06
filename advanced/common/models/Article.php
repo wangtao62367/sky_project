@@ -49,7 +49,7 @@ class Article extends BaseModel
         return $this->hasOne(Category::className(), ['id'=>'categoryId']);
     }
     
-    public function articles(array $data,array $search)
+    public function articles(array $data,$search = '')
     {
         $this->curPage = isset($data['curPage']) && !empty($data['curPage']) ? $data['curPage'] : $this->curPage;
         $query = $this->getQuery();

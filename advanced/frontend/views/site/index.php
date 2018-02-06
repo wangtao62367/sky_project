@@ -34,7 +34,12 @@ $this->title="首页"
 </div>
 <div class="section-2">
 	<div class="news-box">
-		<div class="title"><h4 class="news-selected">统战新闻</h4><h4 class="news-unselected">社院新闻</h4><h4 class="news-unselected">时政要闻</h4><a href="#">更多&gt;</a></div>
+		<div class="title">
+    		<h4 class="news-selected" data-target-id="tzxw">统战新闻</h4>
+    		<h4 class="news-unselected" data-target-id="syxw">社院新闻</h4>
+    		<h4 class="news-unselected" data-target-id="szyw">时政要闻</h4>
+    		<a href="javascript:;">更多&gt;</a>
+		</div>
 		<ul class="articlelist" id="tzxw">
 			<?php foreach ($data['tzxw'] as $tzxw):?>
 			<li><a href="<?php echo Url::to(['news/detail','id'=>$tzxw->id])?>" title="<?php echo $tzxw->title;?>"><nobr><?php echo $tzxw->title?></nobr></a></li>
@@ -154,4 +159,16 @@ $this->title="首页"
 	</div>
 	<?php endforeach;?>
 </div>
+
+<?php 
+$js = <<<JS
+$(document).on('click','.title h4',function(){
+    var cateCode = $(this).data("target-id");
+    
+});
+
+
+JS;
+
+?>
 		

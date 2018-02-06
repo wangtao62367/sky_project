@@ -53,7 +53,7 @@ $params = $this->params;
 				<!-- 导航栏 -->
 				<div class="nav">
 					<ul>
-						<li><a class="active"  href="#">学院首页</a></li>
+						<li><a class="active"  href="<?php echo Url::to(['site/index'])?>">学院首页</a></li>
 						<?php foreach ($params['nav'] as $v):?>
 						<li><a href="<?php echo Url::to(['news/list','pid'=>$v['id'],'cateid'=>0])?>"><?php echo $v['codeDesc'];?>
 							</a>
