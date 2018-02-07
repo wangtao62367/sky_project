@@ -30,29 +30,38 @@ use common\models\CategoryType;
 		<div class="newsList">
 			<ul>
 			<?php foreach ($list['data'] as $val):?>
-				<?php if ($currentCate->type == CategoryType::ARTICLE):?>
-					<li class="article-item"><a href="<?php echo Url::to(['news/detail','id'=>$val['id']])?>" title="<?php echo $val['title'];?>"><?php echo MyHelper::timestampToDate($val['publishTime']);?>  <?php echo $val['title'];?></a></li>
-				<?php elseif ($currentCate->type == CategoryType::VIDEO):?>
-					<li  class="video-item">
-    					<a href="<?php echo Url::to(['video/start','id'=>$val['id']]);?>">
-                			<img src="<?php echo $val['videoImg'];?>" />
-                			<p><?php echo $val['descr'];?></p>
-                			<span class="video-btn"></span>
-    					</a>
-					</li>
-				<?php elseif ($currentCate->type == CategoryType::IMAGE):?>
-					<li  class="image-item">
-    					<a href="<?php echo !empty($val['link']) ? $val['link'] : 'javascript:;';?>">
-                			<img src="<?php echo $val['photo'];?>" />
-                			<p><?php echo $val['title'];?></p>
-    					</a>
-					</li>
-				<?php elseif ($currentCate->type == CategoryType::FILE):?>
-					<li class="file-item">
-						<a href="<?php echo $val['uri'];?>" title="<?php echo $val['descr'];?>"><?php echo MyHelper::timestampToDate($val['modifyTime']);?>  <?php echo $val['descr'];?></a>
-					</li>
+				<!-- 特别的类型数据 -->
+    			<?php if($currentCate->cateCode == CategoryType::KZJS || $currentCate->cateCode == CategoryType::XRLD):?>
+    				<li class="personage-item">
+    					<img alt="" src="<?php echo $val['photo']?>">
+    					<h4><?php echo $val['fullName'];?> <?php echo $val['duties'];?></h4>
+    					<hr/>
+    					<p><?php echo str_replace("\r\n", '<br/>', $val['intruduce']);?></p>
+    				<li>
+    			<?php else :?>
+    				<?php if ($currentCate->type == CategoryType::ARTICLE):?>
+    					<li class="article-item"><a href="<?php echo Url::to(['news/detail','id'=>$val['id']])?>" title="<?php echo $val['title'];?>"><?php echo MyHelper::timestampToDate($val['publishTime']);?>  <?php echo $val['title'];?></a></li>
+    				<?php elseif ($currentCate->type == CategoryType::VIDEO):?>
+    					<li  class="video-item">
+        					<a href="<?php echo Url::to(['video/start','id'=>$val['id']]);?>">
+                    			<img src="<?php echo $val['videoImg'];?>" />
+                    			<p><?php echo $val['descr'];?></p>
+                    			<span class="video-btn"></span>
+        					</a>
+    					</li>
+    				<?php elseif ($currentCate->type == CategoryType::IMAGE):?>
+    					<li  class="image-item">
+        					<a href="<?php echo !empty($val['link']) ? $val['link'] : 'javascript:;';?>">
+                    			<img src="<?php echo $val['photo'];?>" />
+                    			<p><?php echo $val['title'];?></p>
+        					</a>
+    					</li>
+    				<?php elseif ($currentCate->type == CategoryType::FILE):?>
+    					<li class="file-item">
+    						<a href="<?php echo $val['uri'];?>" title="<?php echo $val['descr'];?>"><?php echo MyHelper::timestampToDate($val['modifyTime']);?>  <?php echo $val['descr'];?></a>
+    					</li>
+    				<?php endif;?>
 				<?php endif;?>
-				
 			<?php endforeach;?>
 			</ul>
 			
@@ -67,7 +76,6 @@ use common\models\CategoryType;
 </div>
 
 <?php 
-
 AppAsset::addCss($this, '/front/css/newsUnitedFront.css');
 AppAsset::addCss($this, '/front/css/pagination.css');
 AppAsset::addScript($this, '/front/js/jquery.pagination.js');

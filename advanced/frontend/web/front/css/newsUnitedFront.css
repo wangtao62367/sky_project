@@ -78,14 +78,15 @@
 	background-color:lightgray;
 	height:3px;
 	border:0;
-	float:left;
 }
 .section  .content .first{
 	width:100px;
 	background-color:#D34231;
+	float:left;
 }
 .section  .content .second{
 	width:775px;
+	float:left;
 }
 .section  .content .text{
 	width:890px;
@@ -159,7 +160,17 @@
 /*图片列表*/
 .newsList .image-item{height:200px}
 .newsList .image-item a p {text-align: center;color: #333;}
-
+/*人物介绍列表*/
+.newsList .personage-item{margin-bottom:25px;}
+.newsList .personage-item hr{margin:15px 0px;}
+.newsList .personage-item h4{font-size:23px;}
+.newsList .personage-item p{font-size:16px;line-height: 25px;}
+.newsList .personage-item img{
+	float: left;
+    width: 199px;
+    height: 279px;
+    margin-right: 25px;
+}
 
 .page{
 	float:left;

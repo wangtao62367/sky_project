@@ -21,4 +21,15 @@ class ContentController extends CommonController
         $this->layout = 'main';
         return $this->render('manage');
     }
+    /**
+    * @desc 学员信息录入
+    * @date: 2018年2月7日 下午3:09:13
+    * @author: wangtao
+    * @return:
+    */
+    public function actionSchoole()
+    {
+        $this->layout = 'main';
+        return $this->render('schoole');
+    }
 }

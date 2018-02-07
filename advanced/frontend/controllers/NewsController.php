@@ -13,6 +13,7 @@ use common\models\CategoryType;
 use common\models\Video;
 use common\models\Photo;
 use common\models\Download;
+use common\models\Personage;
 /**
  * 新闻
  * @author 
@@ -49,40 +50,54 @@ class NewsController extends CommonController
             $cateid = $cateList[0]->id;
         }
         
-        $currentCate = Category::find()->select(['id','text','parentId','type'])->where(['id'=>$cateid])->one();
-        
+        $currentCate = Category::find()->select(['id','text','cateCode','parentId','type'])->where(['id'=>$cateid])->one();
         $data = Yii::$app->request->get();
-        switch ($currentCate->type){
-            case CategoryType::ARTICLE :
-                $article = new Article();
-                $data['Article']['search'] = [
-                    'categoryId' => $cateid,
-                    'isPublish'  => 1
-                ];
-                $article->pageSize = 15;
-                $list = $article->articles($data);
-            break;
-            case CategoryType::VIDEO:
-                $video = new Video();
-                $data['Video']['search'] = [
-                    'categoryId' => $cateid,
-                ];
-                $list = $video->getPageList($data);
+        //先判断当前分类是否是特殊页面类型
+        //客座教授  | 现任领导
+        if($currentCate->cateCode == CategoryType::KZJS || $currentCate->cateCode == CategoryType::XRLD){
+            $personage = new Personage();
+            $personage->pageSize = 5;
+            $data['Personage']['search'] = [
+                'role' => $currentCate->cateCode,
+            ];
+            $list = $personage->getList($data);
+        }else {
+            
+            switch ($currentCate->type){
+                case CategoryType::ARTICLE :
+                    $article = new Article();
+                    $data['Article']['search'] = [
+                        'categoryId' => $cateid,
+                        'isPublish'  => 1
+                    ];
+                    $article->pageSize = 15;
+                    $list = $article->articles($data);
                 break;
-            case CategoryType::IMAGE:
-                $photo = new Photo();
-                $data['Photo']['search'] = [
-                    'categoryId' => $cateid,
-                ];
-                $list = $photo->getPageList($data);
-                break;
-            case CategoryType::FILE:
-                $download = new Download();
-                $data['Download']['search'] = [
-                    'categoryId' => $cateid,
-                ];
-                $list = $download->getPageList($data);
-                break;
+                case CategoryType::VIDEO:
+                    $video = new Video();
+                    $data['Video']['search'] = [
+                        'categoryId' => $cateid,
+                    ];
+                    $video->pageSize = 15;
+                    $list = $video->getPageList($data);
+                    break;
+                case CategoryType::IMAGE:
+                    $photo = new Photo();
+                    $data['Photo']['search'] = [
+                        'categoryId' => $cateid,
+                    ];
+                    $photo->pageSize = 15;
+                    $list = $photo->getPageList($data);
+                    break;
+                case CategoryType::FILE:
+                    $download = new Download();
+                    $data['Download']['search'] = [
+                        'categoryId' => $cateid,
+                    ];
+                    $download->pageSize = 15;
+                    $list = $download->getPageList($data);
+                    break;
+            }
         }
         //var_dump($list);exit();
         return $this->render('list',['parent'=>$parent,'cateList'=>$cateList,'list'=>$list,'currentCate'=>$currentCate]);
