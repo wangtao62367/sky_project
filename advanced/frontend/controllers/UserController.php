@@ -6,6 +6,7 @@ namespace frontend\controllers;
 use common\models\User;
 use Yii;
 use common\publics\Xcrypt;
+use frontend\models\EditPwdForm;
 /**
 * 用户
 * @date: 2018年2月6日 下午9:15:27
@@ -70,6 +71,28 @@ class UserController extends CommonController
         }
         return $this->goBack();
     }
+    /**
+    * 修改密码
+    * @date: 2018年2月8日 下午2:45:32
+    * @author: wangtao
+    * @return:
+    */
+    public function actionEditPwd()
+    {
+        $model = new EditPwdForm();
+        if(Yii::$app->request->isPost){
+            $post = Yii::$app->request->post();
+            if($model->editPwd($post)){
+                return $this->redirect(['user/login']);
+            }else{
+                Yii::$app->session->setFlash('error',$model->getErrorDesc());
+            }
+        }
+        return $this->render('editpwd',['model'=>$model]);
+    }
+    
+    
+    
     
     /**
     * 邮箱激活账号
@@ -99,7 +122,12 @@ class UserController extends CommonController
             
         }
         //激活用户
-        
+        $user = User::findOne($param[0]);
+        $user->isFronzen = 0;
+        if($user->save(false)){
+            //todo...
+            
+        }
     }
     
     public function actions()

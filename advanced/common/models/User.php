@@ -114,6 +114,16 @@ class User extends BaseModel implements IdentityInterface
         return false;
     }
     
+    public function editPwd(array $data)
+    {
+        $this->scenario = 'editPwd';
+        if($this->load($data) && $this->validate()){
+            
+        }
+    }
+    
+    
+    
     public static function del(User $user)
     {
         $user->isDelete = self::USER_DELETE;

@@ -5,6 +5,7 @@ namespace frontend\logic;
 
 use common\models\Article;
 use common\models\Category;
+use common\models\CategoryType;
 
 class NewsLogic
 {
@@ -58,5 +59,35 @@ class NewsLogic
     {
         $category = Category::find()->select([Category::tableName().'.id','text','parentId','codeDesc'])->joinWith('parents')->where([Category::tableName().'.id'=>$article->categoryId,'isDelete'=>0])->asArray()->one();
         return $category;
+    }
+    /**
+    * 获取文化交流文章列表
+    * @date: 2018年2月8日 下午5:21:05
+    * @author: wangtao
+    */
+    public static function getWhjlList($limit = 5)
+    {
+        $cateId = Category::find()->select('id')->where(['cateCode'=>CategoryType::WHJL])->one()->id;
+        return Article::find()->select([
+            'id',
+            'title',
+            'summary'
+        ])->where(['isDelete'=>0,'isPublish'=>1,'categoryId'=>$cateId])
+        ->orderBy('ishot desc,publishTime desc')->limit($limit)->asArray()->all();
+    }
+    /**
+     * 获取文化论坛文章列表
+     * @date: 2018年2月8日 下午5:21:05
+     * @author: wangtao
+     */
+    public static function getWhltList($limit = 5)
+    {
+        $cateId = Category::find()->select('id')->where(['cateCode'=>CategoryType::WHLT])->one()->id;
+        return Article::find()->select([
+            'id',
+            'title',
+            'summary'
+        ])->where(['isDelete'=>0,'isPublish'=>1,'categoryId'=>$cateId])
+        ->orderBy('ishot desc,publishTime desc')->limit($limit)->asArray()->all();
     }
 }

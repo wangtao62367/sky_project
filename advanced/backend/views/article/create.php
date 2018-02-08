@@ -4,10 +4,8 @@
 use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
-use yii\base\Widget;
 use backend\models\ArticleCollectionWebsite;
 use backend\assets\AppAsset;
-use common\publics\MyHelper;
 
 $controller = Yii::$app->controller;
 $id = Yii::$app->request->get('id','');

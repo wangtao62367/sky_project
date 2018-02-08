@@ -21,7 +21,7 @@ use common\models\Common;
         <?php echo Html::activeTextInput($model, 'search[fullName]',['class'=>'scinput','placeholder'=>'姓名'])?>
         </li>
         <li><label>人物角色</label>
-        <?php echo Html::activeTextInput($model, 'search[role]',['class'=>'scinput','placeholder'=>'教学点联络人'])?>
+        <?php echo Html::activeTextInput($model, 'search[role]',['class'=>'scinput','placeholder'=>'人物角色'])?>
         </li>
         <li>
         	<label>创建时间</label>

@@ -59,13 +59,14 @@ $params = $this->params;
 					<ul>
 						<li><a class="active"  href="<?php echo Url::to(['site/index'])?>">学院首页</a></li>
 						<?php foreach ($params['nav'] as $v):?>
-						<li><a href="<?php echo Url::to(['news/list','pid'=>$v['id'],'cateid'=>0])?>"><?php echo $v['codeDesc'];?>
-							</a>
+						<li><a href="<?php echo Url::to(['news/list','pid'=>$v['id'],'cateid'=>0])?>"><?php echo $v['codeDesc'];?></a>
+							<?php if($v['code'] != 'whxy'):?>
 							<ul class="nav-item" >
 								<?php foreach ($v['cates'] as $cate):?>
 								<li><a href="<?php echo Url::to(['news/list','pid'=>$v['id'],'cateid'=>$cate['id']])?>"><?php echo $cate['text'];?></a></li>
 								<?php endforeach;?>
 							</ul>
+							<?php endif;?>
 						</li>
 						<?php endforeach;?>
 					</ul>

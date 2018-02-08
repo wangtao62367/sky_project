@@ -1,6 +1,7 @@
 .section img.top-banner{
 	height:182px;
 	max-height: 182px;
+	margin-top: 0px;
 }
 .section .main{min-height:500px;}
 .section .navigation{
@@ -98,6 +99,8 @@
 	float:left;
 	margin-left:30px;
 }
+
+.newsList img{width:860px;}
 
 .newsList .article-item,.newsList .article-item a,.newsList .file-item,.newsList .file-item a{
 	font-size:16px;
