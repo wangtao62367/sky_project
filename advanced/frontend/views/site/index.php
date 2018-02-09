@@ -24,7 +24,7 @@ $this->title="首页"
 		</div>  
 	</div>
 	<div class="notice-box">
-		<div class="title"><h4 data-target-id="ggtz">公告通知</h4><a href="<?php echo Url::to(['news/list-by-catecode','code'=>'ggtz'])?>">更多&gt;</a></div>
+		<div class="notice-box-title"><h4 data-target-id="ggtz">公告通知</h4><a href="<?php echo Url::to(['news/list-by-catecode','code'=>'ggtz'])?>">更多&gt;</a></div>
 		<ul class="articlelist" id="ggtz">
 			<?php foreach ($data['ggtz'] as $ggtz):?>
 			<li><a href="<?php echo Url::to(['news/detail','id'=>$ggtz->id])?>" title="测试"><nobr><?php echo $ggtz->title;?></nobr></a></li>
@@ -167,6 +167,9 @@ $(document).on('click','.title h4',function(){
     var cateCode = _this.data("target-id");
     _this.parent().parent().find('.articlelist').hide();
     $("#"+cateCode).show();
+
+    _this.parent().find('h4').removeClass('news-selected').removeClass('news-unselected').addClass('news-unselected');
+    _this.removeClass('news-unselected').addClass('news-selected');
     
     var url = _this.parent().find("a").attr("href");
     var newUrl = common.changeUrlArg(url,'code',cateCode);

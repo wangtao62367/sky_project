@@ -87,9 +87,10 @@ ul.articlelist{padding: 20px 10px;}
 
 .section-1 .notice-box,.section-2 .btn-box{float: right;width: 379px;}
 .section-1 .notice-box{height: 367px;background: url(../img/index/公告通知选框.png) center no-repeat !important; }
-.title{height: 46px;line-height: 53px;text-indent: 40px;position: relative;}
-.notice-box h4,.news-box h4{color: #fff;font-size: 16px;cursor: pointer;}
-.notice-box .title a,.news-box .title a,.section-3 .title a,.section-4 .title a,.video-banner a{position: absolute;top:0;right: 15px;color: #333;font-weight: 600;}
+.notice-box-title,.title{height: 46px;line-height: 53px;text-indent: 40px;position: relative;}
+.notice-box h4,.news-box h4{font-size: 16px;cursor: pointer;}
+.notice-box-title h4{color:#fff;}
+.notice-box .notice-box-title a,.news-box .title a,.section-3 .title a,.section-4 .title a,.video-banner a{position: absolute;top:0;right: 15px;color: #333;font-weight: 600;}
 /*统战新闻  按钮*/
 .section-2{height: 293px;margin-top: 30px;}
 .section-2 .news-box{width: 778px;height: 293px;float: left;background: url(../img/index/新闻选框.png) center no-repeat !important;}
