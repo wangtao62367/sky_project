@@ -54,7 +54,7 @@ class NewsController extends CommonController
             return $this->render('whxy',['data'=>$data]);
         }
         
-        $cateList = Category::find()->select(['id','text','parentId','type'])->where(['parentId'=>$pid,'isDelete'=>0])->orderBy('isBase desc,modifyTime DESC')->all();
+        $cateList = Category::find()->select(['id','text','parentId','type'])->where(['parentId'=>$pid,'isDelete'=>0])->orderBy('isBase desc,modifyTime ASC')->all();
         if(!empty($cateList) && $cateid == 0){
             $cateid = $cateList[0]->id;
         }
@@ -70,7 +70,50 @@ class NewsController extends CommonController
                 
                 return $this->render('schoolinfo',['parent'=>$parent,'cateList'=>$cateList,'info'=>$info,'currentCate'=>$currentCate]);
                 
+        }elseif ($currentCate->cateCode == CategoryType::WYBM){ //我要报名页面
+            
+            
+        }elseif ($currentCate->cateCode == CategoryType::TPDC){ //投票调查
+            
+            
+        }elseif ($currentCate->cateCode == CategoryType::ZXCP){ //在线测评 
+             
         }
+        
+        $list = $this->getNewsList($currentCate, $data);
+        //var_dump($list);exit();
+        return $this->render('list',['parent'=>$parent,'cateList'=>$cateList,'list'=>$list,'currentCate'=>$currentCate]);
+    }
+    
+    public function actionListByCatecode()
+    {
+        $cateCode = Yii::$app->request->get('code','');
+        if($cateCode == ''){
+            return $this->render('/site/error');
+        }
+        $currentCate = Category::find()->select(['id','text','cateCode','parentId','type'])->where(['cateCode'=>$cateCode])->one();
+        $parent = Common::find()->select(['id','codeDesc','code'])->where(['id'=>$currentCate->parentId])->one();
+        $cateList = Category::find()->select(['id','text','parentId','type'])->where(['isDelete'=>0,'parentId'=>$currentCate->parentId])->orderBy('isBase desc,modifyTime ASC')->all();
+        
+        //先判断当前分类是否是特殊页面类型
+        if ($currentCate->cateCode == CategoryType::FZLC || $currentCate->cateCode == CategoryType::SYFC ||
+            $currentCate->cateCode == CategoryType::SZQK || $currentCate->cateCode == CategoryType::XYJJ ||
+            $currentCate->cateCode == CategoryType::XYDZ || $currentCate->cateCode == CategoryType::ZZJG || $currentCate->cateCode == CategoryType::ZKZX){
+                
+                $info = SchooleInformation::findOne(['type'=>$currentCate->cateCode]);
+                
+                return $this->render('schoolinfo',['parent'=>$parent,'cateList'=>$cateList,'info'=>$info,'currentCate'=>$currentCate]);
+                
+        }
+        $data = Yii::$app->request->get();
+        $list = $this->getNewsList($currentCate, $data);
+        //var_dump($list);exit();
+        return $this->render('list',['parent'=>$parent,'cateList'=>$cateList,'list'=>$list,'currentCate'=>$currentCate]);
+        
+    }
+    
+    public function getNewsList(Category $currentCate,array $data)
+    {
         //客座教授  | 现任领导
         if($currentCate->cateCode == CategoryType::KZJS || $currentCate->cateCode == CategoryType::XRLD){
             $personage = new Personage();
@@ -84,16 +127,16 @@ class NewsController extends CommonController
                 case CategoryType::ARTICLE :
                     $article = new Article();
                     $data['Article']['search'] = [
-                        'categoryId' => $cateid,
+                        'categoryId' => $currentCate->id,
                         'isPublish'  => 1
                     ];
                     $article->pageSize = 15;
                     $list = $article->articles($data);
-                break;
+                    break;
                 case CategoryType::VIDEO:
                     $video = new Video();
                     $data['Video']['search'] = [
-                        'categoryId' => $cateid,
+                        'categoryId' => $currentCate->id,
                     ];
                     $video->pageSize = 15;
                     $list = $video->getPageList($data);
@@ -101,7 +144,7 @@ class NewsController extends CommonController
                 case CategoryType::IMAGE:
                     $photo = new Photo();
                     $data['Photo']['search'] = [
-                        'categoryId' => $cateid,
+                        'categoryId' =>$currentCate->id,
                     ];
                     $photo->pageSize = 15;
                     $list = $photo->getPageList($data);
@@ -109,16 +152,13 @@ class NewsController extends CommonController
                 case CategoryType::FILE:
                     $download = new Download();
                     $data['Download']['search'] = [
-                        'categoryId' => $cateid,
+                        'categoryId' => $currentCate->id,
                     ];
                     $download->pageSize = 15;
                     $list = $download->getPageList($data);
                     break;
             }
         }
-        //var_dump($list);exit();
-        return $this->render('list',['parent'=>$parent,'cateList'=>$cateList,'list'=>$list,'currentCate'=>$currentCate]);
-    }
-    
-    
+        return $list;
+    }    
 }

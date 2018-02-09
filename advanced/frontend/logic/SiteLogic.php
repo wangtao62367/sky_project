@@ -147,7 +147,7 @@ class SiteLogic
         //科研动态 下存在科研信息、科研成果为新闻文章
         $cates = Category::find()->select('id')->where(['in','cateCode',['kycg','jyxx']])->asArray()->all();
         $catesIds = ArrayHelper::getColumn($cates, 'id');
-        $articles = Article::find()->select(['id','title','ishot'])->where(['isPublish'=>1,'isDelete'=>0])->andWhere(['in','categoryId',$catesIds])->orderBy('ishot desc,publishTime desc')->limit(6)->all();
+        $articles = Article::find()->select(['id','title','ishot'])->Where(['in','categoryId',$catesIds])->andWhere(['isPublish'=>1,'isDelete'=>0])->orderBy('ishot desc,publishTime desc')->limit(6)->all();
         return $articles;
     }
     /**

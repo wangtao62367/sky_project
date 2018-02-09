@@ -22,7 +22,7 @@ class WebCfg extends BaseModel
     
     public static function getWebCfg()
     {
-        $webCfg = self::find()->all();
+        $webCfg = self::find()->select(['name','value'])->all();
         $result = [];
         foreach ($webCfg as $val){
             $result[$val->name] = $val->value;

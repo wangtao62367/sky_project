@@ -3,7 +3,6 @@ namespace common\models;
 
 
 
-use Yii;
 /**
 * 学院基本信息管理
 * @date: 2018年2月8日 上午9:22:10

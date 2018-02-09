@@ -21,7 +21,8 @@ class Category extends BaseModel
         CategoryType::ARTICLE => '文章',
         CategoryType::IMAGE   => '图片',
         CategoryType::VIDEO   => '视频',
-        CategoryType::FILE    => '文件'
+        CategoryType::FILE    => '文件',
+        CategoryType::ORTHER    => '特殊类型'
     ];
     
     public static function tableName()

@@ -38,6 +38,12 @@ use common\models\CategoryType;
     					<hr/>
     					<p><?php echo str_replace("\r\n", '<br/>', $val['intruduce']);?></p>
     				<li>
+    			<?php elseif ($currentCate->cateCode == CategoryType::WYBM):?>
+    			
+    			<?php elseif ($currentCate->cateCode == CategoryType::TPDC):?>
+    			
+    			<?php elseif ($currentCate->cateCode == CategoryType::ZXCP):?>
+    			
     			<?php else :?>
     				<?php if ($currentCate->type == CategoryType::ARTICLE):?>
     					<li class="article-item"><a href="<?php echo Url::to(['news/detail','id'=>$val['id']])?>" title="<?php echo $val['title'];?>"><?php echo MyHelper::timestampToDate($val['publishTime']);?>  <?php echo $val['title'];?></a></li>

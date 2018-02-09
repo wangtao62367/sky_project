@@ -1,7 +1,7 @@
 .section img.top-banner{
 	height:182px;
 	max-height: 182px;
-	margin-top: 0px;
+	margin-top: -15px;
 }
 .section .main{min-height:500px;}
 .section .navigation{

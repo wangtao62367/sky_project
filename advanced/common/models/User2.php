@@ -85,7 +85,6 @@ class User2 extends ActiveRecord implements IdentityInterface
 
     /**
      * Finds user by password reset token
-     *
      * @param string $token password reset token
      * @return static|null
      */
@@ -94,7 +93,6 @@ class User2 extends ActiveRecord implements IdentityInterface
         if (!static::isPasswordResetTokenValid($token)) {
             return null;
         }
-
         return static::findOne([
             'password_reset_token' => $token,
             'status' => self::STATUS_ACTIVE,
@@ -112,7 +110,6 @@ class User2 extends ActiveRecord implements IdentityInterface
         if (empty($token)) {
             return false;
         }
-
         $timestamp = (int) substr($token, strrpos($token, '_') + 1);
         $expire = Yii::$app->params['user.passwordResetTokenExpire'];
         return $timestamp + $expire >= time();

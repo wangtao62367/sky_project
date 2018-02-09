@@ -24,8 +24,8 @@ $this->title="首页"
 		</div>  
 	</div>
 	<div class="notice-box">
-		<div class="title"><h4>公告通知</h4><a href="#">更多&gt;</a></div>
-		<ul class="articlelist">
+		<div class="title"><h4 data-target-id="ggtz">公告通知</h4><a href="<?php echo Url::to(['news/list-by-catecode','code'=>'ggtz'])?>">更多&gt;</a></div>
+		<ul class="articlelist" id="ggtz">
 			<?php foreach ($data['ggtz'] as $ggtz):?>
 			<li><a href="<?php echo Url::to(['news/detail','id'=>$ggtz->id])?>" title="测试"><nobr><?php echo $ggtz->title;?></nobr></a></li>
 			<?php endforeach;?>
@@ -38,7 +38,7 @@ $this->title="首页"
     		<h4 class="news-selected" data-target-id="tzxw">统战新闻</h4>
     		<h4 class="news-unselected" data-target-id="syxw">社院新闻</h4>
     		<h4 class="news-unselected" data-target-id="szyw">时政要闻</h4>
-    		<a href="javascript:;">更多&gt;</a>
+    		<a href="<?php echo Url::to(['news/list-by-catecode','code'=>'tzxw'])?>">更多&gt;</a>
 		</div>
 		<ul class="articlelist" id="tzxw">
 			<?php foreach ($data['tzxw'] as $tzxw):?>
@@ -57,21 +57,21 @@ $this->title="首页"
 		</ul>
 	</div>
 	<div class="btn-box">
-		<a href="#" class="btn-img-itme1"></a>
-		<a href="#" class="btn-img-itme2"></a>
-		<a href="#" class="btn-img-itme3"></a>
+		<a href="<?php echo Url::to(['news/list-by-catecode','code'=>'xyjj'])?>" class="btn-img-itme1"></a>
+		<a href="<?php echo Url::to(['news/list-by-catecode','code'=>'zzjg'])?>" class="btn-img-itme2"></a>
+		<a href="<?php echo Url::to(['news/list-by-catecode','code'=>'kbcx'])?>" class="btn-img-itme3"></a>
 		<a href="#" class="btn-img-itme4"></a>
-		<a href="#" class="btn-img-itme5"></a>
-		<a href="#" class="btn-img-itme6"></a>
+		<a href="<?php echo Url::to(['news/list-by-catecode','code'=>'wkzx'])?>" class="btn-img-itme5"></a>
+		<a href="<?php echo Yii::$app->params['xbjs.link'];?>" target= _blank  class="btn-img-itme6"></a>
 	</div>
 </div>
 <img class="main-banner" src="/front/img/index/校训.jpg" />
 <div class="section-3">
 	<div class="news-box1">
 		<div class="title">
-			<h4 class="news-selected">文化交流</h4>
-			<h4 class="news-unselected">党群建设</h4>
-			<a href="#">更多&gt;</a>
+			<h4 class="news-selected" data-target-id="whjl">文化交流</h4>
+			<h4 class="news-unselected" data-target-id="dqxz">党群建设</h4>
+			<a href="<?php echo Url::to(['news/list-by-catecode','code'=>'whjl'])?>">更多&gt;</a>
 		</div>
 		<ul class="articlelist" id="whjl">
 			<?php foreach ($data['tzxw'] as $whjl):?>
@@ -86,16 +86,16 @@ $this->title="首页"
 	</div>
 	<div class="news-box2">
 		<div class="title">
-			<h4 class="news-selected">教学培训</h4>
-			<h4 class="news-unselected">学员园地</h4>
-			<a href="#">更多&gt;</a>
+			<h4 class="news-selected" data-target-id="jxpx">教学培训</h4>
+			<h4 class="news-unselected" data-target-id="xyhd">学员园地</h4>
+			<a href="<?php echo Url::to(['news/list-by-catecode','code'=>'jxpx'])?>">更多&gt;</a>
 		</div>
 		<ul class="articlelist" id="jxpx">
 			<?php foreach ($data['jxpx'] as $jxpx):?>
 			<li><a href="<?php echo Url::to(['news/detail','id'=>$jxpx->id]);?>" title="<?php echo $jxpx->title;?>"><nobr><?php echo $jxpx->title?></nobr></a></li>
 			<?php endforeach;?>
 		</ul>
-		<ul style="display: none" class="articlelist" id="xyyd">
+		<ul style="display: none" class="articlelist" id="xyhd">
 			<?php foreach ($data['xyyd'] as $xyyd):?>
 			<li><a href="<?php echo Url::to(['news/detail','id'=>$xyyd->id]);?>" title="<?php echo $xyyd->title;?>"><nobr><?php echo $xyyd->title?></nobr></a></li>
 			<?php endforeach;?>
@@ -103,16 +103,16 @@ $this->title="首页"
 	</div>
 	<div class="news-box3">
 		<div class="title">
-			<h4 class="news-selected">科研动态</h4>
-			<h4 class="news-unselected">智库中心</h4>
-			<a href="#">更多&gt;</a>
+			<h4 class="news-selected" data-target-id="kydt">科研动态</h4>
+			<h4 class="news-unselected" data-target-id="xxdt">智库中心</h4>
+			<a href="<?php echo Url::to(['news/list-by-catecode','code'=>'kydt'])?>">更多&gt;</a>
 		</div>
 		<ul class="articlelist" id="kydt">
 			<?php foreach ($data['kydt'] as $kydt):?>
 			<li><a href="<?php echo Url::to(['news/detail','id'=>$kydt->id])?>" title="<?php echo $kydt->title;?>"><nobr><?php echo $kydt->title?></nobr></a></li>
 			<?php endforeach;?>
 		</ul>
-		<ul style="display: none" class="articlelist" id="zkzx">
+		<ul style="display: none" class="articlelist" id="xxdt">
 			<?php foreach ($data['zkzx'] as $zkzx):?>
 			<li><a href="<?php echo Url::to(['news/detail','id'=>$zkzx->id])?>" title="<?php echo $zkzx->title;?>"><nobr><?php echo $zkzx->title?></nobr></a></li>
 			<?php endforeach;?>
@@ -123,8 +123,8 @@ $this->title="首页"
 <div class="section-4">
 	<div class="news-box1">
 		<div class="title">
-			<h4 class="news-selected">市州社院</h4>
-			<a href="#">更多&gt;</a>
+			<h4 class="news-selected" data-target-id="szsy">市州社院</h4>
+			<a href="<?php echo Url::to(['news/list-by-catecode','code'=>'szsy'])?>">更多&gt;</a>
 		</div>
 		<ul class="articlelist" id="szsy">
 			<?php foreach ($data['szsy'] as $szsy):?>
@@ -163,12 +163,18 @@ $this->title="首页"
 <?php 
 $js = <<<JS
 $(document).on('click','.title h4',function(){
-    var cateCode = $(this).data("target-id");
+    var _this = $(this);
+    var cateCode = _this.data("target-id");
+    _this.parent().parent().find('.articlelist').hide();
+    $("#"+cateCode).show();
     
+    var url = _this.parent().find("a").attr("href");
+    var newUrl = common.changeUrlArg(url,'code',cateCode);
+    _this.parent().find("a").attr("href",newUrl)
 });
 
 
 JS;
-
+$this->registerJs($js);
 ?>
 		
