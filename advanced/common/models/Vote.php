@@ -65,22 +65,28 @@ class Vote extends BaseModel
     {
         //$this->scenario = 'votes';
         $query = self::find()
-                    ->select(['id','subject','startDate','endDate','selectType',new Expression("case when selectType = 'single' then '单选' when selectType ='multi' then '多选' else '未知' end as selectTypeText"),'isClose',new Expression('case when isClose = 0 then \'正常\' when isClose = 1 then \'关闭\' else \'未知\' end as isCloseText'),'createTime','modifyTime'])
+                    ->select(['id','subject','startDate','endDate','selectType',new Expression("case when selectType = 'single' then '单选' when selectType ='multi' then '多选' when selectType = 'trueOrfalse' then '判断' else '未知' end as selectTypeText"),'isClose',new Expression('case when isClose = 0 then \'正常\' when isClose = 1 then \'关闭\' else \'未知\' end as isCloseText'),'createTime','modifyTime'])
                     ->where('isDelete = 0')
                     ->orderBy('isClose ASC,startDate ASC,modifyTime DESC,createTime DESC');
         $this->curPage = isset($data['curPage']) ? $data['curPage'] : $this->curPage;
         if(!empty($search) && $this->load($search)){
-            if(!empty($this->search['subject'])){
-                $query = $query->andWhere(['like','subject',$this->search['subject']]);
-            }
-            if(!empty($this->search['isClose']) && $this->search['isClose'] != 'unknow'){
-                $query = $query->andWhere(['isClose'=>$this->search['isClose']]);
-            }
-            if(!empty($this->search['selectType']) && $this->search['selectType'] != 'unknow'){
-                $query = $query->andWhere(['selectType'=>$this->search['selectType']]);
-            }
+            $query = $this->filterSearch($this->search, $query);
         }
         return $this->query($query,$this->curPage,$this->pageSize);
+    }
+    
+    public function filterSearch(array $search,$query)
+    {
+        if(!empty($search['subject'])){
+            $query = $query->andWhere(['like','subject',$search['subject']]);
+        }
+        if(!empty($search['isClose']) && $search['isClose'] != 'unknow'){
+            $query = $query->andWhere(['isClose'=>$search['isClose']]);
+        }
+        if(!empty($search['selectType']) && $search['selectType'] != 'unknow'){
+            $query = $query->andWhere(['selectType'=>$search['selectType']]);
+        }
+        return $query;
     }
     /**
      * 添加投票

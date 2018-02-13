@@ -150,6 +150,10 @@ class GradeClass extends BaseModel
     	if(!empty($search['endTime'])){
     		$query = $query->andWhere('openClassTime <= :endTime',[':endTime'=>$search['endTime']]);
     	}
+    	
+    	if(!empty($search['validdate'])){
+    	    $query = $query->andWhere('joinEndDate >= :date',[':date'=>$search['validdate']]);
+    	}
 		return $query;
     }
     

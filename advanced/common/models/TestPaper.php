@@ -231,6 +231,11 @@ class TestPaper extends BaseModel
         ->orderBy(self::tableName().'.modifyTime desc');
     }
     
+    public function getGradeClass()
+    {
+        return $this->hasOne(GradeClass::className(), ['id'=>'gradeClassId']);
+    }
+    
     public function filterSearch($search,ActiveQuery $query)
     {
         if(isset($search['keywords']) && !empty($search['keywords'])){
@@ -249,6 +254,11 @@ class TestPaper extends BaseModel
                 $query = $query->andWhere(['in','gradeClassId',$ids]);
             }
         }
+        
+        if(isset($search['gradeClassId']) && !empty($search['gradeClassId'])){
+            $query = $query->andWhere(['gradeClassId'=>$search['gradeClassId']]);
+        }
+        
         return $query;
     }
     
@@ -280,9 +290,29 @@ class TestPaper extends BaseModel
         $objWriter->save('php://output');
     }
     
-    
-    public function getGradeClass()
+    public static function checkExistByGradeClassId(int $cid)
     {
-        return $this->hasOne(GradeClass::className(), ['id'=>'gradeClassId']);
+        return (bool)self::find()->where(['gradeClassId'=>$cid,'isPublish'=>1,'verify'=>1])->count('id');
     }
+    
+    
+    public function getInfoByGradeClassId(int $cid)
+    {
+        return self::find()->select([
+            'id',
+            'title',
+            'radioCount',
+            'multiCount',
+            't_fCount',
+            'otherCount',
+            'questionCount',
+            'timeToAnswer',
+            'gradeClassId',
+            'from',
+            'createTime',
+            'modifyTime'
+        ])->where(['gradeClassId'=>$cid])->one();
+    }
+    
+    
 }

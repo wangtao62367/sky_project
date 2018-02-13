@@ -5,6 +5,7 @@ use frontend\assets\AppAsset;
 use yii\helpers\Url;
 use common\publics\MyHelper;
 use common\models\CategoryType;
+use common\models\TestPaper;
 
 ?>
 
@@ -39,11 +40,23 @@ use common\models\CategoryType;
     					<p><?php echo str_replace("\r\n", '<br/>', $val['intruduce']);?></p>
     				<li>
     			<?php elseif ($currentCate->cateCode == CategoryType::WYBM):?>
-    			
+    				<li class="gradeclass-item">
+    					<div class="bms">
+    						<a href="<?php echo  Url::to(['student/joinup'])?>"><?php echo $val['className']?></a>
+    						<p>距离报名结束还有<?php $c=time();$e = strtotime($val['joinEndDate'].' 23:59:59'); echo intval(($e-$c)/86400); ?>天<?php echo intval((($e-$c)%86400)/3600)?>小时</p>
+    					</div>
+    					<div class="bmx">
+    						报名时间：<?php echo date('Y年m月d日',strtotime($val['joinStartDate']));?> -> <?php echo date('Y年m月d日',strtotime($val['joinEndDate']));?> ，交费时间：<?php echo date('Y年m月d日',strtotime($val['openClassTime']));?>
+    						<br/>
+    						<?php if(TestPaper::checkExistByGradeClassId($val['id'])):?>
+    						<a href="<?php echo Url::to(['student/testpapers','cid'=>$val['id']])?>" target="_blank" ><b style="color: #333;font-weight: inherit;">【相关测评试卷】</b></a>
+    						<?php endif;?>
+    						<a href="<?php echo Url::to(['student/joinup','cid'=>$val['id']])?>"><b >【进入报名】</b></a>
+    					</div>
+    				</li>
     			<?php elseif ($currentCate->cateCode == CategoryType::TPDC):?>
-    			
-    			<?php elseif ($currentCate->cateCode == CategoryType::ZXCP):?>
-    			
+    				<li class="article-item">
+    				<a href="<?php echo Url::to(['student/naire','id'=>$val['id']])?>" title="<?php echo $val['title'];?>"><?php echo MyHelper::timestampToDate($val['modifyTime']);?>  <?php echo $val['title'];?></a></li>
     			<?php else :?>
     				<?php if ($currentCate->type == CategoryType::ARTICLE):?>
     					<li class="article-item"><a href="<?php echo Url::to(['news/detail','id'=>$val['id']])?>" title="<?php echo $val['title'];?>"><?php echo MyHelper::timestampToDate($val['publishTime']);?>  <?php echo $val['title'];?></a></li>
