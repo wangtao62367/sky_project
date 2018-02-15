@@ -8,6 +8,7 @@ use common\models\BaseModel;
 use yii\db\ActiveQuery;
 use yii\helpers\ArrayHelper;
 use common\publics\MyHelper;
+use function foo\func;
 
 class TestPaper extends BaseModel
 {
@@ -314,5 +315,21 @@ class TestPaper extends BaseModel
         ])->where(['gradeClassId'=>$cid])->one();
     }
     
+    public function getInfoById(int $id)
+    {
+    	return self::find()
+    	->with(['testpaperquestions'=>function(ActiveQuery $query){
+    		$query->orderBy('sorts ASC')->with(['questions'=>function(ActiveQuery $query){
+    			$query->with('options');
+    		}]);
+    	}])
+    	->where(['id'=>$id,'isPublish'=>1,'verify'=>1])
+    	->asArray()->one();
+    }
     
+    
+    public function getTestpaperquestions()
+    {
+    	return $this->hasMany(TestPaperQuestion::className(), ['paperId'=>'id']);
+    }
 }

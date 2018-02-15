@@ -43,7 +43,13 @@ class StudentController extends CommonController
     
     public function actionAnswer(int $id)
     {
-        
+        $testPaper = new TestPaper();
+        $info = $testPaper->getInfoById($id);
+        if(Yii::$app->request->isPost){
+        	$post = Yii::$app->request->post();
+        	
+        }
+        var_dump($info);
     }
     
 }
