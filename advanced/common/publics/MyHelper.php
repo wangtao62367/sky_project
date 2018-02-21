@@ -2,6 +2,8 @@
 namespace common\publics;
 
 
+use common\models\QuestCategory;
+
 class MyHelper 
 {
     
@@ -137,5 +139,17 @@ class MyHelper
         $out = curl_exec ( $ch);
         curl_close ( $ch);
         return $out;
+    }
+    
+    
+    public static function getOpt($index,$cate)
+    {
+    	if($cate == QuestCategory::QUEST_RADIO || $cate == QuestCategory::QUEST_MULTI){
+	    	$opts=range('A', 'Z');
+	    	
+    	}elseif ($cate == QuestCategory::QUEST_TRUEORFALSE){
+    		$opts = ['正确','错误'];
+    	}
+    	return $opts[$index];  
     }
 }

@@ -49,6 +49,7 @@ class StudentController extends CommonController
         	$post = Yii::$app->request->post();
         	
         }
+        return $this->render('answer',['info'=>$info]);
         var_dump($info);
     }
     
