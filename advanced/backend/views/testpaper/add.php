@@ -177,7 +177,6 @@ var vm = new Vue({
 			var _this = this;
             console.log(this.paper);
             $.post('$url',_this.paper,function(res){
-            console.log(res);
                 if(res){
 					window.location.href = '$success';
 				};

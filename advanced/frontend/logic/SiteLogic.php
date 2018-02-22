@@ -177,7 +177,7 @@ class SiteLogic
     public static function getSxsy()
     {
         $cate = Category::getCatesByCode('sxsy');
-        $videos = Video::find()->select(['id','videoImg','descr'])->where(['categoryId'=>$cate->id,'isDelete'=>0])->orderBy('modifyTime desc')->limit(4)->all();
+        $videos = Video::find()->select(['id','videoImg','descr','video'])->where(['categoryId'=>$cate->id,'isDelete'=>0])->orderBy('modifyTime desc')->limit(4)->all();
         return $videos;
     }
     /**

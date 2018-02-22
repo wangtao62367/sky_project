@@ -67,5 +67,10 @@ class CommonController extends Controller
 	    }
 	    return $data;
 	}
+	
+	protected function setResponseJson()
+	{
+	    Yii::$app->response->format = 'json';
+	}
 }
 

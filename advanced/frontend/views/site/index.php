@@ -65,7 +65,7 @@ $this->title="首页"
 		<a href="<?php echo Yii::$app->params['xbjs.link'];?>" target= _blank  class="btn-img-itme6"></a>
 	</div>
 </div>
-<img class="main-banner" src="/front/img/index/校训.jpg" />
+<img class="main-banner" src="/front/img/index/xiaoxun.jpg" />
 <div class="section-3">
 	<div class="news-box1">
 		<div class="title">
@@ -119,7 +119,7 @@ $this->title="首页"
 		</ul>
 	</div>
 </div>
-<img class="main-banner" src="/front/img/index/横幅.gif" />
+<img class="main-banner" src="/front/img/index/hengfu.gif" />
 <div class="section-4">
 	<div class="news-box1">
 		<div class="title">
@@ -133,7 +133,7 @@ $this->title="首页"
 		</ul>
 	</div>
 	<div class="edu-box">
-		<img src="/front/img/index/文化基地.jpg" width="100%" />
+		<img src="/front/img/index/whjd_bg.jpg" width="100%" />
 		<ul class="edu-list">
 			<?php foreach ($data['jyjd'] as $jyjd):?>
 			<li>
@@ -150,8 +150,8 @@ $this->title="首页"
 <div class="video-banner"><a href="#">更多&gt;</a></div>
 <div class="video-list-box">
 	<?php foreach ($data['sxsy'] as $sxsy):?>
-	<div class="video-item">
-		<a href="<?php echo Url::to(['video/start','id'=>$sxsy->id]);?>">
+	<div class="video-item" data-videourl="<?php echo $sxsy->video;?>" id="video_item_<?php echo $sxsy->id;?>">
+		<a href="javascript:; <?php // echo Url::to(['video/start','id'=>$sxsy->id]);?>">
 			<img src="<?php echo $sxsy->videoImg;?>" />
 			<p><?php echo $sxsy->descr;?></p>
 			<span class="video-btn"></span>
@@ -176,6 +176,42 @@ $(document).on('click','.title h4',function(){
     _this.parent().find("a").attr("href",newUrl)
 });
 
+$(document).on('click','.video-item',function(){
+	if($(this).hasClass('prism-player')){
+		return false;
+	}
+	var source = $(this).data('videourl');
+	var id = $(this).attr('id');
+	var player = new Aliplayer({
+            id: id,
+            width: '280px',
+			height: '185px',
+            autoplay: true,
+            //支持播放地址播放,此播放优先级最高
+            source : source,
+            /* //播放方式二：点播用户推荐
+            vid : '1e067a2831b641db90d570b6480fbc40',
+            playauth : '',
+            cover: 'http://liveroom-img.oss-cn-qingdao.aliyuncs.com/logo.png',            
+            //播放方式三：仅MTS用户使用
+            vid : '1e067a2831b641db90d570b6480fbc40',
+            accId: '',
+            accSecret: '',
+            stsToken: '',
+            domainRegion: '',
+            authInfo: '',
+            //播放方式四：使用STS方式播放
+            vid : '1e067a2831b641db90d570b6480fbc40',
+            accessKeyId: '',
+            securityToken: '',
+            accessKeySecret: '' */
+            },function(player){
+                console.log('播放器创建好了。')
+           });
+	player.on('ready',function(){
+		$(".prism-big-play-btn").remove();
+	});
+})
 
 JS;
 $this->registerJs($js);

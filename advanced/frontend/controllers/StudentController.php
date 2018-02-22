@@ -5,6 +5,8 @@ namespace frontend\controllers;
 
 use Yii;
 use common\models\TestPaper;
+use frontend\logic\StudentLogic;
+use common\models\TestPaperQuestion;
 
 
 class StudentController extends CommonController
@@ -34,7 +36,9 @@ class StudentController extends CommonController
         $testPaper->pageSize = 15;
         $data = Yii::$app->request->get();
         $data['TestPaper']['search'] = [
-            'gradeClassId' => $cid
+            'gradeClassId' => $cid,
+        	'isPublish' => 1,
+        	'verify' => 1
         ];
         $list = $testPaper->getPageList($data, $data);
         return $this->render('testpapers',['list'=>$list]);
@@ -45,12 +49,19 @@ class StudentController extends CommonController
     {
         $testPaper = new TestPaper();
         $info = $testPaper->getInfoById($id);
-        if(Yii::$app->request->isPost){
-        	$post = Yii::$app->request->post();
-        	
-        }
         return $this->render('answer',['info'=>$info]);
-        var_dump($info);
+    }
+    
+    public function actionSubmitAnswer()
+    {
+        $this->setResponseJson();
+        $post = Yii::$app->request->post();
+        
+        $StudentLogic = new StudentLogic();
+        if($StudentLogic->submitAnswer($post)){
+        	return 1;
+        }
+        return 0;
     }
     
 }

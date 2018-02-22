@@ -49,7 +49,7 @@ use common\models\TestPaper;
     						报名时间：<?php echo date('Y年m月d日',strtotime($val['joinStartDate']));?> -> <?php echo date('Y年m月d日',strtotime($val['joinEndDate']));?> ，交费时间：<?php echo date('Y年m月d日',strtotime($val['openClassTime']));?>
     						<br/>
     						<?php if(TestPaper::checkExistByGradeClassId($val['id'])):?>
-    						<a href="<?php echo Url::to(['student/testpapers','cid'=>$val['id']])?>" target="_blank" ><b style="color: #333;font-weight: inherit;">【相关测评试卷】</b></a>
+    						<a href="<?php echo Url::to(['student/testpapers','cid'=>$val['id']])?>" ><b style="color: #333;font-weight: inherit;">【相关测评试卷】</b></a>
     						<?php endif;?>
     						<a href="<?php echo Url::to(['student/joinup','cid'=>$val['id']])?>"><b >【进入报名】</b></a>
     					</div>

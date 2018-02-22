@@ -3,6 +3,7 @@ body{background-color: #d3d2d8;}
 a{text-decoration: none;}
 ul{list-style: none;}
 address, cite, dfn, em, var, i {font-style: normal;}
+.btn,.btn:focus,.btn:active{padding:5px 10px;border:0px;border-radius: 2px;background:#f3f3f3;outline: none;}
 
 /*头部*/
 .header{height: 288px;width: 100%;min-width: 1200px;max-width: 2000px;margin: 0 auto;background: url(../img/index/top_bg.jpg) no-repeat center !important; background-size: 2000px 288px;}
@@ -86,19 +87,19 @@ ul.articlelist{padding: 20px 10px;}
 
 
 .section-1 .notice-box,.section-2 .btn-box{float: right;width: 379px;}
-.section-1 .notice-box{height: 367px;background: url(../img/index/公告通知选框.png) center no-repeat !important; }
+.section-1 .notice-box{height: 367px;background: url(../img/index/ggtz_bg.png) center no-repeat !important; }
 .notice-box-title,.title{height: 46px;line-height: 53px;text-indent: 40px;position: relative;}
 .notice-box h4,.news-box h4{font-size: 16px;cursor: pointer;}
 .notice-box-title h4{color:#fff;}
 .notice-box .notice-box-title a,.news-box .title a,.section-3 .title a,.section-4 .title a,.video-banner a{position: absolute;top:0;right: 15px;color: #333;font-weight: 600;}
 /*统战新闻  按钮*/
 .section-2{height: 293px;margin-top: 30px;}
-.section-2 .news-box{width: 778px;height: 293px;float: left;background: url(../img/index/新闻选框.png) center no-repeat !important;}
+.section-2 .news-box{width: 778px;height: 293px;float: left;background: url(../img/index/news_bg.png) center no-repeat !important;}
 .section-2 .btn-box{height: 293px;}
 .section-2 .title,.section-3 .title,.section-4 .title{text-indent: 0px;}
 .section-2 h4,.section-3 h4,.section-4 h4{width: 135px;height: 35px;line-height: 35px;float: left;margin-top: 12px;text-align: center;margin-left: 15px;cursor: pointer;}
-.news-selected{background: url(../img/index/列表选中背景.png) center no-repeat !important;color: #fff;font-size: 16px;}
-.news-unselected{background: url(../img/index/列表未选中背景.png) center no-repeat!important;color: #9f2c2b;font-size: 16px;}
+.news-selected{background: url(../img/index/list_selected.png) center no-repeat !important;color: #fff;font-size: 16px;}
+.news-unselected{background: url(../img/index/list_unselected.png) center no-repeat!important;color: #9f2c2b;font-size: 16px;}
 .section-2 .btn-box a{display: inline-block;height: 91px;width: 183px;margin-right: 4px;margin-bottom: 4px;}
 .section-2 .btn-box a.btn-img-itme1{background: url(../img/index/001.png)center no-repeat !important;}
 .section-2 .btn-box a.btn-img-itme2{background: url(../img/index/002.png)center no-repeat !important;}
@@ -110,7 +111,7 @@ ul.articlelist{padding: 20px 10px;}
 .main-banner{width: 1200px;max-height: 100px;display: block;margin: 0 auto;margin-top: 25px;margin-left: -15px;margin-right: -15px;}
 /*文化交流  党群建设  教学培训  学员天地等*/
 .section-3,.section-4{height: 293px;margin-top: 25px;}
-.section-3 .news-box1,.section-3 .news-box2,.section-3 .news-box3,.section-4 .news-box1{float: left;height: 293px;width: 381px;background: url(../img/index/选框.png)center no-repeat !important;}
+.section-3 .news-box1,.section-3 .news-box2,.section-3 .news-box3,.section-4 .news-box1{float: left;height: 293px;width: 381px;background: url(../img/index/select.png)center no-repeat !important;}
 .section-3 .news-box1,.section-3 .news-box2,.section-4 .news-box1{margin-right: 13px;}
 .section-3 h4,.section-4 h4{margin-top: 8px;}
 /*市州社院  教育基地*/
@@ -122,7 +123,7 @@ ul.articlelist{padding: 20px 10px;}
 .edu-list li img{width: 250px;height: 148px;}
 .edu-list li p{text-align: center;font-size: 16px;font-weight: bold;color: #000000;}
 /*视讯部分*/
-.video-banner{background: url(../img/index/视讯社院.jpg) center no-repeat;background-size: 1200px 150px ;height: 150px;margin-top: 30px;position: relative;}
+.video-banner{background: url(../img/index/video_bg.jpg) center no-repeat;background-size: 1200px 150px ;height: 150px;margin-top: 30px;position: relative;}
 .video-banner a{left:430px;top:112px;color: #FFFFFF;}
 .video-list-box{margin-top: 25px;overflow: hidden;position: relative;}
 .video-list-box .video-item,.video-list-box .video-item a{width: 280px;height: 185px;float: left;margin-right: 16.6px;position: relative;overflow: hidden;display: block;}

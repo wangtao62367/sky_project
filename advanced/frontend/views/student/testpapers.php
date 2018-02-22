@@ -17,7 +17,7 @@ $this->title= '在线测评试卷';
 <ul class="testpaper-list">
 	<?php foreach ($list['data'] as $val):?>
 	<li>
-		<a href="<?php echo Url::to(['student/answer','id'=>$val['id']])?>"><?php echo $val['title']?><b>【答题时间：<?php echo $val['timeToAnswer'];?>（分钟）】</b></a>                     <span class="publish-time"><?php echo MyHelper::timestampToDate($val['publishTime'],'Y-m-d')?></span> 
+		<a  target="_blank" href="<?php echo Url::to(['student/answer','id'=>$val['id']])?>"><?php echo $val['title']?><b>【答题时间：<?php echo $val['timeToAnswer'];?>（分钟）】</b></a>                     <span class="publish-time"><?php echo MyHelper::timestampToDate($val['publishTime'],'Y-m-d')?></span> 
 	</li>
 	<?php endforeach;?>
 </ul>
