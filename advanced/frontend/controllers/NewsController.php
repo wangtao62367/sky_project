@@ -109,6 +109,7 @@ class NewsController extends CommonController
         $parent = Common::find()->select(['id','codeDesc','code'])->where(['id'=>$currentCate->parentId])->one();
         $cateList = Category::find()->select(['id','text','parentId','type'])->where(['isDelete'=>0,'parentId'=>$currentCate->parentId])->orderBy('isBase desc,modifyTime ASC')->all();
         
+        $data = Yii::$app->request->get();
         //先判断当前分类是否是特殊页面类型
         if ($currentCate->cateCode == CategoryType::FZLC || $currentCate->cateCode == CategoryType::SYFC ||
             $currentCate->cateCode == CategoryType::SZQK || $currentCate->cateCode == CategoryType::XYJJ ||
@@ -118,9 +119,26 @@ class NewsController extends CommonController
                 
                 return $this->render('schoolinfo',['parent'=>$parent,'cateList'=>$cateList,'info'=>$info,'currentCate'=>$currentCate]);
                 
+        }elseif ($currentCate->cateCode == CategoryType::WYBM){ //我要报名页面
+        	$gradeclass = new GradeClass();
+        	$gradeclass->pageSize = 10;
+        	$data['GradeClass']['search'] = [
+        			'validdate' => date('Y-m-d')
+        	];
+        	$list = $gradeclass->pageList($data);
+        	
+        }elseif ($currentCate->cateCode == CategoryType::TPDC){ //投票调查
+        	$naire = new Naire();
+        	$naire->pageSize = 15;
+        	$data['Naire']['search'] = [
+        			'isPublish' => 1
+        	];
+        	$list = $naire->getPageList($data,$data);
+        	
+        }else {
+        	
+        	$list = $this->getNewsList($currentCate, $data);
         }
-        $data = Yii::$app->request->get();
-        $list = $this->getNewsList($currentCate, $data);
         //var_dump($list);exit();
         return $this->render('list',['parent'=>$parent,'cateList'=>$cateList,'list'=>$list,'currentCate'=>$currentCate]);
         

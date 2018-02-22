@@ -60,7 +60,7 @@ $this->title="首页"
 		<a href="<?php echo Url::to(['news/list-by-catecode','code'=>'xyjj'])?>" class="btn-img-itme1"></a>
 		<a href="<?php echo Url::to(['news/list-by-catecode','code'=>'zzjg'])?>" class="btn-img-itme2"></a>
 		<a href="<?php echo Url::to(['news/list-by-catecode','code'=>'kbcx'])?>" class="btn-img-itme3"></a>
-		<a href="#" class="btn-img-itme4"></a>
+		<a href="<?php echo Url::to(['news/list-by-catecode','code'=>'wybm'])?>" class="btn-img-itme4"></a>
 		<a href="<?php echo Url::to(['news/list-by-catecode','code'=>'wkzx'])?>" class="btn-img-itme5"></a>
 		<a href="<?php echo Yii::$app->params['xbjs.link'];?>" target= _blank  class="btn-img-itme6"></a>
 	</div>
@@ -86,9 +86,9 @@ $this->title="首页"
 	</div>
 	<div class="news-box2">
 		<div class="title">
-			<h4 class="news-selected" data-target-id="jxpx">教学培训</h4>
+			<h4 class="news-selected" data-target-id="jxxx">教学培训</h4>
 			<h4 class="news-unselected" data-target-id="xyhd">学员园地</h4>
-			<a href="<?php echo Url::to(['news/list-by-catecode','code'=>'jxpx'])?>">更多&gt;</a>
+			<a href="<?php echo Url::to(['news/list-by-catecode','code'=>'jxxx'])?>">更多&gt;</a>
 		</div>
 		<ul class="articlelist" id="jxpx">
 			<?php foreach ($data['jxpx'] as $jxpx):?>
@@ -103,9 +103,9 @@ $this->title="首页"
 	</div>
 	<div class="news-box3">
 		<div class="title">
-			<h4 class="news-selected" data-target-id="kydt">科研动态</h4>
+			<h4 class="news-selected" data-target-id="kyxx">科研动态</h4>
 			<h4 class="news-unselected" data-target-id="xxdt">智库中心</h4>
-			<a href="<?php echo Url::to(['news/list-by-catecode','code'=>'kydt'])?>">更多&gt;</a>
+			<a href="<?php echo Url::to(['news/list-by-catecode','code'=>'kyxx'])?>">更多&gt;</a>
 		</div>
 		<ul class="articlelist" id="kydt">
 			<?php foreach ($data['kydt'] as $kydt):?>
