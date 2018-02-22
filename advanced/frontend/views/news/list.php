@@ -61,8 +61,8 @@ use common\models\TestPaper;
     				<?php if ($currentCate->type == CategoryType::ARTICLE):?>
     					<li class="article-item"><a href="<?php echo Url::to(['news/detail','id'=>$val['id']])?>" title="<?php echo $val['title'];?>"><?php echo MyHelper::timestampToDate($val['publishTime']);?>  <?php echo $val['title'];?></a></li>
     				<?php elseif ($currentCate->type == CategoryType::VIDEO):?>
-    					<li  class="video-item">
-        					<a href="<?php echo Url::to(['video/start','id'=>$val['id']]);?>">
+    					<li  class="video-item" data-videourl="<?php echo $val['video'];?>" id="video_item_<?php echo $val['id'];?>">
+        					<a href="javascript:;">
                     			<img src="<?php echo $val['videoImg'];?>" />
                     			<p><?php echo $val['descr'];?></p>
                     			<span class="video-btn"></span>
@@ -110,6 +110,42 @@ initPagination({
 	pageSize : $pageSize,
     uri : '$uri'
 });
+$(document).on('click','.video-item',function(){
+	if($(this).hasClass('prism-player')){
+		return false;
+	}
+	var source = $(this).data('videourl');
+	var id = $(this).attr('id');
+	var player = new Aliplayer({
+            id: id,
+            width: '267px',
+			height: '170px',
+            autoplay: true,
+            //支持播放地址播放,此播放优先级最高
+            source : source,
+            /* //播放方式二：点播用户推荐
+            vid : '1e067a2831b641db90d570b6480fbc40',
+            playauth : '',
+            cover: 'http://liveroom-img.oss-cn-qingdao.aliyuncs.com/logo.png',            
+            //播放方式三：仅MTS用户使用
+            vid : '1e067a2831b641db90d570b6480fbc40',
+            accId: '',
+            accSecret: '',
+            stsToken: '',
+            domainRegion: '',
+            authInfo: '',
+            //播放方式四：使用STS方式播放
+            vid : '1e067a2831b641db90d570b6480fbc40',
+            accessKeyId: '',
+            securityToken: '',
+            accessKeySecret: '' */
+            },function(player){
+                console.log('播放器创建好了。')
+           });
+	player.on('ready',function(){
+		$(".prism-big-play-btn").remove();
+	});
+})
 JS;
 $this->registerJs($js);
 ?>
