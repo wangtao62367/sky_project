@@ -68,7 +68,7 @@ class Xcrypt{
                 break;
             case "auto":
                 $source = PHP_OS=='WINNT' ? MCRYPT_RAND : MCRYPT_DEV_RANDOM;
-                $this->iv = mcrypt_create_iv(mcrypt_get_block_size($this->mcrypt, $this->mode), $source);
+                $this->iv = mcrypt_create_iv(mcrypt_get_iv_size($this->mcrypt, $this->mode), $source);
                 break;
             default:
                 $this->iv = $iv;
@@ -176,6 +176,99 @@ class Xcrypt{
     private function _hex2bin($hex = false){
         $ret = $hex !== false && preg_match('/^[0-9a-fA-F]+$/i', $hex) ? pack("H*", $hex) : false;
         return $ret;
+    }
+    
+    /**
+     * 加解密
+     * @param string $string 字符串，明文或密文
+     * @param string $operation 操作类型 默认D 解密， E 加密
+     * @param string $key    密钥
+     * @return string
+     */
+    public static function crypt($string,$operation,$key=''){
+        $key=md5($key);
+        $key_length=strlen($key);
+        $string=$operation=='D'?base64_decode($string):substr(md5($string.$key),0,8).$string;
+        $string_length=strlen($string);
+        $rndkey=$box=array();
+        $result='';
+        for($i=0;$i<=255;$i++){
+            $rndkey[$i]=ord($key[$i%$key_length]);
+            $box[$i]=$i;
+        }
+        for($j=$i=0;$i<256;$i++){
+            $j=($j+$box[$i]+$rndkey[$i])%256;
+            $tmp=$box[$i];
+            $box[$i]=$box[$j];
+            $box[$j]=$tmp;
+        }
+        for($a=$j=$i=0;$i<$string_length;$i++){
+            $a=($a+1)%256;
+            $j=($j+$box[$a])%256;
+            $tmp=$box[$a];
+            $box[$a]=$box[$j];
+            $box[$j]=$tmp;
+            $result.=chr(ord($string[$i])^($box[($box[$a]+$box[$j])%256]));
+        }
+        if($operation=='D'){
+            if(substr($result,0,8)==substr(md5(substr($result,8).$key),0,8)){
+                return substr($result,8);
+            }else{
+                return'';
+            }
+        }else{
+            return str_replace('=','',base64_encode($result));
+        }
+    }
+    
+    
+    /**
+     * 加密
+     * @date: 2018年2月23日 下午1:16:14
+     * @author: wangtao
+     * @param: variable
+     * @return:
+     */
+    public static function encrypt1($originalData){
+        $publicKeyFilePath = dirname(__FILE__).'./pem/rsa_public_key.pem';
+        extension_loaded('openssl') or die('php需要openssl扩展支持');
+        file_exists($publicKeyFilePath) or die('公钥的文件路径不正确');
+        $publicKey = openssl_pkey_get_public(file_get_contents($publicKeyFilePath));
+        var_dump($publicKey);
+        $publicKey or die('公钥不可用');
+        $crypto = '';
+        foreach (str_split($originalData, 117) as $chunk) {
+            $encryptData = '';
+            if(openssl_public_encrypt($chunk, $encryptData, $publicKey)){
+                $crypto .= $encryptData;
+            }else{
+                die('加密失败');
+            }
+        }
+        return base64_encode($crypto);
+    }
+    /**
+     * 解密
+     * @param unknown $encryptData
+     * @return string
+     */
+    public static function decrypt1($encryptData){
+        $privateKeyFilePath = dirname(__FILE__).'.pem/rsa_private_key.pem';
+        extension_loaded('openssl') or die('php需要openssl扩展支持');
+        file_exists($privateKeyFilePath) or die('密钥的文件路径不正确');
+        $privateKey = openssl_pkey_get_private(file_get_contents($privateKeyFilePath));
+        $privateKey or die('密钥不可用');
+        $decryptData = '';
+        $crypto = '';
+        foreach (str_split(base64_decode($encryptData), 128) as $chunk) {
+            if(openssl_private_decrypt($chunk, $decryptData, $privateKey)){
+                $crypto .= $decryptData;
+            }else{
+                die('解密失败');
+            }
+            
+        }
+        return $crypto;
     }
     
 }    

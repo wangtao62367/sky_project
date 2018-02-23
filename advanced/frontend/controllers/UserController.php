@@ -7,6 +7,8 @@ use common\models\User;
 use Yii;
 use common\publics\Xcrypt;
 use frontend\models\EditPwdForm;
+use common\models\GradeClass;
+use common\models\Student;
 /**
 * 用户
 * @date: 2018年2月6日 下午9:15:27
@@ -23,6 +25,7 @@ class UserController extends CommonController
     */
     public function actionReg()
     {
+        $this->layout = 'layout';
         $model = new User();
         if(Yii::$app->request->isPost){
             $post = Yii::$app->request->post();
@@ -45,6 +48,7 @@ class UserController extends CommonController
     */
     public function actionLogin()
     {
+        $this->layout = 'layout';
         $model = new User();
         if(Yii::$app->request->isPost){
             $post = Yii::$app->request->post();
@@ -85,7 +89,7 @@ class UserController extends CommonController
             if($model->editPwd($post)){
                 return $this->redirect(['user/login']);
             }else{
-                Yii::$app->session->setFlash('error',$model->getErrorDesc());
+                Yii::$app->session->setFlash('error','修改失败');
             }
         }
         return $this->render('editpwd',['model'=>$model]);
@@ -129,8 +133,87 @@ class UserController extends CommonController
             
         }
     }
+    /**
+    * 发送邮件找回密码
+    * @date: 2018年2月23日 上午10:39:29
+    * @author: wangtao
+    * @param: userEmail 用户邮箱
+    * @return:
+    */
+    public function actionFindpwdbymail()
+    {
+        $this->layout = 'layout';
+        $model = new User();
+        if(Yii::$app->request->isPost){
+            $post = Yii::$app->request->post();
+            $result = $model->findpwdByMail($post);
+            if($result){
+                Yii::$app->session->setFlash('success','邮件已发送，请注意查收');
+            }else {
+                Yii::$app->session->setFlash('error',$model->getErrorDesc());
+            }
+        }
+        
+        return  $this->render('findpwdbymail',['model'=>$model]);
+    }
     
-    public function actions()
+    /**
+    * 邮箱找回密码，设置新密码
+    * @date: 2018年2月23日 下午4:38:51
+    * @author: wangtao
+    * @param: $kSkYpd
+    * @return:
+    */
+    public function actionResetpwdbymail()
+    {
+        $this->layout = 'layout';
+        $param = Yii::$app->request->get('kSkYpd','');
+        if(empty($param)){
+            return $this->render('linkexprise');
+        }
+        $key = Yii::$app->params['user.xcryptKey'];
+        //解密
+        $result = Xcrypt::crypt($param, 'D',$key);
+        
+        $params = explode('|', $result);
+        //判断时间是否失效
+        $expireTime = Yii::$app->params['user.emailHandleExpire'];
+        if((time() - $params[1])>$expireTime){
+            //已失效
+            return $this->render('linkexprise');
+        }
+        $model = User::find()->where(['id'=>$params[0]])->one();
+
+        if(Yii::$app->request->isPost){
+            $post = Yii::$app->request->post();
+            $result = User::resetpwdByMail($post,$model);
+            if($result){
+                return $this->redirect(['user/login']);
+            }else{
+                Yii::$app->session->setFlash('error',$model->getErrorDesc());
+            }
+        }
+        $model->userPwd = '';
+        $model->repass = '';
+        return  $this->render('resetpwdbymail',['model'=>$model]);
+    }
+    /**
+    * 用户中心
+    * @date: 2018年2月23日 下午4:39:49
+    * @author: wangtao
+    * @return:
+    */
+    public function actionCenter()
+    {
+        $student = new Student();
+        $data = Yii::$app->request->get();
+        $data['Student']['search'] = ['userId'=>Yii::$app->user->id];
+        $result = $student->pageList($data);
+
+        return $this->render('center',['list'=>$result]);
+    }
+    
+/*     public function actions()
     {
         return  [
 //             'captcha' =>[
@@ -151,5 +234,5 @@ class UserController extends CommonController
                 //'controller'=>'login',        //拥有这个动作的controller
             ],
         ];
-    }
+    } */
 }

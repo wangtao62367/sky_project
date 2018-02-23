@@ -1,0 +1,12 @@
+@CHARSET "UTF-8";
+.search-list{min-height:500px;height:auto;overflow:hidden;position:relative;}
+.search-list li{margin:10px 0px;}
+.search-list li{position: relative;margin-bottom: 10px;display: inline-block;width: 100%;text-indent: 10px;text-decoration: none;color: #333333;word-wrap: break-word;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
+.search-list li a{text-decoration: none;color: #333333;width:1000px;float:left;word-wrap: break-word;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
+.search-list li a:hover{color: #fac747;}
+
+.search-list span{
+	float: right;
+    margin-right: 10px;
+	width: 150px;
+}

@@ -5,10 +5,7 @@
 
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
-use yii\bootstrap\NavBar;
-use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
-use common\widgets\Alert;
 use yii\helpers\Url;
 
 AppAsset::register($this);
@@ -32,8 +29,10 @@ $params = $this->params;
 <header class="header">
 			<div class="container">
 				<div class="full-text-search">
-					<span class="search-form-sp"><input type="text" name="keywords" /></span>
-					<span class="search-btn-sp"><button>搜索</button></span>
+					<?php echo  Html::beginForm(['site/search'],'post');?>
+					<span class="search-form-sp"><?php echo Html::activeTextInput($params['searchModel'],'search[keywords]');?></span>
+					<span class="search-btn-sp"><?php echo Html::submitButton('搜索')?></span>
+					<?php echo Html::endForm();?>
 					<?php if(Yii::$app->user->isGuest):?>
 					<a href="<?php echo Url::to(['user/login']);?>">登录</a> | <a href="<?php echo Url::to(['user/reg']);?>">注册</a>
 					<?php else :?>

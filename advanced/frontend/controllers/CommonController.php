@@ -8,6 +8,7 @@ use yii\web\Controller;
 use common\models\WebCfg;
 use common\models\Common;
 use common\models\BottomLink;
+use common\models\Article;
 
 class CommonController extends Controller
 {
@@ -37,10 +38,12 @@ class CommonController extends Controller
 		$webCfgs = WebCfg::getWebCfg();
 		$nav     = $this->getNav();
 		$bottomLinks = $this->getBottomLinks();
+		$article = new Article();
 		$view = Yii::$app->view;
 		$view->params['webCfgs'] = $webCfgs;
 		$view->params['nav'] = $nav;
 		$view->params['bootomLinks'] = $bottomLinks;
+		$view->params['searchModel'] = $article;
 	}
 	
 	public function getNav()

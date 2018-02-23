@@ -45,10 +45,10 @@ class Student extends BaseModel
         return $student->save(false);
     }
     
-    public function pageList(array $data)
+    public function pageList(array $data,$field = '*')
     {
         $this->curPage = isset($data['curPage']) && !empty($data['curPage']) ? $data['curPage'] : $this->curPage;
-        $query = self::find()->select([])->where(['isDelete'=>0])->orderBy('createTime desc,modifyTime desc');
+        $query = self::find()->select($field)->where(['isDelete'=>0])->orderBy('createTime desc,modifyTime desc');
         if($this->load($data) && !empty($this->search)){
             $query = $this->filterSearch($this->search, $query);
         }
@@ -86,6 +86,10 @@ class Student extends BaseModel
         
         if(isset($search['verify']) && is_numeric($search['verify'])){
             $query = $query->andWhere('verify = :verify',[':verify'=>$search['verify']]);
+        }
+        
+        if(isset($search['userId']) && is_numeric($search['userId'])){
+            $query = $query->andWhere('userId = :userId',[':userId'=>$search['userId']]);
         }
         return $query;
     }

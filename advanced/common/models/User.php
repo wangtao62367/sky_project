@@ -5,6 +5,9 @@ namespace common\models;
 use Yii;
 use yii\web\IdentityInterface;
 use yii\db\ActiveQuery;
+use yii\helpers\Url;
+use common\publics\Xcrypt;
+use yii\web\UrlManager;
 
 class User extends BaseModel implements IdentityInterface
 {
@@ -31,18 +34,19 @@ class User extends BaseModel implements IdentityInterface
             ['account','required','message'=>'用户账号不能为空','on'=>['reg','edit']],
             ['account','unique','message'=>'该用户账号已经存在','on'=>['reg','edit']],
             ['account', 'string' ,'length'=>[3,20],'tooLong'=>'用户账号长度为6-40个字符', 'tooShort'=>'用户账号长度为3-20个字','on'=>['reg','edit']],
-            ['userPwd','required','message'=>'密码不能为空','on'=>['reg','login']],
-            ['userPwd','match','pattern'=>'/(?!^\d+$)(?!^[a-zA-Z]+$)[0-9a-zA-Z]{6,16}/','message'=>'密码必须由6至16位的字母+数字组成','on'=>['reg']],
-            ['repass','required','message'=>'重复密码不能为空','on'=>['reg']],
-            ['repass','compare','compareAttribute'=>'userPwd','message'=>'两次输入密码不一致','on'=>['reg']],
-            ['email','required','message'=>'邮箱不能为空','on'=>['reg','edit']],
-            ['email','email','message'=>'邮箱格式不正确','on'=>['reg','edit']],
+            ['userPwd','required','message'=>'密码不能为空','on'=>['reg','login','resetpwdByMail']],
+            ['userPwd','match','pattern'=>'/(?!^\d+$)(?!^[a-zA-Z]+$)[0-9a-zA-Z]{6,16}/','message'=>'密码必须由6至16位的字母+数字组成','on'=>['reg','resetpwdByMail']],
+            ['repass','required','message'=>'重复密码不能为空','on'=>['reg','resetpwdByMail']],
+            ['repass','compare','compareAttribute'=>'userPwd','message'=>'两次输入密码不一致','on'=>['reg','resetpwdByMail']],
+            ['email','required','message'=>'邮箱不能为空','on'=>['reg','edit','findpwdByMail']],
+            ['email','email','message'=>'邮箱格式不正确','on'=>['reg','edit','findpwdByMail']],
             ['email','unique','message'=>'该邮箱已被注册','on'=>['reg','edit']],
+            ['email','validEmail','on'=>['findpwdByMail']],
             
             ['userName','required','message'=>'账号/邮箱/手机不能为空','on'=>['login']],
-            ['userName','validUserName'],
-            ['verifyCode', 'required','message'=>'验证码不能为空','on'=>['login']],
-            ['verifyCode', 'captcha','captchaAction'=>'user/captcha','message'=>'验证码不正确','on'=>'login'],
+            ['userName','validUserName','on'=>['login']],
+            /* ['verifyCode', 'required','message'=>'验证码不能为空','on'=>['login']],
+            ['verifyCode', 'captcha','captchaAction'=>'user/captcha','message'=>'验证码不正确','on'=>'login'], */
             ['roleId','default','value'=>1],//暂时不涉及角色
             [['phone','search'],'safe']
         ];
@@ -61,13 +65,24 @@ class User extends BaseModel implements IdentityInterface
     public function validUserName()
     {
         if(!$this->hasErrors()){
-            $this->_user = self::find()->where(['or',['account'=>$this->userName],['email'=>$this->email],['phone'=>$this->phone]])->one();
+            $this->_user = self::find()->where(['or',['account'=>$this->userName],['email'=>$this->userName],['phone'=>$this->userName]])->one();
             if(empty($this->_user)){
                 $this->addError('userName','用户名或密码错误');
                 return false;
             }
             if(!Yii::$app->getSecurity()->validatePassword($this->userPwd, $this->_user->userPwd)){
-                $this->addError('userName','用户名或密码错误2');
+                $this->addError('userName','用户名或密码错误');
+                return false;
+            }
+        }
+    }
+    
+    public function validEmail()
+    {
+        if(!$this->hasErrors()){
+            $this->_user = self::find()->where(['email'=>$this->email])->one();
+            if(empty($this->_user)){
+                $this->addError('email','该邮箱未注册');
                 return false;
             }
         }
@@ -100,6 +115,38 @@ class User extends BaseModel implements IdentityInterface
             if($this->save(false) && Yii::$app->user->login($this->_user,Yii::$app->params['user.passwordResetTokenExpire'])){
                 return true;
             }
+        }
+        return false;
+    }
+    
+    public function findpwdByMail(array $data)
+    {
+       
+        $this->scenario = 'findpwdByMail';
+        if($this->load($data) && $this->validate()){
+            $kSkYpd = $this->_user->id . '|' . time();
+            $key = Yii::$app->params['user.xcryptKey'];
+            //加密
+            $kSkYpd = Xcrypt::crypt($kSkYpd,'E',$key);
+            
+            $url = Yii::$app->urlManager->createAbsoluteUrl(['user/resetpwdbymail','kSkYpd'=>$kSkYpd]);
+            
+            $mailer = Yii::$app->mailer->compose('seekpass', ['url' => $url]);
+            $mailer->setTo($this->email);
+            $mailer->setSubject('四川省社会主义学院-找回密码');
+            if ($mailer->send()) {
+                return true;;
+            }
+        }
+        return false;
+    }
+    
+    public static function resetpwdByMail(array $data,User $user)
+    {
+        $user->scenario = 'resetpwdByMail';
+        if($user->load($data) && $user->validate()){
+            $user->userPwd = Yii::$app->getSecurity()->generatePasswordHash($user->userPwd);
+            return $user->save(false);
         }
         return false;
     }

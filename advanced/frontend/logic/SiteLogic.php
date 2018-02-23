@@ -16,6 +16,11 @@ use common\models\EducationBase;
 class SiteLogic
 {
     
+    public static function search($keywords)
+    {
+        
+    }
+    
     public static function index()
     {
         $data =[

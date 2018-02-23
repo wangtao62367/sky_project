@@ -5,15 +5,24 @@ ul{list-style: none;}
 address, cite, dfn, em, var, i {font-style: normal;}
 .btn,.btn:focus,.btn:active{padding:5px 10px;border:0px;border-radius: 2px;background:#f3f3f3;outline: none;}
 
+input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    input:-webkit-autofill:active {
+        -webkit-transition-delay: 99999s;
+        -webkit-transition: color 99999s ease-out, background-color 99999s ease-out;
+    }
+
 /*头部*/
 .header{height: 288px;width: 100%;min-width: 1200px;max-width: 2000px;margin: 0 auto;background: url(../img/index/top_bg.jpg) no-repeat center !important; background-size: 2000px 288px;}
 /*头部搜索框*/
+.header form{display:inline-block;}
 .header .full-text-search {width: 1200px;margin: 0 auto;box-sizing: border-box;padding-top: 10px;padding-right: 15px;color: red;text-align: right;}
 .full-text-search .search-form-sp,.full-text-search .search-btn-sp,.full-text-search input{-moz-box-sizing: border-box;  /*Firefox3.5+*/-webkit-box-sizing: border-box; /*Safari3.2+*/-o-box-sizing: border-box; /*Opera9.6*/-ms-box-sizing: border-box; /*IE8*/box-sizing: border-box; /*W3C标准(IE9+，Safari5.1+,Chrome10.0+,Opera10.6+都符合box-sizing的w3c标准语法)*/}
 .header .full-text-search .search-form-sp{display: inline-block;width: 200px;height: 25px;border: 1px solid red;}
 .full-text-search input,.full-text-search input:focus,.full-text-search input:active{background-color: transparent;border: 0px;width: 200px;height: 25px;outline:none;padding-left: 2px;}
 .full-text-search .search-btn-sp{width: 40px;}
-.full-text-search .search-btn-sp button{background-color: red;border: 0;height: 25px;line-height: 25px;padding-top: 1px;margin-left: -4px;color: #fff;}
+.full-text-search .search-btn-sp button{outline: none;background-color: red;border: 0;height: 25px;line-height: 25px;padding-top: 1px;margin-left: -4px;color: #fff;}
 .header .full-text-search a{text-decoration: none;color: red;font-weight: bold;margin-left: 5px;}
 
 /*头部右侧轮播图*/
