@@ -31,7 +31,7 @@ class UserController extends CommonController
             $post = Yii::$app->request->post();
             $result = $model->reg($post);   
             if($result && Yii::$app->user->login($model,Yii::$app->params['user.passwordResetTokenExpire'])){
-                return $this->redirect(['site/index']);
+                return $this->redirect(['user/center']);
             }else{
                 Yii::$app->session->setFlash('error',$model->getErrorDesc());
             }
@@ -53,7 +53,7 @@ class UserController extends CommonController
         if(Yii::$app->request->isPost){
             $post = Yii::$app->request->post();
             if($model->login($post)){
-                return $this->redirect(['site/index']);
+            	return $this->redirect(['user/center']);
             }else{
                 Yii::$app->session->setFlash('error',$model->getErrorDesc());
             }

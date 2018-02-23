@@ -46,7 +46,7 @@ use common\models\TestPaper;
     						<p>距离报名结束还有<?php $c=time();$e = strtotime($val['joinEndDate'].' 23:59:59'); echo intval(($e-$c)/86400); ?>天<?php echo intval((($e-$c)%86400)/3600)?>小时</p>
     					</div>
     					<div class="bmx">
-    						报名时间：<?php echo date('Y年m月d日',strtotime($val['joinStartDate']));?> -> <?php echo date('Y年m月d日',strtotime($val['joinEndDate']));?> ，交费时间：<?php echo date('Y年m月d日',strtotime($val['openClassTime']));?>
+    						报名时间：<?php echo date('Y年m月d日',strtotime($val['joinStartDate']));?> -> <?php echo date('Y年m月d日',strtotime($val['joinEndDate']));?> ，开班时间：<?php echo date('Y年m月d日',strtotime($val['openClassTime']));?>
     						<br/>
     						<?php if(TestPaper::checkExistByGradeClassId($val['id'])):?>
     						<a href="<?php echo Url::to(['student/testpapers','cid'=>$val['id']])?>" ><b style="color: #333;font-weight: inherit;">【相关测评试卷】</b></a>

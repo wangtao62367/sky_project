@@ -6,7 +6,7 @@ namespace frontend\controllers;
 use Yii;
 use common\models\TestPaper;
 use frontend\logic\StudentLogic;
-use common\models\TestPaperQuestion;
+use common\models\Student;
 
 
 class StudentController extends CommonController
@@ -24,10 +24,24 @@ class StudentController extends CommonController
         
         return true;
     }
-    
+    /**
+     * 我要报名
+     * @param int $cid
+     */
     public function actionJoinup(int $cid)
     {
-        
+        //查看是否已经报过名
+        $student = Student::find()->select('id')->where(['gradeClassId'=>$cid])->one();
+        if(!empty($student)){
+        	return $this->redirect(['student/info','id'=>$student->id]);
+        }
+        $model = new Student();
+        $model->gradeClassId = $cid;
+        if(Yii::$app->request->isPost){
+        	$post = Yii::$app->request->post();
+        	
+        }
+        return $this->render('joinup',['model'=>$model]);
     }
     
     public function actionTestpapers(int $cid)
