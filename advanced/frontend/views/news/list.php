@@ -43,7 +43,7 @@ use common\models\TestPaper;
     				<li class="gradeclass-item">
     					<div class="bms">
     						<a href="<?php echo  Url::to(['student/joinup'])?>"><?php echo $val['className']?></a>
-    						<p>距离报名结束还有<?php $c=time();$e = strtotime($val['joinEndDate'].' 23:59:59'); echo intval(($e-$c)/86400); ?>天<?php echo intval((($e-$c)%86400)/3600)?>小时</p>
+    						<p>距离报名结束还有<font style="color:red;"><?php $c=time();$e = strtotime($val['joinEndDate'].' 23:59:59'); echo intval(($e-$c)/86400); ?>天<?php echo intval((($e-$c)%86400)/3600)?>小时</font></p>
     					</div>
     					<div class="bmx">
     						报名时间：<?php echo date('Y年m月d日',strtotime($val['joinStartDate']));?> -> <?php echo date('Y年m月d日',strtotime($val['joinEndDate']));?> ，开班时间：<?php echo date('Y年m月d日',strtotime($val['openClassTime']));?>

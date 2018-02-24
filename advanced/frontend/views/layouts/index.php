@@ -77,6 +77,23 @@ $params = $this->params;
 		
 		<section class="section">
 			<?= $content ?>
+			<!--友情链接-->
+			<div class="friendship-box">
+				<div class="tab">
+				<?php foreach ($params['bootomLinks'] as $k=>$v):?>
+					<a class="tab-title" href="javascript:;" data-targget-id = "<?php echo $k;?>"><?php echo $v['codeDesc'];?></a>
+				<?php endforeach;?>
+				<?php foreach ($params['bootomLinks'] as $k=>$v):?>
+				<div class="link-list"  id="<?php echo $k;?>">
+    					<ul>
+    						<?php foreach ($v['list'] as $link):?>
+    						<li><a target="_blank" href="<?php echo $link['linkUrl'];?>"><?php echo $link['linkName'];?></a></li>
+    						<?php endforeach;?>
+    					</ul>
+				</div>	
+				<?php endforeach;?>	
+				</div>		
+			</div>
 		</section>
 		
 		<footer class="footer">

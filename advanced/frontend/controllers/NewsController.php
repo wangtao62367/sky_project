@@ -51,6 +51,7 @@ class NewsController extends CommonController
         
         //父级分类为  文化学院模块 
         if($parent->code == 'whxy'){
+            $this->layout = 'index';
             $data = [
                 'whjl' => NewsLogic::getWhjlList(),
                 'whlt' => NewsLogic::getWhltList()

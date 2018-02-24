@@ -2,137 +2,288 @@
 
 
 use yii\helpers\Html;
+use frontend\assets\AppAsset;
+
+$this->title = '我要报名-'.$gradeClass->className;
+
+if(Yii::$app->session->hasFlash('error')){
+    $error = Yii::$app->session->getFlash('error');
+}
+
+$nations = Yii::$app->params['nations'];
 
 ?>
-
-<table class="studentInfo">
-	<tr>
-		<td class="title">姓名</td><td colspan="2"><?php echo Html::activeTextInput($model, 'trueName')?></td>
-		<td class="title">姓别</td><td colspan="2"><?php echo Html::activeTextInput($model, 'sex')?></td>
-		<td class="title">名族</td><td colspan="3"><?php echo Html::activeTextInput($model, 'nation')?></td>
-		<td class="title">政治面貌</td><td colspan="2"><?php echo Html::activeTextInput($model, 'politicalStatus')?></td>
-		<td class="title"  rowspan="4">头像</td><td colspan="4" rowspan="4" style="width: 120px;"><img alt="头像" src=""></td>
-	</tr>
-	<tr>
-		<td class="title">出生年月</td><td colspan="2"><?php echo Html::activeTextInput($model, 'birthday')?></td>
-		<td class="title">身份证号</td><td colspan="9"><?php echo Html::activeTextInput($model, 'IDnumber')?></td>
-	</tr>
-	<tr>
-		<td class="title">联系电话</td><td colspan="2"><?php echo Html::activeTextInput($model, 'phone')?></td>
-		<td class="title">现居城市</td><td colspan="2"><?php echo Html::activeTextInput($model, 'city')?></td>
-		<td class="title">详细地址</td><td colspan="6"><?php echo Html::activeTextInput($model, 'address')?></td>
-	</tr>
-	<tr>
-		<td class="title">毕业学校</td><td colspan="5"><?php echo Html::activeTextInput($model, 'graduationSchool')?></td>
-		<td class="title">学历</td><td colspan="2"><?php echo Html::activeTextInput($model, 'eduation')?></td>
-		<td class="title">毕业专业</td><td colspan="3"><?php echo Html::activeTextInput($model, 'graduationMajor')?></td>
-	</tr>
-	<tr>
-		<td class="title" colspan="2">工作单位（公司）</td><td colspan="7"><?php echo Html::activeTextInput($model, 'company')?></td>
-		<td class="title">职称</td><td colspan="3"><?php echo Html::activeTextInput($model, 'positionalTitles')?></td>
-	    <td class="title">工作年限</td><td ><?php echo Html::activeTextInput($model, 'workYear')?></td>
-	</tr>
-	<tr style="height: 80px;">
-		<td class="title" colspan="2">个人介绍</td><td colspan="14"><?php echo Html::activeTextarea($model, 'selfIntruduce')?></td>
-	</tr>
-	<tr>
-		<td class="title" colspan="2">社院所学专业</td>
-		<td colspan="14">
-			<?php echo Html::activeTextInput($model, 'currentMajor')?>
-		</td>
-		
-	</tr>
-	<tr style="height: 80px;">
-		<td class="title" colspan="2">社院在校情况</td>
-		<td colspan="14">
-			<?php echo Html::activeTextarea($model, 'situation')?>
-		</td>
-	</tr>
-	<tr>
-		<td class="title" colspan="2">现报名班级</td><td colspan="14"><?php echo Html::activeTextInput($model, 'gradeClass')?></td>
-	</tr>
-	<tr  style="height: 80px;">
-		<td class="title" colspan="2">初始审核</td>
-		<td colspan="14" class="verifyForm">
-			同意
-		</td>
-	</tr>
-	<tr  style="height: 80px;">
-		<td class="title" colspan="2">二次审核</td>
-		<td colspan="14" class="verifyForm">
-			不同意
-		</td>
-	</tr>
-</table>
-
+<div class="step-box">
+	<ul>
+		<li>确认/修改个人信息</li>
+		<li>填写报名信息</li>
+	</ul>
+</div>
+<div class="form-box">
+	<?php echo Html::beginForm('','post',['id'=>'myform','enctype'=>"multipart/form-data"]);?>
+	<div class="field">
+		<label class="field-title">报名班级：</label>
+		<?php echo Html::activeHiddenInput($model,'gradeClassId');?>
+		<?php echo Html::activeHiddenInput($model,'gradeClass');?>
+		<p class="bm-gradeclass"><?php echo $gradeClass->className;?></p>
+	</div>
+	<div class="field field-avater">
+		<label  class="field-title">头像：</label>
+		<?php echo Html::activeHiddenInput($model,'avater');?>
+		<?php echo Html::fileInput('avater',null,['style'=>'display:none','id'=>'avater','accept'=>"image/png, image/jpeg,image/jpg"])?>
+		<a href="javascript:;" class="btn-select-avater">选择头像</a><span id="selected_avater"></span>
+		<div class="avater-box">
+			<?php if($model->avater):?>
+			<img src="<?php echo $model->avater;?>"/>
+			<?php endif;?>
+		</div>
+		<p class="form-error"></p>
+	</div>
+	
+	<div class="field">
+		<label  class="field-title">姓名：</label>
+		<?php echo Html::activeTextInput($model, 'trueName',['class'=>'text']);?><i>*</i>
+		<p class="form-error">
+			<?php 
+			     if(isset($error) && isset($error['trueName'])){
+			         echo $error['trueName'][0];
+			     }
+			?>
+		</p>
+	</div>
+	
+	<div class="field">
+		<label  class="field-title">性别：</label>
+		<?php echo Html::activeRadioList($model, 'sex',['1'=>'男','2'=>'女'],['class'=>'field-radio']);?>
+		<p class="form-error">
+			<?php 
+			     if(isset($error) && isset($error['sex'])){
+			         echo $error['sex'][0];
+			     }
+			?>
+		</p>
+	</div>
+	
+	<div class="field">
+		<label  class="field-title">名族：</label>
+		<?php echo Html::activeDropDownList($model, 'nation',$nations,['class'=>'text']);?><i>*</i>
+		<p class="form-error">
+			<?php 
+			     if(isset($error) && isset($error['nation'])){
+			         echo $error['nation'][0];
+			     }
+			?>
+		</p>
+	</div>
+	
+	<div class="field">
+		<label  class="field-title">出生年月：</label>
+		<?php echo Html::activeTextInput($model, 'birthday',['class'=>'text birthday']);?><i>*</i>
+		<p class="form-error">
+			<?php 
+			     if(isset($error) && isset($error['birthday'])){
+			         echo $error['birthday'][0];
+			     }
+			?>
+		</p>
+	</div>
+	
+	<div class="field">
+		<label  class="field-title">身份证号：</label>
+		<?php echo Html::activeTextInput($model, 'IDnumber',['class'=>'text']);?><i>*</i>
+		<p class="form-error">
+			<?php 
+			     if(isset($error) && isset($error['IDnumber'])){
+			         echo $error['IDnumber'][0];
+			     }
+			?>
+		</p>
+	</div>
+	
+	<div class="field">
+		<label  class="field-title">政治面貌：</label>
+		<?php echo Html::activeDropDownList($model, 'politicalStatus',['qz'=>'群众','ty'=>'团员','dy'=>'党员'],['class'=>'text']);?><i>*</i>
+		<p class="form-error">
+			<?php 
+			     if(isset($error) && isset($error['politicalStatus'])){
+			         echo $error['politicalStatus'][0];
+			     }
+			?>
+		</p>
+	</div>
+	
+	<div class="field">
+		<label  class="field-title">联系电话：</label>
+		<?php echo Html::activeTextInput($model, 'phone',['class'=>'text']);?><i>*</i>
+		<p class="form-error">
+			<?php 
+			     if(isset($error) && isset($error['phone'])){
+			         echo $error['phone'][0];
+			     }
+			?>
+		</p>
+	</div>
+	
+	<div class="field">
+		<label  class="field-title">现居城市：</label>
+		<?php echo Html::activeTextInput($model, 'city',['class'=>'text']);?><i>*</i>
+		<p class="form-error">
+			<?php 
+			     if(isset($error) && isset($error['city'])){
+			         echo $error['city'][0];
+			     }
+			?>
+		</p>
+	</div>
+	
+	<div class="field">
+		<label  class="field-title">详细地址：</label>
+		<?php echo Html::activeTextInput($model, 'address',['class'=>'text']);?>
+	</div>
+	
+	<div class="field">
+		<label  class="field-title">毕业学校：</label>
+		<?php echo Html::activeTextInput($model, 'graduationSchool',['class'=>'text']);?><i>*</i>
+		<p class="form-error">
+			<?php 
+			     if(isset($error) && isset($error['graduationSchool'])){
+			         echo $error['graduationSchool'][0];
+			     }
+			?>
+		</p>
+	</div>
+	
+	<div class="field">
+		<label  class="field-title">毕业专业：</label>
+		<?php echo Html::activeTextInput($model, 'graduationMajor',['class'=>'text']);?><i>*</i>
+		<p class="form-error">
+			<?php 
+			     if(isset($error) && isset($error['graduationMajor'])){
+			         echo $error['graduationMajor'][0];
+			     }
+			?>
+		</p>
+	</div>
+	
+	<div class="field">
+		<label  class="field-title">毕业学历：</label>
+		<?php echo Html::activeDropDownList($model, 'eduation',['xx'=>'小学','cz'=>'初中','gz'=>'高中','dz'=>'大专','bk'=>'本科','ss'=>'硕士','bs'=>'博士'],['class'=>'text']);?><i>*</i>
+		<p class="form-error">
+			<?php 
+			     if(isset($error) && isset($error['eduation'])){
+			         echo $error['eduation'][0];
+			     }
+			?>
+		</p>
+	</div>
+	
+	<div class="field">
+		<label  class="field-title">工作年限：</label>
+		<?php echo Html::activeInput('number',$model, 'workYear',['class'=>'text']);?><i>*</i>
+		<p class="form-error">
+			<?php 
+			     if(isset($error) && isset($error['workYear'])){
+			         echo $error['workYear'][0];
+			     }
+			?>
+		</p>
+	</div>
+	
+	<div class="field">
+		<label  class="field-title">现工作单位：</label>
+		<?php echo Html::activeTextInput($model, 'company',['class'=>'text']);?><i>*</i>
+		<p class="form-error">
+			<?php 
+			     if(isset($error) && isset($error['company'])){
+			         echo $error['company'][0];
+			     }
+			?>
+		</p>
+	</div>
+	
+	<div class="field">
+		<label  class="field-title">工作职称：</label>
+		<?php echo Html::activeTextInput($model, 'positionalTitles',['class'=>'text']);?>
+	</div>
+	
+	<div class="field field-textarea">
+		<label  class="field-title">个人介绍：</label>
+		<?php echo Html::activeTextarea($model, 'selfIntruduce')?>
+	</div>
+	
+	<div class="field field-btn">
+		<button type="submit" class="btn btn-next">确认保存</button>
+		<button type="button" class="btn btn-back">返回</button>
+	</div>
+	<?php echo Html::endForm();?>
+	<div class="form-warning">
+		<h2>提示信息</h2>
+		<ul>
+			<li>1、确认个人的基本信息正确并且有效</li>
+			<li>2、带 <i>*</i> 的信息必须填写</li>
+			<li>3、头像图片大小不能超过50KB，图片格式只能是 jpg、png或jpeg；建议图片大小为： 宽120像素 * 高120 像素</li>
+			<li>4、姓名中间请不要输入空格,填写后不能修改！<a>如姓名中含有生僻字或“·”，参见姓名中如何输入生僻字</a></li>
+			<li>5、身份证号填写以后不得自行修改</li>
+		</ul>
+	</div>
+</div>
 <?php 
 $css = <<<CSS
-input, textarea, select, button {
-    text-rendering: auto;
-    color: initial;
-    letter-spacing: normal;
-    word-spacing: normal;
-    text-transform: none;
-    text-indent: 0px;
-    text-shadow: none;
-    display: inline;
-    text-align: start;
-    margin: 0em;
-    font: 400 13.3333px Arial;
+.field .bm-gradeclass{
+    display:inline-block;
+    width: 400px;
+    color: gray;
+    border: 1px solid lightgray;
+    padding-left: 5px;
+    height: 30px;
+    line-height: 30px;
 }
-table {
-    display: table;
-    border-collapse: separate;
-    border-spacing: 0px;
-    border-color: none;
-}
-table.studentInfo{
-    border : 1px solid #e0e0e0;
-	margin:0 auto;
-}
-table.studentInfo td{
-    /* border : 1px solid #e0e0e0;
-    padding:10px 20px;
-	border-spacing: 0px; */
-	border-top-width: 1px;
-    border-right-width: 1px;
-    border-bottom-width: 1px;
-    border-left-width: 1px;
-    border-top-style: none;
-    border-right-style: solid;
-    border-bottom-style: solid;
-    border-left-style: none;
-    border-top-color: #6996c4;
-    border-right-color: #6996c4;
-    border-bottom-color: #6996c4;
-    border-left-color: #6996c4;
-    height: 34px;
-    vertical-align: middle;
-    font-family: "宋体";
-    font-size: 14px;
-    text-indent: 6px;
-	padding-right: 5px;
-}
-table.studentInfo td.title{
-    background:#f3f3f3;
-	text-align: center;
-}
-table.studentInfo td.verifyForm{text-align: left}
-.verifyForm textarea{
-    width: 700px;
-    border: 1px solid #c5c59f;
-	padding:2px;
-}
-.verifyForm a.btn-verify{
-    display: inline-block;
-    padding: 5px 20px;
-    background: #2da3ea;
-    border-radius: 5px;
-    margin-left: 19px;
-	color:#fff;
-}
+
 CSS;
+AppAsset::addCss($this, '/front/css/jquery.datetimepicker.css');
+AppAsset::addScript($this, '/front/js/jquery.datetimepicker.full.js');
+$js = <<<JS
+$('.btn-back').click(function(){
+    history.go(-1);
+})
+//选择头像
+$(document).on('click','.btn-select-avater',function(){
+    $("#avater").click();
+})
+$("#avater").change(function(){
+    var _error = $(this).parent().find(".form-error");
+    _error.empty();
+    var file = this.files && this.files[0];
+    var maxSize = 50 * 1025;//50kb
+    var ext = ['image/jpeg','image/png','image/jpg']; 
+    if(file.size > maxSize){
+        _error.text("所选图片大小不能超过50KB");return;
+    }
+    if($.inArray(file.type,ext) == -1){
+        _error.text("所选图片格式只能是jpg、png或jpeg");return;
+    }
+	$("#selected_avater").text(file.name);
+})
 
+$(document).on('input propertychange','.field input,.field textarea',function(){
+    var _error = $(this).parent().find(".form-error");
+    _error.empty();
+})
+//时间
+var now = new Date();
+var yearStart = now.getFullYear() - 120;
+var yearEnd = now.getFullYear();
+$.datetimepicker.setLocale('ch');
+$('.birthday').datetimepicker({
+      format:"Y-m-d",      //格式化日期
+      timepicker:false,    //关闭时间选项
+      yearStart: yearStart,     //设置最小年份
+      yearEnd:yearEnd,        //设置最大年份
+      todayButton:true    //开启选择今天按钮
+});
+JS;
 
+AppAsset::addCss($this, '/front/css/wybm.css');
+$this->registerJs($js);
 $this->registerCss($css);
 ?>

@@ -12,6 +12,7 @@ class SiteController extends CommonController
    
 	public function actionIndex()
 	{
+	    $this->layout = 'index';
 	    $data = SiteLogic::index();
 	    $this->cachePages = ['index'];
 	    return $this->render('index',['data'=>$data]);
@@ -19,6 +20,7 @@ class SiteController extends CommonController
 	
 	public function actionSearch()
 	{
+	    $this->layout = 'index';
 	    $data = Yii::$app->request->get();
 	    if(Yii::$app->request->isPost){
 	        $search = Yii::$app->request->post();

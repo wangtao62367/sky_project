@@ -1,5 +1,12 @@
 *{margin: 0;padding: 0;font-size: 14px;font-family: "微软雅黑";}
-body{background-color: #d3d2d8;}
+body{
+    background: -moz-linear-gradient(top, #d2d1d7 0%, #ffffff 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#d2d1d7), color-stop(100%,#ffffff));
+    background: -webkit-linear-gradient(top, #d2d1d7 0%,#ffffff 100%);
+    background: -o-linear-gradient(top, #d2d1d7 0%,#ffffff 100%);
+    background: -ms-linear-gradient(top, #d2d1d7 0%,#ffffff 100%);
+    background: linear-gradient(to bottom, #d2d1d7 0%,#ffffff 100%);
+}
 a{text-decoration: none;}
 ul{list-style: none;}
 address, cite, dfn, em, var, i {font-style: normal;}
@@ -75,7 +82,7 @@ input:-webkit-autofill,
 .header .nav li .nav-item li a{font-size: 14px;    word-wrap: break-word;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;box-sizing: border-box;}
 .header .nav li .nav-item li:hover a,.header .nav li a.active{color: #fac747;}
 /*内容区域*/
-section{width: 1200px;height:auto;margin: 0 auto;padding: 15px;background-color: #FFFFFF !important;box-sizing: border-box;}
+section{width: 1200px;height:auto;margin: 0 auto;padding: 15px;box-sizing: border-box;    padding-bottom: 80px;}
 ul.articlelist{padding: 20px 10px;}
 .articlelist li{position: relative;margin-bottom: 10px;display: inline-block;width: 100%;text-indent: 44px;text-decoration: none;color: #333333;word-wrap: break-word;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;background: url(../img/index/icon.jpg) no-repeat;background-size: 14px 14px;background-position: 10px 3px;}
 .articlelist li a{text-decoration: none;color: #333333;}
@@ -145,7 +152,7 @@ ul.articlelist{padding: 20px 10px;}
 .friendship-box{margin-top: 50px;}
 .friendship-box .tab a.tab-title{display: inline-block;margin: 0px 30px 15px 50px;color: #333333;}
 .friendship-box .tab a.active,.friendship-box .tab a:hover{color: red;}
-.friendship-box .link-list{display: none;}
+.friendship-box .link-list{display: none;border-top: 2px solid #f66060;padding-top: 10px;}
 
 .friendship-box .link-list ul {padding: 0px 0px;display: block;position: relative;overflow: hidden;}
 .friendship-box .link-list li a{display: block;padding: 10px 15px 10px 5px;float: left;margin-right: 50px;color: #333333;}
