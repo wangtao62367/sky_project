@@ -10,6 +10,7 @@ use common\models\Student;
 use common\models\BmRecord;
 use common\models\GradeClass;
 use common\publics\ImageUpload;
+use common\models\Naire;
 
 
 class StudentController extends CommonController
@@ -37,7 +38,7 @@ class StudentController extends CommonController
         $gradeClass = GradeClass::find()->select(['className','id','classSize','joinEndDate'])->where(['id'=>$cid,'isDelete'=>0])->one();
         //班级不存在、或已关闭
         if(empty($gradeClass)){
-            
+        	return $this->redirect(['news/list-by-catecode','code'=>'wybm']);
         }
         //查看当前班级已经报名的信息
         $userId = Yii::$app->user->id;
@@ -53,7 +54,7 @@ class StudentController extends CommonController
             //判断是否已经报过名
             $userIds = array_column($bmRecords,"userId");
             if(in_array($userId, $userIds)){
-                return $this->redirect(['student/info','uid'=>$userId]);
+            	return $this->redirect(['user/center']);
             }
         }
         //查看当前用户基本信息
@@ -89,7 +90,7 @@ class StudentController extends CommonController
         	}
         	$result = Student::add($post,$model);
         	if($result){
-        	    return $this->redirect(['student/info','uid'=>$userId]);
+        		return $this->redirect(['user/center']);
         	}else{
         	    Yii::$app->session->setFlash('error',$model->getErrors());
         	}
@@ -97,8 +98,30 @@ class StudentController extends CommonController
         return $this->render('joinup',['model'=>$model,'gradeClass'=>$gradeClass]);
     }
     
+    /**
+     * 报名信息
+     * @param unknown $uid
+     */
+    public function actionBminfo($cid)
+    {
+    	$bmRecord = new BmRecord();
+    	$info = $bmRecord->getBmInfo([
+    		BmRecord::tableName().'.userId' => Yii::$app->user->id,
+    		BmRecord::tableName().'.gradeClassId' => $cid
+    	]);
+    	if(empty($info)){
+    		return $this->redirect(['user/center']);
+    	}
+    	//var_dump($info);
+    	return $this->render('bminfo',['info'=>$info]);
+    }
     
     
+    /**
+     * 班级测评试卷列表
+     * @param int $cid
+     * @return string
+     */
     public function actionTestpapers(int $cid)
     {
         $testPaper = new  TestPaper();
@@ -113,14 +136,24 @@ class StudentController extends CommonController
         return $this->render('testpapers',['list'=>$list]);
     }
     
-    
+    /**
+     * 测试试卷
+     * @param int $id
+     * @return string
+     */
     public function actionAnswer(int $id)
     {
         $testPaper = new TestPaper();
         $info = $testPaper->getInfoById($id);
+        if(empty($info)){
+        	return $this->redirect(['site/index']);
+        }
         return $this->render('answer',['info'=>$info]);
     }
-    
+    /**
+     * 提交测评试卷答案
+     * @return number
+     */
     public function actionSubmitAnswer()
     {
         $this->setResponseJson();
@@ -132,5 +165,31 @@ class StudentController extends CommonController
         }
         return 0;
     }
+    
+    /**
+     * 在线调查卷信息
+     * @param int $id
+     * @return string
+     */
+    public function actionNaire(int $id)
+    {
+    	$naire = Naire::getNaireById($id);
+    	if(!$naire){
+    		return $this->redirect(['site/index']);
+    	}
+    	return $this->render('naire',['info'=>$naire]);
+    }
+    
+    public function actionSubmitNaire()
+    {
+    	$this->setResponseJson();
+    	$post = Yii::$app->request->post();
+    	$StudentLogic = new StudentLogic();
+    	if($StudentLogic->submitNaire($post)){
+    		return 1;
+    	}
+    	return 0;
+    }
+    
     
 }

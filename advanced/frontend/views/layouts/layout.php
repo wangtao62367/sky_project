@@ -30,7 +30,7 @@ $params = $this->params;
     		</div>
     		<div class="header-crousel">
     			<div class="logo">
-    				<img src="<?php echo $params['webCfgs']['logo'] ? $params['webCfgs']['logo']: '/front/img/index/logo.png';?>" width="140px" />
+    				<a href="<?php echo Url::to(['site/index']);?>"><img src="<?php echo $params['webCfgs']['logo'] ? $params['webCfgs']['logo']: '/front/img/index/logo.png';?>" width="140px" /></a>
     				<div class="logo-title">
     					<h3><?php echo $params['webCfgs']['siteName'];?></h3>
     					<h3><?php echo $params['webCfgs']['siteName2'];?></h3>
@@ -75,11 +75,11 @@ section{
 	margin-top: -20px;
 }
 .footer{
-	height:230px;
+	height:auto;
 	background-color:white;
 	position:relative;
 	box-sizing:border-box;
-	background: #d3d2d8;
+	background: none;
 }
 .footer p{
 	width:1200px;

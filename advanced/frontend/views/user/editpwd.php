@@ -17,7 +17,7 @@ $this->title = '修改密码';
 		
 		<li><a href="<?php echo Url::to(['user/center']);?>">我的报名</a></li>
 		
-		<li><a href="javascript:;" >修改信息</a></li>
+		<li><a href="<?php echo Url::to(['user/info']);?>" >个人信息</a></li>
 		
 		<li><a href="javascript:;"  class="UnitedFront">修改密码</a></li>
 

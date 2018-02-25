@@ -82,7 +82,7 @@ input:-webkit-autofill,
 .header .nav li .nav-item li a{font-size: 14px;    word-wrap: break-word;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;box-sizing: border-box;}
 .header .nav li .nav-item li:hover a,.header .nav li a.active{color: #fac747;}
 /*内容区域*/
-section{width: 1200px;height:auto;margin: 0 auto;padding: 15px;box-sizing: border-box;    padding-bottom: 80px;}
+section{width: 1200px;height:auto;margin: 0 auto;padding: 15px;box-sizing: border-box;    padding-bottom: 80px;background:#fff;}
 ul.articlelist{padding: 20px 10px;}
 .articlelist li{position: relative;margin-bottom: 10px;display: inline-block;width: 100%;text-indent: 44px;text-decoration: none;color: #333333;word-wrap: break-word;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;background: url(../img/index/icon.jpg) no-repeat;background-size: 14px 14px;background-position: 10px 3px;}
 .articlelist li a{text-decoration: none;color: #333333;}

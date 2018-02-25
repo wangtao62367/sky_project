@@ -62,12 +62,12 @@ class Naire extends BaseModel
             return false;
         }
         
-        $naireVotes = NaireVote::find()->joinWith('votes')->where(['naireId'=>$naire->id])->all();
+        $naireVotes = NaireVote::find()->joinWith('votes')->where(['naireId'=>$naire->id])->orderBy('sorts asc')->all();
         if(empty($naireVotes)){
             return false;
         }
         foreach ($naireVotes as $naireVote){
-            $options = VoteOptions::find()->where('voteId = :voteId',[':voteId'=>$naireVote->votes->id])->asArray()->all();
+            $options = VoteOptions::find()->where('voteId = :voteId',[':voteId'=>$naireVote->votes->id])->orderBy('sorts asc')->asArray()->all();
             $naire->votes[] = [
                 'id' => $naireVote->votes->id,
                 'subject' => $naireVote->votes->subject,

@@ -5,11 +5,11 @@ use yii\helpers\ArrayHelper;
 use common\publics\MyHelper;
 use common\models\QuestCategory;
 
-$this->title= $info['title'];
+$this->title= '在线试卷测评-'.$info['title'];
 //var_dump($info);exit();
 ?>
 
-<p class="position"><a href ="<?php echo Url::to(['site/index'])?>">学院首页</a>&nbsp;&gt;&nbsp;<?php echo $info['title']?></p>
+<p class="position"><a href ="<?php echo Url::to(['site/index'])?>">学院首页</a>&nbsp;&gt;&nbsp;<?php echo $this->title;?></p>
 <div class="content">
 	<div class="quest-paper left">
         <h2 class="quest-title"><?php echo $info['title'];?></h2>

@@ -3,6 +3,7 @@
 
 use yii\helpers\Html;
 use frontend\assets\AppAsset;
+use common\models\Student;
 
 $this->title = '我要报名-'.$gradeClass->className;
 
@@ -66,11 +67,11 @@ $nations = Yii::$app->params['nations'];
 	
 	<div class="field">
 		<label  class="field-title">名族：</label>
-		<?php echo Html::activeDropDownList($model, 'nation',$nations,['class'=>'text']);?><i>*</i>
+		<?php echo Html::activeDropDownList($model, 'nationCode',$nations,['class'=>'text']);?><i>*</i>
 		<p class="form-error">
 			<?php 
-			     if(isset($error) && isset($error['nation'])){
-			         echo $error['nation'][0];
+			     if(isset($error) && isset($error['nationCode'])){
+			         echo $error['nationCode'][0];
 			     }
 			?>
 		</p>
@@ -102,7 +103,7 @@ $nations = Yii::$app->params['nations'];
 	
 	<div class="field">
 		<label  class="field-title">政治面貌：</label>
-		<?php echo Html::activeDropDownList($model, 'politicalStatus',['qz'=>'群众','ty'=>'团员','dy'=>'党员'],['class'=>'text']);?><i>*</i>
+		<?php echo Html::activeDropDownList($model, 'politicalStatusCode',Student::$politicalStatusArr,['class'=>'text']);?><i>*</i>
 		<p class="form-error">
 			<?php 
 			     if(isset($error) && isset($error['politicalStatus'])){
@@ -167,7 +168,7 @@ $nations = Yii::$app->params['nations'];
 	
 	<div class="field">
 		<label  class="field-title">毕业学历：</label>
-		<?php echo Html::activeDropDownList($model, 'eduation',['xx'=>'小学','cz'=>'初中','gz'=>'高中','dz'=>'大专','bk'=>'本科','ss'=>'硕士','bs'=>'博士'],['class'=>'text']);?><i>*</i>
+		<?php echo Html::activeDropDownList($model, 'eduationCode',Student::$eduationArr,['class'=>'text']);?><i>*</i>
 		<p class="form-error">
 			<?php 
 			     if(isset($error) && isset($error['eduation'])){

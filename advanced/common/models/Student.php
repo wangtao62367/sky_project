@@ -10,7 +10,7 @@ use yii\db\ActiveQuery;
 class Student extends BaseModel
 {
     
-    const STUDENT_VERIFY_NO  = 0;
+    const STUDENT_VERIFY_NO  = 10;
     
     const STUDENT_VERIFY_STEP1 = 1;
     
@@ -30,6 +30,23 @@ class Student extends BaseModel
         self::STUDENT_VERIFY_FINISH => '审核完成',
     ];
     
+    //政治面貌
+    public static $politicalStatusArr = [
+    	'01' => '党员',
+    	'02' => '团员',
+    	'03' => '群众',
+    ];
+    //学历
+    public static $eduationArr = [
+    	'01' => '小学',
+    	'02' => '初中',
+    	'03' => '高中',
+    	'04' => '大专',
+    	'05' => '本科',
+    	'06' => '硕士',
+    	'07' => '博士',
+    ];
+    
     public static function tableName()
     {
         return '{{%Student}}';
@@ -44,7 +61,7 @@ class Student extends BaseModel
             ['IDnumber','required','message'=>'身份证号码不能为空','on'=>'add'],
             ['birthday','required','message'=>'出生年月不能为空','on'=>'add'],
             ['nation','required','message'=>'名族不能为空','on'=>'add'],
-            ['nationCode','required','message'=>'名族标识不能为空','on'=>'add'],
+            ['nationCode','required','message'=>'名族不能为空','on'=>'add'],
             ['city','required','message'=>'所在城市不能为空','on'=>'add'],
             ['phone','required','message'=>'手机号不能为空','on'=>'add'],
             ['company','required','message'=>'现工作单位不能为空','on'=>'add'],
@@ -63,6 +80,9 @@ class Student extends BaseModel
         $model->scenario = 'add';
         if($model->load($data) && $model->validate()){
             $model->userId = Yii::$app->user->id;
+            $model->nation = Yii::$app->params['nations']['nationCode'];
+            $model->politicalStatus = self::$politicalStatusArr[$model->politicalStatusCode];
+            $model->eduation= self::$eduationArr[$model->eduationCode];
             if($model->save(false)){
                 $bmRecord = new BmRecord();
                 $bmRecord->userId = Yii::$app->user->id;
@@ -98,9 +118,9 @@ class Student extends BaseModel
         if(isset($search['trueName']) && !empty($search['trueName'])){
             $query = $query->andWhere(['like','trueName',$search['trueName']]);
         }
-        if(isset($search['gradeClass']) && !empty($search['gradeClass'])){
+        /* if(isset($search['gradeClass']) && !empty($search['gradeClass'])){
             $query = $query->andWhere(['like','gradeClass',$search['gradeClass']]);
-        }
+        } */
         if(isset($search['sex']) && !empty($search['sex'])){
             $query = $query->andWhere('sex = :sex',[':sex'=>$search['sex']]);
         }
@@ -121,9 +141,9 @@ class Student extends BaseModel
             $query = $query->andWhere('createTime <= :endTime',[':endTime'=>strtotime($search['endTime'])]);
         }
         
-        if(isset($search['verify']) && is_numeric($search['verify'])){
+        /* if(isset($search['verify']) && is_numeric($search['verify'])){
             $query = $query->andWhere('verify = :verify',[':verify'=>$search['verify']]);
-        }
+        } */
         
         if(isset($search['userId']) && is_numeric($search['userId'])){
             $query = $query->andWhere('userId = :userId',[':userId'=>$search['userId']]);

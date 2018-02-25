@@ -7,7 +7,7 @@ use common\models\User;
 use Yii;
 use common\publics\Xcrypt;
 use frontend\models\EditPwdForm;
-use common\models\GradeClass;
+use common\models\BmRecord;
 use common\models\Student;
 /**
 * 用户
@@ -93,6 +93,18 @@ class UserController extends CommonController
             }
         }
         return $this->render('editpwd',['model'=>$model]);
+    }
+    
+    public function actionInfo()
+    {
+    	$userId = Yii::$app->user->id;
+    	$student = Student::find()->where(['userId'=>$userId])->one();
+    	if(Yii::$app->request->isPost){
+    		$post = Yii::$app->request->post();
+    		
+    	}
+    	
+    	return $this->render('info',['model'=>$student]);
     }
     
     
@@ -205,11 +217,14 @@ class UserController extends CommonController
     */
     public function actionCenter()
     {
-        $student = new Student();
+        /* $student = new Student();
         $data = Yii::$app->request->get();
         $data['Student']['search'] = ['userId'=>Yii::$app->user->id];
-        $result = $student->pageList($data);
-
+        $result = $student->pageList($data); */
+    	$bmRecord = new BmRecord();
+    	$data = Yii::$app->request->get();
+    	$data['BmRecord']['search'] = ['userId'=>Yii::$app->user->id];
+    	$result = $bmRecord->pageList($data);
         return $this->render('center',['list'=>$result]);
     }
     

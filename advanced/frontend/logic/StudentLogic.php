@@ -7,9 +7,44 @@ use common\models\TestPaperQuestionRecord;
 use common\models\Question;
 use common\models\TestPaperQuestion;
 use common\models\TestPaperUserStatistics;
+use common\models\VoteOptions;
+use yii\db\Expression;
+use common\models\VoteUser;
 
 class StudentLogic
 {
+	
+	public function submitNaire(array $data)
+	{
+		$user = Yii::$app->user->identity;
+		$naireId = $data['naireId'];
+		
+		$voteUserParams = [];
+		
+		foreach ($data['userAnswers'] as $answer){
+			
+			$voteOptStr = trim($answer['userAnswer'],'-');
+			$voteOptArr = explode('-', $voteOptStr);
+			foreach ($voteOptArr as $optId){
+				VoteOptions::updateAll([
+					'counts' => new Expression('counts + 1'),
+					'modifyTime' => TIMESTAMP,
+				],['id'=>$optId,'voteId'=>$answer['questId']]);
+				
+				$voteUserParams[] = [
+					'userId' => $user->id,
+					'naireId'=> $naireId,
+					'voteId' => $answer['questId'],
+					'optionsId' => $optId,
+					'createTime' => TIMESTAMP
+				];
+			}
+		}
+		if(!empty($voteUserParams)){
+			Yii::$app->db->createCommand()->batchInsert(VoteUser::tableName(), ['userId','naireId','voteId','optionsId','createTime'], $voteUserParams)->execute();
+		}
+		return true;
+	}
     
 	public function submitAnswer(array $data)
 	{

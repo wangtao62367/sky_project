@@ -16,7 +16,7 @@ $this->title = '我的报名';
 		
 		<li><a href="javascript:;" class="UnitedFront">我的报名</a></li>
 		
-		<li><a href="javascript:;" >修改信息</a></li>
+		<li><a href="<?php echo Url::to(['user/info']);?>" >个人信息</a></li>
 		
 		<li><a href="<?php echo Url::to(['user/edit-pwd']);?>" >修改密码</a></li>
 
@@ -34,15 +34,15 @@ $this->title = '我的报名';
 			<?php foreach ($list['data'] as $val):?>
 			<li class="gradeclass-item">
 				<div class="bms">
-					<a href="<?php echo  Url::to(['student/info','id'=>$val['id']])?>"><?php echo $val['gradeClass']?></a>
-					<p><span class="bm-time"><?php $e=time();$c = $val['createTime']; echo intval(($e-$c)/86400); ?></span> 前天报的名</p>
+					<a href="<?php echo  Url::to(['student/bminfo','cid'=>$val['gradeClassId']])?>"><?php echo $val['gradeClass']?></a>
+					<p><span class="bm-time"><?php $e=time();$c = $val['createTime']; $day = intval(($e-$c)/86400);if($day==0){echo '今天';}else{echo $day.'天前';}; ?></span> 报的名</p>
 				</div>
 				<div class="bmx">
 					<br/>
 					<?php if(TestPaper::checkExistByGradeClassId($val['gradeClassId'])):?>
 					<a href="<?php echo Url::to(['student/testpapers','cid'=>$val['gradeClassId']])?>" ><b style="color: #333;font-weight: inherit;">【相关测评试卷】</b></a>
 					<?php endif;?>
-					<a href="<?php echo Url::to(['student/info','id'=>$val['id']]);?>"><b >【查看信息】</b></a>
+					<a href="<?php echo Url::to(['student/bminfo','cid'=>$val['gradeClassId']]);?>"><b >【查看信息】</b></a>
 				</div>
 			</li>
 			<?php endforeach;?>

@@ -25,9 +25,9 @@ class QuestCategory
     
     private static $questCateText = [
         self::QUEST_UNKNOW => '请选择',
-        self::QUEST_RADIO => '单选题',
-        self::QUEST_MULTI => '多选题',
-        self::QUEST_TRUEORFALSE => '判断题'
+        self::QUEST_RADIO => '单选',
+        self::QUEST_MULTI => '多选',
+        self::QUEST_TRUEORFALSE => '判断'
     ];
     
     /**

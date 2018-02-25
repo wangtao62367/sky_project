@@ -1,12 +1,12 @@
 [v-cloak] { display: none;}
-
+section{background:#fff;}
 .rightAnswer--label{/*margin:20px 20px 0 0;*/display:inline-block}
 .rightAnswer--radio{display:none}
 .rightAnswer--radioInput{background-color:#fff;border:1px solid rgba(0,0,0,0.15);border-radius:100%;display:inline-block;height:16px;margin-right:10px;margin-top:-1px;vertical-align:middle;width:16px;line-height:1}
 .rightAnswer--radio:checked + .rightAnswer--radioInput:after{background-color:#57ad68;border-radius:100%;content:"";display:inline-block;height:12px;margin:2px;width:12px}
 .rightAnswer--checkbox.rightAnswer--radioInput,.rightAnswer--radio:checked + .rightAnswer--checkbox.rightAnswer--radioInput:after{border-radius:0}
 
-.content{overflow: hidden;}
+.content{overflow: hidden;min-height:500px;}
 .left{float:left;}
 .quest-paper{width:898px;border: 1px solid #c1e881;margin-top:20px}
 .quest-title,.quest-mark{text-align:center;}
