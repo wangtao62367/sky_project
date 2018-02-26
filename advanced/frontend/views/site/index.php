@@ -1,6 +1,7 @@
 <?php 
 
 use yii\helpers\Url;
+use frontend\assets\AppAsset;
 
 $this->title="首页"
 ?>
@@ -134,62 +135,50 @@ $this->title="首页"
 	</div>
 	<div class="edu-box">
 		<img src="/front/img/index/whjd_bg.jpg" width="100%" />
-		<ul class="edu-list">
-			<?php foreach ($data['jyjd'] as $jyjd):?>
-			<li>
-				<a href="<?php echo $jyjd->link;?>">
-					<img  src="<?php echo $jyjd->baseImg?>"/>
-					<p><?php echo $jyjd->baseName;?></p>
-				</a>
-			</li>
-			<?php endforeach;?>
-			<?php foreach ($data['jyjd'] as $jyjd):?>
-			<li>
-				<a href="<?php echo $jyjd->link;?>">
-					<img  src="<?php echo $jyjd->baseImg?>"/>
-					<p><?php echo $jyjd->baseName;?></p>
-				</a>
-			</li>
-			<?php endforeach;?>
-			
-			<?php foreach ($data['jyjd'] as $jyjd):?>
-			<li>
-				<a href="<?php echo $jyjd->link;?>">
-					<img  src="<?php echo $jyjd->baseImg?>"/>
-					<p><?php echo $jyjd->baseName;?></p>
-				</a>
-			</li>
-			<?php endforeach;?>
-		</ul>
+		<div id="scroll_div">
+			<ul id="edu-list" class="edu-list">
+				<?php foreach ($data['jyjd'] as $jyjd):?>
+				<li>
+					<a href="<?php echo $jyjd->link;?>">
+						<img  src="<?php echo $jyjd->baseImg?>"/>
+						<p><?php echo $jyjd->baseName;?></p>
+					</a>
+				</li>
+				<?php endforeach;?>
+			</ul>
+			<!-- 用于滚动轮播 -->
+			<ul id="edu-list-end" class="edu-list">
+				<?php foreach ($data['jyjd'] as $jyjd):?>
+				<li>
+					<a href="<?php echo $jyjd->link;?>">
+						<img  src="<?php echo $jyjd->baseImg?>"/>
+						<p><?php echo $jyjd->baseName;?></p>
+					</a>
+				</li>
+				<?php endforeach;?>
+			</ul>
+		</div>
 	</div>
 
 </div>
 <div class="video-banner"><a href="#">更多&gt;</a></div>
-<div class="video-box">
-    <div class="video-list-box">
+<div id="video-box" class="video-box">
+    <div id="video-list-box" class="video-list-box">
     	<?php foreach ($data['sxsy'] as $sxsy):?>
     	<div class="video-item" data-videourl="<?php echo $sxsy->video;?>" id="video_item_<?php echo $sxsy->id;?>">
-    		<a href="javascript:; <?php // echo Url::to(['video/start','id'=>$sxsy->id]);?>">
+    		<a href="javascript:;">
     			<img src="<?php echo $sxsy->videoImg;?>" />
     			<p><?php echo $sxsy->descr;?></p>
     			<span class="video-btn"></span>
     		</a>
     	</div>
     	<?php endforeach;?>
-    	
+    </div>
+    <!-- 用于滚动轮播 -->
+    <div class="video-list-box" id="video-list-box-end">
     	<?php foreach ($data['sxsy'] as $sxsy):?>
-    	<div class="video-item" data-videourl="<?php echo $sxsy->video;?>" id="video_item_<?php echo $sxsy->id;?>">
-    		<a href="javascript:; <?php // echo Url::to(['video/start','id'=>$sxsy->id]);?>">
-    			<img src="<?php echo $sxsy->videoImg;?>" />
-    			<p><?php echo $sxsy->descr;?></p>
-    			<span class="video-btn"></span>
-    		</a>
-    	</div>
-    	<?php endforeach;?>
-    	
-    	<?php foreach ($data['sxsy'] as $sxsy):?>
-    	<div class="video-item" data-videourl="<?php echo $sxsy->video;?>" id="video_item_<?php echo $sxsy->id;?>">
-    		<a href="javascript:; <?php // echo Url::to(['video/start','id'=>$sxsy->id]);?>">
+    	<div class="video-item" data-videourl="<?php echo $sxsy->video;?>" id="video_item_<?php echo $sxsy->id;?>_cp">
+    		<a href="javascript:;">
     			<img src="<?php echo $sxsy->videoImg;?>" />
     			<p><?php echo $sxsy->descr;?></p>
     			<span class="video-btn"></span>
@@ -199,143 +188,11 @@ $this->title="首页"
     </div>
 </div>
 
-
 <?php 
+AppAsset::addScript($this, '/front/js/index.js');
 $js = <<<JS
-$(document).on('click','.title h4',function(){
-    var _this = $(this);
-    var cateCode = _this.data("target-id");
-    _this.parent().parent().find('.articlelist').hide();
-    $("#"+cateCode).show();
-
-    _this.parent().find('h4').removeClass('news-selected').removeClass('news-unselected').addClass('news-unselected');
-    _this.removeClass('news-unselected').addClass('news-selected');
-    
-    var url = _this.parent().find("a").attr("href");
-    var newUrl = common.changeUrlArg(url,'code',cateCode);
-    _this.parent().find("a").attr("href",newUrl)
-});
-
-$(document).on('click','.video-item',function(){
-	if($(this).hasClass('prism-player')){
-		return false;
-	}
-	var source = $(this).data('videourl');
-	var id = $(this).attr('id');
-	var player = new Aliplayer({
-            id: id,
-            width: '280px',
-			height: '185px',
-            autoplay: true,
-            //支持播放地址播放,此播放优先级最高
-            source : source,
-            /* //播放方式二：点播用户推荐
-            vid : '1e067a2831b641db90d570b6480fbc40',
-            playauth : '',
-            cover: 'http://liveroom-img.oss-cn-qingdao.aliyuncs.com/logo.png',            
-            //播放方式三：仅MTS用户使用
-            vid : '1e067a2831b641db90d570b6480fbc40',
-            accId: '',
-            accSecret: '',
-            stsToken: '',
-            domainRegion: '',
-            authInfo: '',
-            //播放方式四：使用STS方式播放
-            vid : '1e067a2831b641db90d570b6480fbc40',
-            accessKeyId: '',
-            securityToken: '',
-            accessKeySecret: '' */
-            },function(player){
-                console.log('播放器创建好了。')
-           });
-	player.on('ready',function(){
-		$(".prism-big-play-btn").remove();
-	});
-})
 
 JS;
-
-$css = <<<CSS
-/*教育基地*/
-.section-4 .edu-box {
-    position: relative;
-    overflow: hidden;
-    width:776px;
-}
-.edu-list {
-    position: absolute;
-    top: 117;
-    margin: 0;
-    padding: 0;
-    left: 0;
-    -webkit-animation: 20s move infinite linear;
-    width: 1565px;
-    height:172px;
-}
-.edu-list li {
-    width: 250px;
-    height: 148px;
-    float: left;
-    margin-right: 13px;
-    margin-bottom: 25px;
-}
-@-webkit-keyframes move{  
-    0% {  
-          left: 0;  
-    }  
-    100% {  
-          left: -776px;  
-    }  
-}  
-@keyframes move {  
-    0% {  
-       left: 0;  
-    }  
-    100% {  
-       left: -776px;  
-    }  
-}  
-.edu-box:hover .edu-list {  
-    -webkit-animation-play-state: paused; /*动画暂停播放*/  
-}  
-/*视频*/
-.video-box{
-    margin-top: 25px;
-    overflow: hidden;
-    position: relative;
-    height: 185px;
-}
-.video-list-box {
-    position: absolute;
-    top: 0;
-    margin: 0;
-    padding: 0;
-    left: 0;
-    -webkit-animation: 20s move infinite linear;
-    width: 2250px;
-}
-
-@-webkit-keyframes move{  
-    0% {  
-          left: 0;  
-    }  
-    100% {  
-          left: -1170px;  
-    }  
-}  
-@keyframes move {  
-    0% {  
-       left: 0;  
-    }  
-    100% {  
-       left: -1170px;  
-    }  
-}  
-.video-box:hover .video-list-box {  
-    -webkit-animation-play-state: paused; /*动画暂停播放*/  
-}  
-CSS;
-$this->registerCss($css);
 $this->registerJs($js);
 ?>
 		

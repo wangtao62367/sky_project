@@ -133,21 +133,32 @@ ul.articlelist{padding: 20px 10px;}
 /*市州社院  教育基地*/
 .section-4 .news-box1{float: left;height: 293px;position: relative;}
 .section-4 .edu-box{width: 776px;height: 293px;float: right;}
-.edu-list,.edu-list li{position: relative;}
-.edu-list li{width: 250px;height: 148px;float: left;margin-right: 13px;}
+.edu-list,.edu-list li{position: relative; overflow: hidden;display: inline-block;}
+.edu-list li{width: 250px;height: 172px;float: left;margin-right: 10px;}
 .edu-list li:last-child{margin-right: 0px;}
 .edu-list li img{width: 250px;height: 148px;}
 .edu-list li p{text-align: center;font-size: 16px;font-weight: bold;color: #000000;}
 /*视讯部分*/
 .video-banner{background: url(../img/index/video_bg.jpg) center no-repeat;background-size: 1200px 150px ;height: 150px;margin-top: 30px;position: relative;}
 .video-banner a{left:430px;top:112px;color: #FFFFFF;}
-.video-list-box{margin-top: 25px;overflow: hidden;position: relative;}
-.video-list-box .video-item,.video-list-box .video-item a{width: 280px;height: 185px;float: left;margin-right: 16.6px;position: relative;overflow: hidden;display: block;}
+.video-list-box{overflow: hidden;position: relative;display:inline-block;  margin-right: 10px;}
+.video-list-box .video-item,.video-list-box .video-item a{width: 280px;height: 185px;float: left;margin-right: 10px;position: relative;overflow: hidden;display: block;}
 .video-list-box .video-item:last-child{margin-right: 0px;}
 .video-list-box .video-item a img{width: 280px;height: 185px;}
 .video-list-box .video-item a p{position: absolute;left:0px;right:0px;bottom: 0px;text-align: center;color: #FFFFFF;height: 30px;line-height: 30px;background: #333333;opacity: 0.6;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
 .video-list-box .video-item .video-btn{position: absolute;left: 50%;top: 50%;height: 52px;width: 52px;margin-top: -26px;margin-left: -26px;background: url(../img/index/video-btn.png) center no-repeat;}
 
+#scroll_div{
+	overflow: hidden;
+	height: 172px;
+	white-space: nowrap;
+}
+#video-box{
+	overflow: hidden;
+	height: 185px;
+	margin-top: 25px;
+	white-space: nowrap;
+}
 /*友情链接*/
 .friendship-box{margin-top: 50px;}
 .friendship-box .tab a.tab-title{display: inline-block;margin: 0px 30px 15px 50px;color: #333333;}

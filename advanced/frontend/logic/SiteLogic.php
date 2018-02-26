@@ -184,7 +184,7 @@ class SiteLogic
     public static function getSxsy()
     {
         $cate = Category::getCatesByCode('sxsy');
-        $videos = Video::find()->select(['id','videoImg','descr','video'])->where(['categoryId'=>$cate->id,'isDelete'=>0])->orderBy('modifyTime desc')->limit(4)->all();
+        $videos = Video::find()->select(['id','videoImg','descr','video'])->where(['categoryId'=>$cate->id,'isDelete'=>0])->orderBy('modifyTime desc')->limit(10)->all();
         return $videos;
     }
     /**
@@ -192,7 +192,7 @@ class SiteLogic
      */
     public static function getEducationBase()
     {
-        $eduBases = EducationBase::find()->select(['id','baseName','baseImg','link'])->orderBy('modifyTime desc')->limit(3)->all();
+        $eduBases = EducationBase::find()->select(['id','baseName','baseImg','link'])->orderBy('modifyTime desc')->limit(10)->all();
         return $eduBases;
     }
 }

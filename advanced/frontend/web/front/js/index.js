@@ -1,0 +1,80 @@
+;$(document).on('click','.title h4',function(){
+    var _this = $(this);
+    var cateCode = _this.data("target-id");
+    _this.parent().parent().find('.articlelist').hide();
+    $("#"+cateCode).show();
+
+    _this.parent().find('h4').removeClass('news-selected').removeClass('news-unselected').addClass('news-unselected');
+    _this.removeClass('news-unselected').addClass('news-selected');
+    
+    var url = _this.parent().find("a").attr("href");
+    var newUrl = common.changeUrlArg(url,'code',cateCode);
+    _this.parent().find("a").attr("href",newUrl)
+});
+
+$(document).on('click','.video-item',function(){
+	if($(this).hasClass('prism-player')){
+		return false;
+	}
+	var source = $(this).data('videourl');
+	var id = $(this).attr('id');
+	var player = new Aliplayer({
+            id: id,
+            width: '280px',
+			height: '185px',
+            autoplay: true,
+            //支持播放地址播放,此播放优先级最高
+            source : source,
+            /* //播放方式二：点播用户推荐
+            vid : '1e067a2831b641db90d570b6480fbc40',
+            playauth : '',
+            cover: 'http://liveroom-img.oss-cn-qingdao.aliyuncs.com/logo.png',            
+            //播放方式三：仅MTS用户使用
+            vid : '1e067a2831b641db90d570b6480fbc40',
+            accId: '',
+            accSecret: '',
+            stsToken: '',
+            domainRegion: '',
+            authInfo: '',
+            //播放方式四：使用STS方式播放
+            vid : '1e067a2831b641db90d570b6480fbc40',
+            accessKeyId: '',
+            securityToken: '',
+            accessKeySecret: '' */
+            },function(player){
+                console.log('播放器创建好了。')
+           });
+	player.on('ready',function(){
+		$(".prism-big-play-btn").remove();
+	});
+})
+function ScrollImgLeft(id,scrollId){  
+	var speed= 50  
+	var scroll_begin = $("#"+id);  
+	var scroll_end = $("#"+id+"-end");  
+	var scroll_div = $("#"+scrollId);
+	
+	var childW = $(scroll_begin.children(':first-child')[0]).width();
+	var w = (childW+10) * (scroll_begin.children()).length;
+	scroll_begin.width(w);
+	scroll_end.width(w);
+	function Marquee(){  
+		if(scroll_end.outerWidth(false)-scroll_div.scrollLeft()<=0)  {
+			var left = scroll_div.scrollLeft() - scroll_begin.outerWidth(false);
+			scroll_div.scrollLeft(left);
+		}else{
+			var left = scroll_div.scrollLeft();
+			left ++;
+			scroll_div.scrollLeft(left);
+		}
+	} 
+	var MyMar=setInterval(Marquee,speed)  
+	scroll_div.mouseover(function(){
+		clearInterval(MyMar);
+	}).mouseout(function(){
+		MyMar=setInterval(Marquee,speed);
+	})
+
+} 
+ScrollImgLeft('edu-list',"scroll_div");
+ScrollImgLeft('video-list-box','video-box');
