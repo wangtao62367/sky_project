@@ -7,6 +7,7 @@ use common\models\Article;
 use yii\helpers\ArrayHelper;
 use common\models\Video;
 use common\models\EducationBase;
+use common\models\Carousel;
 
 /**
  * 首页
@@ -61,7 +62,8 @@ class SiteLogic
      */
     public static function getCarousel()
     {
-        $result = Article::find()->select(['id','title','titleImg','ishot'])->where(['isPublish'=>1,'isDelete'=>0])->orderBy('ishot desc,publishTime desc')->limit(5)->all();
+        $result = Carousel::find()->select(['id','title','link','img'])->orderBy('sorts desc')->all();
+        //$result = Article::find()->select(['id','title','titleImg','ishot'])->where(['isPublish'=>1,'isDelete'=>0])->orderBy('ishot desc,publishTime desc')->limit(5)->all();
         return $result;
     }
     

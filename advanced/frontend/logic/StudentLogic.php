@@ -10,6 +10,7 @@ use common\models\TestPaperUserStatistics;
 use common\models\VoteOptions;
 use yii\db\Expression;
 use common\models\VoteUser;
+use common\models\Vote;
 
 class StudentLogic
 {
@@ -39,6 +40,8 @@ class StudentLogic
 					'createTime' => TIMESTAMP
 				];
 			}
+			//更新选项试题总票数
+			Vote::updateAll(['voteCounts'=>new Expression('voteCounts + 1')],['id'=>$answer['questId']]);
 		}
 		if(!empty($voteUserParams)){
 			Yii::$app->db->createCommand()->batchInsert(VoteUser::tableName(), ['userId','naireId','voteId','optionsId','createTime'], $voteUserParams)->execute();

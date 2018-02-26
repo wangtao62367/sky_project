@@ -71,6 +71,7 @@ class Naire extends BaseModel
             $naire->votes[] = [
                 'id' => $naireVote->votes->id,
                 'subject' => $naireVote->votes->subject,
+                'voteCounts' => $naireVote->votes->voteCounts,
                 'selectType' => $naireVote->votes->selectType,
                 'selectTypeText' => QuestCategory::getQuestCateText($naireVote->votes->selectType),
                 'voteoptions' => $options

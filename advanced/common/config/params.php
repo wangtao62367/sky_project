@@ -14,5 +14,6 @@ return [
         'bucket' => '18upload',
         'region' => 'oss-cn-hangzhou',
         'host' => 'http://18upload.oss-cn-hangzhou.aliyuncs.com',
-    ]
+    ],
+    'voteoptions.color' => ['ce61e0','6c107b','f333b8','3f51b5','12abf1','f44336','8bc34a','ffeb3b','ff5722','795548','9e9e9e','607d8b']
 ];

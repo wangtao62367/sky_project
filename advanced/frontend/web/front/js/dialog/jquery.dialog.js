@@ -5,7 +5,7 @@
 		$(".tip").remove();
 	});
 	var dialog = {
-		init : function(title,content,btn,sureCallBack){
+		init : function(title,content,btn,sureCallBack,cancleCallBack){
 			title = title || '提示信息';
 			btn = btn || true;
 			var tip = $("<div></div>").addClass('tip');
@@ -27,6 +27,11 @@
 			}else{
 				$(".sure").click(function(){
 					tip.remove();
+				})
+			}
+			if(cancleCallBack){
+				$(".cancel").click(function(){
+					cancleCallBack();
 				})
 			}
 		}

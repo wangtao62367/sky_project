@@ -16,7 +16,7 @@ $this->title = '我的报名';
 		
 		<li><a href="javascript:;" class="UnitedFront">我的报名</a></li>
 		
-		<li><a href="<?php echo Url::to(['user/info']);?>" >个人信息</a></li>
+		<li><a href="<?php echo Url::to(['user/info']);?>" >我的信息</a></li>
 		
 		<li><a href="<?php echo Url::to(['user/edit-pwd']);?>" >修改密码</a></li>
 
@@ -38,6 +38,15 @@ $this->title = '我的报名';
 					<p><span class="bm-time"><?php $e=time();$c = $val['createTime']; $day = intval(($e-$c)/86400);if($day==0){echo '今天';}else{echo $day.'天前';}; ?></span> 报的名</p>
 				</div>
 				<div class="bmx">
+					<?php if($val['verify'] == 1):?>
+            			<font class="verify-status status-ing">初审中</font>
+            		<?php elseif ($val['verify'] == 2):?>
+            			<font class="verify-status status-ing">终审中</font>
+            		<?php elseif ($val['verify'] == 3):?>
+            			<font class="verify-status status-yes">审核通过</font>	
+            		<?php else:?>
+            			<font class="verify-status status-no">审核失败</font>
+            		<?php endif; ?>
 					<br/>
 					<?php if(TestPaper::checkExistByGradeClassId($val['gradeClassId'])):?>
 					<a href="<?php echo Url::to(['student/testpapers','cid'=>$val['gradeClassId']])?>" ><b style="color: #333;font-weight: inherit;">【相关测评试卷】</b></a>
@@ -69,7 +78,8 @@ $css = <<<CSS
 .gradeclass-item .bmx {
     border-bottom: 0px;
 }
-.bm-time{color:red;}
+.bm-time,.verify-status{color:red;}
+.verify-status{font-weight:700;}
 .section .content ._hr {
     margin-top: -15px;
 }

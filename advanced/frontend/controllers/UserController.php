@@ -99,9 +99,17 @@ class UserController extends CommonController
     {
     	$userId = Yii::$app->user->id;
     	$student = Student::find()->where(['userId'=>$userId])->one();
+    	if(empty($student)){
+    	    $student = new  Student();
+    	    $student->sex = 1;
+    	}
     	if(Yii::$app->request->isPost){
     		$post = Yii::$app->request->post();
-    		
+    		$result = Student::add($post,$student,'editInfo');
+    		//var_dump($result);exit();
+    		if(!$result){
+    		    Yii::$app->session->setFlash('error',$student->getErrorDesc());
+    		}
     	}
     	
     	return $this->render('info',['model'=>$student]);
@@ -217,10 +225,6 @@ class UserController extends CommonController
     */
     public function actionCenter()
     {
-        /* $student = new Student();
-        $data = Yii::$app->request->get();
-        $data['Student']['search'] = ['userId'=>Yii::$app->user->id];
-        $result = $student->pageList($data); */
     	$bmRecord = new BmRecord();
     	$data = Yii::$app->request->get();
     	$data['BmRecord']['search'] = ['userId'=>Yii::$app->user->id];

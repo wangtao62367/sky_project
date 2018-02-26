@@ -45,6 +45,10 @@ class NewsController extends CommonController
     public function actionList()
     {
         $pid = Yii::$app->request->get('pid',0);
+        //信息化建设模块  临时处理
+        if($pid == 12){
+            return $this->redirect(Yii::$app->params['xbjs.link']);
+        }
         $cateid = Yii::$app->request->get('cateid',0);
         
         $parent = Common::find()->select(['id','codeDesc','code'])->where(['id'=>$pid])->one();

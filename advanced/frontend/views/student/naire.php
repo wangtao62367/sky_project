@@ -1,12 +1,9 @@
 <?php 
 use yii\helpers\Url;
 use frontend\assets\AppAsset;
-use yii\helpers\ArrayHelper;
 use common\publics\MyHelper;
-use common\models\QuestCategory;
 
 $this->title= '在线调查-'.$info['title'];
-//var_dump($info);exit();
 ?>
 
 <p class="position"><a href ="<?php echo Url::to(['site/index'])?>">学院首页</a>&nbsp;&gt;&nbsp;<?php echo $this->title;?></p>
@@ -24,11 +21,11 @@ $this->title= '在线调查-'.$info['title'];
             	<div class="quest-txt left">
             		<p><?php echo $vote['subject'];?>：</p>
             		<div>
-            			<?php foreach ($vote['voteoptions'] as $k=>$opt):?>
+            			<?php foreach ($vote['voteoptions'] as $i=>$opt):?>
             			<div class="right-anwswer" >
             		    		<label class="rightAnswer--label" data-questtype="<?php echo $vote['selectType'];?>">
-            				        <input class="rightAnswer--radio" data-questopt = "<?php echo MyHelper::getOpt($k,$vote['selectType']);?>" value="<?php echo $opt['id']?>" type="checkbox" name="rightAnswer-checkbox2">
-            				        <font class="rightAnswer--checkbox rightAnswer--radioInput"></font><?php echo MyHelper::getOpt($k,$vote['selectType']);?>.&nbsp;&nbsp;<?php echo $opt['text'];?>
+            				        <input class="rightAnswer--radio" data-questopt = "<?php echo MyHelper::getOpt($i,$vote['selectType']);?>" value="<?php echo $opt['id']?>" type="checkbox" name="rightAnswer-checkbox2">
+            				        <font class="rightAnswer--checkbox rightAnswer--radioInput"></font><?php echo MyHelper::getOpt($i,$vote['selectType']);?>.&nbsp;&nbsp;<?php echo $opt['text'];?>
             				    </label>
             		    </div>
             		    <?php endforeach;?>
@@ -53,7 +50,7 @@ $answerTime = 0;
 $naireId = $info['id'];
 $submitNaireUrl = Url::to(['student/submit-naire']);
 
-$userCenter = Url::to(['user/center']);
+$naireInfoUrl = Url::to(['student/naire-info','id'=>$naireId]);
 $js = <<<JS
 
 $(document).on('click','.rightAnswer--label',function(e){
@@ -66,13 +63,10 @@ $(document).on('click','.rightAnswer--label',function(e){
 
 
 $("#answerSubmit").click(function(){
-	/* if(answerTime > 0 ){
-		d.init('提示信息','<img class="wenhao" alt="" src="/front/img/news/wenhao.jpg" ><p class="query-submit">剩余答题时间：'+answerTimeTxt+'，确认提交答案？</p>',true,submitAnswer);
-	}else{
-		
-	} */
-
-	submitAnswer();
+	d.init('提示信息','<p>感谢您参与本次投票调查，确认提交您的选择？</p>',true,function(){
+        $(this).attr({"disabled":"disabled"}).css('background','#845660');
+        submitAnswer();
+    },false);
 });
 
 //提交答案
@@ -107,9 +101,14 @@ function submitAnswer(isTips){
     //提交答案
     $.post('$submitNaireUrl',{naireId:naireId,userAnswers:userAnswers},function(res){
         if(res == 1){
-			$(".tip").remove();
-			//window.location.href = '$userCenter';
-		};
+			d.init('提示信息','<p>感谢您参与本次投票调查，是否查看投票结果？</p>',true,function(){
+                window.location.href = '$naireInfoUrl';
+            },function(){
+                history.go(-1);
+            });;
+		}else{
+            $("#answerSubmit").removeAttr("disabled").css('background','#ef0c3f');
+        };
     });
 }
 JS;

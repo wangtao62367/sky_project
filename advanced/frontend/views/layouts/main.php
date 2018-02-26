@@ -64,7 +64,7 @@ $params = $this->params;
 							<?php if($v['code'] != 'whxy'):?>
 							<ul class="nav-item" >
 								<?php foreach ($v['cates'] as $cate):?>
-								<li><a href="<?php echo Url::to(['news/list','pid'=>$v['id'],'cateid'=>$cate['id']])?>"><?php echo $cate['text'];?></a></li>
+								<li><a  href="<?php echo Url::to(['news/list','pid'=>$v['id'],'cateid'=>$cate['id']])?>"><?php echo $cate['text'];?></a></li>
 								<?php endforeach;?>
 							</ul>
 							<?php endif;?>

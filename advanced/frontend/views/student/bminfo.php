@@ -13,7 +13,7 @@ $this->title = '我要报名-查看报名信息';
 		
 		<li><a href="<?php echo Url::to(['user/center']); ?>" class="UnitedFront">我的报名</a></li>
 		
-		<li><a href="javascript:;" >修改信息</a></li>
+		<li><a href="<?php echo Url::to(['user/info']); ?>" >修改信息</a></li>
 		
 		<li><a href="<?php echo Url::to(['user/edit-pwd']);?>"  >修改密码</a></li>
 

@@ -1,0 +1,11 @@
+@CHARSET "UTF-8";
+.content{min-height:500px;margin-top: 30px;margin-left: 20px;overflow:hidden;}
+.content .title{font-size:20px;margin-bottom:20px;}
+.left{float:left;}
+.votes{margin-bottom:20px;max-height:800px;overflow:hidden;overflow-y: scroll;}
+.votesopt-box{margin-top:20px;margin-left:15px;overflow:hidden;position: relative;}
+.votesopt-box .opt-item {margin-bottom:10px;overflow:hidden;display:block;position: relative;}
+.opt-item .item-text{width:570px;margin-right:25px;}
+.opt-item .item-counts{width:517px;}
+.progress{display:inline-block;height:19px;width:450px;background:#fff;}
+.progress span{display:inline-block;height:19px;border-radius: 5px;}

@@ -29,7 +29,7 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
     <li><label>文章主题<b>*</b></label><?php echo Html::activeTextInput($model, 'title',['class'=>'dfinput'])?><i>文章主题不能为空</i></li>
     
     <li><label>文章主图</label>
-       <?php echo Html::fileInput('image','',['class'=>'uploadFile','id'=>"uploadFile"]);?>
+       <?php echo Html::fileInput('image','',['class'=>'uploadFile','id'=>"uploadFile",'accept'=>"image/png, image/jpeg,image/jpg"]);?>
         <div class="select-btn-box"><a href="javascript:;" class="btn"  id="btn-select-image">选择图片</a><p id="selectedImg"></p></div>
         <div class="image-box">
         	<?php if(!empty($model->titleImg)):?>

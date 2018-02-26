@@ -18,7 +18,7 @@ $this->title="首页"
 		    </ul>
 		    <div id="banner_list">
 		    	<?php foreach ($data['carousel'] as $carousel):?>
-		        <a href="<?php echo Url::to(['news/detail','id'=>$carousel->id])?>" target="_blank"><img src="<?php echo $carousel->titleImg;?>" title="<?php echo $carousel->title;?>" alt="<?php echo $carousel->title;?>"></a>
+		        <a href="<?php echo $carousel['link'];?>" target="_blank"><img src="<?php echo $carousel['img'];?>" title="<?php echo $carousel['title'];?>" alt="<?php echo $carousel['title'];?>"></a>
 		        <?php endforeach;?>
 		    </div>
 		</div>  
@@ -90,7 +90,7 @@ $this->title="首页"
 			<h4 class="news-unselected" data-target-id="xyhd">学员园地</h4>
 			<a href="<?php echo Url::to(['news/list-by-catecode','code'=>'jxxx'])?>">更多&gt;</a>
 		</div>
-		<ul class="articlelist" id="jxpx">
+		<ul class="articlelist" id="jxxx">
 			<?php foreach ($data['jxpx'] as $jxpx):?>
 			<li><a href="<?php echo Url::to(['news/detail','id'=>$jxpx->id]);?>" title="<?php echo $jxpx->title;?>"><nobr><?php echo $jxpx->title?></nobr></a></li>
 			<?php endforeach;?>
@@ -143,22 +143,62 @@ $this->title="首页"
 				</a>
 			</li>
 			<?php endforeach;?>
+			<?php foreach ($data['jyjd'] as $jyjd):?>
+			<li>
+				<a href="<?php echo $jyjd->link;?>">
+					<img  src="<?php echo $jyjd->baseImg?>"/>
+					<p><?php echo $jyjd->baseName;?></p>
+				</a>
+			</li>
+			<?php endforeach;?>
+			
+			<?php foreach ($data['jyjd'] as $jyjd):?>
+			<li>
+				<a href="<?php echo $jyjd->link;?>">
+					<img  src="<?php echo $jyjd->baseImg?>"/>
+					<p><?php echo $jyjd->baseName;?></p>
+				</a>
+			</li>
+			<?php endforeach;?>
 		</ul>
 	</div>
 
 </div>
 <div class="video-banner"><a href="#">更多&gt;</a></div>
-<div class="video-list-box">
-	<?php foreach ($data['sxsy'] as $sxsy):?>
-	<div class="video-item" data-videourl="<?php echo $sxsy->video;?>" id="video_item_<?php echo $sxsy->id;?>">
-		<a href="javascript:; <?php // echo Url::to(['video/start','id'=>$sxsy->id]);?>">
-			<img src="<?php echo $sxsy->videoImg;?>" />
-			<p><?php echo $sxsy->descr;?></p>
-			<span class="video-btn"></span>
-		</a>
-	</div>
-	<?php endforeach;?>
+<div class="video-box">
+    <div class="video-list-box">
+    	<?php foreach ($data['sxsy'] as $sxsy):?>
+    	<div class="video-item" data-videourl="<?php echo $sxsy->video;?>" id="video_item_<?php echo $sxsy->id;?>">
+    		<a href="javascript:; <?php // echo Url::to(['video/start','id'=>$sxsy->id]);?>">
+    			<img src="<?php echo $sxsy->videoImg;?>" />
+    			<p><?php echo $sxsy->descr;?></p>
+    			<span class="video-btn"></span>
+    		</a>
+    	</div>
+    	<?php endforeach;?>
+    	
+    	<?php foreach ($data['sxsy'] as $sxsy):?>
+    	<div class="video-item" data-videourl="<?php echo $sxsy->video;?>" id="video_item_<?php echo $sxsy->id;?>">
+    		<a href="javascript:; <?php // echo Url::to(['video/start','id'=>$sxsy->id]);?>">
+    			<img src="<?php echo $sxsy->videoImg;?>" />
+    			<p><?php echo $sxsy->descr;?></p>
+    			<span class="video-btn"></span>
+    		</a>
+    	</div>
+    	<?php endforeach;?>
+    	
+    	<?php foreach ($data['sxsy'] as $sxsy):?>
+    	<div class="video-item" data-videourl="<?php echo $sxsy->video;?>" id="video_item_<?php echo $sxsy->id;?>">
+    		<a href="javascript:; <?php // echo Url::to(['video/start','id'=>$sxsy->id]);?>">
+    			<img src="<?php echo $sxsy->videoImg;?>" />
+    			<p><?php echo $sxsy->descr;?></p>
+    			<span class="video-btn"></span>
+    		</a>
+    	</div>
+    	<?php endforeach;?>
+    </div>
 </div>
+
 
 <?php 
 $js = <<<JS
@@ -214,6 +254,88 @@ $(document).on('click','.video-item',function(){
 })
 
 JS;
+
+$css = <<<CSS
+/*教育基地*/
+.section-4 .edu-box {
+    position: relative;
+    overflow: hidden;
+    width:776px;
+}
+.edu-list {
+    position: absolute;
+    top: 117;
+    margin: 0;
+    padding: 0;
+    left: 0;
+    -webkit-animation: 20s move infinite linear;
+    width: 1565px;
+    height:172px;
+}
+.edu-list li {
+    width: 250px;
+    height: 148px;
+    float: left;
+    margin-right: 13px;
+    margin-bottom: 25px;
+}
+@-webkit-keyframes move{  
+    0% {  
+          left: 0;  
+    }  
+    100% {  
+          left: -776px;  
+    }  
+}  
+@keyframes move {  
+    0% {  
+       left: 0;  
+    }  
+    100% {  
+       left: -776px;  
+    }  
+}  
+.edu-box:hover .edu-list {  
+    -webkit-animation-play-state: paused; /*动画暂停播放*/  
+}  
+/*视频*/
+.video-box{
+    margin-top: 25px;
+    overflow: hidden;
+    position: relative;
+    height: 185px;
+}
+.video-list-box {
+    position: absolute;
+    top: 0;
+    margin: 0;
+    padding: 0;
+    left: 0;
+    -webkit-animation: 20s move infinite linear;
+    width: 2250px;
+}
+
+@-webkit-keyframes move{  
+    0% {  
+          left: 0;  
+    }  
+    100% {  
+          left: -1170px;  
+    }  
+}  
+@keyframes move {  
+    0% {  
+       left: 0;  
+    }  
+    100% {  
+       left: -1170px;  
+    }  
+}  
+.video-box:hover .video-list-box {  
+    -webkit-animation-play-state: paused; /*动画暂停播放*/  
+}  
+CSS;
+$this->registerCss($css);
 $this->registerJs($js);
 ?>
 		

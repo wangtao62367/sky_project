@@ -6,6 +6,7 @@ namespace common\models;
 
 use Yii;
 use yii\db\ActiveQuery;
+use common\publics\ImageUpload;
 
 class Student extends BaseModel
 {
@@ -71,25 +72,49 @@ class Student extends BaseModel
             ['eduation','required','message'=>'学历不能为空','on'=>'add'],
             ['politicalStatus','required','message'=>'政治面貌不能为空','on'=>'add'],
 
-            [['search','address','selfIntruduce','positionalTitles','avater'],'safe']
+            [['search','address','selfIntruduce','positionalTitles','avater','politicalStatusCode','eduationCode'],'safe']
         ];
     }
     
-    public static function add(array $data,Student $model)
+    public static function add(array $data,Student $model,$oprate = 'bm')
     {
         $model->scenario = 'add';
         if($model->load($data) && $model->validate()){
             $model->userId = Yii::$app->user->id;
-            $model->nation = Yii::$app->params['nations']['nationCode'];
+            $model->nation = Yii::$app->params['nations'][$model->nationCode];
             $model->politicalStatus = self::$politicalStatusArr[$model->politicalStatusCode];
             $model->eduation= self::$eduationArr[$model->eduationCode];
+            //先上传图片 再写数据
+            if(isset($_FILES['avater']) && !empty($_FILES['avater']) && !empty($_FILES['avater']['tmp_name']) ){
+                
+                $upload = new ImageUpload([
+                    'imageMaxSize' => 1024*50,
+                    'imagePath'    => 'avater',
+                    'isWatermark'  => false,
+                    /* 'isThumbnail'  => true,
+                     'thumbnails'   => [
+                     ['w'=>120,'h'=>120]
+                     ] */
+                ]);
+                $result = $upload->Upload('avater');
+                $imageName = Yii::$app->params['oss']['host'].$result;
+                //并且删除老的头像
+                if(!empty($model->avater)){
+                    $block = str_replace(Yii::$app->params['oss']['host'], '', $model->avater);
+                    $upload->deleteImage($block);
+                }
+                $model->avater = $imageName;
+            }
             if($model->save(false)){
-                $bmRecord = new BmRecord();
-                $bmRecord->userId = Yii::$app->user->id;
-                $bmRecord->gradeClass = $model->gradeClass;
-                $bmRecord->gradeClassId = $model->gradeClassId;
-                $bmRecord->verify = 1;
-                return $bmRecord->save(false);
+                if($oprate == 'bm'){
+                    $bmRecord = new BmRecord();
+                    $bmRecord->userId = Yii::$app->user->id;
+                    $bmRecord->gradeClass = $model->gradeClass;
+                    $bmRecord->gradeClassId = $model->gradeClassId;
+                    $bmRecord->verify = 1;
+                    return $bmRecord->save(false);
+                }
+                return true;
             }
         }
         return false;

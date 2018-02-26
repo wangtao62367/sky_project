@@ -11,6 +11,7 @@ use common\models\BmRecord;
 use common\models\GradeClass;
 use common\publics\ImageUpload;
 use common\models\Naire;
+use common\models\VoteUser;
 
 
 class StudentController extends CommonController
@@ -67,27 +68,6 @@ class StudentController extends CommonController
         $model->sex = 1;
         if(Yii::$app->request->isPost){
         	$post = Yii::$app->request->post();
-        	//先上传图片 再写数据
-        	if(isset($_FILES['avater']) && !empty($_FILES['avater']) && !empty($_FILES['avater']['tmp_name']) ){
-        	    
-        	    $upload = new ImageUpload([
-        	        'imageMaxSize' => 1024*50,
-        	        'imagePath'    => 'avater',
-        	        'isWatermark'  => false,
-        	        /* 'isThumbnail'  => true,
-        	        'thumbnails'   => [
-        	            ['w'=>120,'h'=>120]
-        	        ] */
-        	    ]);
-        	    $result = $upload->Upload('avater');
-        	    $imageName = Yii::$app->params['oss']['host'].$result;
-        	    $post['Student']['avater'] = $imageName;
-        	    //并且删除老的头像
-        	    if(!empty($model->avater)){
-        	        $block = str_replace(Yii::$app->params['oss']['host'], '', $model->avater);
-        	        $upload->deleteImage($block);
-        	    }
-        	}
         	$result = Student::add($post,$model);
         	if($result){
         		return $this->redirect(['user/center']);
@@ -177,9 +157,18 @@ class StudentController extends CommonController
     	if(!$naire){
     		return $this->redirect(['site/index']);
     	}
+    	//判断是否已经参与了该调查问卷
+    	$isExist = (bool)VoteUser::find()->where(['naireId'=>$id,'userId'=>Yii::$app->user->id])->count('id');
+    	if($isExist){
+    	    return $this->render('naireinfo',['info'=>$naire]);
+    	}
     	return $this->render('naire',['info'=>$naire]);
     }
-    
+
+    /**
+     * 提交调查选项结果
+     * @return number
+     */
     public function actionSubmitNaire()
     {
     	$this->setResponseJson();
