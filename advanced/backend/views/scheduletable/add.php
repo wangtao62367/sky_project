@@ -9,6 +9,8 @@ use backend\models\PublishCate;
 $controller = Yii::$app->controller;
 $id = Yii::$app->request->get('id','');
 $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
+
+$this->title = $title.'-'.$schedule->title.'【'.$schedule->gradeClass.'】';
 ?>
 
 <div class="place">
@@ -16,39 +18,44 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
     <ul class="placeul">
         <li><a href="javascript:;">教务系统</a></li>
         <li><a href="<?php echo Url::to(['schedule/manage'])?>">课表管理</a></li>
-        <li><a href="<?php echo $url?>"><?php echo $title?></a></li>
+        <li><a href="<?php echo Url::to(['schedule/info','id'=>$schedule->id])?>">查看设置课表-<?php echo $schedule->title;?></a></li>
+        <li><a href="<?php echo $url?>"><?php echo $this->title?></a></li>
     </ul>
 </div>
 
 <div class="formbody">
 
-<div class="formtitle"><span><?php echo $title?></span></div>
+<div class="formtitle"><span><?php echo $this->title?></span></div>
 <?php echo Html::beginForm();?>
 <ul class="forminfo">
 	
-	<li><label>课表主题</label>
-    <?php echo Html::activeTextInput($model, 'title',['class'=>'dfinput'])?>
+	<li><label>课程名称<b>*</b></label>
+    <?php echo Html::activeHiddenInput($model, 'curriculumId',['class'=>'dfinput'])?>
+    <?php echo Html::activeTextInput($model, 'curriculumText',['class'=>'dfinput ajaxSearch curriculumText','placeholder'=>'输入搜索课程名称'])?><i>课程不能为空</i>
+    <div class="searchresult">
+    </div>
     </li>
-	
-	<li><label>授课班级<b>*</b></label>
-    <?php echo Html::activeHiddenInput($model, 'gradeClassId',['class'=>'dfinput'])?>
-    <?php echo Html::activeTextInput($model, 'gradeClass',['class'=>'dfinput ajaxSearch gradeClass','placeholder'=>'输入搜索授课班级'])?><i>授课班级不能为空</i>
+    <li><label>授课日期<b>*</b></label>
+    	<?php echo Html::activeTextInput($model, 'lessonDate',['class'=>'dfinput lessonDate','style'=>'width:240px;','placeholder'=>'选择授课日期'])?>
+    </li>
+    <li><label>授课时段<b>*</b></label>
+    	<?php echo Html::activeTextInput($model, 'lessonStartTime',['class'=>'dfinput lessonStartTime','style'=>'width:74px;','placeholder'=>'开始时间'])?> - 
+    	<?php echo Html::activeTextInput($model, 'lessonEndTime',['class'=>'dfinput lessonEndTime','style'=>'width:74px;','placeholder'=>'结束时间'])?>
+    </li>
+    
+    <li><label>授课教师<b>*</b></label>
+    <?php echo Html::activeHiddenInput($model, 'teacherId',['class'=>'dfinput'])?>
+    <?php echo Html::activeTextInput($model, 'teacherName',['class'=>'dfinput ajaxSearch teacherName','placeholder'=>'输入搜索课程授课教师'])?><i>授课教师不能为空</i>
     <div class="searchresult" style="display: none"> </div>
     </li>
     
-    <li><label>是否发布<b>*</b></label>
-    	<div class="vocation">
-    		<?php echo Html::activeDropDownList($model, 'publishCode', PublishCate::$publishTimeArr,['class'=>'sky-select','id'=>'isPublish'])?>
-    	</div>
+    <li><label>授课地点<b>*</b></label>
+    <?php echo Html::activeHiddenInput($model, 'teachPlaceId',['class'=>'dfinput'])?>
+    <?php echo Html::activeTextInput($model, 'teachPlace',['class'=>'dfinput ajaxSearch teachPlace','placeholder'=>'输入搜索授课地点'])?><i>授课地点不能为空</i>
+    <div class="searchresult" style="display: none"> </div>
     </li>
-    
-    <li class="publishTimeByUser" <?php echo $model->isPublish === 'userDefined' ? 'style="display:block"' : 'style="display:none"'; ?>><label>发布时间<b>*</b></label><?php echo Html::activeTextInput($model, 'publishTime',['class'=>'dfinput','style'=>'width:308px;','id'=>"publishTime"])?><i></i></li>
-    
-    <li><label>发布结束时间</label>
-    	<?php echo Html::activeTextInput($model, 'publishEndTime',['id'=>'publishEndTime','class'=>'dfinput','style'=>'width:308px;','placeholder'=>'发布结束时间'])?>
-    </li>
-    
-    <li><label>备&nbsp;&nbsp;注</label><?php echo Html::activeTextarea($model, 'marks',['class'=>'textinput'])?><i></i></li>
+	
+	
     <?php if(Yii::$app->session->hasFlash('error')):?>
     	<li><label>&nbsp;</label><span class="error-tip"><?php echo Yii::$app->session->getFlash('error');?></span></li>
     <?php endif;?>
@@ -92,7 +99,6 @@ $getPlaces = Url::to(['teachplace/ajax-places']);
 $getGradeClass = Url::to(['gradeclass/ajax-classes']);
 $js = <<<JS
 $(document).on('click','.searchresult p',function(){
-    console.log(23);
     var id = $(this).data('id');
     var text = $(this).data('text');
     $(this).parents('li').find('input[type="text"]').val(text);

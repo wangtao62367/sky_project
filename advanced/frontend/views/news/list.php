@@ -62,7 +62,7 @@ $this->title = $parent->codeDesc . '-'.$currentCate->text;
     				<a href="<?php echo Url::to(['student/naire','id'=>$val['id']])?>" title="<?php echo $val['title'];?>"><?php echo MyHelper::timestampToDate($val['modifyTime']);?>  <?php echo $val['title'];?></a></li>
     			<?php elseif ($currentCate->cateCode == CategoryType::KBCX):?>
     				<li class="article-item">
-    				<a href="<?php echo Url::to(['schedule/info','id'=>$val['id']])?>" title="<?php echo $val['publishTitle'];?>">【<?php echo $val['gradeClass'];?>】 <?php echo $val['publishTitle'];?></a>
+    				<a href="<?php echo Url::to(['schedule/info','id'=>$val['id']])?>" title="<?php echo $val['title'];?>">【<?php echo $val['gradeClass'];?>】 <?php echo $val['title'];?></a>
     				</li>
     			<?php else :?>
     				<?php if ($currentCate->type == CategoryType::ARTICLE):?>

@@ -5,6 +5,7 @@ namespace backend\controllers;
 use Yii;
 use common\controllers\CommonController;
 use common\models\Schedule;
+use common\models\ScheduleTable;
 /**
  * @name 课表管理
  * @author wangtao
@@ -100,6 +101,7 @@ class ScheduleController extends CommonController
 	    $schedule = new Schedule();
 	    
 	    $data = Yii::$app->request->get();
+	    return false;
 	    $schedule->export($data);
 	}
 	/**
@@ -110,7 +112,7 @@ class ScheduleController extends CommonController
 	    $schedule= Schedule::findOne($id);
 	    if(Yii::$app->request->isPost){
 	        $post = Yii::$app->request->post();
-	        if(Schedule::edit($post, $schedule)){
+	        if(Schedule::edit($post, $schedule,'publish')){
 	            return $this->showSuccess('schedule/manage');
 	        }else{
 	            Yii::$app->session->setFlash('error',$schedule->getErrorDesc());
@@ -119,5 +121,21 @@ class ScheduleController extends CommonController
 	    $schedule->publishTime = date('Y-m-d H:i:s',$schedule->publishTime);
 	    $schedule->publishEndTime= date('Y-m-d H:i:s',$schedule->publishEndTime);
 	    return $this->renderAjax('publish',['model'=>$schedule]);
+	}
+	/**
+	 * @desc 查看设置课表课程
+	 * @param int $id
+	 */
+	public function actionInfo(int $id)
+	{
+		$schedule= Schedule::findOne($id);
+		if(empty($schedule)){
+			return $this->showDataIsNull('schedule/manage');
+		}
+
+		$data = Yii::$app->request->get();
+		$model = new ScheduleTable();
+		$list= $model->pageList($data);
+		return $this->render('info',['schedule'=>$schedule,'model'=>$model,'list'=>$list]);
 	}
 }

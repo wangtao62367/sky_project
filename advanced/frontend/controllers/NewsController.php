@@ -148,7 +148,8 @@ class NewsController extends CommonController
             $schedule = new Schedule();
             $schedule->pageSize = 15;
             $data['Schedule']['search'] = [
-                'isPublish' => 1
+                'isPublish' => 1,
+            	'isDelete' => 0,
             ];
             $list = $schedule->pageList($data);
         }else {

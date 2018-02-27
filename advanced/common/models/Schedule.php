@@ -26,12 +26,11 @@ class Schedule extends BaseModel
 	public function rules()
 	{
 		return [
-			[['curriculumId','curriculumText'],'required','message'=>'课程不能为空','on'=>['add','edit']],
-		    [['teacherId','teacherName'],'required','message'=>'授课教师不能为空','on'=>['add','edit']],
-		    [['teachPlaceId','teachPlace'],'required','message'=>'教学地点不能为空','on'=>['add','edit']],
-		    [['gradeClassId','gradeClass'],'required','message'=>'授课班级不能为空','on'=>['add','edit']],
-		    [['lessonDate','lessonStartTime','lessonEndTime'],'required','message'=>'上课时间不能为空','on'=>['add','edit']],
-		    [['search','isPublish','publishTitle','publishEndTime','marks','publishCode','publishTime'],'safe'],
+			['title','required','message'=>'课表主题不能为空','on'=>['add','edit']],
+			[['gradeClassId','gradeClass'],'required','message'=>'授课班级不能为空','on'=>['add','edit']],
+			['publishCode','required','message'=>'请选择发布类型','on'=>'publish'],
+			['publishEndTime','required','message'=>'发布结束时间不能为空','on'=>'publish'],
+		    [['search','isPublish','publishEndTime','marks','publishCode','publishTime'],'safe'],
 		];
 	}
 	
@@ -46,9 +45,9 @@ class Schedule extends BaseModel
 	    return false;
 	}
 	
-	public static function edit(array $data,Schedule $schedule)
+	public static function edit(array $data,Schedule $schedule,$scenario = 'edit')
 	{
-	    $schedule->scenario = 'edit';
+		$schedule->scenario = $scenario;
 	    if($schedule->load($data) && $schedule->validate()){
 	        $schedule->publishEndTime= strtotime($schedule->publishEndTime);
 	        PublishCate::getPublishTime($schedule->publishCode,$schedule);
@@ -129,7 +128,12 @@ class Schedule extends BaseModel
 		if(isset($search['gradeClass']) && !empty($search['gradeClass'])){
 			$query= $query->andWhere(['like','gradeClass',$search['gradeClass']]);
 		}
-		if(isset($search['curriculumId']) && !empty($search['curriculumId'])){
+		
+		if(isset($search['title']) && !empty($search['title'])){
+			$query= $query->andWhere(['like','title',$search['title']]);
+		}
+		
+		/* if(isset($search['curriculumId']) && !empty($search['curriculumId'])){
 			$query= $query->andWhere(['curriculumId'=>$search['curriculumId']]);
 		}
 		if(isset($search['curriculumText']) && !empty($search['curriculumText'])){
@@ -145,18 +149,22 @@ class Schedule extends BaseModel
 			$query= $query->andWhere(['teachPlaceId'=>$search['teachPlaceId']]);
 		}
 		
-		if(isset($search['isPublish']) && !empty($search['isPublish'])){
-		    $query= $query->andWhere(['isPublish'=>$search['isPublish']]);
-		}
-		
 		if(isset($search['teachPlace']) && !empty($search['teachPlace'])){
 			$query= $query->andWhere(['like','teachPlace',$search['teachPlace']]);
-		}
+		} */
 		if(!empty($search['startTime'])){
 			$query = $query->andWhere('lessonDate >= :startTime',[':startTime'=>$search['startTime']]);
 		}
 		if(!empty($search['endTime'])){
 			$query = $query->andWhere('lessonDate <= :endTime',[':endTime'=>$search['endTime']]);
+		}
+		
+		if(isset($search['isPublish']) && !empty($search['isPublish'])){
+			$query= $query->andWhere(['isPublish'=>$search['isPublish']]);
+		}
+		
+		if(isset($search['isDelete']) && !empty($search['isDelete'])){
+			$query= $query->andWhere(['isDelete'=>$search['isDelete']]);
 		}
 		return $query;
 	}

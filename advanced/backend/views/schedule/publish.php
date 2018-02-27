@@ -13,9 +13,6 @@ use backend\models\PublishCate;
 	<?php echo Html::beginForm();?>	
 	<div class="tipinfo">       
  		<ul class="forminfo">
-			<li><label>发布标题<b>*</b></label>
-				<?php echo Html::activeTextInput($model, 'publishTitle',['class'=>'dfinput','style'=>'width:308px;'])?>
-        	</li>
         	<li><label>是否发布<b>*</b></label>
             	<div class="vocation">
             		<?php echo Html::activeDropDownList($model, 'publishCode', PublishCate::$publishTimeArr,['class'=>'sky-select','id'=>'isPublish'])?>
@@ -36,7 +33,6 @@ use backend\models\PublishCate;
 	  </div>
 	  <?php echo Html::endForm();?>
 </div>
-
 <?php 
 
 $js = <<<JS
