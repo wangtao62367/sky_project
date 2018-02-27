@@ -56,7 +56,7 @@ class Personage extends BaseModel
         $query = self::find()->select([])
                 ->joinWith('role')
                 ->orderBy('modifyTime desc');
-        if(!empty($this->search) && $this->load($data)){
+        if($this->load($data) && !empty($this->search)){
             $query = $this->filterSearch($this->search,$query);
         }
         

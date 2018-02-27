@@ -17,7 +17,6 @@ use common\models\Adv;
 	<ul class="seachform">
 		<li><a href="<?php echo Url::to(['adv/add'])?>" class="add-btn">添加</a></li>
         <li><a href="javascript:;" class="del-btn batchDel">删除</a></li>
-        <li><a href="javascript:;" class="excel-btn">导出</a></li>
 	</ul>
 </div>
 

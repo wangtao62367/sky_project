@@ -42,9 +42,11 @@ use yii\helpers\Html;
             <th>上课时间</th>
             <th>授课教师</th>
             <th>授课地点</th>
+            <th>发布主题</th>
             <th>是否发布</th>
+            <th>发布时间</th>
+            <th>发布结束时间</th>
             <th>创建时间</th>
-            <th>修改时间</th>
             <th>操作</th>
         </tr>
     </thead>
@@ -59,11 +61,14 @@ use yii\helpers\Html;
             <td><?php echo $val['lessonDate'] . ' ' . $val['lessonStartTime'] . '~' . $val['lessonEndTime'];?></td>
             <td><?php echo $val['teacherName'];?></td>
             <td><?php echo $val['teachPlace'];?></td>
+            <td><?php echo $val['publishTitle'];?></td>
             <td><?php echo $val['isPublish'] == 1 ? '已发布' : '未发布';?></td>
-            <td><?php echo MyHelper::timestampToDate($val['createTime']);?></td>
+            <td><?php echo MyHelper::timestampToDate($val['publishTime']);?></td>
+            <td><?php echo MyHelper::timestampToDate($val['publishEndTime']);?></td>
             <td><?php echo MyHelper::timestampToDate($val['modifyTime']);?></td>
-            <td>
-            <a href="<?php echo Url::to(['schedule/edit','id'=>$val['id']]);?>" class="tablelink">编辑</a>     
+            <td class="handle-box">
+            <a href="<?php echo Url::to(['schedule/edit','id'=>$val['id']]);?>" class="tablelink">编辑</a>    
+            <a href="javascript:;" data-url="<?php echo Url::to(['schedule/publish','id'=>$val['id']]);?>" class="tablelink publishBtn">发布</a>    
             <a href="<?php echo Url::to(['schedule/del','id'=>$val['id']]);?>" class="tablelink"> 删除</a>
             </td>
         </tr> 
@@ -76,9 +81,56 @@ use yii\helpers\Html;
     <!-- 这里显示分页 -->
     <div id="Pagination"></div>
 </div>
+
+
+
+<!-- 发布框 
+<div class="modal"></div>
+<div class="tip " style="display: block;">	
+	<div class="tiptop"><span>发布课表</span><a></a></div>  
+	<?php echo Html::beginForm();?>	
+	<div class="tipinfo">       
+ 		<ul class="forminfo">
+			<li><label>发布标题<b>*</b></label>
+				<?php echo Html::activeTextInput($model, 'publishTitle',['class'=>'dfinput','style'=>'width:308px;'])?>
+			</li>
+			<li><label>发布时间<b>*</b></label><?php echo Html::activeTextInput($model, 'publishTime',['class'=>'dfinput','style'=>'width:308px;','id'=>"publishTime"])?><i></i></li>
+
+            <li><label>发布结束时间<b>*</b></label>
+            	<?php echo Html::activeTextInput($model, 'publishEndTime',['id'=>'publishEndTime','class'=>'dfinput','style'=>'width:308px;','placeholder'=>'发布结束时间'])?>
+            </li>
+ 		</ul>
+	 </div>    
+	 <div class="tipbtn">      
+	   <input name="" type="button" class="sure" value="确定">&nbsp;      
+	     <input name="" type="button" class="cancel" value="取消">   
+	  </div>
+	  <?php echo Html::endForm();?>
+</div>
+-->
 <?php 
 $css = <<<CSS
-
+.tip {
+   height: 320px;
+}
+.tipinfo {
+    padding-top: 20px;
+    margin-left: 20px;
+    height: 200px;
+}
+.forminfo li label {
+    width: 86px;
+    line-height: 34px;
+    display: block;
+    float: left;
+    text-align: right;
+    padding-right: 10px;
+}
+.tipbtn {
+    margin-top: 0px;
+    margin-left: 125px;
+}
+.xdsoft_datetimepicker{z-index:9999999;}
 CSS;
 $batchDelUrl = Url::to(['schedule/batchdel']);
 $curPage = $list['curPage'];
@@ -87,6 +139,16 @@ $count = $list['count'];
 $uri = Yii::$app->request->getUrl();
 $exportUrl = Url::to(['schedule/export']);
 $js = <<<JS
+//快速发布
+$(document).on('click','.publishBtn',function(){
+    var url = $(this).data('url');
+    $.get(url,function(res){
+        if(res){
+            $(document).find('body').append(res);
+        }
+    })
+})
+//批量删除
 $('.batchDel').click(function(){
     batchDel('$batchDelUrl');
 })
@@ -129,7 +191,8 @@ $(document).on('click','.excel-btn',function(){
     var form = $(this).parents('form')[0];
     $(form).attr('action','$exportUrl');
     $(form).submit();
-})
+});
+
 JS;
 $this->registerJs($js);
 $this->registerCss($css);

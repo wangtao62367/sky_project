@@ -14,7 +14,7 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
     <span>位置：</span>
     <ul class="placeul">
         <li><a href="javascript:;">新闻系统</a></li>
-        <li><a href="<?php echo Url::to(['image/manage'])?>">图片模块</a></li>
+        <li><a href="<?php echo Url::to(['carousel/manage'])?>">图片模块</a></li>
         <li><a href="<?php echo $url;?>"><?php echo $title?></a></li>
     </ul>
 </div>
@@ -41,6 +41,7 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
 	
 	<li><label>跳转连接<b>*</b></label>
 		<?php echo Html::activeTextInput($model, 'link',['class'=>'dfinput','placeholder'=>'跳转连接必须是URL全连接；如：百度 http://www.baidu.com'])?>
+		<i>跳转连接必须是URL全连接；如：百度 http://www.baidu.com</i>
 	</li>
 	
 	<li><label>轮播标题<b>*</b></label>
@@ -48,7 +49,8 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
 	</li>
 	
 	<li><label>排序<b>*</b></label>
-		<?php echo Html::activeInput('number',$model, 'sorts',['class'=>'dfinput','placeholder'=>'数字越大排序越靠前'])?>
+		<?php echo Html::activeInput('number',$model, 'sorts',['class'=>'dfinput','placeholder'=>'数字越小排序越靠前'])?>
+		<i>数字越大排序越靠前</i>
 	</li>
 	<?php if(Yii::$app->session->hasFlash('error')):?>
     	<li><label>&nbsp;</label><span class="error-tip"><?php echo Yii::$app->session->getFlash('error');?></span></li>

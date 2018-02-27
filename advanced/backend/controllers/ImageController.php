@@ -56,19 +56,6 @@ class ImageController extends CommonController
 	        	}else{
 	        		Yii::$app->session->setFlash('error',$model->getErrorDesc());
 	        	}
-	        	/* $file = $_FILES['files'];
-	        	$oldFile = $data['Photo']['oldFile'];
-	        	$result = Photo::upload($file,$oldFile);
-	        	if($result['success']){
-	        		$data['Photo']['photo'] = $result['fileFullName'];
-	        		$result = $model->add($data);
-	        		if($result){
-	        			return $this->showSuccess('image/manage');
-	        		}
-	        		Yii::$app->session->setFlash('error',$model->getErrorDesc());
-	        	}else{
-	        		Yii::$app->session->setFlash('error',$result['message']);
-	        	} */
 	        	
 	        }else{
 	        	Yii::$app->session->setFlash('error','图片不能为空');

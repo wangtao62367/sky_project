@@ -61,6 +61,10 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
     <li><label>图片提供者</label><?php echo Html::activeTextInput($model, 'provider',['class'=>'dfinput'])?><i></i></li>
 	
 	<li><label>院领导</label><?php echo Html::activeTextInput($model, 'leader',['class'=>'dfinput'])?><i></i></li>
+	
+	<li><label>排序</label>
+    	<?php echo Html::activeInput('number', $model, 'sorts',['class'=>'dfinput']);?><i>数字越小排序越靠前</i>
+    </li>
     
     <li><label>备&nbsp;&nbsp;注</label><?php echo Html::activeTextarea($model, 'remarks',['class'=>'textinput'])?><i></i></li>
     

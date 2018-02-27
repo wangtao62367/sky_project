@@ -75,7 +75,7 @@ $this->title="首页"
 			<a href="<?php echo Url::to(['news/list-by-catecode','code'=>'whjl'])?>">更多&gt;</a>
 		</div>
 		<ul class="articlelist" id="whjl">
-			<?php foreach ($data['tzxw'] as $whjl):?>
+			<?php foreach ($data['whjl'] as $whjl):?>
 			<li><a href="<?php echo Url::to(['news/detail','id'=>$whjl->id]);?>" title="<?php echo $whjl->title;?>"><nobr><?php echo $whjl->title?></nobr></a></li>
 			<?php endforeach;?>
 		</ul>
@@ -88,7 +88,7 @@ $this->title="首页"
 	<div class="news-box2">
 		<div class="title">
 			<h4 class="news-selected" data-target-id="jxxx">教学培训</h4>
-			<h4 class="news-unselected" data-target-id="xyhd">学员园地</h4>
+			<h4 class="news-unselected" data-target-id="xyhd">学员活动</h4>
 			<a href="<?php echo Url::to(['news/list-by-catecode','code'=>'jxxx'])?>">更多&gt;</a>
 		</div>
 		<ul class="articlelist" id="jxxx">
@@ -187,12 +187,29 @@ $this->title="首页"
     	<?php endforeach;?>
     </div>
 </div>
-
 <?php 
 AppAsset::addScript($this, '/front/js/index.js');
+$getAdv = Url::to(['site/adv']);
 $js = <<<JS
-
+showAdv();
+function showAdv(){
+    var delay = 1500;
+    setTimeout(function(){
+        $.get('$getAdv',function(res){
+            var len = res.length;
+            if(len > 0){
+                for(var i =0;i<len;i++){
+                    createAdvDom(res[i].position,res[i].advs,res[i].imgs,res[i].link);
+                }
+            }
+        })
+    },delay)
+}
 JS;
+$css = <<<CSS
+
+CSS;
 $this->registerJs($js);
+$this->registerCss($css);
 ?>
 		

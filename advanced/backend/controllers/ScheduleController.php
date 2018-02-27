@@ -62,6 +62,7 @@ class ScheduleController extends CommonController
 	            Yii::$app->session->setFlash('error',$schedule->getErrorDesc());
 	        }
 	    }
+	    $schedule->publishEndTime= date('Y-m-d H:i:s',$schedule->publishEndTime);
 	    return $this->render('add',['model'=>$schedule,'title'=>'编辑课表']);
 	}
 	
@@ -100,5 +101,23 @@ class ScheduleController extends CommonController
 	    
 	    $data = Yii::$app->request->get();
 	    $schedule->export($data);
+	}
+	/**
+	 * @desc 快速发布课表
+	 */
+	public function actionPublish(int $id)
+	{
+	    $schedule= Schedule::findOne($id);
+	    if(Yii::$app->request->isPost){
+	        $post = Yii::$app->request->post();
+	        if(Schedule::edit($post, $schedule)){
+	            return $this->showSuccess('schedule/manage');
+	        }else{
+	            Yii::$app->session->setFlash('error',$schedule->getErrorDesc());
+	        }
+	    }
+	    $schedule->publishTime = date('Y-m-d H:i:s',$schedule->publishTime);
+	    $schedule->publishEndTime= date('Y-m-d H:i:s',$schedule->publishEndTime);
+	    return $this->renderAjax('publish',['model'=>$schedule]);
 	}
 }

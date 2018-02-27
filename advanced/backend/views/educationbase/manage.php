@@ -36,6 +36,7 @@ use backend\assets\AppAsset;
 		    <th width="300px;">基地图片</th>
 		    <th>基地名称</th>
 		    <th>链接地址</th>
+		    <th>排序</th>
 		    <th>创建时间</th>
             <th>修改时间</th>
 		    <th>操作</th>
@@ -49,6 +50,7 @@ use backend\assets\AppAsset;
 		    <td class="imgtd"><img src="<?php echo $val['baseImg']?>" /></td>
 		    <td><?php echo $val['baseName'];?></td>
 		    <td><?php echo $val['link'];?></td>
+		    <td><?php echo $val['sorts'];?></td>
 		    <td><?php echo MyHelper::timestampToDate($val['createTime']);?></td>
             <td><?php echo MyHelper::timestampToDate($val['modifyTime']);?></td>
 		    <td class="handle-box">

@@ -6,6 +6,7 @@ use yii\helpers\Url;
 use common\publics\MyHelper;
 use common\models\CategoryType;
 
+$this->title = $parent->codeDesc . '-' .$currentCate->text;
 ?>
 
 <img class="main-banner top-banner" src="/front/img/abouSchool/top.jpg"/>

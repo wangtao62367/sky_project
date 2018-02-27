@@ -48,6 +48,40 @@ $(document).on('click','.video-item',function(){
 		$(".prism-big-play-btn").remove();
 	});
 })
+//创建首页浮动广告
+function createAdvDom(position,title,img,link){
+    var advBox = $("<div></div>").addClass("adv-box");
+    var imgW = 120;
+    var imgH = 300;
+    if(position == 'left'){
+        advBox.addClass('adv-left');
+    }else if(position == 'right'){
+        advBox.addClass('adv-right');
+    }else if(position == 'top'){
+        advBox.addClass('adv-top');
+        imgW = 1200;
+        imgH = 120;
+    }else if(position == 'bottom'){
+        advBox.addClass('adv-bottom');
+        imgW = 1200;
+        imgH = 120;
+    }else{
+        return false;
+    }
+    var advBody = $('<div></div>').addClass('body');
+    
+    var contentA = $('<a></a>').attr('title',title).attr('href',link);
+    var contentImg = $('<img/>').width(imgW).height(imgH).attr('src',img);
+    advBody.append(contentA.append(contentImg));
+
+    var closeBtn = $('<a></a>').attr('href','javascript:;').addClass("close-adv").text("关闭");
+    advBox.append(advBody,closeBtn);
+    $(document).find('body').append(advBox);
+    $(document).on('click','.adv-box .close-adv',function(){
+        $(this).parent().remove();
+    })
+}
+//横向轮播滚动
 function ScrollImgLeft(id,scrollId){  
 	var speed= 50  
 	var scroll_begin = $("#"+id);  

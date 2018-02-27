@@ -4,6 +4,7 @@
 use yii\helpers\Url;
 use yii\helpers\Html;
 use backend\assets\AppAsset;
+use backend\models\PublishCate;
 
 $controller = Yii::$app->controller;
 $id = Yii::$app->request->get('id','');
@@ -53,6 +54,22 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
     <?php echo Html::activeHiddenInput($model, 'gradeClassId',['class'=>'dfinput'])?>
     <?php echo Html::activeTextInput($model, 'gradeClass',['class'=>'dfinput ajaxSearch gradeClass','placeholder'=>'输入搜索授课班级'])?><i>授课班级不能为空</i>
     <div class="searchresult" style="display: none"> </div>
+    </li>
+    
+    <li><label>是否发布<b>*</b></label>
+    	<div class="vocation">
+    		<?php echo Html::activeDropDownList($model, 'publishCode', PublishCate::$publishTimeArr,['class'=>'sky-select','id'=>'isPublish'])?>
+    	</div>
+    </li>
+    
+    <li class="publishTimeByUser" <?php echo $model->isPublish === 'userDefined' ? 'style="display:block"' : 'style="display:none"'; ?>><label>发布时间<b>*</b></label><?php echo Html::activeTextInput($model, 'publishTime',['class'=>'dfinput','style'=>'width:308px;','id'=>"publishTime"])?><i></i></li>
+    
+    <li><label>发布结束时间</label>
+    	<?php echo Html::activeTextInput($model, 'publishEndTime',['id'=>'publishEndTime','class'=>'dfinput','style'=>'width:308px;','placeholder'=>'发布结束时间'])?>
+    </li>
+    
+    <li><label>发布主题</label>
+    <?php echo Html::activeTextInput($model, 'publishTitle',['class'=>'dfinput'])?>
     </li>
     
     <li><label>备&nbsp;&nbsp;注</label><?php echo Html::activeTextarea($model, 'marks',['class'=>'textinput'])?><i></i></li>
@@ -181,34 +198,14 @@ function throttle(func, wait, mustRun) {
 };
 
 
-// function debounce(func,wait,immediate) {
-//     var timeout , context, args;
-//     return function() {
-//         context = this;
-//         args = arguments;
-//         if(timeout) clearTimeout(timeout);
-//         if(immediate){
-//             var callNow = !timeout;
-//             timeout = setTimeout(function(){
-//                 timeout = null;
-//             },wait);
-//             if(callNow){
-//                 func.apply(context);
-//             }  
-//         }else {
-//             timeout = setTimeout(function(){
-//                 func.apply(context);
-//             },wait);
-//         }
-          
-//     }
-// };
+
+
+
 var now = new Date();
 var yearStart = now.getFullYear();
 var yearEnd = yearStart + 1;
 $.datetimepicker.setLocale('ch');
 $('.lessonDate').datetimepicker({
-      //lang:"zh", //语言选择中文 注：旧版本 新版方法：$.datetimepicker.setLocale('ch');
       format:"Y-m-d",      //格式化日期
       timepicker:false,    //关闭时间选项
       yearStart: yearStart,     //设置最小年份
@@ -225,6 +222,37 @@ $('.lessonEndTime').datetimepicker({
 	format:'H:i',
 	step:5
 });
+
+$(document).on('change','#isPublish',function(){
+    var val = $(this).val();
+    if(val == 'userDefined'){
+        $('.publishTimeByUser').show();
+    }else{
+        $('.publishTimeByUser').hide();
+    }
+})
+
+//时间选择框
+$('#publishTime').datetimepicker({
+      format:"Y-m-d H:m:i",      //格式化日期
+      timepicker:true,    
+      minDate : now,
+      minTime : now,
+      yearStart: yearStart,     //设置最小年份
+      yearEnd:yearEnd,        //设置最大年份
+      todayButton:true    //开启选择今天按钮
+});
+
+$('#publishEndTime').datetimepicker({
+      format:"Y-m-d H:m:i",      //格式化日期
+      timepicker:true,    
+      minDate : now,
+      minTime : now,
+      yearStart: yearStart,     //设置最小年份
+      yearEnd:yearEnd,        //设置最大年份
+      todayButton:true    //开启选择今天按钮
+});
+
 JS;
 AppAsset::addCss($this, '/admin/css/jquery.datetimepicker.css');
 AppAsset::addScript($this, '/admin/js/jquery.datetimepicker.full.js');

@@ -11,7 +11,7 @@ $this->title= $data['current']['title'];
 <div class="inst">
 	<ul>
 		<li>来源：<a href="<?php echo empty($data['current']['sourceLinke'])? '#' : $data['current']['sourceLinke'];?>"><?php echo empty($data['current']['sourceLinke'])? $this->params['webCfgs']['siteName']:$data['current']['source'];?></a></li>
-		<li class="second">作者：中央社院微信公众号</li>
+		<li class="second">作者：<?php echo $data['current']['author'];?></li>
 		<li>
 		<p>分享到：</p>
 		<div  class="bdsharebuttonbox">

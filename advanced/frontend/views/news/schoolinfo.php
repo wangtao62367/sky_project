@@ -4,6 +4,7 @@
 use frontend\assets\AppAsset;
 use yii\helpers\Url;
 
+$this->title = $parent->codeDesc . '-' .$currentCate->text;
 ?>
 
 <img class="main-banner top-banner" src="/front/img/abouSchool/top.jpg"/>

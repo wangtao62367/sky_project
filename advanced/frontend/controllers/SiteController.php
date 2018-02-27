@@ -4,6 +4,7 @@ namespace frontend\controllers;
 use frontend\logic\SiteLogic;
 use Yii;
 use common\models\Article;
+use common\models\Adv;
 /**
  * Site controller
  */
@@ -36,5 +37,13 @@ class SiteController extends CommonController
 	        
 	    }
 	    return $this->redirect(['site/index']);
+	}
+	
+	
+	public function actionAdv()
+	{
+	    $this->setResponseJson();
+	    $adv = Adv::find()->all();
+	    return $adv;
 	}
 }

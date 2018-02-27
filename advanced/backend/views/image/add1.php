@@ -43,7 +43,9 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
             <?php echo Html::activeDropDownList($model, 'categoryId', ArrayHelper::map($parentCates,'id','text'),['prompt'=>'请选择','class'=>'sky-select'])?>
         </div>
     </li>
-    <li><label>图片标题<b>*</b></label><?php echo Html::activeTextInput($model, 'title',['class'=>'dfinput'])?></li>
+    <li><label>图片标题<b>*</b></label><?php echo Html::activeTextInput($model, 'title',['class'=>'dfinput'])?>
+    <i>图片标题不能最多50个字</i></li>
+    </li>
     <li><label>图片链接</label><?php echo Html::activeTextInput($model, 'link',['class'=>'dfinput'])?><i>链接地址必须是URL全路径,例如：百度 http://www.baidu.com</i></li>
     
     <li><label>图片提供者</label><?php echo Html::activeTextInput($model, 'provider',['class'=>'dfinput'])?><i></i></li>

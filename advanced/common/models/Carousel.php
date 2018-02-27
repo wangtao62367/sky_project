@@ -18,9 +18,9 @@ class  Carousel extends BaseModel
     public function rules()
     {
         return [
-            ['title','required','message'=>'轮播图标题不能为空','on'=>['add']],
-            ['link','required','message'=>'轮播图链接地址不能为空','on'=>['add']],
-            ['sorts','default','value'=>1],
+            ['title','required','message'=>'轮播图标题不能为空','on'=>['add','edit']],
+            ['link','required','message'=>'轮播图链接地址不能为空','on'=>['add','edit']],
+            ['sorts','default','value'=>100000],
             [['sorts','search','img'],'safe'],
         ];
     }
@@ -37,7 +37,7 @@ class  Carousel extends BaseModel
             'sorts',
             'createTime',
             'modifyTime'
-        ])->orderBy('sorts desc,modifyTime desc');
+        ])->orderBy('sorts asc,modifyTime desc');
         return $this->query($query);
     }
     
@@ -65,7 +65,34 @@ class  Carousel extends BaseModel
         return  false;
     }
     
-    public function del(Carousel $carousel)
+    public static function edit(array $data,Carousel $carousel)
+    {
+        $carousel->scenario = 'edit';
+        //先上传图片 再写数据
+        if(isset($_FILES['file']) && !empty($_FILES['file']) && !empty($_FILES['file']['tmp_name']) ){
+            
+            $upload = new ImageUpload([
+                'imageMaxSize' => 1024*1024*500,
+                'imagePath'    => 'carousel',
+                'isWatermark'  => false,
+            ]);
+            $result = $upload->Upload('file');
+            $imageName = Yii::$app->params['oss']['host'].$result;
+            $data['Carousel']['img']= $imageName;
+            if(!empty($carousel->img)){
+                //删除旧的文件
+                $block = str_replace(Yii::$app->params['oss']['host'], '', $carousel->img);
+                $upload->deleteImage($block);
+            }
+        }
+        if($carousel->load($data) && $carousel->validate()){
+            
+            return $carousel->save(false);
+        }
+        return  false;
+    }
+    
+    public static function del(Carousel $carousel)
     {
         $imgFile = $carousel->img;
         if($carousel->delete()){

@@ -3,9 +3,9 @@
  * @autor wangtao 
  * @date 2017-07-31 15:20:44
  */
- var uploader = ( (root,factory) => {
+ var uploader = ( function(root,factory){
      return factory.call(root);
- })(this,(root)=>{
+ })(this,function(root){
     let __UPLOADER = {
         options : {
             accessid : '',

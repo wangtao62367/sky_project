@@ -18,6 +18,7 @@ use common\models\SchooleInformation;
 use common\models\GradeClass;
 use common\models\Vote;
 use common\models\Naire;
+use common\models\Schedule;
 /**
  * 新闻
  * @author 
@@ -54,7 +55,7 @@ class NewsController extends CommonController
         $parent = Common::find()->select(['id','codeDesc','code'])->where(['id'=>$pid])->one();
         
         //父级分类为  文化学院模块 
-        if($parent->code == 'whxy'){
+        if($parent->code == 'whxy' && $cateid == 0){
             $this->layout = 'index';
             $data = [
                 'whjl' => NewsLogic::getWhjlList(),
@@ -80,22 +81,6 @@ class NewsController extends CommonController
                 
                 return $this->render('schoolinfo',['parent'=>$parent,'cateList'=>$cateList,'info'=>$info,'currentCate'=>$currentCate]);
                 
-        }elseif ($currentCate->cateCode == CategoryType::WYBM){ //我要报名页面
-            $gradeclass = new GradeClass();
-            $gradeclass->pageSize = 10;
-            $data['GradeClass']['search'] = [
-                'validdate' => date('Y-m-d')
-            ];
-            $list = $gradeclass->pageList($data);
-            
-        }elseif ($currentCate->cateCode == CategoryType::TPDC){ //投票调查
-            $naire = new Naire();
-            $naire->pageSize = 15;
-            $data['Naire']['search'] = [
-                'isPublish' => 1
-            ];
-            $list = $naire->getPageList($data,$data);
-            
         }else {
         
             $list = $this->getNewsList($currentCate, $data);
@@ -124,22 +109,6 @@ class NewsController extends CommonController
                 
                 return $this->render('schoolinfo',['parent'=>$parent,'cateList'=>$cateList,'info'=>$info,'currentCate'=>$currentCate]);
                 
-        }elseif ($currentCate->cateCode == CategoryType::WYBM){ //我要报名页面
-        	$gradeclass = new GradeClass();
-        	$gradeclass->pageSize = 10;
-        	$data['GradeClass']['search'] = [
-        			'validdate' => date('Y-m-d')
-        	];
-        	$list = $gradeclass->pageList($data);
-        	
-        }elseif ($currentCate->cateCode == CategoryType::TPDC){ //投票调查
-        	$naire = new Naire();
-        	$naire->pageSize = 15;
-        	$data['Naire']['search'] = [
-        			'isPublish' => 1
-        	];
-        	$list = $naire->getPageList($data,$data);
-        	
         }else {
         	
         	$list = $this->getNewsList($currentCate, $data);
@@ -152,13 +121,36 @@ class NewsController extends CommonController
     public function getNewsList(Category $currentCate,array $data)
     {
         //客座教授  | 现任领导
-        if($currentCate->cateCode == CategoryType::KZJS || $currentCate->cateCode == CategoryType::XRLD){
+        if($currentCate->cateCode == CategoryType::ZKJS|| $currentCate->cateCode == CategoryType::XRLD){
             $personage = new Personage();
-            $personage->pageSize = 5;
+            $personage->pageSize = 3;
             $data['Personage']['search'] = [
                 'role' => $currentCate->cateCode,
             ];
             $list = $personage->getList($data);
+        }elseif ($currentCate->cateCode == CategoryType::WYBM){ //我要报名页面
+            $gradeclass = new GradeClass();
+            $gradeclass->pageSize = 10;
+            $data['GradeClass']['search'] = [
+                'validdate' => date('Y-m-d')
+            ];
+            $list = $gradeclass->pageList($data);
+            
+        }elseif ($currentCate->cateCode == CategoryType::TPDC){ //投票调查
+            $naire = new Naire();
+            $naire->pageSize = 15;
+            $data['Naire']['search'] = [
+                'isPublish' => 1
+            ];
+            $list = $naire->getPageList($data,$data);
+            
+        }elseif ($currentCate->cateCode == CategoryType::KBCX){ //课表查询
+            $schedule = new Schedule();
+            $schedule->pageSize = 15;
+            $data['Schedule']['search'] = [
+                'isPublish' => 1
+            ];
+            $list = $schedule->pageList($data);
         }else {
             switch ($currentCate->type){
                 case CategoryType::ARTICLE :

@@ -7,6 +7,7 @@ use common\publics\MyHelper;
 use common\models\CategoryType;
 use common\models\TestPaper;
 
+$this->title = $parent->codeDesc . '-'.$currentCate->text;
 ?>
 
 <img class="main-banner top-banner" src="/front/img/abouSchool/top.jpg"/>
@@ -32,12 +33,14 @@ use common\models\TestPaper;
 			<ul>
 			<?php foreach ($list['data'] as $val):?>
 				<!-- 特别的类型数据 -->
-    			<?php if($currentCate->cateCode == CategoryType::KZJS || $currentCate->cateCode == CategoryType::XRLD):?>
+    			<?php if($currentCate->cateCode == CategoryType::ZKJS || $currentCate->cateCode == CategoryType::XRLD):?>
     				<li class="personage-item">
     					<img alt="" src="<?php echo $val['photo']?>">
-    					<h4><?php echo $val['fullName'];?> <?php echo $val['duties'];?></h4>
-    					<hr/>
-    					<p><?php echo str_replace("\r\n", '<br/>', $val['intruduce']);?></p>
+    					<div class="personage-info">
+        					<h4><?php echo $val['fullName'];?> <?php echo $val['duties'];?></h4>
+        					<hr/>
+        					<p><?php echo str_replace("\r\n", '<br/>', $val['intruduce']);?></p>
+    					</div>
     				<li>
     			<?php elseif ($currentCate->cateCode == CategoryType::WYBM):?>
     				<li class="gradeclass-item">
@@ -57,6 +60,10 @@ use common\models\TestPaper;
     			<?php elseif ($currentCate->cateCode == CategoryType::TPDC):?>
     				<li class="article-item">
     				<a href="<?php echo Url::to(['student/naire','id'=>$val['id']])?>" title="<?php echo $val['title'];?>"><?php echo MyHelper::timestampToDate($val['modifyTime']);?>  <?php echo $val['title'];?></a></li>
+    			<?php elseif ($currentCate->cateCode == CategoryType::KBCX):?>
+    				<li class="article-item">
+    				<a href="<?php echo Url::to(['schedule/info','id'=>$val['id']])?>" title="<?php echo $val['publishTitle'];?>">【<?php echo $val['gradeClass'];?>】 <?php echo $val['publishTitle'];?></a>
+    				</li>
     			<?php else :?>
     				<?php if ($currentCate->type == CategoryType::ARTICLE):?>
     					<li class="article-item"><a href="<?php echo Url::to(['news/detail','id'=>$val['id']])?>" title="<?php echo $val['title'];?>"><?php echo MyHelper::timestampToDate($val['publishTime']);?>  <?php echo $val['title'];?></a></li>

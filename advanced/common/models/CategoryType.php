@@ -37,7 +37,7 @@ class CategoryType
     //现任领导
     const XRLD = 'xrld';  
     //客座教授
-    const KZJS = 'kzjs';
+    const ZKJS = 'zkjs';
     //社院风采
     const SYFC = 'syfc';
     //校园风光

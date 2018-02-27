@@ -4,6 +4,7 @@
 use frontend\assets\AppAsset;
 use yii\helpers\Url;
 
+$this->title = '文化学院';
 ?>
 
 <img class="whjl-banner" src="/front/img/news/whxy_top.jpg" />

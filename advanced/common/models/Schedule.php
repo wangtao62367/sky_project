@@ -4,6 +4,7 @@ namespace common\models;
 
 use yii\db\ActiveQuery;
 use common\publics\MyHelper;
+use backend\models\PublishCate;
 
 /**
  * 课表
@@ -30,7 +31,7 @@ class Schedule extends BaseModel
 		    [['teachPlaceId','teachPlace'],'required','message'=>'教学地点不能为空','on'=>['add','edit']],
 		    [['gradeClassId','gradeClass'],'required','message'=>'授课班级不能为空','on'=>['add','edit']],
 		    [['lessonDate','lessonStartTime','lessonEndTime'],'required','message'=>'上课时间不能为空','on'=>['add','edit']],
-		    [['search','isPublish','publishTitle','publishEndDate','marks'],'safe'],
+		    [['search','isPublish','publishTitle','publishEndTime','marks','publishCode','publishTime'],'safe'],
 		];
 	}
 	
@@ -38,6 +39,8 @@ class Schedule extends BaseModel
 	{
 	    $this->scenario = 'add';
 	    if($this->load($data) && $this->validate()){
+	        $this->publishEndTime= strtotime($this->publishEndTime);
+	        PublishCate::getPublishTime($this->publishCode,$this);
 	        return $this->save(false);
 	    }
 	    return false;
@@ -47,6 +50,8 @@ class Schedule extends BaseModel
 	{
 	    $schedule->scenario = 'edit';
 	    if($schedule->load($data) && $schedule->validate()){
+	        $schedule->publishEndTime= strtotime($schedule->publishEndTime);
+	        PublishCate::getPublishTime($schedule->publishCode,$schedule);
 	        return $schedule->save(false);
 	    }
 	    return false;
@@ -76,7 +81,7 @@ class Schedule extends BaseModel
     	    //->joinWith('teachplaces')
     	    //->joinWith('gradeclass')
     	    ->where([self::tableName().'.isDelete'=>self::CURRICULUM_UNDELETE])->orderBy('createTime desc,modifyTime desc');
-		if($this->load($data)){
+		if($this->load($data) && !empty($this->search)){
 			$scheduleListQuery = $this->filterSearch($this->search,$scheduleListQuery);
 		}
 		$result = $this->query($scheduleListQuery, $this->curPage, $this->pageSize);
@@ -139,6 +144,11 @@ class Schedule extends BaseModel
 		if(isset($search['teachPlaceId']) && !empty($search['teachPlaceId'])){
 			$query= $query->andWhere(['teachPlaceId'=>$search['teachPlaceId']]);
 		}
+		
+		if(isset($search['isPublish']) && !empty($search['isPublish'])){
+		    $query= $query->andWhere(['isPublish'=>$search['isPublish']]);
+		}
+		
 		if(isset($search['teachPlace']) && !empty($search['teachPlace'])){
 			$query= $query->andWhere(['like','teachPlace',$search['teachPlace']]);
 		}

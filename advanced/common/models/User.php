@@ -108,11 +108,11 @@ class User extends BaseModel implements IdentityInterface
     {
         $this->scenario = 'login';
         if($this->load($data) && $this->validate()){
-            $this->lastLoginIp = $this->_user->loginIp;
-            $this->loginIp     = ip2long(Yii::$app->request->userIP);
-            $this->loginCount  = $this->_user->loginCount + 1;
-            $this->modifyTime  = TIMESTAMP;
-            if($this->save(false) && Yii::$app->user->login($this->_user,Yii::$app->params['user.passwordResetTokenExpire'])){
+            $this->_user->lastLoginIp = $this->_user->loginIp;
+            $this->_user->loginIp     = ip2long(Yii::$app->request->userIP);
+            $this->_user->loginCount  = $this->_user->loginCount + 1;
+            $this->_user->modifyTime  = TIMESTAMP;
+            if($this->_user->save(false) && Yii::$app->user->login($this->_user,Yii::$app->params['user.passwordResetTokenExpire'])){
                 return true;
             }
         }
