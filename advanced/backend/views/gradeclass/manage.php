@@ -77,7 +77,7 @@ use backend\assets\AppAsset;
             <td><?php echo MyHelper::timestampToDate($val['modifyTime']);?></td>
             <td class="handle-box">
             <a href="<?php echo Url::to(['gradeclass/edit','id'=>$val['id']]);?>" class="tablelink">编辑</a>     
-            <a href="<?php echo Url::to(['gradeclass/make-schedule','id'=>$val['id']]);?>" class="tablelink">制作课表</a>  
+            <!-- <a href="<?php echo Url::to(['gradeclass/make-schedule','id'=>$val['id']]);?>" class="tablelink">制作课表</a>   -->
             <a href="<?php echo Url::to(['schedule/manage','Schedule[search][gradeClass]'=>$val['className']]);?>" class="tablelink">查看课表</a>  
             <a href="<?php echo Url::to(['gradeclass/del','id'=>$val['id']]);?>" class="tablelink"> 删除</a>
             </td>
@@ -146,7 +146,6 @@ $('.endTime').datetimepicker({
       yearEnd:yearEnd,        //设置最大年份
       todayButton:true    //开启选择今天按钮
 });
-
 JS;
 $this->registerJs($js);
 $this->registerCss($css);

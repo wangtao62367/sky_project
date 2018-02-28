@@ -2,8 +2,8 @@
 
 use yii\helpers\Url;
 use frontend\assets\AppAsset;
-
-$this->title="首页"
+$params = $this->params;
+$this->title = "首页_".$params['webCfgs']['siteName'];
 ?>
 <div class="section-1">
 	<div class="crousle-box">
@@ -199,7 +199,9 @@ function showAdv(){
             var len = res.length;
             if(len > 0){
                 for(var i =0;i<len;i++){
+                    if(res[i].status == 1){
                     createAdvDom(res[i].position,res[i].advs,res[i].imgs,res[i].link);
+                    }
                 }
             }
         })

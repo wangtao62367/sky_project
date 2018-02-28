@@ -9,6 +9,7 @@ use common\publics\Xcrypt;
 use frontend\models\EditPwdForm;
 use common\models\BmRecord;
 use common\models\Student;
+use common\publics\ImageUpload;
 /**
 * 用户
 * @date: 2018年2月6日 下午9:15:27
@@ -16,6 +17,12 @@ use common\models\Student;
 */
 class UserController extends CommonController
 {
+    public function init()
+    {
+        parent::init();
+        $this->mustLogin = ['info','center','edit-pwd'];
+    }
+    
     /**
     * 注册
     * @date: 2018年2月6日 下午10:34:34
@@ -106,7 +113,6 @@ class UserController extends CommonController
     	if(Yii::$app->request->isPost){
     		$post = Yii::$app->request->post();
     		$result = Student::add($post,$student,'editInfo');
-    		//var_dump($result);exit();
     		if(!$result){
     		    Yii::$app->session->setFlash('error',$student->getErrorDesc());
     		}
@@ -218,7 +224,7 @@ class UserController extends CommonController
         return  $this->render('resetpwdbymail',['model'=>$model]);
     }
     /**
-    * 用户中心
+    * @desc 用户中心
     * @date: 2018年2月23日 下午4:39:49
     * @author: wangtao
     * @return:
@@ -230,6 +236,46 @@ class UserController extends CommonController
     	$data['BmRecord']['search'] = ['userId'=>Yii::$app->user->id];
     	$result = $bmRecord->pageList($data);
         return $this->render('center',['list'=>$result]);
+    }
+    /**
+     * @desc 上传图片
+     * @param imageMaxSize 文件大小 (字节)
+     * @param imageOld 旧文件路径地址
+     */
+    public function actionAjaxUpload()
+    {
+        $this->setResponseJson();
+        if(Yii::$app->request->isPost){
+            $imageMaxSize = Yii::$app->request->post('imageMaxSize',1024*1024*1);
+            $imageOld = Yii::$app->request->post('imageOld','');
+            if(isset($_FILES['file']) && !empty($_FILES['file']) && !empty($_FILES['file']['tmp_name']) ){
+                $upload = new ImageUpload([
+                    'imageMaxSize' => $imageMaxSize,
+                    'imagePath'    => 'user',
+                    'isWatermark'  => false,
+                ]);
+                $result = $upload->Upload('file');
+                $imageName = Yii::$app->params['oss']['host'].$result;
+                //并且删除老的头像
+                if(!empty($imageOld)){
+                    $block = str_replace(Yii::$app->params['oss']['host'], '', $imageOld);
+                    $upload->deleteImage($block);
+                }
+                return [
+                    'success' => true,
+                    'data'    => $imageName
+                ];
+            }else{
+                return [
+                    'success' => false,
+                    'data'    => '未选择文件'
+                ];
+            }
+        }
+        return [
+            'success' => false,
+            'data'    => '请求错误'
+        ];
     }
     
 /*     public function actions()

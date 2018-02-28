@@ -9,6 +9,7 @@ use Yii;
 use common\controllers\CommonController;
 use common\models\Student;
 use common\models\BestStudent;
+use common\models\BmRecord;
 /**
  * @name 学员管理
  * @author wt
@@ -23,10 +24,13 @@ class StudentController extends CommonController
      */
     public function actionManage()
     {
-        $model = new Student();
+        $model = new BmRecord();
         $data = Yii::$app->request->get();
-        $data['Student']['search']['verify'] = 2;
-        $list = $model->pageList($data);
+        $data['BmRecord']['search']['verify'] = 3;
+        $list = $model->pageList($data,'verify asc,modifyTime desc,createTime desc',['student','gradeclass']);
+        
+        //var_dump($list);exit();
+        
         return $this->render('manage',['model'=>$model,'list'=>$list]);
         
     }
@@ -36,80 +40,93 @@ class StudentController extends CommonController
      */
     public function actionVerifyList()
     {
-        $model = new Student();
+        $model = new BmRecord();
         $data = Yii::$app->request->get();
-        $verify = Yii::$app->request->get('verify',0);
-        $data['Student']['search']['verify'] = $verify;
+        $verify = Yii::$app->request->get('verify',1);
+        $data['BmRecord']['search']['verify'] = $verify;
         $list = $model->pageList($data);
+        
         return $this->render('verify_list',['model'=>$model,'list'=>$list]);
     }
     /**
-     * @desc 查看审核学员
+     * @desc 查看审核报名
      */
     public function actionInfo(int $id)
     {
-        $student = Student::findOne($id);
-        if(empty($student)){
+        $bmRecord= BmRecord::findOne($id);
+        if(empty($bmRecord)){
             return $this->showDataIsNull('student/verify-list');
         }
-        return $this->render('info',['info'=>$student]);
+        
+        $student = Student::findOne(['userId'=>$bmRecord->userId]);
+        
+        return $this->render('info',['bmRecord'=>$bmRecord,'info'=>$student]);
     }
     /**
-     * @desc 初始审核报名
+     * @desc 初审报名
      * @param int $id
      * @return \yii\web\Response|string
      */
     public function actionVerifyOne(int $id)
     {
-    	$student = Student::findOne($id);
-    	if(empty($student)){
-    		return $this->showDataIsNull('student/verify-list');
-    	}
+        $bmRecord= BmRecord::findOne($id);
+        if(empty($bmRecord)){
+            return $this->showDataIsNull('student/verify-list');
+        }
+        $student = Student::findOne(['userId'=>$bmRecord->userId]);
+        
     	if(Yii::$app->request->isPost){
     		$isAgree = Yii::$app->request->post('isAgree');
     		$reasons1= Yii::$app->request->post('reasons1');
-    		$verify = 1;
+    		$verify = 2;
     		if(intval($isAgree) == 0){
-    			$verify = 3;
+    			$verify = 0;
     		}
-    		$student->verify   = $verify;
-    		$student->reasons1 = $reasons1;
-    		if($student->save(false)){
+    		$bmRecord->verify   = $verify;
+    		$bmRecord->verifyReason1 = $reasons1;
+    		$bmRecord->verifyAdmin1  = Yii::$app->user->id;
+    		$bmRecord->verifyTime1   = TIMESTAMP;
+    		if($bmRecord->save(false)){
     			return $this->showSuccess('student/info?id='.$id);
     		}else{
     			Yii::$app->session->setFlash('error','操作失败');
     		}
     	}
-    	return $this->render('info',['info'=>$student]);
+    	return $this->render('info',['bmRecord'=>$bmRecord,'info'=>$student]);
     }
     /**
-     * @desc 二次审核报名
+     * @desc 终审报名
      * @param int $id
      * @return \yii\web\Response|string
      */
     public function actionVerifyTwo(int $id)
     {
-    	$student = Student::findOne($id);
-    	if(empty($student)){
-    		return $this->showDataIsNull('student/verify-list');
-    	}
-    	if(Yii::$app->request->isPost){
-    		$isAgree = Yii::$app->request->post('isAgree');
-    		$reasons2= Yii::$app->request->post('reasons2');
-    		$verify = 2;
-    		if(intval($isAgree) == 0){
-    			$verify = 3;
-    		}
-    		$student->verify   = $verify;
-    		$student->reasons2 = $reasons2;
-    		if($student->save(false)){
-    			return $this->showSuccess('student/info?id='.$id);
-    		}else{
-    			Yii::$app->session->setFlash('error','操作失败');
-    		}
-    	}
-    	return $this->render('info',['info'=>$student]);
+        $bmRecord= BmRecord::findOne($id);
+        if(empty($bmRecord)){
+            return $this->showDataIsNull('student/verify-list');
+        }
+        $student = Student::findOne(['userId'=>$bmRecord->userId]);
+        
+        if(Yii::$app->request->isPost){
+            $isAgree = Yii::$app->request->post('isAgree');
+            $reasons2= Yii::$app->request->post('reasons2');
+            $verify = 3;
+            if(intval($isAgree) == 0){
+                $verify = 0;
+            }
+            $bmRecord->verify   = $verify;
+            $bmRecord->verifyReason2 = $reasons2;
+            $bmRecord->verifyAdmin2  = Yii::$app->user->id;
+            $bmRecord->verifyTime2   = TIMESTAMP;
+            if($bmRecord->save(false)){
+                return $this->showSuccess('student/info?id='.$id);
+            }else{
+                Yii::$app->session->setFlash('error','操作失败');
+            }
+        }
+        return $this->render('info',['bmRecord'=>$bmRecord,'info'=>$student]);
     }
+    
     /**
      * @desc 删除学员
      * @param int $id
@@ -153,10 +170,18 @@ class StudentController extends CommonController
         return $this->render('set_best',['model'=>$model,'info'=>$student,'title'=>'设为优秀学员']);
     }
     
-    
+    /**
+     * @desc 修改优秀学员
+     * @param int $id
+     * @return \yii\web\Response|string
+     */
     public function actionEditBest(int $id)
     {
-        $model = BestStudent::find()->where('studentId = :id',[':id'=>$id])->one();
+        $student = Student::findOne($id);
+        if(empty($student)){
+            return $this->showDataIsNull('student/manage');
+        }
+        $model = BestStudent::find()->where('studentId = :id',[':id'=>$student->id])->one();
         if(empty($model)){
             return $this->showDataIsNull('student/manage');
         }
@@ -169,7 +194,7 @@ class StudentController extends CommonController
                 Yii::$app->session->setFlash('error',$model->getErrorDesc());
             }
         }
-        return $this->render('edit_best',['model'=>$model,'title'=>'设为优秀学员']);
+        return $this->render('edit_best',['info'=>$student,'model'=>$model,'title'=>'修改优秀学员']);
     }
     
 }

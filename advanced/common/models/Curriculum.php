@@ -30,7 +30,7 @@ class Curriculum extends BaseModel
             ['text','required','message'=>'课程名称不能为空','on'=>['create','edit']],
             ['text', 'string' ,'length'=>[2,20],'tooLong'=>'课程名称长度为4-40个字符', 'tooShort'=>'课程名称长度为2-20个字','on'=>['create','edite']],
             ['period','required','message'=>'课时数不能为空','on'=>['create','edit']],
-            ['period','integer','message'=>'课时数必须是整数数字','on'=>['create','edit']],
+            ['period','number','message'=>'课时数必须是整数数字','on'=>['create','edit']],
             [['isRequired','remarks','curPage','pageSize','search'],'safe']
         ];
     }

@@ -78,6 +78,8 @@ use backend\assets\AppAsset;
             <th>预览数</th>
             <th>是否发布</th>
             <th>发布时间</th>
+            <th>是否置顶</th>
+            <th>排序</th>
             <th>院领导</th>
             <th>创建时间</th>
             <th>修改时间</th>
@@ -99,6 +101,8 @@ use backend\assets\AppAsset;
             <td><?php echo $val['readCount'];?></td>
             <td><?php echo $val['isPublish'] == 0 ?'未发布' : '已发布';?></td>
             <td><?php echo MyHelper::timestampToDate($val['publishTime']);?></td>
+            <td><?php echo $val['ishot'] == 1 ? '是' : '否' ;?> </td>
+            <td><?php echo $val['sorts'] ;?> </td>
             <td><?php echo $val['leader'] ;?> </td>
             <td><?php echo MyHelper::timestampToDate($val['createTime']);?></td>
             <td><?php echo MyHelper::timestampToDate($val['modifyTime']);?></td>

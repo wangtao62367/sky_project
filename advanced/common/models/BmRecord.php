@@ -8,6 +8,21 @@ use yii\db\Query;
 class BmRecord extends BaseModel
 {
     
+    const STUDENT_VERIFY_NO  = 0;
+    
+    const STUDENT_VERIFY_STEP1 = 1;
+    
+    const STUDENT_VERIFY_STEP2= 2;
+    
+    const STUDENT_VERIFY_FINISH = 3;
+    
+    public static $verify_texts = [
+        self::STUDENT_VERIFY_NO     => '审核失败',
+        self::STUDENT_VERIFY_STEP1  => '初审中',
+        self::STUDENT_VERIFY_STEP2  => '终审中',
+        self::STUDENT_VERIFY_FINISH => '审核完成',
+    ];
+    
     public static function tableName()
     {
         return '{{%BmRecord}}';
@@ -27,10 +42,10 @@ class BmRecord extends BaseModel
     
     
     
-    public function pageList(array $data,$orderBy = 'verify asc,createTime desc,modifyTime desc')
+    public function pageList(array $data,$orderBy = 'verify asc,modifyTime desc,createTime desc',$jowin = ['student'])
     {
     	$this->curPage = isset($data['curPage']) && !empty($data['curPage']) ? $data['curPage'] : $this->curPage;
-    	$query = self::find()->joinWith('student')->orderBy($orderBy);
+    	$query = self::find()->joinWith($jowin)->orderBy($orderBy);
     	if($this->load($data) && !empty($this->search)){
     		$query = $this->filterSearch($this->search,$query);
     	}
@@ -68,7 +83,7 @@ class BmRecord extends BaseModel
     	}
     	
         if(isset($search['verify']) && is_numeric($search['verify'])){
-        	$query = $query->andWhere(Student::tableName().'.verify = :verify',[':verify'=>$search['verify']]);
+            $query = $query->andWhere(self::tableName().'.verify = :verify',[':verify'=>$search['verify']]);
     	}
     	
     	if(isset($search['userId']) && is_numeric($search['userId'])){
@@ -82,5 +97,10 @@ class BmRecord extends BaseModel
     public function getStudent()
     {
     	return $this->hasOne(Student::className(), ['userId'=>'userId']);
+    }
+    
+    public function getGradeclass()
+    {
+        return $this->hasOne(GradeClass::className(), ['id'=>'gradeClassId']);
     }
 }

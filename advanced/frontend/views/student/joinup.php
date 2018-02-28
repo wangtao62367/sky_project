@@ -33,11 +33,11 @@ $nations = Yii::$app->params['nations'];
 		<?php echo Html::activeHiddenInput($model,'avater');?>
 		<?php echo Html::fileInput('avater',null,['style'=>'display:none','id'=>'avater','accept'=>"image/png, image/jpeg,image/jpg"])?>
 		<a href="javascript:;" class="btn-select-avater">选择头像</a><span id="selected_avater"></span>
+		<?php if($model->avater):?>
 		<div class="avater-box">
-			<?php if($model->avater):?>
 			<img src="<?php echo $model->avater;?>"/>
-			<?php endif;?>
 		</div>
+		<?php endif;?>
 		<p class="form-error"></p>
 	</div>
 	

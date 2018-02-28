@@ -35,7 +35,8 @@ class Article extends BaseModel
             ['summary','required','message'=>'文章摘要不能为空','on'=>['create','edit']],
             ['content','required','message'=>'文章内容不能为空','on'=>['create','edit']],
             ['categoryId','required','message'=>'文章分类不能为空','on'=>['create','edit']],
-            [['isPublish','titleImg','publishCode','publishTime','tags','search','imgCount','sourceLinke','imgProvider','remarks','leader','contentCount','source','ishot','url'],'safe']
+            ['sorts','default','value'=>999999],
+            [['sorts','isPublish','titleImg','publishCode','publishTime','tags','search','imgCount','sourceLinke','imgProvider','remarks','leader','contentCount','source','ishot','url'],'safe']
         ];
     }
     
@@ -53,7 +54,9 @@ class Article extends BaseModel
     {
         $this->curPage = isset($data['curPage']) && !empty($data['curPage']) ? $data['curPage'] : $this->curPage;
         $query = $this->getQuery();
-        $query = $this->queryFilter($data,$query);
+        if($this->load($search) && !empty($this->search)){
+            $query = $this->queryFilter($this->search,$query);
+        }
 
         return $this->query($query,$this->curPage,$this->pageSize);
     }
@@ -63,7 +66,9 @@ class Article extends BaseModel
     {
     	$query = $this->getQuery();
         
-        $query = $this->queryFilter($data,$query);
+    	if($this->load($data) && !empty($this->search)){
+    	    $query = $this->queryFilter($this->search,$query);
+    	}
 
         $result = $query->asArray()->all();
         
@@ -134,37 +139,36 @@ class Article extends BaseModel
     			self::tableName().'.imgProvider',
     			self::tableName().'.leader',
     			self::tableName().'.ishot',
+    	        self::tableName().'.sorts',
     			self::tableName().'.createTime',
     			self::tableName().'.modifyTime',
     			self::tableName().'.remarks',
     	])
     	->with('categorys')
     	->where([self::tableName().'.isDelete'=>0])
-    	->orderBy('ishot desc,modifyTime desc');
+    	->orderBy('ishot desc,sorts asc,modifyTime desc');
     	return $query;
     }
     
-    private function queryFilter($data,$query)
+    private function queryFilter($search,$query)
     {
-        if (!empty($data) && $this->load($data)){
-            if(!empty($this->search['keywords'])){
-                $query = $query->andWhere(['or',['like','author',$this->search['keywords']],['like','title',$this->search['keywords']]]);
-            }
-            if(!empty($this->search['categoryId']) && $this->search['categoryId'] != 'unkown'){
-                $query = $query->andWhere('categoryId = :categoryId',[':categoryId'=>$this->search['categoryId']]);
-            }
-            if(!empty($this->search['isPublish']) && $this->search['isPublish'] != 'unkown'){
-                $query = $query->andWhere('isPublish = :isPublish',[':isPublish'=>$this->search['isPublish']]);
-            }
-            if(!empty($this->search['imgProvider'])){
-                $query = $query->andWhere(['like','imgProvider',$this->search['imgProvider']]);
-            }
-            if(!empty($this->search['publishStartTime'])){
-                $query = $query->andWhere('publishTime >= :publishStartTime',[':publishStartTime'=>strtotime($this->search['publishStartTime'])]);
-            }
-            if(!empty($this->search['publishEndTime'])){
-                $query = $query->andWhere('publishTime <= :publishEndTime',[':publishEndTime'=>strtotime($this->search['publishEndTime'])]);
-            }
+        if(!empty($search['keywords'])){
+            $query = $query->andWhere(['or',['like','author',$search['keywords']],['like','title',$search['keywords']]]);
+        }
+        if(!empty($search['categoryId']) && $search['categoryId'] != 'unkown'){
+            $query = $query->andWhere('categoryId = :categoryId',[':categoryId'=>$search['categoryId']]);
+        }
+        if(!empty($search['isPublish']) && $search['isPublish'] != 'unkown'){
+            $query = $query->andWhere('isPublish = :isPublish',[':isPublish'=>$search['isPublish']]);
+        }
+        if(!empty($search['imgProvider'])){
+            $query = $query->andWhere(['like','imgProvider',$search['imgProvider']]);
+        }
+        if(!empty($search['publishStartTime'])){
+            $query = $query->andWhere('publishTime >= :publishStartTime',[':publishStartTime'=>strtotime($search['publishStartTime'])]);
+        }
+        if(!empty($search['publishEndTime'])){
+            $query = $query->andWhere('publishTime <= :publishEndTime',[':publishEndTime'=>strtotime($search['publishEndTime'])]);
         }
         return $query;
     }

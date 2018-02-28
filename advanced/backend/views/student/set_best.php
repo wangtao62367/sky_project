@@ -27,12 +27,11 @@ $url =Url::to(ArrayHelper::merge([$controller->id.'/'.$controller->action->id],$
 <?php echo Html::activeHiddenInput($model, 'studentId', ['value'=>$info->id])?>
 <ul class="forminfo">
     <li><label>学员姓名<b>*</b></label>
-    <?php echo Html::activeTextInput($model, 'stuName',['class'=>'dfinput','readonly'=>true,'value'=>$info->trueName])?></li>
+    <?php echo Html::textInput('stuName',$info->trueName,['class'=>'dfinput','readonly'=>true])?></li>
     <li><label>学员头像<b>*</b></label>
-    <?php echo Html::activeHiddenInput($model, 'stuPhoto', ['value'=>$info->avater])?>
     	<div href="javascript:;" class="image-box">
         	<?php if($info->avater):?>
-        		<img alt="" width="100%" src="<?php echo $info->avater;?>" />
+        		<img alt="" width="100px" height="100px" src="<?php echo $info->avater;?>" />
         	<?php else :?>
         		<img alt="" src="/admin/images/ico04.png" />
         	<?php endif;?>

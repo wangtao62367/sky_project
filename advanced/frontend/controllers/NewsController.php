@@ -65,13 +65,14 @@ class NewsController extends CommonController
         }
         
         $cateList = Category::find()->select(['id','text','parentId','type'])->where(['parentId'=>$pid,'isDelete'=>0])->orderBy('isBase desc,modifyTime ASC')->all();
-        if(!empty($cateList) && $cateid == 0){
+        if($cateid == 0 && !empty($cateList)){
+            
             $cateid = $cateList[0]->id;
         }
         
         $currentCate = Category::find()->select(['id','text','cateCode','parentId','type'])->where(['id'=>$cateid])->one();
         $data = Yii::$app->request->get();
-
+    
         //先判断当前分类是否是特殊页面类型
         if ($currentCate->cateCode == CategoryType::FZLC || $currentCate->cateCode == CategoryType::SYFC ||
             $currentCate->cateCode == CategoryType::SZQK || $currentCate->cateCode == CategoryType::XYJJ ||
@@ -156,12 +157,12 @@ class NewsController extends CommonController
             switch ($currentCate->type){
                 case CategoryType::ARTICLE :
                     $article = new Article();
-                    $data['Article']['search'] = [
+                    $search['Article']['search'] = [
                         'categoryId' => $currentCate->id,
                         'isPublish'  => 1
                     ];
                     $article->pageSize = 15;
-                    $list = $article->articles($data);
+                    $list = $article->articles($data,$search);
                     break;
                 case CategoryType::VIDEO:
                     $video = new Video();

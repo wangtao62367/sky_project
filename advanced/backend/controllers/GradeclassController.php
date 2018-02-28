@@ -110,7 +110,7 @@ class GradeclassController extends CommonController
 	 */
 	public function actionMakeSchedule(int $id)
 	{
-	    $gradeClass = GradeClass::findOne($id);
+	    /* $gradeClass = GradeClass::findOne($id);
 	    if(empty($gradeClass)){
 	        return $this->showDataIsNull('gradeclass/manage');
 	    }
@@ -124,7 +124,7 @@ class GradeclassController extends CommonController
 	    	Yii::$app->session->setFlash('error',$model->getErrorDesc());
 	    }
 	    
-	    return $this->render('make_schedule',['model'=>$model,'className'=>$gradeClass->className,'classId'=>$gradeClass->id]); 
+	    return $this->render('make_schedule',['model'=>$model,'className'=>$gradeClass->className,'classId'=>$gradeClass->id]);  */
 	}
 	/**
 	 * @desc 导出班级

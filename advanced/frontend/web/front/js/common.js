@@ -45,6 +45,27 @@
 
 	        return s;
 	    },
+	    /**
+	     * 上传文件
+	     * @param formData 数据new FormData($('#uploadForm')[0])
+	     * @param trueCallBack 请求成功回调
+	     * @param failCallBack 请求失败回调
+	     */
+	    uploadFile : function (formData,trueCallBack,failCallBack) {
+	    	
+	    	$.ajax({
+	    	    url: '/user/ajax-upload',
+	    	    type: 'POST',
+	    	    cache: false,
+	    	    data: formData,//new FormData($('#uploadForm')[0]),
+	    	    processData: false,
+	    	    contentType: false
+	    	}).done(function(res) {
+	    		trueCallBack || trueCallBack(res);
+	    	}).fail(function(res) {
+	    		failCallBack || failCallBack();
+	    	}); 
+	    }
 	};
 	w.common = fn;
 })(window);

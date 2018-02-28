@@ -2,6 +2,7 @@
 use yii\helpers\Url;
 use common\publics\MyHelper;
 use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
 
 ?>
 <div class="place">
@@ -16,7 +17,15 @@ use yii\helpers\Html;
 <div class="rightinfo">
 	<?php echo Html::beginForm(Url::to(['bottomlink/manage']),'get');?>
 	<ul class="seachform">
-        <li><label>班级名称</label><?php echo Html::activeTextInput($model, 'search[linkName]',['class'=>'scinput'])?></li>
+        <li><label>链接名称</label><?php echo Html::activeTextInput($model, 'search[linkName]',['class'=>'scinput'])?></li>
+        
+        <li>
+            <label>链接分类</label>  
+            <div class="vocation">
+                <?php echo Html::activeDropDownList($model, 'search[linkCateId]', ArrayHelper::map($cates,'id','codeDesc'),['prompt'=>'请选择','class'=>'sky-select'])?>
+            </div>
+        </li>
+        
         <li><label>&nbsp;</label><?php echo Html::submitInput('查询',['class'=>'scbtn'])?></li>
         <li><a href="<?php echo Url::to(['bottomlink/add'])?>" class="add-btn">添加</a></li>
         <li><a href="javascript:;" class="batchDel del-btn">删除</a></li>
@@ -31,6 +40,7 @@ use yii\helpers\Html;
             <th>链接名称</th>
             <th>链接地址</th>
             <th>链接分类</th>
+            <th>排序</th>
             <th>创建时间</th>
             <th>修改时间</th>
             <th>操作</th>
@@ -45,6 +55,7 @@ use yii\helpers\Html;
             <td><?php echo $val['linkName'];?></td>
             <td><?php echo $val['linkUrl'];?></td>
             <td><?php echo $val['linkcates']['codeDesc'];?></td>
+            <td><?php echo $val['sorts'];?></td>
             <td><?php echo MyHelper::timestampToDate($val['createTime']);?></td>
             <td><?php echo MyHelper::timestampToDate($val['modifyTime']);?></td>
             <td>

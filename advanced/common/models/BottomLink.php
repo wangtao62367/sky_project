@@ -28,7 +28,8 @@ class BottomLink extends BaseModel
             ['linkUrl','url','message'=>'链接地址无效','on'=>['add','edit']],
             ['linkCateId','required','message'=>'链接类型不能为空','on'=>['add','edit']],
             ['linkCateId','validLinkCate','on'=>['create','edit']],
-            [['linkImg','curPage','pageSize','search'],'safe']
+            ['sorts','default','value'=>999999],
+            [['sorts','linkImg','curPage','pageSize','search'],'safe']
         ];
     }
     
@@ -71,15 +72,15 @@ class BottomLink extends BaseModel
     public function getPageList(array $data)
     {
     	$this->curPage = isset($data['curPage']) && !empty($data['curPage']) ? $data['curPage'] : $this->curPage;
-    	$linkQuery = self::find()->select([])->joinWith('linkcates')->where([Common::tableName().'.type'=>'bottomLink'])->orderBy('createTime desc,modifyTime desc');
-        if($this->load($data)){
-            if(!empty($this->search)){
-                if(!empty($this->search['linkName'])){
-                    $linkQuery = $linkQuery->andWhere(['like','linkName',$this->search['linkName']]);
-                }
-                if(!empty($this->search['linkCateId'])){
-                    $linkQuery = $linkQuery->andWhere('linkCateId = :linkCateId',[':linkCateId'=>$this->search['linkCateId']]);
-                }
+    	$linkQuery = self::find()->select([])->joinWith('linkcates')->where([Common::tableName().'.type'=>'bottomLink'])->orderBy('sorts asc,modifyTime desc,createTime desc');
+    	if($this->load($data) && !empty($this->search)){
+    	    
+            if(!empty($this->search['linkName'])){
+                $linkQuery = $linkQuery->andWhere(['like','linkName',$this->search['linkName']]);
+            }
+            
+            if(!empty($this->search['linkCateId'])){
+                $linkQuery = $linkQuery->andWhere('linkCateId = :linkCateId',[':linkCateId'=>$this->search['linkCateId']]);
             }
             
         }

@@ -11,7 +11,7 @@ use common\publics\ImageUpload;
 class Student extends BaseModel
 {
     
-    const STUDENT_VERIFY_NO  = 10;
+    const STUDENT_VERIFY_NO  = 0;
     
     const STUDENT_VERIFY_STEP1 = 1;
     
@@ -105,6 +105,7 @@ class Student extends BaseModel
                 }
                 $model->avater = $imageName;
             }
+            
             if($model->save(false)){
                 if($oprate == 'bm'){
                     $bmRecord = new BmRecord();

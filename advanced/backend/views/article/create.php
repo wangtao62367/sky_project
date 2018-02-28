@@ -26,9 +26,9 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
 <div class="formtitle"><span><?php echo $title?></span></div>
 <?php echo Html::beginForm('','post',['enctype'=>"multipart/form-data"]);?>
 <ul class="forminfo">
-    <li><label>文章主题<b>*</b></label><?php echo Html::activeTextInput($model, 'title',['class'=>'dfinput'])?><i>文章主题不能为空</i></li>
+    <li><label>新闻主题<b>*</b></label><?php echo Html::activeTextInput($model, 'title',['class'=>'dfinput'])?><i>新闻主题不能为空</i></li>
     
-    <li><label>文章主图</label>
+    <li><label>新闻主图</label>
        <?php echo Html::fileInput('image','',['class'=>'uploadFile','id'=>"uploadFile",'accept'=>"image/png, image/jpeg,image/jpg"]);?>
         <div class="select-btn-box"><a href="javascript:;" class="btn"  id="btn-select-image">选择图片</a><p id="selectedImg"></p></div>
         <div class="image-box">
@@ -41,20 +41,23 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
         <i>图片大小不超过500KB，且格式必须是png、jpeg或jpg的图片。（建议图片尺寸为：780像素 * 370像素）</i>
     </li>
     
-    <li><label>文章摘要<b>*</b></label><?php echo Html::activeTextarea($model, 'summary',['class'=>'textinput'])?><i></i></li>
-    <li><label>文章超链接</label>
+    <li><label>新闻摘要<b>*</b></label><?php echo Html::activeTextarea($model, 'summary',['class'=>'textinput'])?><i></i></li>
+    <!-- <li><label>新闻超链接</label>
     <?php echo Html::activeTextInput($model, 'url',['class'=>'dfinput']);?><i>链接地址必须是URL全连接；如：百度 http://www.baidu.com</i>
-    </li>
-    <li><label>作&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;者<b>*</b></label><?php echo Html::activeTextInput($model, 'author',['class'=>'dfinput'])?><i>文章作者不能为空</i></li>
+    </li> -->
+    <li><label>作&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;者<b>*</b></label><?php echo Html::activeTextInput($model, 'author',['class'=>'dfinput'])?><i> 新闻作者不能为空</i></li>
     <li><label>分&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;类<b>*</b></label>
     	<div class="vocation">
     		<?php echo Html::activeDropDownList($model, 'categoryId', ArrayHelper::map($parentCates,'id','text'),['prompt'=>'请选择','class'=>'sky-select'])?>
     	</div>
     </li>
     <li>
-    	<label>热点文章<b>*</b></label>
+    	<label>是否置顶<b>*</b></label>
     	<?php echo Html::activeRadioList($model, 'ishot', ['0'=>'否','1'=>'是'],['value'=>0]);?>
     </li>
+    
+    <li><label>排序<b>*</b></label><?php echo Html::activeInput('number',$model, 'sorts',['class'=>'dfinput'])?><i>数字越小排序越靠前</i></li>
+    
     <li><label>是否发布<b>*</b></label>
     	<div class="vocation">
     		<?php echo Html::activeDropDownList($model, 'publishCode', $model->publishTimeArr,['class'=>'sky-select','id'=>'isPublish'])?>
@@ -63,19 +66,19 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
     
     <li class="publishTimeByUser" <?php echo $model->isPublish === 'userDefined' ? 'style="display:block"' : 'style="display:none"'; ?>><label>发布时间<b>*</b></label><?php echo Html::activeTextInput($model, 'publishTime',['class'=>'dfinput','style'=>'width:308px;','id'=>"publishTime"])?><i></i></li>
 	
-	<li><label>图片数量<b>*</b></label><?php echo Html::activeTextInput($model, 'imgCount',['class'=>'dfinput','value'=>0])?><i></i></li>
+	<li><label>图片数量<b>*</b></label><?php echo Html::activeInput('number',$model, 'imgCount',['class'=>'dfinput','value'=>0])?><i></i></li>
 	
 	<li><label>图片提供者</label><?php echo Html::activeTextInput($model, 'imgProvider',['class'=>'dfinput'])?><i></i></li>
 	
 	<li><label>院领导</label><?php echo Html::activeTextInput($model, 'leader',['class'=>'dfinput'])?><i></i></li>
 	
-	<li><label>远程获取内容</label><?php echo Html::activeTextInput($model, 'sourceLinke',['class'=>'dfinput','placeholder'=>'输入文章链接地址','id'=>'sourceLinke'])?>
+	<li><label>远程获取内容</label><?php echo Html::activeTextInput($model, 'sourceLinke',['class'=>'dfinput','placeholder'=>'输入新闻链接地址','id'=>'sourceLinke'])?>
 	<button class="btn getArticle-btn" >点击抓取</button>
 	<div style="margin-left: 86px"><i style="    padding-left: 0px;">链接地址来源必须是人民网、新华网、中央社会主义和四川组工网，且地址必须有效，以http://或https://开始;</i></div></li>
 	
-	<li><label>文章来源</label><?php echo Html::activeTextInput($model, 'source',['class'=>'dfinput','id'=>'source'])?><i></i></li>
+	<li><label>新闻来源</label><?php echo Html::activeTextInput($model, 'source',['class'=>'dfinput','id'=>'source'])?><i></i></li>
 	
-    <li><label>文章内容<b>*</b></label>
+    <li><label>新闻内容<b>*</b></label>
     	<?php echo Html::activeHiddenInput($model, 'contentCount',['id'=>'contentCount'])?>
     	<div style="margin-left:86px;width:900px;height:500px" id="content" name="Article[content]"></div>
     </li>

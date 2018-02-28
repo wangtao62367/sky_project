@@ -17,8 +17,6 @@ class BestStudent extends BaseModel
     {
         return [
             ['studentId','required','message'=>'学员ID不能为空','on'=>['add','edit']],
-            ['stuName','required','message'=>'学员姓名不能为空','on'=>['add','edit']],
-            ['stuPhoto','required','message'=>'学员头像不能为空','on'=>['add','edit']],
             ['stuIntroduce','required','message'=>'学员简介不能为空','on'=>['add','edit']],
         ];
     }

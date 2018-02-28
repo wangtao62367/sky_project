@@ -50,7 +50,7 @@ $answerTime = 0;
 $naireId = $info['id'];
 $submitNaireUrl = Url::to(['student/submit-naire']);
 
-$naireInfoUrl = Url::to(['student/naire-info','id'=>$naireId]);
+$naireInfoUrl = Url::to(['student/naire','id'=>$naireId]);
 $js = <<<JS
 
 $(document).on('click','.rightAnswer--label',function(e){

@@ -162,7 +162,7 @@ section{background:#fff;}
 	display:block;
 }
 /*图片列表*/
-.newsList .image-item{height: 210px;}
+.newsList .image-item{height: 220px;}
 .newsList .image-item a p {text-align: center;color: #333;}
 /*人物介绍列表*/
 .newsList .personage-item{margin-bottom:25px;overflow: hidden;}

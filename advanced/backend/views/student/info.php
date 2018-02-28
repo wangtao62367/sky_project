@@ -56,35 +56,35 @@ $url =Url::to(ArrayHelper::merge([$controller->id.'/'.$controller->action->id], 
 		<td class="title">社院在校情况</td><td colspan="10"><?php echo $info->situation?></td>
 	</tr>
 	<tr>
-		<td class="title" colspan="2">现报名班级</td><td colspan="14"><?php echo $info->gradeClass?></td>
+		<td class="title" colspan="2">现报名班级</td><td colspan="14"><?php echo $bmRecord->gradeClass?></td>
 	</tr>
 	<tr>
 		<td class="title" colspan="2">初始审核</td>
 		<td colspan="14" class="verifyForm">
-			<?php if($info->verify == 0):?>
-				<?php echo Html::beginForm(Url::to(['student/verify-one','id'=>$info->id]),'post',['id'=>'verifyStep1']);?>
+			<?php if($bmRecord->verify == 1):?>
+				<?php echo Html::beginForm(Url::to(['student/verify-one','id'=>$bmRecord->id]),'post',['id'=>'verifyStep1']);?>
 					<textarea rows="5" cols="7" name="reasons1" placeholder="请填写审核理由"></textarea>
 					<input type="hidden" name="isAgree" />
 					<a href="javascript:;" class="btn-verify agree">同意</a>
 					<a href="javascript:;" class="btn-verify disagree">不同意</a>
 				<?php echo Html::endForm();?>
 			<?php else :?>
-				<?php echo $info->reasons1;?>
+				<?php echo $bmRecord->verifyReason1;?>
 			<?php endif;?>
 		</td>
 	</tr>
 	<tr>
 		<td class="title" colspan="2">二次审核</td>
 		<td colspan="14" class="verifyForm">
-			<?php if($info->verify == 1):?>
-				<?php echo Html::beginForm(Url::to(['student/verify-two','id'=>$info->id]),'post',['id'=>'verifyStep2']);?>
+			<?php if($bmRecord->verify == 2):?>
+				<?php echo Html::beginForm(Url::to(['student/verify-two','id'=>$bmRecord->id]),'post',['id'=>'verifyStep2']);?>
 					<textarea rows="5" cols="7" name="reasons2" placeholder="请填写审核理由"></textarea>
 					<input type="hidden" name="isAgree" />
 					<a href="javascript:;" class="btn-verify agree">同意</a>
 					<a href="javascript:;" class="btn-verify disagree">不同意</a>
 				<?php echo Html::endForm();?>
 			<?php else :?>
-				<?php echo $info->reasons2;?>
+				<?php echo $bmRecord->verifyReason2;?>
 			<?php endif;?>
 		</td>
 	</tr>
@@ -100,10 +100,10 @@ table.studentInfo{
 table.studentInfo td{
     border : 1px solid #3f3f3f;
     padding:10px 20px;
-    text-align: center
 }
 table.studentInfo td.title{
     background:#f3f3f3;
+    text-align: center
 }
 table.studentInfo td.verifyForm{text-align: left}
 .verifyForm textarea{

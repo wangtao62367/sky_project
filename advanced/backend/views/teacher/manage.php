@@ -133,8 +133,10 @@ $('.endTime').datetimepicker({
 //导出
 $(document).on('click','.excel-btn',function(){
     var form = $(this).parents('form')[0];
+    var act = $(form).attr('action');
     $(form).attr('action','$exportUrl');
     $(form).submit();
+    $(form).attr('action',act);
 })
 JS;
 $this->registerJs($js);

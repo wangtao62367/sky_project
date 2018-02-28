@@ -50,7 +50,6 @@ class Statistics extends Model
             $bypoliticalStatusQuery= $bypoliticalStatusQuery->andWhere('FROM_UNIXTIME(modifyTime,\'%Y-%m\') = :date',[':date'=>$data]);
             $byEduationQuery= $byEduationQuery->andWhere('FROM_UNIXTIME(modifyTime,\'%Y-%m\') = :date',[':date'=>$data]);
             $byCityQuery= $byCityQuery->andWhere('FROM_UNIXTIME(modifyTime,\'%Y-%m\') = :date',[':date'=>$data]);
-            
         }
         return [
             'bySex' =>   $bySexQuery->asArray()->one(),

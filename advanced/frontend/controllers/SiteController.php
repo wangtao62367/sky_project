@@ -28,12 +28,13 @@ class SiteController extends CommonController
 	        if(empty($search)){
 	            return $this->redirect(['site/index']);
 	        }
+
 	        $article = new Article();
 	        $result = $article->articles($data,$search);
 	        
 	        $view = Yii::$app->view;
 	        $view->params['searchModel'] = $article;
-	        return $this->render('search',['result'=>$result]);
+	        return $this->render('search',['result'=>$result,'keywords'=>$search['Article']['search']['keywords']]);
 	        
 	    }
 	    return $this->redirect(['site/index']);

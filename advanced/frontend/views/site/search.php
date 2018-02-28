@@ -5,12 +5,18 @@ use common\publics\MyHelper;
 use frontend\assets\AppAsset;
 use yii\helpers\Url;
 
+$this->title = $keywords.'_站内搜索';
 ?>
 
 <ul class="search-list">
 <?php foreach ($result['data'] as $val):?>
 	<li><a href="<?php echo Url::to(['news/detail','id'=>$val['id']])?>"><?php echo $val['title']?></a><span><?php echo MyHelper::timestampToDate($val['publishTime'])?></span></li>
 <?php endforeach;?>
+
+<?php if(empty($result['data'])):?>
+	<li>抱歉！没有找到你想要的新闻</li>
+<?php endif;?>
+
 </ul>
 
 <div class="page">

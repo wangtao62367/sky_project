@@ -50,7 +50,7 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
 	
 	<li><label>排序<b>*</b></label>
 		<?php echo Html::activeInput('number',$model, 'sorts',['class'=>'dfinput','placeholder'=>'数字越小排序越靠前'])?>
-		<i>数字越大排序越靠前</i>
+		<i>数字越小排序越靠前</i>
 	</li>
 	<?php if(Yii::$app->session->hasFlash('error')):?>
     	<li><label>&nbsp;</label><span class="error-tip"><?php echo Yii::$app->session->getFlash('error');?></span></li>

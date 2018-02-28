@@ -32,6 +32,24 @@ class CommonController extends Controller
         ];
     } */
     
+    public $mustLogin = [];
+    
+    public function beforeAction($action)
+    {
+        if (!parent::beforeAction($action)) {
+            return false;
+        }
+        if(!empty($this->mustLogin) && in_array($action->id, $this->mustLogin))
+        
+        //if($action->id == 'info' || $action->id == 'center' || $action->id == 'edit-pwd'){
+            
+            if (Yii::$app->user->isGuest){
+                return $this->redirect(['user/login']);
+            }
+        //}
+        return true;
+    }
+    
 	
 	public function init()
 	{
@@ -62,7 +80,7 @@ class CommonController extends Controller
 	            'linkName',
 	            'linkUrl',
 	            'linkCateId'
-	        ])->where(['linkCateId'=>$cate['id']])->orderBy('modifyTime desc')->all();
+	        ])->where(['linkCateId'=>$cate['id']])->orderBy('sorts asc,modifyTime desc')->all();
 	        $data[$cate['code']] = [
 	            'codeDesc' => $cate['codeDesc'],
 	            'list' => $bottomlinks

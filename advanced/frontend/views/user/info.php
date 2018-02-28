@@ -38,11 +38,11 @@ $this->title = '个人信息';
 				<label class="title title-avater">头像：</label>
 				<div class="avater-box">
 					<?php echo Html::activeHiddenInput($model, 'avater');?>
+					<?php if(!empty($model->avater)):?>
 					<div class="img-box">
-						<?php if(!empty($model->avater)):?>
-							<img alt="头像" src="<?php echo $model->avater;?>" width="120px" height="120px">
-						<?php endif;?>
+						<img alt="头像" src="<?php echo $model->avater;?>" width="120px" height="120px">
 					</div>
+					<?php endif;?>
 					<div class="img-select-btn">
 						<?php echo  Html::fileInput('avater',null,['style'=>'display:none','id'=>"avater",'accept'=>"image/png, image/jpeg,image/jpg"])?>
 						<a href="javascript:;" id="selectimgbtn">选择图片</a><span class="form-error"></span>   <span id="selectedimg"></span><span>  （只支持.png、.jpeg和.jpg格式的图片）</span>
@@ -125,7 +125,6 @@ $this->title = '个人信息';
 				<p class="form-error"><?php if(Yii::$app->session->hasFlash('error')){echo Yii::$app->session->getFlash('error');}?></p>
 				<input type="submit" value="修改保存" class="btn btn-submit"> 
 			</div>
-			
 		
 		<?php echo Html::endForm();?>
 	</div>
@@ -151,11 +150,11 @@ $css = <<<CSS
 .field-radio label{text-align:left;}
 
 .title-avater,.avater-box{display:inline-block;width:600px;height:140px;float:left}
-.avater-box .img-box{width:120px;height:120px;border: 1px solid #333;border-style: dotted;border-radius: 5px;border: 1px solid #333;border-style: dotted;border-radius: 5px;margin-left: 5px;}
+.avater-box .img-box{float:left;width:120px;height:120px;border: 1px solid #333;border-style: dotted;border-radius: 5px;border: 1px solid #333;border-style: dotted;border-radius: 5px;margin-left: 5px;text-align:center;line-height:120px;}
 .avater-box .img-select-btn{
     display: block;
-    margin-left: 180px;
-    margin-top: -75px;
+    margin-left: 10px;
+    float:left;
 }
 
 .avater-box .img-select-btn #selectimgbtn{
@@ -201,6 +200,15 @@ $("#avater").change(function(){
         _error.text("所选图片格式只能是jpg、png或jpeg");return;
     }
 	$("#selectedimg").empty().text(file.name);
+    
+    var formData = new FormData();
+    formData.append('file',file);
+    $('.img-box').empty().append('<img src="/front/img/loading.gif" />');
+    common.uploadFile(formData,function(res){
+        console.log(res);
+    },function(err){
+        console.log(err);
+    });
 });
 
 //时间
