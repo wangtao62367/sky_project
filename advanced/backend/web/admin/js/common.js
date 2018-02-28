@@ -71,6 +71,7 @@ var batchDel = function($batchDelUrl,callback){
 }
 
 $(function(){
+	//全选
 	$(document).on('click','.s-all',function(e){
 		if($(this).prop('checked')){
 			$('.item').prop('checked',true);
@@ -78,4 +79,12 @@ $(function(){
 			$('.item').prop('checked',false);
 		}
 	});
+	//导出
+	$(document).on('click','.excel-btn',function(){
+	    var form = $(this).parents('form')[0];
+	    var exportInput =$('<input/>').attr('type','hidden').attr('name','handle').val('export');
+	    $(form).append(exportInput);
+	    $(form).submit();
+	    exportInput.remove();
+	})
 })

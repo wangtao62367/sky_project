@@ -72,6 +72,10 @@ class Article extends BaseModel
 
         $result = $query->asArray()->all();
         
+        if(empty($result)){
+        	return false;
+        }
+        
         $phpExcel = new \PHPExcel();
         $objSheet = $phpExcel->getActiveSheet();
         $objSheet->getDefaultStyle()->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER)->setVertical(\PHPExcel_Style_Alignment::VERTICAL_CENTER);

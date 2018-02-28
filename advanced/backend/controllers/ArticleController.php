@@ -50,9 +50,17 @@ class ArticleController extends CommonController
     public function actionArticles()
     {
         $article = new Article();
-        $parentCates = Category::getArticleCates();
         $request = Yii::$app->request;
-
+        $handle =Yii::$app->request->get('handle','');
+        if(strtolower(trim($handle)) == 'export'){
+        	
+        	$data = $request->get();
+        	$article->getArticlesByExport($data);
+        	Yii::$app->end();
+        	exit();
+        }
+        
+        $parentCates = Category::getArticleCates();
         $result = $article->articles($request->get(),$request->get());
         return $this->render('articles',['model'=>$article,'parentCates'=>$parentCates,'list'=>$result]);
     }

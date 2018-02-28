@@ -16,19 +16,6 @@ use backend\assets\AppAsset;
 </div>
 
 <div class="rightinfo">
-<!-- 	<div class="tools">
-		<ul class="toolbar">
-            <li class="click"><span><img src="/admin/images/t01.png" /></span>添加</li>
-            <li class="click"><span><img src="/admin/images/t02.png" /></span>修改</li>
-            <li><span><img src="/admin/images/t03.png" /></span>删除</li>
-            <li><span><img src="/admin/images/t04.png" /></span>统计</li>
-        </ul>
-            
-            
-        <ul class="toolbar1">
-            <li><span><img src="/admin/images/t05.png" /></span>设置</li>
-        </ul>
-	</div> -->
 	<?php echo Html::beginForm(Url::to(['article/articles']),'get');?>
 	<ul class="seachform">
         <li><label>主题/作者</label><?php echo Html::activeTextInput($model, 'search[keywords]',['class'=>'scinput','placeholder'=>'文章主题或文章作者'])?></li>
@@ -170,11 +157,11 @@ $('.publishEndTime').datetimepicker({
 });
 
 //导出
-$(document).on('click','.excel-btn',function(){
-    var form = $(this).parents('form')[0];
-    $(form).attr('action','$exportUrl');
-    $(form).submit();
-})
+// $(document).on('click','.excel-btn',function(){
+//     var form = $(this).parents('form')[0];
+//     $(form).attr('action','$exportUrl');
+//     $(form).submit();
+// })
 JS;
 AppAsset::addCss($this, '/admin/css/jquery.datetimepicker.css');
 AppAsset::addScript($this, '/admin/js/jquery.datetimepicker.full.js');
