@@ -44,12 +44,27 @@ use common\models\Student;
             </div>
         </li>
         
+        <li><label>是否结业</label>
+        	<div class="vocation">
+                <?php echo Html::activeDropDownList($model, 'search[isEnd]', ['1'=>'是','0'=>'否'],['prompt'=>'请选择','class'=>'sky-select'])?>
+            </div>
+        </li>
+        
         <li><label>&nbsp;</label><?php echo Html::submitInput('查询',['class'=>'scbtn'])?></li>
         <li><a href="javascript:;" class="del-btn batchDel">删除</a></li>
         <li><a href="<?php echo Url::to(['statistics/student'])?>" class="export-btn">统计</a></li>
         <li><a href="javascript:;" class="excel-btn">导出</a></li>
     </ul>
     <?php echo Html::endForm();?>
+</div>
+
+<div class="warnning">
+	<h4 class="title"><a href="javascript:;" class="closeTips"><i>-</i> 注意事项：</a></h4>
+	<ul>
+		<li>1、同一学员可能在多个班级中出现。</li>
+		<li>2、导出Excel的学员信息为当前搜索结果的学员信息。</li>
+		<li>3、删除学员为逻辑删除。</li>
+	</ul>
 </div>
 
 <table class="tablelist">
@@ -65,6 +80,7 @@ use common\models\Student;
             <th>工作单位</th>
             <th>报名时间</th>
             <th>优秀学员</th>
+            <th>是否结业</th>
             <th>操作</th>
         </tr>
     </thead>
@@ -84,6 +100,7 @@ use common\models\Student;
             
             <td><?php echo MyHelper::timestampToDate($val['createTime']);?></td>
             <td><?php echo $val['student']['isBest'] == 1 ? '是':'否';?></td>
+            <td><?php echo strtotime($val['gradeclass']['closeClassTime'].' 23:59:59') < time() == 1 ? '是':'否';?></td>
             <td class="handle-box">
             <a href="<?php echo Url::to(['student/info','id'=>$val['id']]);?>" class="tablelink">查看</a> 
             <?php if($val['student']['isBest'] == 0):?> 
@@ -112,7 +129,7 @@ $curPage = $list['curPage'];
 $pageSize = $list['pageSize'];
 $count = $list['count'];
 $uri = Yii::$app->request->getUrl();
-$exportUrl = Url::to(['student/export']);
+
 $js = <<<JS
 $('.batchDel').click(function(){
     batchDel('$batchDelUrl');
@@ -152,12 +169,6 @@ $('.endTime').datetimepicker({
       todayButton:true    //开启选择今天按钮
 });
 
-//导出
-$(document).on('click','.excel-btn',function(){
-    var form = $(this).parents('form')[0];
-    $(form).attr('action','$exportUrl');
-    $(form).submit();
-})
 JS;
 $this->registerJs($js);
 $this->registerCss($css);

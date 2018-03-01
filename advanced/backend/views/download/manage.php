@@ -32,7 +32,7 @@ use backend\assets\AppAsset;
         <li><label>&nbsp;</label><?php echo Html::submitInput('查询',['class'=>'scbtn'])?></li>
         <li class="click"><a href="<?php echo Url::to(['download/add'])?>" class="add-btn">添加</a></li>
         <li><a href="javascript:;" class="batchDel del-btn">删除</a></li>
-        <li><a href="javascript:;" class="export-btn">导出</a></li>
+        <li><a href="javascript:;" class="excel-btn">导出</a></li>
     </ul>
     <?php echo Html::endForm();?>
 </div>
@@ -89,7 +89,6 @@ $curPage = $list['curPage'];
 $pageSize = $list['pageSize'];
 $count = $list['count'];
 $uri = Yii::$app->request->getUrl();
-$exportUrl = Url::to(['download/export']);
 $js = <<<JS
 $('.batchDel').click(function(){
     batchDel('$batchDelUrl');
@@ -127,13 +126,6 @@ $('#createTimeEnd').datetimepicker({
       yearEnd:yearEnd,        //设置最大年份
       todayButton:true    //开启选择今天按钮
 });
-
-//导出
-$(document).on('click','.export-btn',function(){
-    var form = $(this).parents('form')[0];
-    $(form).attr('action','$exportUrl');
-    $(form).submit();
-})
 JS;
 AppAsset::addCss($this, '/admin/css/jquery.datetimepicker.css');
 AppAsset::addScript($this, '/admin/js/jquery.datetimepicker.full.js');

@@ -15,8 +15,7 @@ use backend\assets\AppAsset;
 </div>
     
 <div class="rightinfo">
-    
-    <div class="tools">
+   
     <?php echo Html::beginForm(Url::to(['video/manage']),'get');?>
     	<ul class="seachform">
     		<li><label>视频名称</label><?php echo Html::activeTextInput($model, 'search[descr]',['class'=>'scinput'])?></li>
@@ -35,14 +34,15 @@ use backend\assets\AppAsset;
 <!--         	<li><a href="javascript:;" class="batchDel"><span><img src="/admin/images/t03.png" /></span>删除</a></li> -->
         </ul>
         <?php echo Html::endForm();?>
-    </div>
-    
-    <?php if($list['count'] == 0):?>
-			<div class="data-empty" >暂时没有数据</div>
-	<?php else :?>
-	
-	
-	<table class="imgtable">
+ </div>
+<div class="warnning">
+	<h4 class="title"><a href="javascript:;" class="closeTips"><i>-</i> 注意事项：</a></h4>
+	<ul>
+		<li>1、视频背景图建议大小为：宽280像素*高185像素。</li>
+	</ul>
+</div>
+   
+	<table class="tablelist">
     
 	    <thead>
 		    <tr>
@@ -76,7 +76,9 @@ use backend\assets\AppAsset;
 		    </td>
 		    </tr>
 		    <?php endforeach;?>
-	    
+	    	 <?php if($list['count'] == 0):?>
+        			<tr><td colspan="10" class="data-empty" >暂时没有数据</td></tr>
+        	<?php endif;?>
 	    </tbody>
     
     </table>
@@ -85,14 +87,20 @@ use backend\assets\AppAsset;
 	    <!-- 这里显示分页 -->
 	    <div id="Pagination"></div>
 	</div>
-	<?php endif;?>
-</div>
+	
+
 
 <?php 
 $uri = Yii::$app->request->getUrl();
 $curPage = $list['curPage'];
 $pageSize = $list['pageSize'];
 $count = $list['count'];
+$css =<<<CSS
+.imgtd img{
+    height: 185px;
+    width: 280px;
+}
+CSS;
 $js= <<<JS
 initPagination({
 	el : "#Pagination",
@@ -131,4 +139,5 @@ JS;
 AppAsset::addCss($this, '/admin/css/jquery.datetimepicker.css');
 AppAsset::addScript($this, '/admin/js/jquery.datetimepicker.full.js');
 $this->registerJs($js);
+$this->registerCss($css);
 ?>

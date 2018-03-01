@@ -86,5 +86,17 @@ $(function(){
 	    $(form).append(exportInput);
 	    $(form).submit();
 	    exportInput.remove();
+	});
+	//展示提示信息
+	$(document).on('click','.showTips',function(){
+		$(this).parents('.warnning').find('ul').show();
+		$(this).find('i').text('-');
+		$(this).removeClass('showTips').addClass('closeTips');
+	})
+	//关闭提示信息
+	$(document).on('click','.closeTips',function(){
+		$(this).parents('.warnning').find('ul').hide();
+		$(this).find('i').text('+');
+		$(this).removeClass('closeTips').addClass('showTips');
 	})
 })

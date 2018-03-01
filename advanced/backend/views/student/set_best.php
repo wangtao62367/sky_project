@@ -9,6 +9,7 @@ use backend\assets\AppAsset;
 $controller = Yii::$app->controller;
 $params = Yii::$app->request->get();
 $url =Url::to(ArrayHelper::merge([$controller->id.'/'.$controller->action->id],$params));
+
 ?>
 
 <div class="place">
@@ -31,7 +32,7 @@ $url =Url::to(ArrayHelper::merge([$controller->id.'/'.$controller->action->id],$
     <li><label>学员头像<b>*</b></label>
     	<div href="javascript:;" class="image-box">
         	<?php if($info->avater):?>
-        		<img alt="" width="100px" height="100px" src="<?php echo $info->avater;?>" />
+        		<img alt="" width="100px" height="100px" onerror="this.src='/admin/images/ico04.png'" src="<?php echo $info->avater;?>" />
         	<?php else :?>
         		<img alt="" src="/admin/images/ico04.png" />
         	<?php endif;?>

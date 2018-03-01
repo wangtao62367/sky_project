@@ -35,9 +35,9 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
     		<img alt="" src="/admin/images/ico04.png" />
     	<?php endif;?>
     </div>
-    <i>图片大小不超过500KB，且格式必须是png、jpeg或jpg的图片.（建议图片尺寸为：250像素 * 170像素）</i>
+    <i>图片大小不超过500KB，且格式必须是png、jpeg或jpg的图片.（建议图片尺寸为：250像素 * 148像素）</i>
     </li>
-    <li><label>链接地址<b>*</b></label><?php echo Html::activeTextInput($model, 'link',['class'=>'dfinput'])?></li>
+    <li><label>链接地址<b>*</b></label><?php echo Html::activeTextInput($model, 'link',['class'=>'dfinput'])?><i>基地链接地址必须是URL全路径，否则跳转失败；如：百度 http://www.baidu.com </i></li>
     <li><label>排序</label>
     	<?php echo Html::activeInput('number', $model, 'sorts',['class'=>'dfinput']);?><i>数字越小排序越靠前</i>
     </li>

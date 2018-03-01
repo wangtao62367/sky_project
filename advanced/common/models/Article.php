@@ -83,7 +83,41 @@ class Article extends BaseModel
         $objSheet->setCellValue('A1','序号')->setCellValue('B1','文章标题')->setCellValue('C1','文章作者')->setCellValue('D1','文章字数')
         ->setCellValue('E1','来源')->setCellValue('F1','来源链接')->setCellValue('G1','预览数')->setCellValue('H1','文章分类')->setCellValue('I1','发布时间')
         ->setCellValue('J1','是否发布')->setCellValue('K1','图片数')->setCellValue('L1','图片提供者')->setCellValue('M1','院领导')->setCellValue('N1','热点新闻')
-        ->setCellValue('O1','创建时间')->setCellValue('P1','修改时间')->setCellValue('Q1','备注');
+        ->setCellValue('O1','创建时间')->setCellValue('P1','编辑时间')->setCellValue('Q1','备注');
+        
+        //设置填充的样式和背景色
+        $colTitle = $objSheet->getStyle('A1:Q1');
+        $colTitle->getFill()->setFillType(\PHPExcel_Style_Fill::FILL_SOLID);
+        $colTitle->getFill()->getStartColor()->setARGB('b6cad2');
+        $colTitle->getFont()->setBold(true);
+        $colTitle->getFont()->getColor()->setARGB(\PHPExcel_Style_Color::COLOR_WHITE);
+        $colTitle->getFont()->setSize(12);
+        
+        //设置行高
+        $objSheet->getDefaultRowDimension()->setRowHeight(24);
+        //固定第一行
+        $objSheet->freezePane('A2');
+        
+        //内容宽度
+        $objSheet->getColumnDimension('A')->setWidth(8);
+        $objSheet->getColumnDimension('B')->setWidth(80);
+        $objSheet->getColumnDimension('C')->setWidth(25);
+        $objSheet->getColumnDimension('D')->setWidth(15);
+        $objSheet->getColumnDimension('E')->setWidth(50);
+        $objSheet->getColumnDimension('F')->setWidth(50);
+        $objSheet->getColumnDimension('G')->setWidth(8);
+        $objSheet->getColumnDimension('H')->setWidth(15);
+        $objSheet->getColumnDimension('I')->setWidth(20);
+        $objSheet->getColumnDimension('J')->setWidth(15);
+        $objSheet->getColumnDimension('K')->setWidth(8);
+        $objSheet->getColumnDimension('L')->setWidth(15);
+        $objSheet->getColumnDimension('M')->setWidth(15);
+        $objSheet->getColumnDimension('N')->setWidth(8);
+        $objSheet->getColumnDimension('O')->setWidth(20);
+        $objSheet->getColumnDimension('P')->setWidth(20);
+        $objSheet->getColumnDimension('Q')->setWidth(80);
+        
+        
         $num  = 2;
         foreach ($result as $article){
         	$objSheet->setCellValue('A'.$num,$article['id'])->setCellValue('B'.$num,$article['title'])->setCellValue('C'.$num,$article['author'])->setCellValue('D'.$num,$article['contentCount'])

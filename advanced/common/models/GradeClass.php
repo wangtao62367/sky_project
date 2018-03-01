@@ -37,6 +37,8 @@ class GradeClass extends BaseModel
 //             ['phone','match','pattern'=>'/^[1][34578][0-9]{9}$/','message'=>'手机号无效','on'=>['create','edit']],
             
             ['openClassTime','required','message'=>'开班时间不能为空','on'=>['create','edit']],
+            ['closeClassTime','required','message'=>'结业时间不能为空','on'=>['create','edit']],
+            ['closeClassTime', 'compare', 'compareAttribute'=>'openClassTime', 'operator' => '>=','message'=>'结业时间必须大于或等于开班时间','on'=>['create','edit']],
             ['eduAdmin','required','message'=>'教务员不能为空','on'=>['create','edit']],
             ['eduAdminPhone','required','message'=>'教务员手机号不能为空','on'=>['create','edit']],
             ['eduAdminPhone','match','pattern'=>'/^[1][34578][0-9]{9}$/','message'=>'教务员手机号无效','on'=>['create','edit']],

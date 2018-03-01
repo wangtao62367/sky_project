@@ -6,7 +6,6 @@ namespace backend\controllers;
 use Yii;
 use common\models\Admin;
 use yii\web\Controller;
-use yii\helpers\VarDumper;
 /**
  * @name 后台用户
  * @author wangt

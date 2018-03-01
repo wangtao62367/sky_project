@@ -42,7 +42,7 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
     		<img alt="" src="/admin/images/ico04.png" />
     	<?php endif;?>
     </div>
-    <i>图片大小不超过500KB，且格式必须是png、jpeg或jpg的图片。（建议图片尺寸为：270像素 * 170像素）</i>
+    <i>图片大小不超过500KB，且格式必须是png、jpeg或jpg的图片。（广告图的建议大小为 左右图是： 宽120像素 * 高300像素；上下图是：宽1200像素*高120像素）</i>
     </li>
     <li><label>广告位置<b>*</b></label>
     	<div class="vocation">

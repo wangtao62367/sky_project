@@ -15,8 +15,6 @@ use backend\assets\AppAsset;
 </div>
     
 <div class="rightinfo">
-    
-    <div class="tools">
     <?php echo Html::beginForm(Url::to(['image/manage']),'get');?>
     	<ul class="seachform">
     		<li><label>图片标题</label><?php echo Html::activeTextInput($model, 'search[title]',['class'=>'scinput'])?></li>
@@ -35,14 +33,17 @@ use backend\assets\AppAsset;
         	<li><a href="javascript:;" class="batchDel del-btn">删除</a></li>
         </ul>
         <?php echo Html::endForm();?>
-        
-<!--         <ul class="toolbar1"> -->
-<!--         <li><span><img src="/admin/images/t05.png" /></span>设置</li> -->
-<!--         </ul> -->
-    
-    </div>
-    
-    <table class="imgtable">
+ </div>   
+ 
+<div class="warnning">
+	<h4 class="title"><a href="javascript:;" class="closeTips"><i>-</i> 注意事项：</a></h4>
+	<ul>
+		<li>1、图片建议大小为：宽267像素*高170像素。</li>
+		<li>1、如其它分类下的图片需要链接跳转，需填写有效的链接地址。</li>
+	</ul>
+</div>
+
+    <table class="tablelist">
     
 	    <thead>
 		    <tr>
@@ -85,13 +86,18 @@ use backend\assets\AppAsset;
 	    <!-- 这里显示分页 -->
 	    <div id="Pagination"></div>
 	</div>
-</div>
 <?php 
 $uri = Yii::$app->request->getUrl();
 $curPage = $list['curPage'];
 $pageSize = $list['pageSize'];
 $count = $list['count'];
 $batchDelUrl = Url::to(['image/batchdel']);
+$css = <<<CSS
+.imgtd img{
+    height: 185px;
+    width: 280px;
+}
+CSS;
 $js= <<<JS
 $('.batchDel').click(function(){
     batchDel('$batchDelUrl');
@@ -133,4 +139,5 @@ JS;
 AppAsset::addCss($this, '/admin/css/jquery.datetimepicker.css');
 AppAsset::addScript($this, '/admin/js/jquery.datetimepicker.full.js');
 $this->registerJs($js);
+$this->registerCss($css);
 ?>

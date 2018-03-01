@@ -21,9 +21,15 @@ class DownloadController extends CommonController
 	public function actionManage()
 	{
 		$model = new Download();
+		$data = Yii::$app->request->get();
+		$export = Yii::$app->request->get('handle','');
+		if(strtolower(trim($export)) == 'export'){
+		    $model->export($data);
+		    Yii::$app->end();exit();
+		}
 		
 		$parentCates = Category::getArticleCates('file');
-		$data = Yii::$app->request->get();
+		
 		$list = $model->getPageList($data);
 		return $this->render('manage',['model'=>$model,'parentCates'=>$parentCates,'list'=>$list]);
 	}
@@ -95,13 +101,5 @@ class DownloadController extends CommonController
 		$idsArr = explode(',',trim($ids,','));
 		return Download::deleteAll(['in','id',$idsArr]);
 	}
-	/**
-	 * @desc 下载文件导出
-	 */
-	public function actionExport()
-	{
-		$model = new Download();
-		$data = Yii::$app->request->get();
-		$model->export($data);
-	}
+
 }

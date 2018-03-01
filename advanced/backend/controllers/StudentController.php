@@ -27,9 +27,14 @@ class StudentController extends CommonController
         $model = new BmRecord();
         $data = Yii::$app->request->get();
         $data['BmRecord']['search']['verify'] = 3;
-        $list = $model->pageList($data,'verify asc,modifyTime desc,createTime desc',['student','gradeclass']);
+        $export = Yii::$app->request->get('handle','');
+        //导出操作
+        if(strtolower(trim($export)) == 'export'){
+            $result = $model -> exportStudent($data);
+            Yii::$app->end();
+        }
         
-        //var_dump($list);exit();
+        $list = $model->pageList($data,'verify asc,modifyTime desc,createTime desc',['student','gradeclass']);
         
         return $this->render('manage',['model'=>$model,'list'=>$list]);
         
@@ -44,6 +49,12 @@ class StudentController extends CommonController
         $data = Yii::$app->request->get();
         $verify = Yii::$app->request->get('verify',1);
         $data['BmRecord']['search']['verify'] = $verify;
+        $export = Yii::$app->request->get('handle','');
+        //导出操作
+        if(strtolower(trim($export)) == 'export'){
+            $result = $model -> exportVerify($data,$verify);
+            Yii::$app->end();
+        }
         $list = $model->pageList($data);
         
         return $this->render('verify_list',['model'=>$model,'list'=>$list]);
@@ -118,6 +129,7 @@ class StudentController extends CommonController
             $bmRecord->verifyReason2 = $reasons2;
             $bmRecord->verifyAdmin2  = Yii::$app->user->id;
             $bmRecord->verifyTime2   = TIMESTAMP;
+            $bmRecord->studyNum  = date('Ymd').$student->politicalStatusCode.self::getStudyNumInGradeClass($bmRecord->gradeClass);
             if($bmRecord->save(false)){
                 return $this->showSuccess('student/info?id='.$id);
             }else{
@@ -125,6 +137,19 @@ class StudentController extends CommonController
             }
         }
         return $this->render('info',['bmRecord'=>$bmRecord,'info'=>$student]);
+    }
+    
+    private static function getStudyNumInGradeClass($gradeClassId)
+    {
+        $num = BmRecord::find()->where(['gradeClassId'=>$gradeClassId,'verify'=>3])->groupBy('userId')->count('id');
+        $num ++;
+        if($num < 10){
+            return '00'.$num;
+        }elseif ($num < 100){
+            return '0'.$num;
+        }else{
+            return $num;
+        }
     }
     
     /**

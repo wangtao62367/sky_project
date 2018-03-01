@@ -15,8 +15,6 @@ use backend\assets\AppAsset;
 </div>
     
 <div class="rightinfo">
-    
-    <div class="tools">
     <?php echo Html::beginForm(Url::to(['educationbase/manage']),'get');?>
     	<ul class="seachform">
     		<li><label>图片标题</label><?php echo Html::activeTextInput($model, 'search[kewords]',['class'=>'scinput'])?></li>
@@ -25,10 +23,15 @@ use backend\assets\AppAsset;
         	<li><a href="javascript:;" class="batchDel del-btn">删除</a></li>
         </ul>
         <?php echo Html::endForm();?>
-    
-    </div>
-    
-    <table class="imgtable">
+</div>   
+<div class="warnning">
+	<h4 class="title"><a href="javascript:;" class="closeTips"><i>-</i> 注意事项：</a></h4>
+	<ul>
+		<li>1、基地图片建议大小为：宽250像素*高148像素。</li>
+		<li>2、基地链接地址必须是URL全路径，否则跳转失败；如：百度 http://www.baidu.com </li>
+	</ul>
+</div>
+    <table class="tablelist">
     
 	    <thead>
 		    <tr>
@@ -68,7 +71,7 @@ use backend\assets\AppAsset;
 	    <!-- 这里显示分页 -->
 	    <div id="Pagination"></div>
 	</div>
-</div>
+
 <?php 
 $uri = Yii::$app->request->getUrl();
 $curPage = $list['curPage'];

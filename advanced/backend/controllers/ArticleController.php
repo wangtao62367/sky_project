@@ -194,15 +194,4 @@ class ArticleController extends CommonController
         return $resutlt;
     }
     
-    /**
-     * @desc 文章导出
-     */
-    public function actionExport()
-    {
-        $article = new Article();
-        $data = Yii::$app->request->get();
-        $result = $article->getArticlesByExport($data);
-        //var_dump($result);
-    }
-    
 }

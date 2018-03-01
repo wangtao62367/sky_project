@@ -24,8 +24,13 @@ class StatisticsController extends CommonController
     {
         $staisticsModel = new Statistics();
         $data = Yii::$app->request->post();
-        $yearMonth = Statistics::makeYearAndMonth();
         $result = $staisticsModel->students($data);
+        $export = Yii::$app->request->get('handle','');
+        if(strtolower(trim($export)) == 'export'){
+            $staisticsModel->exportStudent($result);
+            Yii::$app->end();exit();
+        }
+        $yearMonth = Statistics::makeYearAndMonth();
         return $this->render('student',['model'=>$staisticsModel,'yearMonth'=>$yearMonth,'result'=>$result]);
     }
     

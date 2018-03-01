@@ -33,6 +33,13 @@ use yii\helpers\ArrayHelper;
     <?php echo Html::endForm();?>
 </div>
 
+<div class="warnning">
+	<h4 class="title"><a href="javascript:;" class="closeTips"><i>-</i> 注意事项：</a></h4>
+	<ul>
+		<li>1、链接地址必须是URL全路径，否则跳转失败；如：百度 http://www.baidu.com </li>
+	</ul>
+</div>  
+
 <table class="tablelist">
 	<thead>
     	<tr>

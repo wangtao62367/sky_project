@@ -15,24 +15,9 @@ class ExcelMolde
 	}
 	
 	
-	public function export()
-	{
-		$phpExcel = new \PHPExcel();
-		
-		$objSheet = $phpExcel->getActiveSheet();
-		$objSheet->setTitle('demo');
-		$objSheet->setCellValue('A1','姓名')->setCellValue('B1','分数');
-		$objSheet->setCellValue('A2','张三')->setCellValue('B2','89');
-		
-		$objWriter = \PHPExcel_IOFactory::createWriter($phpExcel,'Excel2007');
-		
-		$this->exportBrowser('demo.xlsx');
-		$objWriter->save('php://output');
-	}
-	
-	
 	public static function exportBrowser(string $fileName,$version = 'Excel5')
 	{
+	    ob_end_clean();
 		if($version == 'Excel5'){
 			header('Content-Type: application/vnd.ms-excel');
 		}else {

@@ -32,9 +32,16 @@ use yii\helpers\ArrayHelper;
         <li><label>&nbsp;</label><?php echo Html::submitInput('查询',['class'=>'scbtn'])?></li>
         <li class="click"><a href="<?php echo Url::to(['category/add'])?>" class="add-btn">添加</a></li>
         <li><a href="javascript:;" class="batchDel del-btn">删除</a></li>
-        <li><a href="javascript:;" class="excel-btn">导出</a></li>
     </ul>
     <?php echo Html::endForm();?>
+</div>
+
+<div class="warnning">
+	<h4 class="title"><a href="javascript:;" class="closeTips"><i>-</i> 注意事项：</a></h4>
+	<ul>
+		<li>1、分类所属类型包括：文章、图片、视频、文件、特殊类型。特殊类型即为个性化设置的类型模块</li>
+		<li>2、系统设定的分类不能删除，且只能修改所属模块；只有自定义新增的分类可以修改和删除操作 </li>
+	</ul>
 </div>
 
 <table class="tablelist">

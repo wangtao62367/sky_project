@@ -29,6 +29,14 @@ use yii\helpers\Html;
 <?php echo Html::endForm();?>
 </div>
 
+<div class="warnning">
+	<h4 class="title"><a href="javascript:;" class="closeTips"><i>-</i> 注意事项：</a></h4>
+	<ul>
+		<li>1、用户冻结以后不能登录成功。</li>
+		<li>2、用户密码重置以后，用户登录密码将变为：111111a</li>
+	</ul>
+</div>
+
 <table class="tablelist">
 	<thead>
     	<tr>

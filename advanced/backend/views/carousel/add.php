@@ -36,7 +36,7 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
         		<img alt="" src="/admin/images/ico04.png" />
         	<?php endif;?>
         </div>
-        <i>图片大小不超过500KB，且格式必须是png、jpeg或jpg的图片。（建议图片尺寸为：778像素 * 367像素）</i>
+        <i>图片大小不超过500KB，且格式必须是png、jpeg或jpg的图片。（首页轮播图建议大小为：宽778像素*高367像素）</i>
 	</li>
 	
 	<li><label>跳转连接<b>*</b></label>

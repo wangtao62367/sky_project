@@ -23,7 +23,15 @@ use backend\assets\AppAsset;
         	<li><a href="javascript:;" class="batchDel del-btn">删除</a></li>
         </ul>
     </div>
-    
+
+<div class="warnning">
+	<h4 class="title"><a href="javascript:;" class="closeTips"><i>-</i> 注意事项：</a></h4>
+	<ul>
+		<li>1、首页轮播图建议大小为：宽778像素*高367像素。</li>
+		<li>2、链接地址必须是URL全路径，否则跳转失败；如：百度 http://www.baidu.com </li>
+		<li>2、首页轮播图个数一般不操作6个 </li>
+	</ul>
+</div>   
 
 <table class="tablelist">
 	<thead>

@@ -27,12 +27,17 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
     <li><label>班级名称<b>*</b></label><?php echo Html::activeTextInput($model, 'className',['class'=>'dfinput'])?><i>班级名称长度为2-20个字</i></li>
     <li><label>班级人数<b>*</b></label><?php echo Html::activeTextInput($model, 'classSize',['class'=>'dfinput'])?><i>班级人数5-60人</i></li>
     <li><label>报名时间<b>*</b></label><?php echo Html::activeTextInput($model, 'joinStartDate',['class'=>'dfinput joinStartDate','style'=>'width:240px;','placeholder'=>'开始时间'])?> - 
-    <?php echo Html::activeTextInput($model, 'joinEndDate',['class'=>'dfinput joinEndDate','style'=>'width:240px;','placeholder'=>'开始时间'])?>
+    <?php echo Html::activeTextInput($model, 'joinEndDate',['class'=>'dfinput joinEndDate','style'=>'width:240px;','placeholder'=>'结束时间'])?>
     </li>
     
     <li><label>开班时间<b>*</b></label>
     <?php echo Html::activeTextInput($model, 'openClassTime',['class'=>'dfinput openClassTime','style'=>'width:240px;','placeholder'=>'开班时间'])?>
     </li>
+    
+    <li><label>结业时间<b>*</b></label>
+    <?php echo Html::activeTextInput($model, 'closeClassTime',['class'=>'dfinput closeClassTime','style'=>'width:240px;','placeholder'=>'结业时间'])?>
+    </li>
+    
     <li><label>教务员姓名<b>*</b></label><?php echo Html::activeTextInput($model, 'eduAdmin',['class'=>'dfinput'])?><i>教务员姓名不能为空</i></li>
     <li><label>教务员电话<b>*</b></label><?php echo Html::activeInput('telephone',$model, 'eduAdminPhone',['class'=>'dfinput'])?><i>教务员手机号不能为空</i></li>
     
@@ -78,6 +83,14 @@ $('.joinEndDate').datetimepicker({
 });
 
 $('.openClassTime').datetimepicker({
+      format:"Y-m-d",      //格式化日期
+      timepicker:false,    //关闭时间选项
+      yearStart: yearStart,//设置最小年份
+      yearEnd:yearEnd,     //设置最大年份
+      todayButton:true     //开启选择今天按钮
+});
+
+$('.closeClassTime').datetimepicker({
       format:"Y-m-d",      //格式化日期
       timepicker:false,    //关闭时间选项
       yearStart: yearStart,//设置最小年份

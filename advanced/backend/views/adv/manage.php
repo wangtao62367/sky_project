@@ -20,6 +20,15 @@ use common\models\Adv;
 	</ul>
 </div>
 
+<div class="warnning">
+	<h4 class="title"><a href="javascript:;" class="closeTips"><i>-</i> 注意事项：</a></h4>
+	<ul>
+		<li>1、广告是以浮动框形式呈现于首页。</li>
+		<li>2、每个位置只能设置一个广告，分别呈现于首页的上、下、左、右。</li>
+		<li>3、广告图的建议大小为 左右图是： 宽120像素 * 高300像素；上下图是：宽1200像素*高120像素。</li>
+	</ul>
+</div>
+
 <table class="tablelist">
 	<thead>
     	<tr>

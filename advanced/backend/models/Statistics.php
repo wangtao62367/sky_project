@@ -2,10 +2,11 @@
 namespace backend\models;
 
 
-
+use Yii;
 use yii\base\Model;
 use common\models\Student;
 use yii\db\Expression;
+use common\models\BmRecord;
 
 /**
  * 统计管理
@@ -31,32 +32,62 @@ class Statistics extends Model
     
     public function students(array $data)
     {
-        $bySexQuery = Student::find()->select(new Expression('sum(case when sex=1 then 1 else 0 end) male,sum(case when sex=2 then 1 else 0 end) female'))
-                ->where('isDelete = 0 and verify =:verify',[':verify'=>Student::STUDENT_VERIFY_STEP2]);
-        $bypoliticalStatusQuery = Student::find()->select(['politicalStatus','sum'=>'count(*)'])
-                ->where('isDelete = 0 and verify =:verify',[':verify'=>Student::STUDENT_VERIFY_STEP2])
-                ->groupBy('politicalStatus');
-        $byEduationQuery = Student::find()->select(['eduation','sum'=>'count(*)'])
-            ->where('isDelete = 0 and verify =:verify',[':verify'=>Student::STUDENT_VERIFY_STEP2])
-            ->groupBy('eduation');
+        $bySexQuery = BmRecord::find()->joinWith(['student'])
+        ->select([new Expression('case when sex =2 then "女" else "男" end as sex'),'sum'=>'count(*)'])
+        ->where([
+            BmRecord::tableName().'.verify'=>BmRecord::STUDENT_VERIFY_FINISH,
+            Student::tableName().'.isDelete' => 0,
+        ])->groupBy('sex,gradeClassId');
         
-        $byCityQuery = Student::find()->select(['city','sum'=>'count(*)'])
-        ->where('isDelete = 0 and verify =:verify',[':verify'=>Student::STUDENT_VERIFY_STEP2])
-        ->groupBy('city');
+        
+        
+        $bypoliticalStatusQuery = BmRecord::find()->joinWith('student')
+        ->select(['politicalStatus','sum'=>'count(*)'])
+        ->where([
+            BmRecord::tableName().'.verify'=>BmRecord::STUDENT_VERIFY_FINISH,
+            Student::tableName().'.isDelete' => 0,
+        ])->groupBy('politicalStatus,gradeClassId');
+        
+        $byEduationQuery = BmRecord::find()->joinWith('student')
+        ->select(['eduation','sum'=>'count(*)'])
+        ->where([
+            BmRecord::tableName().'.verify'=>BmRecord::STUDENT_VERIFY_FINISH,
+            Student::tableName().'.isDelete' => 0,
+        ])->groupBy('eduation,gradeClassId');
+        
+        $byCityQuery = BmRecord::find()->joinWith('student')
+        ->select(['city','sum'=>'count(*)'])
+        ->where([
+            BmRecord::tableName().'.verify'=>BmRecord::STUDENT_VERIFY_FINISH,
+            Student::tableName().'.isDelete' => 0,
+        ])->groupBy('city,gradeClassId');
+        
+        
         if($this->load($data)){
             $date = $this->year . '-' .$this->month;
             $data = date('Y-m',strtotime($date));
-            $bySexQuery = $bySexQuery->andWhere('FROM_UNIXTIME(modifyTime,\'%Y-%m\') = :date',[':date'=>$data]);
-            $bypoliticalStatusQuery= $bypoliticalStatusQuery->andWhere('FROM_UNIXTIME(modifyTime,\'%Y-%m\') = :date',[':date'=>$data]);
-            $byEduationQuery= $byEduationQuery->andWhere('FROM_UNIXTIME(modifyTime,\'%Y-%m\') = :date',[':date'=>$data]);
-            $byCityQuery= $byCityQuery->andWhere('FROM_UNIXTIME(modifyTime,\'%Y-%m\') = :date',[':date'=>$data]);
+            $bySexQuery = $bySexQuery->andWhere('FROM_UNIXTIME('.BmRecord::tableName().'.modifyTime,\'%Y-%m\') = :date',[':date'=>$data]);
+            $bypoliticalStatusQuery= $bypoliticalStatusQuery->andWhere('FROM_UNIXTIME('.BmRecord::tableName().'.modifyTime,\'%Y-%m\') = :date',[':date'=>$data]);
+            $byEduationQuery= $byEduationQuery->andWhere('FROM_UNIXTIME('.BmRecord::tableName().'.modifyTime,\'%Y-%m\') = :date',[':date'=>$data]);
+            $byCityQuery= $byCityQuery->andWhere('FROM_UNIXTIME('.BmRecord::tableName().'.modifyTime,\'%Y-%m\') = :date',[':date'=>$data]);
         }
+
         return [
-            'bySex' =>   $bySexQuery->asArray()->one(),
-            'bypoliticalStatus' =>   $bypoliticalStatusQuery->asArray()->all(),
-            'byEduation' =>   $byEduationQuery->asArray()->all(),
-            'byCity' =>   $byCityQuery->asArray()->all(),
+            'bySex' =>   $bySexQuery->createCommand()->queryAll(),
+            'bypoliticalStatus' =>   $bypoliticalStatusQuery->createCommand()->queryAll(),
+            'byEduation' =>   $byEduationQuery->createCommand()->queryAll(),
+            'byCity' =>   $byCityQuery->createCommand()->queryAll(),
         ];
+    }
+    /**
+     * 导出学员统计信息
+     * @param unknown $result
+     */
+    public function exportStudent($result)
+    {
+        $phpExcel = new \PHPExcel();
+        $objSheet = $phpExcel->getActiveSheet();
+        
     }
     
     

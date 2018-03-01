@@ -240,7 +240,7 @@ class User extends BaseModel implements IdentityInterface
     
     public static function resetPwd(User $user)
     {
-        $user->userPwd = Yii::$app->getSecurity()->generatePasswordHash('111111');
+        $user->userPwd = Yii::$app->getSecurity()->generatePasswordHash('111111a');
         return $user->save(false);
     }
     

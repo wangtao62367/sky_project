@@ -85,6 +85,31 @@ class Download extends BaseModel
 		$objSheet->setTitle('下载文件列表');
 		$objSheet->setCellValue('A1','序号')->setCellValue('B1','文件名称')->setCellValue('C1','下载地址')->setCellValue('D1','文件分类')
 		->setCellValue('E1','提供者')->setCellValue('F1','院领导')->setCellValue('G1','下载量')->setCellValue('H1','创建时间')->setCellValue('I1','编辑时间');
+		
+		//设置填充的样式和背景色
+		$colTitle = $objSheet->getStyle('A1:I1');
+		$colTitle->getFill()->setFillType(\PHPExcel_Style_Fill::FILL_SOLID);
+		$colTitle->getFill()->getStartColor()->setARGB('b6cad2');
+		$colTitle->getFont()->setBold(true);
+		$colTitle->getFont()->getColor()->setARGB(\PHPExcel_Style_Color::COLOR_WHITE);
+		$colTitle->getFont()->setSize(12);
+		
+		//设置行高
+		$objSheet->getDefaultRowDimension()->setRowHeight(24);
+		//固定第一行
+		$objSheet->freezePane('A2');
+		
+		//内容宽度
+		$objSheet->getColumnDimension('A')->setWidth(8);
+		$objSheet->getColumnDimension('B')->setWidth(30);
+		$objSheet->getColumnDimension('C')->setWidth(80);
+		$objSheet->getColumnDimension('D')->setWidth(25);
+		$objSheet->getColumnDimension('E')->setWidth(20);
+		$objSheet->getColumnDimension('F')->setWidth(20);
+		$objSheet->getColumnDimension('G')->setWidth(8);
+		$objSheet->getColumnDimension('H')->setWidth(20);
+		$objSheet->getColumnDimension('I')->setWidth(20);
+		
 		$num  = 2;
 		foreach ($result as $val){
 			$objSheet->setCellValue('A'.$num,$val->id)->setCellValue('B'.$num,$val->descr)->setCellValue('C'.$num,$val->uri)->setCellValue('D'.$num,$val->categorys->text)

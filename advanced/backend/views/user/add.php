@@ -23,12 +23,12 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
 <div class="formtitle"><span><?php echo $title?></span></div>
 <?php echo Html::beginForm();?>
 <ul class="forminfo">
-    <li><label>用户账号</label><?php echo Html::activeTextInput($model, 'account',['class'=>'dfinput'])?><i>教师名称不能为空，且长度为3-20个字</i></li>
+    <li><label>用户账号</label><?php echo Html::activeTextInput($model, 'account',['class'=>'dfinput'])?><i>用户账号不能为空，且长度为3-20个字</i></li>
     <?php if(!isset($operat) || empty($operat) || $operat != 'edit'):?>
     <li><label>用户密码</label><?php echo Html::activePasswordInput($model, 'userPwd',['class'=>'dfinput'])?><i>密码不能为空，且必须由字母+数字+特殊字符组成</i></li>
     <li><label>确认密码</label><?php echo Html::activePasswordInput($model, 'repass',['class'=>'dfinput'])?><i></i></li>
     <?php endif;?>
-    <li><label>用户邮箱</label><?php echo Html::activeTextInput($model, 'email',['class'=>'dfinput'])?><i>邮箱不能为空</i></li>
+    <li><label>用户邮箱</label><?php echo Html::activeTextInput($model, 'email',['class'=>'dfinput'])?><i>用户邮箱不能为空，且必须有效</i></li>
     <li><label>用户手机</label><?php echo Html::activeTextInput($model, 'phone',['class'=>'dfinput'])?><i>选填</i></li>
     <li><label>状态</label><?php echo Html::activeRadioList($model, 'isFrozen', ['0'=>'激活','1'=>'冻结'])?></li>
     <?php if(Yii::$app->session->hasFlash('error')):?>

@@ -33,23 +33,24 @@ use yii\helpers\ArrayHelper;
             	</div>
             </li>
             <li><label>&nbsp;</label><?php echo Html::submitInput('统计',['class'=>'scbtn'])?></li>
-            <li><span><img src="/admin/images/t04.png" /></span>导出</li>
+            <!-- <li><a href="javascript:;" class="excel-btn">导出</a></li> -->
         </ul>
         <?php echo Html::endForm();?>
 	</div>
-	
 	<div class="statistics-main">
 		<div class="statistics-item" id="statistics-sex"></div>
 		<div class="statistics-item" id="statistics-politicalStatus"></div>
 		<div class="statistics-item" id="statistics-eduation"></div>
 		<div class="statistics-item" id="statistics-city"></div>
 	</div>
-
 </div>
 
 <?php 
 AppAsset::addScript($this, '/admin/js/echarts.common.min.js');
-$bySexData = json_encode( array_values($result['bySex']) );
+
+$bySexDatasX = json_encode( array_column($result['bySex'],'sex') );
+$bySexDatass = json_encode( array_column($result['bySex'],'sum') );
+
 $bypoliticalStatusDataX = json_encode( array_column($result['bypoliticalStatus'],'politicalStatus') );
 $bypoliticalStatusDatas = json_encode( array_column($result['bypoliticalStatus'],'sum') );
 
@@ -59,167 +60,61 @@ $byEduationDatas = json_encode( array_column($result['byEduation'],'sum') );
 $byCityDataX = json_encode( array_column($result['byCity'],'city') );
 $byCityDatas = json_encode( array_column($result['byCity'],'sum') );
 $js = <<<JS
-// 基于准备好的dom，初始化echarts实例
-        var myChart1 = echarts.init(document.getElementById('statistics-sex'));
+var barWidth = 40;
+      
+var colorList = ['rgb(164,205,238)','rgb(42,170,227)','rgb(25,46,94)','rgb(195,229,235)'];
 
-        // 指定图表的配置项和数据
-        var option = {
+initBarChart('statistics-sex','按性别统计',null,'$bySexDatasX',null,'$bySexDatass',null,'rgb(164,205,238)');
+
+initBarChart('statistics-politicalStatus','按政治面貌统计',null,'$bypoliticalStatusDataX',null,'$bypoliticalStatusDatas',null,'rgb(42,170,227)');
+
+initBarChart('statistics-eduation','按学历统计',null,'$byEduationDataX',null,'$byEduationDatas',null,'rgb(25,46,94)');
+
+initBarChart('statistics-city','按城市统计',null,'$byCityDataX',null,'$byCityDatas',null,'rgb(195,229,235)');
+
+function initBarChart(id,title,legend,datax,yAxis,datas,tooltip,barColor){
+    //基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById(id));
+    var option = {
             title: {
-                text: '按性别统计'
+                text: title
             },
             tooltip: {},
-            legend: {
-                data:['人数']
+            legend: legend || {
+                data: ['人数']
             },
             xAxis: {
-                data: ["男","女"]
+                data: JSON.parse(datax)
             },
-            yAxis: [ // Y轴
+            yAxis: yAxis || [ // Y轴
             {
-            
-            type : 'value',
-            
-            minInterval : 1,
-            
-            axisLabel : {
-            
-            formatter :  '{value}'
-            
+                type : 'value',
+                minInterval : 1,
+                axisLabel : {
+                formatter :  '{value}'
             },
-            
             boundaryGap : [ 0, 0.1 ],
             
-            } ],
+            }],
             series: [{
                 name: '人数',
                 type: 'bar',
-                data: JSON.parse('$bySexData')
+                data: JSON.parse(datas),
+                barWidth : barWidth,
+                //配置样式
+                itemStyle: {   
+                    //通常情况下：
+                    normal:{  
+    　　　　　　　　　　　　//每个柱子的颜色即为colorList数组里的每一项，如果柱子数目多于colorList的长度，则柱子颜色循环使用该数组
+                        color: function (params){
+                            return barColor;
+                        }
+                    },
+                },
             }]
         };
-
-        // 使用刚指定的配置项和数据显示图表。
-        myChart1.setOption(option);
-        
-        var myChart2 = echarts.init(document.getElementById('statistics-politicalStatus'));
-
-        // 指定图表的配置项和数据
-        var option = {
-            title: {
-                text: '按政治面貌统计'
-            },
-            tooltip: {},
-            legend: {
-                data:['人数']
-            },
-            xAxis: {
-                data: JSON.parse('$bypoliticalStatusDataX')
-            },
-            yAxis: [ // Y轴
-            {
-            
-            type : 'value',
-            
-            minInterval : 1,
-            
-            axisLabel : {
-            
-            formatter :  '{value}'
-            
-            },
-            
-            boundaryGap : [ 0, 0.1 ],
-            
-            } ],
-            series: [{
-                name: '人数',
-                type: 'bar',
-                data: JSON.parse('$bypoliticalStatusDatas')
-            }]
-        };
-
-        // 使用刚指定的配置项和数据显示图表。
-        myChart2.setOption(option);
-
-        var myChart3 = echarts.init(document.getElementById('statistics-eduation'));
-
-        // 指定图表的配置项和数据
-        var option = {
-            title: {
-                text: '按学历统计'
-            },
-            tooltip: {},
-            legend: {
-                data:['人数']
-            },
-            xAxis: {
-            data: JSON.parse('$byEduationDataX')//["小学","初中","高中","大专","本科","研究生","博士"]
-            },
-            yAxis: [ // Y轴
-            {
-            
-            type : 'value',
-            
-            minInterval : 1,
-            
-            axisLabel : {
-            
-            formatter :  '{value}'
-            
-            },
-            
-            boundaryGap : [ 0, 0.1 ],
-            
-            } ],
-            series: [{
-                name: '人数',
-                type: 'bar',
-                data: JSON.parse('$byEduationDatas')
-            }]
-        };
-
-        // 使用刚指定的配置项和数据显示图表。
-        myChart3.setOption(option);
-
-        var myChart4 = echarts.init(document.getElementById('statistics-city'));
-
-        // 指定图表的配置项和数据
-        var option = {
-            title: {
-                text: '按区域统计'
-            },
-            tooltip: {},
-            legend: {
-                data:['人数']
-            },
-            xAxis: {
-                data: JSON.parse('$byCityDataX')//["成都","绵阳","南充","乐山","遂宁","资阳","眉山"]
-            },
-            yAxis: [ // Y轴
-            {
-            
-            type : 'value',
-            
-            minInterval : 1,
-            
-            axisLabel : {
-            
-            formatter :  '{value}'
-            
-            },
-            
-            boundaryGap : [ 0, 0.1 ],
-            
-            } ],
-            series: [{
-                name: '人数',
-                type: 'bar',
-                data: JSON.parse('$byCityDatas')
-            }]
-        };
-
-        // 使用刚指定的配置项和数据显示图表。
-        myChart4.setOption(option);
-
+    myChart.setOption(option);
+}
 JS;
 $css = <<<CSS
 .statistics-main{
