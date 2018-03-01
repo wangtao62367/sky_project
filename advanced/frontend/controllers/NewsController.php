@@ -16,7 +16,6 @@ use common\models\Download;
 use common\models\Personage;
 use common\models\SchooleInformation;
 use common\models\GradeClass;
-use common\models\Vote;
 use common\models\Naire;
 use common\models\Schedule;
 /**
@@ -54,6 +53,7 @@ class NewsController extends CommonController
         
         $parent = Common::find()->select(['id','codeDesc','code'])->where(['id'=>$pid])->one();
         
+        Yii::$app->view->params['pid'] = $parent->id;
         //父级分类为  文化学院模块 
         if($parent->code == 'whxy' && $cateid == 0){
             $this->layout = 'index';
@@ -72,7 +72,7 @@ class NewsController extends CommonController
         
         $currentCate = Category::find()->select(['id','text','cateCode','parentId','type'])->where(['id'=>$cateid])->one();
         $data = Yii::$app->request->get();
-    
+        
         //先判断当前分类是否是特殊页面类型
         if ($currentCate->cateCode == CategoryType::FZLC || $currentCate->cateCode == CategoryType::SYFC ||
             $currentCate->cateCode == CategoryType::SZQK || $currentCate->cateCode == CategoryType::XYJJ ||
@@ -100,6 +100,7 @@ class NewsController extends CommonController
         $parent = Common::find()->select(['id','codeDesc','code'])->where(['id'=>$currentCate->parentId])->one();
         $cateList = Category::find()->select(['id','text','parentId','type'])->where(['isDelete'=>0,'parentId'=>$currentCate->parentId])->orderBy('isBase desc,modifyTime ASC')->all();
         
+        Yii::$app->view->params['pid'] = $parent->id;
         $data = Yii::$app->request->get();
         //先判断当前分类是否是特殊页面类型
         if ($currentCate->cateCode == CategoryType::FZLC || $currentCate->cateCode == CategoryType::SYFC ||
@@ -109,12 +110,11 @@ class NewsController extends CommonController
                 $info = SchooleInformation::findOne(['type'=>$currentCate->cateCode]);
                 
                 return $this->render('schoolinfo',['parent'=>$parent,'cateList'=>$cateList,'info'=>$info,'currentCate'=>$currentCate]);
-                
         }else {
         	
         	$list = $this->getNewsList($currentCate, $data);
         }
-        //var_dump($list);exit();
+
         return $this->render('list',['parent'=>$parent,'cateList'=>$cateList,'list'=>$list,'currentCate'=>$currentCate]);
         
     }

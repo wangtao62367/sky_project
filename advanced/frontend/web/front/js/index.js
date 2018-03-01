@@ -8,7 +8,14 @@
     _this.removeClass('news-unselected').addClass('news-selected');
     
     var url = _this.parent().find("a").attr("href");
-    var newUrl = common.changeUrlArg(url,'code',cateCode);
+    var newUrl = url;
+    if(url.indexOf('code') != -1){
+        newUrl = common.changeUrlArg(url,'code',cateCode);
+    }else{
+    	var lastIndex = url.lastIndexOf('/') + 1;
+    	newUrl = url.substring(0,lastIndex) + cateCode + '.html';
+    }
+    
     _this.parent().find("a").attr("href",newUrl)
 });
 

@@ -58,12 +58,12 @@ $params = $this->params;
 				<!-- 导航栏 -->
 				<div class="nav">
 					<ul>
-						<li><a class="active"  href="<?php echo Url::to(['site/index'])?>">学院首页</a></li>
+						<li><a  <?php if(!isset($params['pid'])){echo 'class="active"';}?>  href="<?php echo Url::to(['site/index'])?>">学院首页</a></li>
 						<?php foreach ($params['nav'] as $v):?>
-						<li><a href="<?php echo Url::to(['news/list','pid'=>$v['id'],'cateid'=>0])?>"><?php echo $v['codeDesc'];?></a>
+						<li><a <?php if(isset($params['pid']) && $params['pid'] == $v['id']){echo 'class="active"';}?> href="<?php echo Url::to(['news/list','pid'=>$v['id'],'cateid'=>0,'pcode'=>$v['code']])?>"><?php echo $v['codeDesc'];?></a>
 							<ul class="nav-item" >
 								<?php foreach ($v['cates'] as $cate):?>
-								<li><a  href="<?php echo Url::to(['news/list','pid'=>$v['id'],'cateid'=>$cate['id']])?>"><?php echo $cate['text'];?></a></li>
+								<li><a  href="<?php echo Url::to(['news/list','pid'=>$v['id'],'cateid'=>$cate['id'],'pcode'=>$v['code']])?>"><?php echo $cate['text'];?></a></li>
 								<?php endforeach;?>
 							</ul>
 						</li>

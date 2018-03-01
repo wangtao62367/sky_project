@@ -6,6 +6,7 @@ namespace frontend\logic;
 use common\models\Article;
 use common\models\Category;
 use common\models\CategoryType;
+use common\models\Common;
 
 class NewsLogic
 {
@@ -57,7 +58,7 @@ class NewsLogic
      */
     public static function getCrumbs($article)
     {
-        $category = Category::find()->select([Category::tableName().'.id','text','parentId','codeDesc'])->joinWith('parents')->where([Category::tableName().'.id'=>$article->categoryId,'isDelete'=>0])->asArray()->one();
+        $category = Category::find()->select([Category::tableName().'.id','text','parentId','codeDesc',Common::tableName().'.code'])->joinWith('parents')->where([Category::tableName().'.id'=>$article->categoryId,'isDelete'=>0])->asArray()->one();
         return $category;
     }
     /**

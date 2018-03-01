@@ -6,7 +6,7 @@ use frontend\assets\AppAsset;
 $this->title= $data['current']['title'];
 ?>
 
-<p class="position"><a href ="<?php echo Url::to(['site/index'])?>">学院首页</a>&nbsp;&gt;&nbsp;<a href="<?php echo Url::to(['news/list','pid'=>$data['crumbs']['parentId'],'cateid'=>0])?>"><?php echo $data['crumbs']['codeDesc'];?></a>&nbsp;&gt;&nbsp;<a href="<?php echo Url::to(['news/list','pid'=>$data['crumbs']['parentId'],'cateid'=>$data['crumbs']['id']])?>"><?php echo $data['crumbs']['text'];?></a></p>
+<p class="position"><a href ="<?php echo Url::to(['site/index'])?>">学院首页</a>&nbsp;&gt;&nbsp;<a href="<?php echo Url::to(['news/list','pid'=>$data['crumbs']['parentId'],'cateid'=>0,'pcode'=>$data['crumbs']['code']])?>"><?php echo $data['crumbs']['codeDesc'];?></a>&nbsp;&gt;&nbsp;<a href="<?php echo Url::to(['news/list','pid'=>$data['crumbs']['parentId'],'cateid'=>$data['crumbs']['id'],'pcode'=>$data['crumbs']['code']])?>"><?php echo $data['crumbs']['text'];?></a></p>
 <h2><?php echo $data['current']['title'];?></h2>
 <div class="inst">
 	<ul>

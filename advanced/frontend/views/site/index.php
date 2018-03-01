@@ -161,7 +161,7 @@ $this->title = "首页_".$params['webCfgs']['siteName'];
 	</div>
 
 </div>
-<div class="video-banner"><a href="#">更多&gt;</a></div>
+<div class="video-banner"><a href="<?php echo Url::to(['news/list-by-catecode','code'=>'sxsy'])?>">更多&gt;</a></div>
 <div id="video-box" class="video-box">
     <div id="video-list-box" class="video-list-box">
     	<?php foreach ($data['sxsy'] as $sxsy):?>

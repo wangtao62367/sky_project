@@ -37,14 +37,34 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        /*
-        'urlManager' => [
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
-            'rules' => [
-            ],
-        ],
-        */
+        
+    	'urlManager' => [
+    		'enablePrettyUrl' => true,
+    		'showScriptName' => false,
+    		'enableStrictParsing' => false,
+    		'suffix' => '.html',
+    		'rules' => [
+    			'index' => 'site/index',
+    			'<pcode:\w+>/<pid:\d+>/<cateid:\d+>' => 'news/list',
+    			'detail/<id:\d+>' => 'news/detail',
+    			'<code:\w+>' => 'news/list-by-catecode',
+    			'login' => 'user/login',
+    			'logout' => 'user/logout',
+    			'regis'   => 'user/reg',
+    			'smail'   => 'user/findpwdbymail',
+    			'center'  => 'user/center',
+    			'info'    => 'user/info',
+    			'edpwd'   => 'user/edit-pwd',
+    			//我要报名
+    			'joinup/<cid:\d+>' => 'student/joinup',
+    			//课表详情
+    			'schedule/<id:\d+>' => 'schedule/info',
+    			//投票调查
+    			'naire/<id:\d+>' => 'student/naire',
+    			//试卷测评
+    			'paper/<cid:\d+>' => 'student/testpapers',
+    		],
+    	]   
     ],
     'params' => $params,
 ];

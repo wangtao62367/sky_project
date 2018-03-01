@@ -50,7 +50,7 @@ class StudentController extends CommonController
             $sum = isset($verifyCounts[3]) ? $verifyCounts[3] : 0;
             //班级人数已满
             if($gradeClass->classSize <= $sum){
-                
+            	Yii::$app->session->setFlash('error','本班人数限额已满');
             }
             //判断是否已经报过名
             $userIds = array_column($bmRecords,"userId");
