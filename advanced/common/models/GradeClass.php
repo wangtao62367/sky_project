@@ -32,10 +32,7 @@ class GradeClass extends BaseModel
             ['joinStartDate','required','message'=>'报名开始时间不能为空','on'=>['create','edit']],
             ['joinEndDate','required','message'=>'报名结束时间不能为空','on'=>['create','edit']],
             ['joinEndDate', 'compare', 'compareAttribute'=>'joinStartDate', 'operator' => '>=','message'=>'报名结束时间必须大于或等于开始时间','on'=>['create','edit']],
-//             ['contact','required','message'=>'班级联络人不能为空','on'=>['create','edit']],
-//             ['phone','required','message'=>'班级联络人手机号不能为空','on'=>['create','edit']],
-//             ['phone','match','pattern'=>'/^[1][34578][0-9]{9}$/','message'=>'手机号无效','on'=>['create','edit']],
-            
+
             ['openClassTime','required','message'=>'开班时间不能为空','on'=>['create','edit']],
             ['closeClassTime','required','message'=>'结业时间不能为空','on'=>['create','edit']],
             ['closeClassTime', 'compare', 'compareAttribute'=>'openClassTime', 'operator' => '>=','message'=>'结业时间必须大于或等于开班时间','on'=>['create','edit']],
@@ -98,23 +95,58 @@ class GradeClass extends BaseModel
         if($this->load($data)){
             $query= $this->filterSearch($this->search, $query);
         }
-        $result = $query->asArray()->all();
+        $result = $query->limit(1000)->asArray()->all();
+        if(empty($result)){
+            return false;
+        }
         
         $phpExcel = new \PHPExcel();
         $objSheet = $phpExcel->getActiveSheet();
         $objSheet->getDefaultStyle()->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER)->setVertical(\PHPExcel_Style_Alignment::VERTICAL_CENTER);
         $objSheet->setTitle('班级列表');
         $objSheet->setCellValue('A1','序号')->setCellValue('B1','班级名称')->setCellValue('C1','班级人数')->setCellValue('D1','报名时间')
-        ->setCellValue('E1','开班时间')->setCellValue('F1','教务员')->setCellValue('G1','教务员电话')->setCellValue('H1','媒体管理员')
-        ->setCellValue('I1','媒体管理员电话')->setCellValue('J1','开班出席领导')->setCellValue('K1','结业出席领导')->setCellValue('L1','本院教师任课节数')
-        ->setCellValue('M1','邀约教师任课节数')->setCellValue('N1','创建时间')->setCellValue('O1','修改时间');
+        ->setCellValue('E1','开班时间')->setCellValue('F1','结业时间')->setCellValue('G1','教务员')->setCellValue('H1','教务员电话')->setCellValue('I1','媒体管理员')
+        ->setCellValue('J1','媒体管理员电话')->setCellValue('K1','开班出席领导')->setCellValue('L1','结业出席领导')->setCellValue('M1','本院教师任课节数')
+        ->setCellValue('N1','邀约教师任课节数')->setCellValue('O1','创建时间')->setCellValue('P1','修改时间');
+        
+        //设置填充的样式和背景色
+        $colTitle = $objSheet->getStyle('A1:P1');
+        $colTitle->getFill()->setFillType(\PHPExcel_Style_Fill::FILL_SOLID);
+        $colTitle->getFill()->getStartColor()->setARGB('b6cad2');
+        $colTitle->getFont()->setBold(true);
+        $colTitle->getFont()->getColor()->setARGB(\PHPExcel_Style_Color::COLOR_WHITE);
+        $colTitle->getFont()->setSize(12);
+        
+        //设置行高
+        $objSheet->getDefaultRowDimension()->setRowHeight(24);
+        //固定第一行
+        $objSheet->freezePane('A2');
+        
+        //内容宽度
+        $objSheet->getColumnDimension('A')->setWidth(20);
+        $objSheet->getColumnDimension('B')->setWidth(40);
+        $objSheet->getColumnDimension('C')->setWidth(10);
+        $objSheet->getColumnDimension('D')->setWidth(20);
+        $objSheet->getColumnDimension('E')->setWidth(20);
+        $objSheet->getColumnDimension('F')->setWidth(20);
+        $objSheet->getColumnDimension('G')->setWidth(20);
+        $objSheet->getColumnDimension('H')->setWidth(20);
+        $objSheet->getColumnDimension('I')->setWidth(20);
+        $objSheet->getColumnDimension('J')->setWidth(25);
+        $objSheet->getColumnDimension('K')->setWidth(25);
+        $objSheet->getColumnDimension('L')->setWidth(25);
+        $objSheet->getColumnDimension('M')->setWidth(25);
+        $objSheet->getColumnDimension('N')->setWidth(20);
+        $objSheet->getColumnDimension('O')->setWidth(20);
+        $objSheet->getColumnDimension('P')->setWidth(20);
+        
         $num = 2;
         foreach ($result as $val){
             $objSheet->setCellValue('A'.$num,$val['id'])->setCellValue('B'.$num,$val['className'])->setCellValue('C'.$num,$val['classSize'])->setCellValue('D'.$num,$val['joinStartDate'].'~'.$val['joinEndDate'])
-            ->setCellValue('E'.$num,$val['openClassTime'])->setCellValue('F'.$num,$val['eduAdmin'])->setCellValue('G'.$num,$val['eduAdminPhone'])
-            ->setCellValue('H'.$num,$val['mediaAdmin'])->setCellValue('I'.$num,$val['mediaAdminPhone'])->setCellValue('J'.$num,$val['openClassLeader'])
-            ->setCellValue('K'.$num,$val['closeClassLeader'])->setCellValue('L'.$num,$val['currentTeachs'])->setCellValue('M'.$num,$val['invitTeachs'])
-            ->setCellValue('N'.$num,MyHelper::timestampToDate($val['createTime']))->setCellValue('O'.$num,MyHelper::timestampToDate($val['modifyTime']));
+            ->setCellValue('E'.$num,$val['openClassTime'])->setCellValue('F'.$num,$val['closeClassTime'])->setCellValue('G'.$num,$val['eduAdmin'])->setCellValue('H'.$num,$val['eduAdminPhone'])
+            ->setCellValue('I'.$num,$val['mediaAdmin'])->setCellValue('J'.$num,$val['mediaAdminPhone'])->setCellValue('K'.$num,$val['openClassLeader'])
+            ->setCellValue('L'.$num,$val['closeClassLeader'])->setCellValue('M'.$num,$val['currentTeachs'])->setCellValue('N'.$num,$val['invitTeachs'])
+            ->setCellValue('O'.$num,MyHelper::timestampToDate($val['createTime']))->setCellValue('P'.$num,MyHelper::timestampToDate($val['modifyTime']));
             $num ++;
         }
         $objWriter = \PHPExcel_IOFactory::createWriter($phpExcel,'Excel2007');

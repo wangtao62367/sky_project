@@ -20,8 +20,13 @@ class ScheduleController extends CommonController
 	public function actionManage()
 	{
 		$schedule = new Schedule();
-		
 		$data = Yii::$app->request->get();
+		$export = Yii::$app->request->get('handle','');
+		//导出操作
+		if(strtolower(trim($export)) == 'export'){
+		    $result = $schedule->export($data);
+		    Yii::$app->end();exit();
+		}
 		$list = $schedule->pageList($data);
 		return $this->render('manage',['model'=>$schedule,'list'=>$list]);
 	}
@@ -93,17 +98,7 @@ class ScheduleController extends CommonController
 	    $idsArr = explode(',',trim($ids,','));
 	    return Schedule::updateAll(['isDelete'=>1],['in','id',$idsArr]);
 	}
-	/**
-	 * @desc 导出课表
-	 */
-	public function actionExport()
-	{
-	    $schedule = new Schedule();
-	    
-	    $data = Yii::$app->request->get();
-	    return false;
-	    $schedule->export($data);
-	}
+
 	/**
 	 * @desc 快速发布课表
 	 */
@@ -134,6 +129,7 @@ class ScheduleController extends CommonController
 		}
 
 		$data = Yii::$app->request->get();
+		$data['ScheduleTable']['search']['scheduleId'] = $schedule->id;
 		$model = new ScheduleTable();
 		$list= $model->pageList($data);
 		return $this->render('info',['schedule'=>$schedule,'model'=>$model,'list'=>$list]);

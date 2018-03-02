@@ -4,6 +4,8 @@
     margin: 0 auto;
     margin-top: 20px;
     text-align: right;
+	overflow: hidden;
+    margin-bottom: 30px;
 }   
 .pagination a {
     text-decoration: none;

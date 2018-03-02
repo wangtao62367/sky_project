@@ -114,6 +114,32 @@ class Teacher extends BaseModel
 	    $objSheet->setCellValue('A1','序号')->setCellValue('B1','教师姓名')->setCellValue('C1','手机号')->setCellValue('D1','性别')
 	    ->setCellValue('E1','职称')->setCellValue('F1','行政职务')->setCellValue('G1','来源情况')->setCellValue('H1','授课专题')
 	    ->setCellValue('I1','创建时间')->setCellValue('J1','修改时间');
+	    
+	    //设置填充的样式和背景色
+	    $colTitle = $objSheet->getStyle('A1:J1');
+	    $colTitle->getFill()->setFillType(\PHPExcel_Style_Fill::FILL_SOLID);
+	    $colTitle->getFill()->getStartColor()->setARGB('b6cad2');
+	    $colTitle->getFont()->setBold(true);
+	    $colTitle->getFont()->getColor()->setARGB(\PHPExcel_Style_Color::COLOR_WHITE);
+	    $colTitle->getFont()->setSize(12);
+	    
+	    //设置行高
+	    $objSheet->getDefaultRowDimension()->setRowHeight(24);
+	    //固定第一行
+	    $objSheet->freezePane('A2');
+	    
+	    //内容宽度
+	    $objSheet->getColumnDimension('A')->setWidth(10);
+	    $objSheet->getColumnDimension('B')->setWidth(20);
+	    $objSheet->getColumnDimension('C')->setWidth(20);
+	    $objSheet->getColumnDimension('D')->setWidth(15);
+	    $objSheet->getColumnDimension('E')->setWidth(30);
+	    $objSheet->getColumnDimension('F')->setWidth(25);
+	    $objSheet->getColumnDimension('G')->setWidth(30);
+	    $objSheet->getColumnDimension('H')->setWidth(40);
+	    $objSheet->getColumnDimension('I')->setWidth(20);
+	    $objSheet->getColumnDimension('J')->setWidth(20);
+	    
 	    $num  = 2;
 	    foreach ($result as $val){
 	        $objSheet->setCellValue('A'.$num,$val['id'])->setCellValue('B'.$num,$val['trueName'])->setCellValue('C'.$num,$val['phone'])->setCellValue('D'.$num,$val['sex'] == 1 ? '男':'女')
@@ -121,6 +147,7 @@ class Teacher extends BaseModel
 	        ->setCellValue('I'.$num,MyHelper::timestampToDate($val['createTime']))->setCellValue('J'.$num,MyHelper::timestampToDate($val['modifyTime']));
 	        $num ++;
 	    }
+	    
 	    $objWriter = \PHPExcel_IOFactory::createWriter($phpExcel,'Excel2007');
 	    ExcelMolde::exportBrowser('教师列表.xlsx');
 	    $objWriter->save('php://output');

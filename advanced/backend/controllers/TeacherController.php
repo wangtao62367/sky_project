@@ -20,8 +20,13 @@ class TeacherController extends CommonController
     public function actionManage()
     {
     	$teacher = new Teacher();
-    	
     	$data = Yii::$app->request->get();
+    	$export = Yii::$app->request->get('handle','');
+    	//导出操作
+    	if(strtolower(trim($export)) == 'export'){
+    	    $result = $teacher->export($data);
+    	    Yii::$app->end();exit();
+    	}
     	$list = $teacher->pageList($data);
     	return $this->render('manage',['model'=>$teacher,'list'=>$list]);
     }

@@ -32,7 +32,7 @@ $this->title = $parent->codeDesc . '-' .$currentCate->text;
 			<ul>
 			<?php foreach ($list['data'] as $val):?>
 				<?php if ($currentCate->type == CategoryType::ARTICLE):?>
-					<li class="article-item"><a href="<?php echo Url::to(['news/detail','id'=>$val['id']])?>" title="<?php echo $val['title'];?>"><?php echo MyHelper::timestampToDate($val['publishTime']);?>  <?php echo $val['title'];?></a></li>
+					<li class="article-item"><a href="<?php echo Url::to(['news/detail','id'=>$val['id']])?>" title="<?php echo $val['title'];?>"><?php echo MyHelper::timestampToDate($val['publishTime'],'Y-m-d');?>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $val['title'];?></a></li>
 				<?php elseif ($currentCate->type == CategoryType::VIDEO):?>
 					<li  class="video-item">
     					<a href="<?php echo Url::to(['video/start','id'=>$val['id']]);?>">
@@ -50,7 +50,7 @@ $this->title = $parent->codeDesc . '-' .$currentCate->text;
 					</li>
 				<?php elseif ($currentCate->type == CategoryType::FILE):?>
 					<li class="file-item">
-						<a href="<?php echo $val['uri'];?>" title="<?php echo $val['descr'];?>"><?php echo MyHelper::timestampToDate($val['modifyTime']);?>  <?php echo $val['descr'];?></a>
+						<a href="<?php echo $val['uri'];?>" title="<?php echo $val['descr'];?>"><?php echo MyHelper::timestampToDate($val['modifyTime'],'Y-m-d');?>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $val['descr'];?></a>
 					</li>
 				<?php endif;?>
 			<?php endforeach;?>

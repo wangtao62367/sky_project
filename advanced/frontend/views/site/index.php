@@ -43,17 +43,17 @@ $this->title = "首页_".$params['webCfgs']['siteName'];
 		</div>
 		<ul class="articlelist" id="tzxw">
 			<?php foreach ($data['tzxw'] as $tzxw):?>
-			<li><a href="<?php echo Url::to(['news/detail','id'=>$tzxw->id])?>" title="<?php echo $tzxw->title;?>"><nobr><?php echo $tzxw->title?></nobr></a></li>
+			<li><a href="<?php echo Url::to(['news/detail','id'=>$tzxw->id])?>" title="<?php echo $tzxw->title;?>"><nobr><?php echo $tzxw->title?></nobr><span><?php echo date('Y-m-d',$tzxw->publishTime)?></span></a></li>
 			<?php endforeach;?>
 		</ul>
 		<ul style="display: none" class="articlelist" id="syxw">
 			<?php foreach ($data['syxw'] as $syxw):?>
-			<li><a href="<?php echo Url::to(['news/detail','id'=>$syxw->id])?>" title="<?php echo $syxw->title;?>"><nobr><?php echo $syxw->title?></nobr></a></li>
+			<li><a href="<?php echo Url::to(['news/detail','id'=>$syxw->id])?>" title="<?php echo $syxw->title;?>"><nobr><?php echo $syxw->title?></nobr><span><?php echo date('Y-m-d',$syxw->publishTime)?></span></a></li>
 			<?php endforeach;?>
 		</ul>
 		<ul style="display: none" class="articlelist" id="szyw">
 			<?php foreach ($data['szyw'] as $szyw):?>
-			<li><a href="<?php echo Url::to(['news/detail','id'=>$szyw->id])?>" title="<?php echo $szyw->title;?>"><nobr><?php echo $szyw->title?></nobr></a></li>
+			<li><a href="<?php echo Url::to(['news/detail','id'=>$szyw->id])?>" title="<?php echo $szyw->title;?>"><nobr><?php echo $szyw->title?></nobr><span><?php echo date('Y-m-d',$szyw->publishTime)?></span></a></li>
 			<?php endforeach;?>
 		</ul>
 	</div>
@@ -209,7 +209,15 @@ function showAdv(){
 }
 JS;
 $css = <<<CSS
-
+#tzxw nobr,#syxw nobr,#szyw nobr{
+    display: inline-block;
+    text-indent: 0px;
+    width: 590px;
+    word-wrap: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+#tzxw span,#syxw span,#szyw span{display:inline-block;float:right;}
 CSS;
 $this->registerJs($js);
 $this->registerCss($css);

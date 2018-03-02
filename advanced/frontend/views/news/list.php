@@ -59,14 +59,14 @@ $this->title = $parent->codeDesc . '-'.$currentCate->text;
     				</li>
     			<?php elseif ($currentCate->cateCode == CategoryType::TPDC):?>
     				<li class="article-item">
-    				<a href="<?php echo Url::to(['student/naire','id'=>$val['id']])?>" title="<?php echo $val['title'];?>"><?php echo MyHelper::timestampToDate($val['modifyTime']);?>  <?php echo $val['title'];?></a></li>
+    				<a href="<?php echo Url::to(['student/naire','id'=>$val['id']])?>" title="<?php echo $val['title'];?>"><?php echo MyHelper::timestampToDate($val['modifyTime'],'Y-m-d');?>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $val['title'];?></a></li>
     			<?php elseif ($currentCate->cateCode == CategoryType::KBCX):?>
     				<li class="article-item">
     				<a href="<?php echo Url::to(['schedule/info','id'=>$val['id']])?>" title="<?php echo $val['title'];?>">【<?php echo $val['gradeClass'];?>】 <?php echo $val['title'];?></a>
     				</li>
     			<?php else :?>
     				<?php if ($currentCate->type == CategoryType::ARTICLE):?>
-    					<li class="article-item"><a href="<?php echo Url::to(['news/detail','id'=>$val['id']])?>" title="<?php echo $val['title'];?>"><?php echo MyHelper::timestampToDate($val['publishTime']);?>  <?php echo $val['title'];?></a></li>
+    					<li class="article-item"><a href="<?php echo Url::to(['news/detail','id'=>$val['id']])?>" title="<?php echo $val['title'];?>"><?php echo MyHelper::timestampToDate($val['publishTime'],'Y-m-d');?>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $val['title'];?></a></li>
     				<?php elseif ($currentCate->type == CategoryType::VIDEO):?>
     					<li  class="video-item" data-videourl="<?php echo $val['video'];?>" id="video_item_<?php echo $val['id'];?>">
         					<a href="javascript:;">
@@ -84,7 +84,7 @@ $this->title = $parent->codeDesc . '-'.$currentCate->text;
     					</li>
     				<?php elseif ($currentCate->type == CategoryType::FILE):?>
     					<li class="file-item">
-    						<a href="<?php echo $val['uri'];?>" title="<?php echo $val['descr'];?>"><?php echo MyHelper::timestampToDate($val['modifyTime']);?>  <?php echo $val['descr'];?></a>
+    						<a href="<?php echo $val['uri'];?>" title="<?php echo $val['descr'];?>"><?php echo MyHelper::timestampToDate($val['modifyTime'],'Y-m-d');?>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $val['descr'];?></a>
     					</li>
     				<?php endif;?>
 				<?php endif;?>

@@ -42,6 +42,7 @@ use backend\assets\AppAsset;
             <th>班级人数</th>
             <th>报名时间</th>
             <th>开班时间</th>
+            <th>结业时间</th>
             <th>教务员</th>
             <th>教务电话</th>
             <th>媒体管理</th>
@@ -65,6 +66,7 @@ use backend\assets\AppAsset;
             <td><?php echo $val['classSize'];?></td>
             <td><?php echo $val['joinStartDate'].'~'.$val['joinEndDate'];?></td>
             <td><?php echo $val['openClassTime'];?></td>
+            <td><?php echo $val['closeClassTime'];?></td>
             <td><?php echo $val['eduAdmin'];?></td>
             <td><?php echo $val['eduAdminPhone'];?></td>
             <td><?php echo $val['mediaAdmin'];?></td>
@@ -100,7 +102,6 @@ $curPage = $list['curPage'];
 $pageSize = $list['pageSize'];
 $count = $list['count'];
 $uri = Yii::$app->request->getUrl();
-$exportUrl = Url::to(['gradeclass/export']);
 $js = <<<JS
 $('.batchDel').click(function(){
      batchDel('$batchDelUrl');
@@ -114,12 +115,6 @@ initPagination({
 	pageSize : $pageSize,
     uri : '$uri'
 });
-//导出
-$(document).on('click','.export-btn',function(){
-    var form = $(this).parents('form')[0];
-    $(form).attr('action','$exportUrl');
-    $(form).submit();
-})
 
 //时间选择框
 var now = new Date();

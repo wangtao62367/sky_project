@@ -98,7 +98,6 @@ $curPage = $list['curPage'];
 $pageSize = $list['pageSize'];
 $count = $list['count'];
 $uri = Yii::$app->request->getUrl();
-$exportUrl = Url::to(['schedule/export']);
 $js = <<<JS
 //快速发布
 $(document).on('click','.publishBtn',function(){
@@ -146,12 +145,6 @@ $('.endTime').datetimepicker({
       yearStart: yearStart,     //设置最小年份
       yearEnd:yearEnd,        //设置最大年份
       todayButton:true    //开启选择今天按钮
-});
-//导出
-$(document).on('click','.excel-btn',function(){
-    var form = $(this).parents('form')[0];
-    $(form).attr('action','$exportUrl');
-    $(form).submit();
 });
 
 JS;

@@ -83,7 +83,7 @@ class SiteLogic
     public static function getTzxw()
     {
         $cate = Category::getCatesByCode('tzxw');
-        $articles = Article::find()->select(['id','title','ishot'])->where(['categoryId'=>$cate->id,'isPublish'=>1,'isDelete'=>0])->orderBy('ishot desc,sorts asc,publishTime desc')->limit(6)->all();
+        $articles = Article::find()->select(['id','title','publishTime','ishot'])->where(['categoryId'=>$cate->id,'isPublish'=>1,'isDelete'=>0])->orderBy('ishot desc,sorts asc,publishTime desc')->limit(6)->all();
         return $articles;
     }
     
@@ -93,7 +93,7 @@ class SiteLogic
     public static function getSyxw()
     {
         $cate = Category::getCatesByCode('syxw');
-        $articles = Article::find()->select(['id','title','ishot'])->where(['categoryId'=>$cate->id,'isPublish'=>1,'isDelete'=>0])->orderBy('ishot desc,sorts asc,publishTime desc')->limit(6)->all();
+        $articles = Article::find()->select(['id','title','publishTime','ishot'])->where(['categoryId'=>$cate->id,'isPublish'=>1,'isDelete'=>0])->orderBy('ishot desc,sorts asc,publishTime desc')->limit(6)->all();
         return $articles;
     }
     
@@ -103,7 +103,7 @@ class SiteLogic
     public static function getSzyw()
     {
         $cate = Category::getCatesByCode('szyw');
-        $articles = Article::find()->select(['id','title','ishot'])->where(['categoryId'=>$cate->id,'isPublish'=>1,'isDelete'=>0])->orderBy('ishot desc,sorts asc,publishTime desc')->limit(6)->all();
+        $articles = Article::find()->select(['id','title','publishTime','ishot'])->where(['categoryId'=>$cate->id,'isPublish'=>1,'isDelete'=>0])->orderBy('ishot desc,sorts asc,publishTime desc')->limit(6)->all();
         return $articles;
     }
     
@@ -113,7 +113,7 @@ class SiteLogic
     public static function getWhjl()
     {
         $cate = Category::getCatesByCode('whjl');
-        $articles = Article::find()->select(['id','title','ishot'])->where(['categoryId'=>$cate->id,'isPublish'=>1,'isDelete'=>0])->orderBy('ishot desc,sorts asc,publishTime desc')->limit(6)->all();
+        $articles = Article::find()->select(['id','title','publishTime','ishot'])->where(['categoryId'=>$cate->id,'isPublish'=>1,'isDelete'=>0])->orderBy('ishot desc,sorts asc,publishTime desc')->limit(6)->all();
         return $articles;
     }
     
@@ -123,7 +123,7 @@ class SiteLogic
     public static function getDqxz()
     {
         $cate = Category::getCatesByCode('dqxz');
-        $articles = Article::find()->select(['id','title','ishot'])->where(['categoryId'=>$cate->id,'isPublish'=>1,'isDelete'=>0])->orderBy('ishot desc,sorts asc,publishTime desc')->limit(6)->all();
+        $articles = Article::find()->select(['id','title','publishTime','ishot'])->where(['categoryId'=>$cate->id,'isPublish'=>1,'isDelete'=>0])->orderBy('ishot desc,sorts asc,publishTime desc')->limit(6)->all();
         return $articles;
     }
     
@@ -133,7 +133,7 @@ class SiteLogic
     public static function getJxpx()
     {
         $cate = Category::getCatesByCode('jxxx');
-        $articles = Article::find()->select(['id','title','ishot'])->where(['categoryId'=>$cate->id,'isPublish'=>1,'isDelete'=>0])->orderBy('ishot desc,sorts asc,publishTime desc')->limit(6)->all();
+        $articles = Article::find()->select(['id','title','publishTime','ishot'])->where(['categoryId'=>$cate->id,'isPublish'=>1,'isDelete'=>0])->orderBy('ishot desc,sorts asc,publishTime desc')->limit(6)->all();
         return $articles;
     }
     /**
@@ -142,7 +142,7 @@ class SiteLogic
     public static function getXyyd()
     {
         $cate = Category::getCatesByCode('xyhd');
-        $articles = Article::find()->select(['id','title','ishot'])->where(['categoryId'=>$cate->id,'isPublish'=>1,'isDelete'=>0])->orderBy('ishot desc,sorts asc,publishTime desc')->limit(6)->all();
+        $articles = Article::find()->select(['id','title','publishTime','ishot'])->where(['categoryId'=>$cate->id,'isPublish'=>1,'isDelete'=>0])->orderBy('ishot desc,sorts asc,publishTime desc')->limit(6)->all();
         return $articles;
     }
     
@@ -154,7 +154,7 @@ class SiteLogic
         //科研动态 下存在科研信息、科研成果为新闻文章
         $cates = Category::find()->select('id')->where(['in','cateCode',['kycg','jyxx']])->asArray()->all();
         $catesIds = ArrayHelper::getColumn($cates, 'id');
-        $articles = Article::find()->select(['id','title','ishot'])->Where(['in','categoryId',$catesIds])->andWhere(['isPublish'=>1,'isDelete'=>0])->orderBy('ishot desc,sorts asc,publishTime desc')->limit(6)->all();
+        $articles = Article::find()->select(['id','title','publishTime','ishot'])->Where(['in','categoryId',$catesIds])->andWhere(['isPublish'=>1,'isDelete'=>0])->orderBy('ishot desc,sorts asc,publishTime desc')->limit(6)->all();
         return $articles;
     }
     /**
@@ -164,7 +164,7 @@ class SiteLogic
     public static function getZkzx()
     {
         $cate = Category::getCatesByCode('xxdt');
-        $articles = Article::find()->select(['id','title','ishot'])->where(['categoryId'=>$cate->id,'isPublish'=>1,'isDelete'=>0])->orderBy('ishot desc,sorts asc,publishTime desc')->limit(6)->all();
+        $articles = Article::find()->select(['id','title','publishTime','ishot'])->where(['categoryId'=>$cate->id,'isPublish'=>1,'isDelete'=>0])->orderBy('ishot desc,sorts asc,publishTime desc')->limit(6)->all();
         return $articles;
     }
     
@@ -174,7 +174,7 @@ class SiteLogic
     public static function getSzsy()
     {
         $cate = Category::getCatesByCode('szsy');
-        $articles = Article::find()->select(['id','title','ishot'])->where(['categoryId'=>$cate->id,'isPublish'=>1,'isDelete'=>0])->orderBy('ishot desc,sorts asc,publishTime desc')->limit(6)->all();
+        $articles = Article::find()->select(['id','title','publishTime','ishot'])->where(['categoryId'=>$cate->id,'isPublish'=>1,'isDelete'=>0])->orderBy('ishot desc,sorts asc,publishTime desc')->limit(6)->all();
         return $articles;
     }
     

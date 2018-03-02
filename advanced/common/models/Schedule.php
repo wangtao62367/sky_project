@@ -72,13 +72,26 @@ class Schedule extends BaseModel
 		return $this->hasOne(GradeClass::className(), ['id'=>'gradeClassId']);
 	}
 	
+	public function getTables()
+	{
+	    return $this->hasMany(ScheduleTable::className(), ['scheduleId'=>'id']);
+	}
+	
 	public function pageList(array $data)
 	{
 	    $this->curPage = isset($data['curPage']) && !empty($data['curPage']) ? $data['curPage'] : $this->curPage;
 	    $scheduleListQuery = self::find()
-    	    ->select([])
-    	    //->joinWith('teachplaces')
-    	    //->joinWith('gradeclass')
+    	    ->select([
+    	        'id',
+    	        'title',
+    	        'gradeClass',
+    	        'gradeClassId',
+    	        'isPublish',
+    	        'publishTime',
+    	        'publishEndTime',
+    	        'createTime',
+    	        'modifyTime'
+    	    ])
     	    ->where([self::tableName().'.isDelete'=>self::CURRICULUM_UNDELETE])->orderBy('createTime desc,modifyTime desc');
 		if($this->load($data) && !empty($this->search)){
 			$scheduleListQuery = $this->filterSearch($this->search,$scheduleListQuery);
@@ -90,29 +103,71 @@ class Schedule extends BaseModel
 	public function export(array $data)
 	{
 	    $query = self::find()
-	    ->select([])
-	    //->joinWith('teachplaces')
-	    //->joinWith('gradeclass')
-	    ->where([self::tableName().'.isDelete'=>self::CURRICULUM_UNDELETE])->orderBy('createTime desc,modifyTime desc');
-	    if($this->load($data)){
+	    ->select([
+	        self::tableName().'.id',
+	        self::tableName().'.title',
+	        self::tableName().'.gradeClass',
+	        self::tableName().'.isPublish',
+	        self::tableName().'.publishTime',
+	        self::tableName().'.marks',
+
+	    ])
+	    ->joinWith('tables')
+	    ->where([self::tableName().'.isDelete'=>self::CURRICULUM_UNDELETE])->orderBy(self::tableName().'.modifyTime DESC,'.ScheduleTable::tableName().'.lessonDate ASC,'.ScheduleTable::tableName().'.lessonStartTime ASC');
+	    if($this->load($data) && !empty($this->search)){
 	        $query= $this->filterSearch($this->search,$query);
 	    }
-	    $result = $query->asArray()->all();
+	    $result = $query->asArray()->limit(1000)->all();
+	    if(empty($result)){
+	        return false;
+	    }
 	    
 	    $phpExcel = new \PHPExcel();
 	    $objSheet = $phpExcel->getActiveSheet();
 	    $objSheet->getDefaultStyle()->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER)->setVertical(\PHPExcel_Style_Alignment::VERTICAL_CENTER);
 	    $objSheet->setTitle('课表列表');
-	    $objSheet->setCellValue('A1','序号')->setCellValue('B1','授课班级')->setCellValue('C1','课程名称')->setCellValue('D1','上课时间')
-	    ->setCellValue('E1','授课教师')->setCellValue('F1','授课地点')->setCellValue('G1','是否发布')
-	    ->setCellValue('H1','创建时间')->setCellValue('I1','修改时间');
-	    $num  = 2;
+	    
+	    //设置行高
+	    $objSheet->getDefaultRowDimension()->setRowHeight(24);
+	    
+	    //内容宽度
+	    $objSheet->getColumnDimension('A')->setWidth(50);
+	    $objSheet->getColumnDimension('B')->setWidth(40);
+	    $objSheet->getColumnDimension('C')->setWidth(40);
+	    $objSheet->getColumnDimension('D')->setWidth(30);
+	    
+	    //tables  4列
+	    $index = 1;
 	    foreach ($result as $val){
-	        $objSheet->setCellValue('A'.$num,$val['id'])->setCellValue('B'.$num,$val['gradeClass'])->setCellValue('C'.$num,$val['curriculumText'])->setCellValue('D'.$num,$val['lessonDate'] . ' ' . $val['lessonStartTime'] . '~' . $val['lessonEndTime'])
-	        ->setCellValue('E'.$num,$val['teacherName'])->setCellValue('F'.$num,$val['teachPlace'])->setCellValue('G'.$num,$val['isPublish'] == 1?'已发布':'未发布')
-	        ->setCellValue('H'.$num,MyHelper::timestampToDate($val['createTime']))->setCellValue('I'.$num,MyHelper::timestampToDate($val['modifyTime']));
-	        $num ++;
+	        $objSheet->mergeCells('A'.$index.':D'.$index)->setCellValue('A'.$index,$val['title'].'【'.$val['gradeClass'].'】');
+	        //设置课表标题样式
+	        $titleStyle = $objSheet->getStyle('A'.$index.':D'.$index);
+	        $titleStyle->getFill()->setFillType(\PHPExcel_Style_Fill::FILL_SOLID);
+	        $titleStyle->getFill()->getStartColor()->setARGB('61aeec');
+	        $titleStyle->getFont()->setBold(true);
+	        $titleStyle->getFont()->getColor()->setARGB(\PHPExcel_Style_Color::COLOR_WHITE);
+	        $titleStyle->getFont()->setSize(14);
+	        $index ++;
+	        $objSheet->setCellValue('A'.$index,'课程名称')->setCellValue('B'.$index,'授课时间')->setCellValue('C'.$index,'授课地点')->setCellValue('D'.$index,'授课教师');
+	        $titleStyle = $objSheet->getStyle('A'.$index.':D'.$index);
+	        $titleStyle->getFill()->setFillType(\PHPExcel_Style_Fill::FILL_SOLID);
+	        $titleStyle->getFill()->getStartColor()->setARGB('f3f3f3');
+	        $titleStyle->getFont()->setBold(true);
+	        $titleStyle->getFont()->getColor()->setARGB(\PHPExcel_Style_Color::COLOR_BLACK);
+	        $titleStyle->getFont()->setSize(12);
+	        $index ++;
+	        if(empty($val['tables'])){
+	            $objSheet->mergeCells('A'.$index.':D'.$index)->setCellValue('A'.$index,'暂时未安排课程');
+	            $index++;
+	        }else{
+    	        foreach ($val['tables'] as $v){
+    	            $objSheet->setCellValue('A'.$index,$v['curriculumText'])->setCellValue('B'.$index,$v['lessonDate'].' '.$v['lessonStartTime'].'~'.$v['lessonEndTime'])->setCellValue('C'.$index,$v['teachPlace'])->setCellValue('D'.$index,$v['teacherName']);
+    	            $index++;
+    	        }
+	        }
+	        $index++;
 	    }
+	    
 	    $objWriter = \PHPExcel_IOFactory::createWriter($phpExcel,'Excel2007');
 	    ExcelMolde::exportBrowser('课表列表.xlsx');
 	    $objWriter->save('php://output');
@@ -126,32 +181,13 @@ class Schedule extends BaseModel
 			$query= $query->andWhere(['gradeClassId'=>$search['gradeClassId']]);
 		}
 		if(isset($search['gradeClass']) && !empty($search['gradeClass'])){
-			$query= $query->andWhere(['like','gradeClass',$search['gradeClass']]);
+			$query= $query->andWhere(['like','gradeClass',trim($search['gradeClass'])]);
 		}
 		
 		if(isset($search['title']) && !empty($search['title'])){
-			$query= $query->andWhere(['like','title',$search['title']]);
+			$query= $query->andWhere(['like','title',trim($search['title'])]);
 		}
 		
-		/* if(isset($search['curriculumId']) && !empty($search['curriculumId'])){
-			$query= $query->andWhere(['curriculumId'=>$search['curriculumId']]);
-		}
-		if(isset($search['curriculumText']) && !empty($search['curriculumText'])){
-			$query= $query->andWhere(['like','curriculumText',$search['curriculumText']]);
-		}
-		if(isset($search['teacherId']) && !empty($search['teacherId'])){
-			$query= $query->andWhere(['teacherId'=>$search['teacherId']]);
-		}
-		if(isset($search['teacherName']) && !empty($search['teacherName'])){
-			$query= $query->andWhere(['like','teacherName',$search['teacherName']]);
-		}
-		if(isset($search['teachPlaceId']) && !empty($search['teachPlaceId'])){
-			$query= $query->andWhere(['teachPlaceId'=>$search['teachPlaceId']]);
-		}
-		
-		if(isset($search['teachPlace']) && !empty($search['teachPlace'])){
-			$query= $query->andWhere(['like','teachPlace',$search['teachPlace']]);
-		} */
 		if(!empty($search['startTime'])){
 			$query = $query->andWhere('lessonDate >= :startTime',[':startTime'=>$search['startTime']]);
 		}

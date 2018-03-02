@@ -67,7 +67,7 @@ class CommonController extends Controller
     	$this->layout = 'main';
     	$isGuest = Yii::$app->user->isGuest;
     	if($isGuest){
-    		echo "<script>window.top.location.href =('public/login');</script>";
+    		echo "<script>window.top.location.href =('/public/login');</script>";
     		exit;
     	}
     }

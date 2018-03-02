@@ -113,6 +113,10 @@ section{background:#fff;}
 	line-height:18px;
 	width:800px;
 	box-sizing:border-box;
+	display: inline-block;
+    word-wrap: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .newsList .article-item,.newsList .file-item{
 	background:url(../img/news/list.png) no-repeat;

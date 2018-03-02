@@ -47,7 +47,7 @@ return [
     			'index' => 'site/index',
     			'<pcode:\w+>/<pid:\d+>/<cateid:\d+>' => 'news/list',
     			'detail/<id:\d+>' => 'news/detail',
-    			'<code:\w+>' => 'news/list-by-catecode',
+    			'news/<code:\w+>' => 'news/list-by-catecode',
     			'login' => 'user/login',
     			'logout' => 'user/logout',
     			'regis'   => 'user/reg',

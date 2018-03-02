@@ -19,7 +19,7 @@ class ScheduleController extends CommonController
 			return false;
 		}
 		
-		$tables = ScheduleTable::find()->orderBy('lessonDate ASC,lessonStartTime ASC,lessonEndTime ASC')->all();
+		$tables = ScheduleTable::find()->where(['scheduleId'=>$schedule->id])->orderBy('lessonDate ASC,lessonStartTime ASC,lessonEndTime ASC')->all();
 		
 		return $this->render('info',['schedule'=>$schedule,'tables'=>$tables]);
 	}

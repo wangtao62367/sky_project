@@ -25,7 +25,7 @@ class ScheduleTable extends BaseModel
 			    [['teacherId','teacherName'],'required','message'=>'授课教师不能为空','on'=>['add','edit']],
 			    [['teachPlaceId','teachPlace'],'required','message'=>'教学地点不能为空','on'=>['add','edit']],
 			    [['lessonDate','lessonStartTime','lessonEndTime'],'required','message'=>'上课时间不能为空','on'=>['add','edit']],
-				[['curPage','pageSize','search'],'safe'],
+				[['curPage','pageSize','search','scheduleId'],'safe'],
 		];
 	}
 	
@@ -65,7 +65,7 @@ class ScheduleTable extends BaseModel
 		return $result;
 	}
 	
-	public function filterSearch(array $data,Query $query)
+	public function filterSearch(array $search,Query $query)
 	{
 		if(isset($search['curriculumId']) && !empty($search['curriculumId'])){
 			$query= $query->andWhere(['curriculumId'=>$search['curriculumId']]);
@@ -85,6 +85,10 @@ class ScheduleTable extends BaseModel
 		
 		if(isset($search['teachPlace']) && !empty($search['teachPlace'])){
 			$query= $query->andWhere(['like','teachPlace',$search['teachPlace']]);
+		}
+		
+		if(isset($search['scheduleId']) && !empty($search['scheduleId'])){
+		    $query= $query->andWhere(['scheduleId'=>$search['scheduleId']]);
 		}
 		
 		return $query;

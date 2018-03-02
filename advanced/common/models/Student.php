@@ -62,7 +62,7 @@ class Student extends BaseModel
             ['IDnumber','required','message'=>'身份证号码不能为空','on'=>'add'],
         	['IDnumber','match','pattern'=>'/^\d{6}(19|20)?\d{2}(0[1-9]|1[012])(0[1-9]|[12]\d|3[01])\d{3}(\d|[xX])$/','message'=>'身份证号码无效','on'=>'add'],
             ['birthday','required','message'=>'出生年月不能为空','on'=>'add'],
-            ['nation','required','message'=>'名族不能为空','on'=>'add'],
+            //['nation','required','message'=>'名族不能为空','on'=>'add'],
             ['nationCode','required','message'=>'名族不能为空','on'=>'add'],
             ['city','required','message'=>'所在城市不能为空','on'=>'add'],
             ['phone','required','message'=>'手机号不能为空','on'=>'add'],
@@ -71,10 +71,10 @@ class Student extends BaseModel
             ['workYear','required','message'=>'工作年限不能为空','on'=>'add'],
             ['graduationSchool','required','message'=>'毕业学校不能为空','on'=>'add'],
             ['graduationMajor','required','message'=>'毕业专业不能为空','on'=>'add'],
-            ['eduation','required','message'=>'学历不能为空','on'=>'add'],
-            ['politicalStatus','required','message'=>'政治面貌不能为空','on'=>'add'],
+            ['eduationCode','required','message'=>'学历不能为空','on'=>'add'],
+            ['politicalStatusCode','required','message'=>'政治面貌不能为空','on'=>'add'],
 
-            [['search','address','selfIntruduce','positionalTitles','avater','politicalStatusCode','eduationCode'],'safe']
+            [['search','address','selfIntruduce','positionalTitles','avater'],'safe']
         ];
     }
     
@@ -93,10 +93,6 @@ class Student extends BaseModel
                     'imageMaxSize' => 1024*50,
                     'imagePath'    => 'avater',
                     'isWatermark'  => false,
-                    /* 'isThumbnail'  => true,
-                     'thumbnails'   => [
-                     ['w'=>120,'h'=>120]
-                     ] */
                 ]);
                 $result = $upload->Upload('avater');
                 $imageName = Yii::$app->params['oss']['host'].$result;

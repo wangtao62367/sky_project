@@ -60,18 +60,31 @@ class BmRecord extends BaseModel
         $objSheet->getDefaultStyle()->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER)->setVertical(\PHPExcel_Style_Alignment::VERTICAL_CENTER)->setWrapText(true);
         $objSheet->setTitle('学员列表');
         
+        //内容宽度
+        $objSheet->getColumnDimension('A')->setWidth(20);
+        $objSheet->getColumnDimension('B')->setWidth(40);
+        $objSheet->getColumnDimension('C')->setWidth(20);
+        $objSheet->getColumnDimension('D')->setWidth(10);
+        $objSheet->getColumnDimension('E')->setWidth(20);
+        $objSheet->getColumnDimension('F')->setWidth(20);
+        
         $objTitle = $objSheet->setCellValue('A1','姓名')->setCellValue('B1','报名班级')->setCellValue('C1','联系电话')->setCellValue('D1','性别')->setCellValue('E1','报名时间')
         ->setCellValue('F1','审核状态');
         if($verify == self::STUDENT_VERIFY_STEP2){
-            $objTitle->setCellValue('G1','初审结果')->setCellValue('H1','初审理由');
+            $objTitle->setCellValue('G1','初审结果');
+            $objSheet->getColumnDimension('G')->setWidth(60);
         }elseif ($verify == self::STUDENT_VERIFY_FINISH){
-            $objTitle->setCellValue('G1','初审结果')->setCellValue('H1','初审理由')->setCellValue('I1','终审结果')->setCellValue('J1','终审理由');
+            $objTitle->setCellValue('G1','初审结果')->setCellValue('H1','终审结果');
+            $objSheet->getColumnDimension('G')->setWidth(60);
+            $objSheet->getColumnDimension('H')->setWidth(60);
         }elseif ($verify == self::STUDENT_VERIFY_NO){
-            
+            $objTitle->setCellValue('G1','初审结果')->setCellValue('H1','终审结果');
+            $objSheet->getColumnDimension('G')->setWidth(60);
+            $objSheet->getColumnDimension('H')->setWidth(60);
         }
         
         //设置填充的样式和背景色
-        $colTitle = $objSheet->getStyle('A1:F1');
+        $colTitle = $objSheet->getStyle('A1:H1');
         $colTitle->getFill()->setFillType(\PHPExcel_Style_Fill::FILL_SOLID);
         $colTitle->getFill()->getStartColor()->setARGB('b6cad2');
         $colTitle->getFont()->setBold(true);
@@ -83,20 +96,18 @@ class BmRecord extends BaseModel
         //固定第一行
         $objSheet->freezePane('A2');
         
-        //内容宽度
-        $objSheet->getColumnDimension('A')->setWidth(20);
-        $objSheet->getColumnDimension('B')->setWidth(40);
-        $objSheet->getColumnDimension('C')->setWidth(20);
-        $objSheet->getColumnDimension('D')->setWidth(10);
-        $objSheet->getColumnDimension('E')->setWidth(20);
-        $objSheet->getColumnDimension('F')->setWidth(20);
-        
         $num = 2;
         foreach ($result as $val){
             $sex = $val->student->sex == 1 ? '男' : '女';
            $obj = $objSheet->setCellValue('A'.$num,$val->student->trueName)->setCellValue('B'.$num,$val->gradeClass)->setCellValue('C'.$num,$val->student->phone)->setCellValue('D'.$num,$sex)->setCellValue('E'.$num,date('Y-m-d H:i:s',$val->createTime))
             ->setCellValue('F'.$num,self::$verify_texts[$verify]);
-           
+            if($verify == self::STUDENT_VERIFY_STEP2){
+                $obj->setCellValue('G'.$num,$val->verifyReason1);
+            }elseif ($verify == self::STUDENT_VERIFY_FINISH){
+                $obj->setCellValue('G'.$num,$val->verifyReason1)->setCellValue('H'.$num,$val->verifyReason2);
+            }elseif ($verify == self::STUDENT_VERIFY_NO){
+                $obj->setCellValue('G'.$num,$val->verifyReason1)->setCellValue('H'.$num,$val->verifyReason2);
+            }
             
             $objSheet->getStyle('C' . $num)->getNumberFormat()->setFormatCode("@");
             $num ++;

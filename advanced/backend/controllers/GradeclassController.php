@@ -23,6 +23,12 @@ class GradeclassController extends CommonController
 		$gradeClass = new GradeClass();
 		
 		$data = Yii::$app->request->get();
+		$export = Yii::$app->request->get('handle','');
+		//导出操作
+		if(strtolower(trim($export)) == 'export'){
+		    $result = $gradeClass->export($data);
+		    Yii::$app->end();exit();
+		}
 		$list = $gradeClass->pageList($data);
 		return $this->render('manage',['model'=>$gradeClass,'list'=>$list]);
 	}
@@ -126,14 +132,5 @@ class GradeclassController extends CommonController
 	    
 	    return $this->render('make_schedule',['model'=>$model,'className'=>$gradeClass->className,'classId'=>$gradeClass->id]);  */
 	}
-	/**
-	 * @desc 导出班级
-	 */
-	public function actionExport()
-	{
-	    $gradeClass = new GradeClass();
-	    
-	    $data = Yii::$app->request->get();
-	    $gradeClass->export($data);
-	}
+
 }

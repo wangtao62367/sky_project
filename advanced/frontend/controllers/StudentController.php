@@ -62,10 +62,10 @@ class StudentController extends CommonController
         $model = Student::findOne(['userId'=>$userId]);
         if(empty($model)){
             $model = new Student();
+            $model->sex = 1;
         }
         $model->gradeClassId = $gradeClass->id;
         $model->gradeClass = $gradeClass->className;
-        $model->sex = 1;
         if(Yii::$app->request->isPost){
         	$post = Yii::$app->request->post();
         	$result = Student::add($post,$model);
