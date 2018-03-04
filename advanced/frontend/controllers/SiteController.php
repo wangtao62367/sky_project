@@ -41,6 +41,12 @@ class SiteController extends CommonController
 		return $this->render('closing');
 	}
 	
+	public function actionError()
+	{
+		$this->layout = false;
+		return $this->render('error');
+	}
+	
 	
 	public function actionAdv()
 	{
