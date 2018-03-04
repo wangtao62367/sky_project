@@ -63,6 +63,7 @@ class TestpaperController extends CommonController
     	    return 0;
     	}
     	$gradeClass = GradeClass::find()->select('className')->where('id =:id',[':id'=>$testPaper->gradeClassId])->one();
+    	//var_dump($gradeClass);
     	$className = $gradeClass ? $gradeClass->className : '';
     	return $this->render('add',['model'=>$testPaper,'className'=>$className,'title'=>'编辑试卷']);
     }

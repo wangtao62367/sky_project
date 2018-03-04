@@ -4,6 +4,7 @@ namespace common\models;
 
 
 use common\publics\MyHelper;
+use yii\db\ActiveQuery;
 
 /**
  * 课程
@@ -63,38 +64,40 @@ class Curriculum extends BaseModel
     {
         $this->curPage = isset($data['curPage']) && !empty($data['curPage']) ? $data['curPage'] : $this->curPage;
         $curriculumListQuery = self::find()->select([])->where(['isDelete'=>self::CURRICULUM_UNDELETE])->orderBy('createTime desc,modifyTime desc');
-        if($this->load($data)){
+        if($this->load($data) && !empty($this->search)){
             
-            if(!empty($this->search)){
-               if(!empty($this->search['text'])){
-                   $curriculumListQuery = $curriculumListQuery->andWhere(['like','text',$this->search['text']]);
-               } 
-               if(!empty($this->search['isRequired'])){
-                   $curriculumListQuery = $curriculumListQuery->andWhere('isRequired = :isRequired',[':isRequired'=>$this->search['isRequired']]);
-               }
-            }
+        	$curriculumListQuery = $this->filterSearch($this->search, $curriculumListQuery);
             
         }
         $result = $this->query($curriculumListQuery, $this->curPage, $this->pageSize);
         return $result;
     }
     
+    public function filterSearch($search,ActiveQuery $query)
+    {
+    	if(isset($search['text']) && !empty($search['text'])){
+    		$query= $query->andWhere(['like','text',$search['text']]);
+    	}
+    	
+    	if(isset($search['isRequired']) && is_numeric($search['isRequired'])){
+    		$query= $query->andWhere('isRequired = :isRequired',[':isRequired'=>$search['isRequired']]);
+    	}
+    	
+    	return $query;
+    }
+    
     public function export(array $data)
     {
         $query = self::find()->select([])->where(['isDelete'=>self::CURRICULUM_UNDELETE])->orderBy('createTime desc,modifyTime desc');
-        if($this->load($data)){
-            
-            if(!empty($this->search)){
-                if(!empty($this->search['text'])){
-                    $query= $query->andWhere(['like','text',$this->search['text']]);
-                }
-                if(!empty($this->search['isRequired'])){
-                    $query= $query->andWhere('isRequired = :isRequired',[':isRequired'=>$this->search['isRequired']]);
-                }
-            }
-            
+        if($this->load($data) && !empty($this->search)){
+        	
+        	$query= $this->filterSearch($this->search, $query);
+        	
         }
         $result = $query->asArray()->all();
+        if(empty($result)){
+        	return false;
+        }
         
         $phpExcel = new \PHPExcel();
         $objSheet = $phpExcel->getActiveSheet();
@@ -103,6 +106,29 @@ class Curriculum extends BaseModel
         $objSheet->setCellValue('A1','序号')->setCellValue('B1','课程名称')->setCellValue('C1','课时数')->setCellValue('D1','是否必修')
         ->setCellValue('E1','主要内容')
         ->setCellValue('F1','创建时间')->setCellValue('G1','修改时间');
+        
+        //设置填充的样式和背景色
+        $colTitle = $objSheet->getStyle('A1:G1');
+        $colTitle->getFill()->setFillType(\PHPExcel_Style_Fill::FILL_SOLID);
+        $colTitle->getFill()->getStartColor()->setARGB('b6cad2');
+        $colTitle->getFont()->setBold(true);
+        $colTitle->getFont()->getColor()->setARGB(\PHPExcel_Style_Color::COLOR_WHITE);
+        $colTitle->getFont()->setSize(12);
+        
+        //设置行高
+        $objSheet->getDefaultRowDimension()->setRowHeight(24);
+        //固定第一行
+        $objSheet->freezePane('A2');
+        
+        //内容宽度
+        $objSheet->getColumnDimension('A')->setWidth(10);
+        $objSheet->getColumnDimension('B')->setWidth(50);
+        $objSheet->getColumnDimension('C')->setWidth(20);
+        $objSheet->getColumnDimension('D')->setWidth(20);
+        $objSheet->getColumnDimension('E')->setWidth(80);
+        $objSheet->getColumnDimension('F')->setWidth(25);
+        $objSheet->getColumnDimension('G')->setWidth(25);
+        
         $num  = 2;
         foreach ($result as $val){
             $objSheet->setCellValue('A'.$num,$val['id'])->setCellValue('B'.$num,$val['text'])->setCellValue('C'.$num,$val['period'])->setCellValue('D'.$num,$val['isRequired'] == 1 ? '必修':'选修')

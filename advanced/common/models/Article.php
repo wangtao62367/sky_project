@@ -196,7 +196,7 @@ class Article extends BaseModel
         if(!empty($search['categoryId']) && $search['categoryId'] != 'unkown'){
             $query = $query->andWhere('categoryId = :categoryId',[':categoryId'=>$search['categoryId']]);
         }
-        if(!empty($search['isPublish']) && $search['isPublish'] != 'unkown'){
+        if(is_numeric($search['isPublish'])){
             $query = $query->andWhere('isPublish = :isPublish',[':isPublish'=>$search['isPublish']]);
         }
         if(!empty($search['imgProvider'])){

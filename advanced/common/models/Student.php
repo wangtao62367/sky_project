@@ -56,7 +56,6 @@ class Student extends BaseModel
     public function rules()
     {
         return [
-            ['userId','required','message'=>'用户ID不能为空','on'=>'add'],
             ['trueName','required','message'=>'姓名不能为空','on'=>'add'],
             ['sex','required','message'=>'性别不能为空','on'=>'add'],
             ['IDnumber','required','message'=>'身份证号码不能为空','on'=>'add'],
@@ -69,6 +68,7 @@ class Student extends BaseModel
         	['phone','match','pattern'=>'/^[1][34578][0-9]{9}$/','message'=>'手机号无效','on'=>'add'],
             ['company','required','message'=>'现工作单位不能为空','on'=>'add'],
             ['workYear','required','message'=>'工作年限不能为空','on'=>'add'],
+        	['workYear', 'compare', 'compareValue' => 0, 'operator' => '>=','message'=>'工作年限必须正整数'],
             ['graduationSchool','required','message'=>'毕业学校不能为空','on'=>'add'],
             ['graduationMajor','required','message'=>'毕业专业不能为空','on'=>'add'],
             ['eduationCode','required','message'=>'学历不能为空','on'=>'add'],
@@ -102,8 +102,12 @@ class Student extends BaseModel
                     $upload->deleteImage($block);
                 }
                 $model->avater = $imageName;
+            }else {
+            	if($oprate == 'bm'){
+            		$model->addError('avater','头像不能为空');
+            		return false;
+            	}
             }
-            
             if($model->save(false)){
                 if($oprate == 'bm'){
                     $bmRecord = new BmRecord();

@@ -29,7 +29,7 @@ $params = $this->params;
 <header class="header">
 			<div class="container">
 				<div class="full-text-search">
-					<?php echo  Html::beginForm(['site/search'],'post');?>
+					<?php echo  Html::beginForm(Url::to(['site/search']),'get');?>
 					<span class="search-form-sp"><?php echo Html::activeTextInput($params['searchModel'],'search[keywords]');?></span>
 					<span class="search-btn-sp"><?php echo Html::submitButton('搜索')?></span>
 					<?php echo Html::endForm();?>

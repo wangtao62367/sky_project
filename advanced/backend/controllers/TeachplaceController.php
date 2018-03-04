@@ -21,6 +21,12 @@ class TeachplaceController extends CommonController
     {
         $teachPlace = new TeachPlace();
         $data = Yii::$app->request->get();
+        $export = Yii::$app->request->get('handle','');
+        //导出操作
+        if(strtolower(trim($export)) == 'export'){
+        	$result = $teachPlace->export($data);
+        	Yii::$app->end();exit();
+        }
         $list = $teachPlace->pageList($data);
         return $this->render('manage',['model'=>$teachPlace,'list'=>$list]);
     }
@@ -101,13 +107,5 @@ class TeachplaceController extends CommonController
         $result = TeachPlace::find()->select(['id','text'=>'text'])->where(['and',['isDelete'=>0],['like','text',$keywords]])->asArray()->all();
         return $result;
     }
-    /**
-     * @desc 导出教学点
-     */
-    public function actionExport()
-    {
-        $teachPlace = new TeachPlace();
-        $data = Yii::$app->request->get();
-        $teachPlace->export($data);
-    }
+
 }

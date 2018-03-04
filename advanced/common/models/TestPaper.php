@@ -242,7 +242,7 @@ class TestPaper extends BaseModel
         if(isset($search['keywords']) && !empty($search['keywords'])){
             $query = $query->andWhere(['like','title',$search['keywords']]);
         }
-        if(isset($search['isPublish']) && !empty($search['isPublish']) && $search['isPublish'] != 'unkown'){
+        if(isset($search['isPublish']) && is_numeric($search['isPublish']) ){
             $query = $query->andWhere('isPublish = :isPublish',[':isPublish'=>$search['isPublish']]);
         }
         if(isset($search['verify']) && !empty($search['verify']) && $search['verify'] != 'unkown'){

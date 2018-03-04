@@ -9,7 +9,6 @@ use frontend\logic\StudentLogic;
 use common\models\Student;
 use common\models\BmRecord;
 use common\models\GradeClass;
-use common\publics\ImageUpload;
 use common\models\Naire;
 use common\models\VoteUser;
 

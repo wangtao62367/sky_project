@@ -3,6 +3,7 @@ namespace common\models;
 
 
 use common\publics\MyHelper;
+use yii\db\ActiveQuery;
 
 /**
  * 教学点
@@ -60,33 +61,48 @@ class TeachPlace extends BaseModel
     public function pageList(array $data)
     {
         $this->curPage = isset($data['curPage']) && !empty($data['curPage']) ? $data['curPage'] : $this->curPage;
-        $teachPlaceQuery = self::find()->select(['id','text','address','website','contacts','phone','equipRemarks','createTime','modifyTime'])->where(['isDelete'=>self::TEACHPLACE_UNDELETE])->orderBy('createTime desc,modifyTime desc');
+        $query = self::find()->select(['id','text','address','website','contacts','phone','equipRemarks','createTime','modifyTime'])->where(['isDelete'=>self::TEACHPLACE_UNDELETE])->orderBy('createTime desc,modifyTime desc');
         if($this->load($data) && !empty($this->search) ){
-            if(!empty($this->search['keywords'])){
-                $teachPlaceQuery = $teachPlaceQuery->andWhere([
-                    'or',
-                    ['like','text',$this->search['keywords']],
-                    ['like','address',$this->search['keywords']],
-                ]);
-            }
+        	$query = $this->filterSearch($this->search,$query);
         }
-        $list = $this->query($teachPlaceQuery, $this->curPage, $this->pageSize);
+        $list = $this->query($query, $this->curPage, $this->pageSize);
         return $list;
+    }
+    
+    public function filterSearch($search,ActiveQuery $query)
+    {
+    	if(isset($search['keywords']) && !empty($search['keywords'])){
+    		$query= $query->andWhere([
+    				'or',
+    				['like','text',$this->search['keywords']],
+    				['like','address',$this->search['keywords']],
+    		]);
+    	}
+    	
+    	if(isset($search['contacts']) && !empty($search['contacts'])){
+    		$query = $query->andWhere(['like','contacts',$search['contacts']]);
+    	}
+    	
+    	if(!empty($search['startTime'])){
+    		$query = $query->andWhere('createTime >= :startTime',[':startTime'=>strtotime($search['startTime'])]);
+    	}
+    	if(!empty($search['endTime'])){
+    		$query = $query->andWhere('createTime <= :endTime',[':endTime'=>strtotime($search['endTime'])]);
+    	}
+    		
+    	return $query;
     }
     
     public function export(array $data)
     {
-        $teachPlaceQuery = self::find()->select(['id','text','address','website','contacts','phone','equipRemarks','createTime','modifyTime'])->where(['isDelete'=>self::TEACHPLACE_UNDELETE])->orderBy('createTime desc,modifyTime desc');
+    	$query = self::find()->select(['id','text','address','website','contacts','phone','equipRemarks','createTime','modifyTime'])->where(['isDelete'=>self::TEACHPLACE_UNDELETE])->orderBy('createTime desc,modifyTime desc');
         if($this->load($data) && !empty($this->search) ){
-            if(!empty($this->search['keywords'])){
-                $teachPlaceQuery = $teachPlaceQuery->andWhere([
-                    'or',
-                    ['like','text',$this->search['keywords']],
-                    ['like','address',$this->search['keywords']],
-                ]);
-            }
+        	$query = $this->filterSearch($this->search,$query);
         }
-        $result = $teachPlaceQuery->asArray()->all();
+        $result = $query->asArray()->all();
+        if(empty($result)){
+        	return false;
+        }
         
         $phpExcel = new \PHPExcel();
         $objSheet = $phpExcel->getActiveSheet();
@@ -95,6 +111,31 @@ class TeachPlace extends BaseModel
         $objSheet->setCellValue('A1','序号')->setCellValue('B1','教学点')->setCellValue('C1','联络人')->setCellValue('D1','联系手机')
         ->setCellValue('E1','设备情况')->setCellValue('F1','详细地址')->setCellValue('G1','教学网址')
         ->setCellValue('H1','创建时间')->setCellValue('I1','修改时间');
+        
+        //设置填充的样式和背景色
+        $colTitle = $objSheet->getStyle('A1:I1');
+        $colTitle->getFill()->setFillType(\PHPExcel_Style_Fill::FILL_SOLID);
+        $colTitle->getFill()->getStartColor()->setARGB('b6cad2');
+        $colTitle->getFont()->setBold(true);
+        $colTitle->getFont()->getColor()->setARGB(\PHPExcel_Style_Color::COLOR_WHITE);
+        $colTitle->getFont()->setSize(12);
+        
+        //设置行高
+        $objSheet->getDefaultRowDimension()->setRowHeight(24);
+        //固定第一行
+        $objSheet->freezePane('A2');
+        
+        //内容宽度
+        $objSheet->getColumnDimension('A')->setWidth(10);
+        $objSheet->getColumnDimension('B')->setWidth(50);
+        $objSheet->getColumnDimension('C')->setWidth(25);
+        $objSheet->getColumnDimension('D')->setWidth(30);
+        $objSheet->getColumnDimension('E')->setWidth(80);
+        $objSheet->getColumnDimension('F')->setWidth(50);
+        $objSheet->getColumnDimension('G')->setWidth(50);
+        $objSheet->getColumnDimension('H')->setWidth(25);
+        $objSheet->getColumnDimension('I')->setWidth(25);
+        
         $num  = 2;
         foreach ($result as $val){
             $objSheet->setCellValue('A'.$num,$val['id'])->setCellValue('B'.$num,$val['text'])->setCellValue('C'.$num,$val['contacts'])->setCellValue('D'.$num,$val['phone'])

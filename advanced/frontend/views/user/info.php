@@ -96,7 +96,7 @@ $this->title = '个人信息';
 			<div class="field">
 				<div class="field-left field-workyear">
 					<label class="title">工作年限：</label>
-					<?php echo Html::activeInput('number',$model, 'company',['class'=>'txt'])?>
+					<?php echo Html::activeInput('number',$model, 'workYear',['class'=>'txt','min'=>0,'max'=>80])?>
 				</div>
 				<div class="field-left field-positionalTitles">
 					<label class="title">工作职称：</label>

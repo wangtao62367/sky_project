@@ -129,7 +129,7 @@ section{background:#fff;}
     position: relative;
     overflow: hidden;
     display: block;
-	margin-bottom: 50px;
+	/* margin-bottom: 50px; */
 }
 .newsList .video-item a img ,.newsList .image-item a img{
     width: 267px;
@@ -166,7 +166,7 @@ section{background:#fff;}
 	display:block;
 }
 /*图片列表*/
-.newsList .image-item{height: 220px;}
+.newsList .image-item{height: 230px;}
 .newsList .image-item a p {text-align: center;color: #333;}
 /*人物介绍列表*/
 .newsList .personage-item{margin-bottom:25px;overflow: hidden;}
@@ -201,37 +201,3 @@ section{background:#fff;}
 }
 .gradeclass-item .bmx b{color:#FF6600;}
 
-.page{
-	float:left;
-	margin:85px 140px;
-}
-.page ul{
-	margin:0 auto;
-}
-.page ul li,.page a,.page span{
-	display:block;
-	width:40px;
-	height:30px;
-	text-align:center;
-	line-height:30px;
-	font-size:10px;
-	color:#D34231;
-	font-weight:bold;
-}
-.page ul li, .page a, .page span{
-	float:left;
-	border:1px solid #D34231;
-	margin:0 8px;
-	border-radius:5px;
-}
-.page .current.prev, .page .current.next {
-    color: #333;
-    border-color: #D34231;
-	background-color:#D34231;
-    background: #fff;
-}
-.page .current {
-    background-color:#D34231;
-    color: #fff;
-    border: 1px solid #D34231;
-}

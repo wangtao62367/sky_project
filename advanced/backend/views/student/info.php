@@ -51,9 +51,7 @@ $url =Url::to(ArrayHelper::merge([$controller->id.'/'.$controller->action->id], 
 	<tr>
 		<td class="title" colspan="2">个人介绍</td><td colspan="14"><?php echo $info->selfIntruduce;?></td>
 	</tr>
-	<tr>
-		<td class="title" colspan="2">社院所学专业</td><td colspan="14"><?php echo $info->currentMajor?></td>
-	</tr>
+	
 	<tr>
 		<td class="title" colspan="2">现报名班级</td><td colspan="14"><?php echo $bmRecord->gradeClass?></td>
 	</tr>

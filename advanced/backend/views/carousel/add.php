@@ -31,7 +31,7 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
         <div class="select-btn-box"><a href="javascript:;" class="btn"  id="btn-select-image">选择图片</a><p id="selectedImg"></p></div>
         <div href="javascript:;" class="image-box">
         	<?php if(!empty($model->img)):?>
-        		<img alt="" width="100%" src="<?php echo $model->img;?>" />
+        		<img alt="" width="778px" height="367px" src="<?php echo $model->img;?>" />
         	<?php else :?>
         		<img alt="" src="/admin/images/ico04.png" />
         	<?php endif;?>

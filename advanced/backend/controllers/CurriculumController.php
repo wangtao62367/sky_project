@@ -20,6 +20,12 @@ class CurriculumController extends CommonController
 	{
 		$curriculum = new Curriculum();
 		$data = Yii::$app->request->get();
+		//导出操作
+		$export = Yii::$app->request->get('handle','');
+		if(strtolower(trim($export)) == 'export'){
+			$result = $curriculum->export($data);
+			Yii::$app->end();exit();
+		}
 		$list = $curriculum->pageList($data);
 		
 		return $this->render('manage',['model'=>$curriculum,'list'=>$list]);

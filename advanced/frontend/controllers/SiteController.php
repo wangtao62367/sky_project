@@ -23,21 +23,22 @@ class SiteController extends CommonController
 	{
 	    $this->layout = 'index';
 	    $data = Yii::$app->request->get();
-	    if(Yii::$app->request->isPost){
-	        $search = Yii::$app->request->post();
-	        if(empty($search)){
-	            return $this->redirect(['site/index']);
-	        }
-
-	        $article = new Article();
-	        $result = $article->articles($data,$search);
-	        
-	        $view = Yii::$app->view;
-	        $view->params['searchModel'] = $article;
-	        return $this->render('search',['result'=>$result,'keywords'=>$search['Article']['search']['keywords']]);
-	        
-	    }
-	    return $this->redirect(['site/index']);
+	    if(empty($data)){
+            return $this->redirect(['site/index']);
+        }
+        $data['Article']['search']['isPublish'] = 1;
+        $article = new Article();
+        $result = $article->articles($data,$data);
+        
+        $view = Yii::$app->view;
+        $view->params['searchModel'] = $article;
+        return $this->render('search',['result'=>$result,'keywords'=>$data['Article']['search']['keywords']]);
+	}
+	
+	public function actionClosing()
+	{
+		$this->layout = 'index';
+		return $this->render('closing');
 	}
 	
 	

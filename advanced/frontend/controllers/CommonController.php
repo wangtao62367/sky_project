@@ -9,6 +9,7 @@ use common\models\WebCfg;
 use common\models\Common;
 use common\models\BottomLink;
 use common\models\Article;
+use yii\helpers\Url;
 
 class CommonController extends Controller
 {
@@ -39,29 +40,32 @@ class CommonController extends Controller
         if (!parent::beforeAction($action)) {
             return false;
         }
-        if(!empty($this->mustLogin) && in_array($action->id, $this->mustLogin))
+        if(!empty($this->mustLogin) && in_array($action->id, $this->mustLogin)){
+        	if (Yii::$app->user->isGuest){
+        		return $this->redirect(['user/login']);
+        	}
+        }
+        $view = Yii::$app->view;
+        if($view->params['webCfgs']['status'] == 0 && $action->id != 'closing'){
+        	return $this->redirect(['site/closing'])->send();
+        }
         
-        //if($action->id == 'info' || $action->id == 'center' || $action->id == 'edit-pwd'){
-            
-            if (Yii::$app->user->isGuest){
-                return $this->redirect(['user/login']);
-            }
-        //}
         return true;
     }
     
 	
 	public function init()
 	{
+		parent::init();
 		$webCfgs = WebCfg::getWebCfg();
+		$article = new Article();
 		$nav     = $this->getNav();
 		$bottomLinks = $this->getBottomLinks();
-		$article = new Article();
 		$view = Yii::$app->view;
 		$view->params['webCfgs'] = $webCfgs;
+		$view->params['searchModel'] = $article;
 		$view->params['nav'] = $nav;
 		$view->params['bootomLinks'] = $bottomLinks;
-		$view->params['searchModel'] = $article;
 	}
 	
 	public function getNav()

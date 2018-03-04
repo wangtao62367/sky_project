@@ -38,7 +38,13 @@ $nations = Yii::$app->params['nations'];
 			<img src="<?php echo $model->avater;?>"/>
 		</div>
 		<?php endif;?>
-		<p class="form-error"></p>
+		<p class="form-error">
+			<?php 
+			     if(isset($error) && isset($error['avater'])){
+			         echo $error['avater'][0];
+			     }
+			?>
+		</p>
 	</div>
 	
 	<div class="field">
@@ -180,7 +186,7 @@ $nations = Yii::$app->params['nations'];
 	
 	<div class="field">
 		<label  class="field-title">工作年限：</label>
-		<?php echo Html::activeInput('number',$model, 'workYear',['class'=>'text']);?><i>*</i>
+		<?php echo Html::activeInput('number',$model, 'workYear',['class'=>'text','min'=>0,'max'=>'80']);?><i>*</i>
 		<p class="form-error">
 			<?php 
 			     if(isset($error) && isset($error['workYear'])){

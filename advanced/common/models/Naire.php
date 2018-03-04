@@ -134,18 +134,18 @@ class Naire extends BaseModel
         ])
         ->where(['isDelete'=>0])
         ->orderBy('modifyTime desc');
-        if (!empty($search) && $this->load($search)){
-            
+        if ( $this->load($search) &&!empty($this->search) ){
+            $query = $this->filterSearch($this->search, $query);
         }
         return $this->query($query,$this->curPage,$this->pageSize);
     }
     
     public function filterSearch(array $search,$query)
     {
-        if(!empty($search['keywords'])){
+        if(isset($search['keywords']) && !empty($search['keywords'])){
             $query = $query->andWhere(['like','title',$search['keywords']]);
         }
-        if(!empty($search['isPublish']) && $search['isPublish'] != 'unkown'){
+        if(isset($search['isPublish']) && is_numeric($search['isPublish'])){
             $query = $query->andWhere('isPublish = :isPublish',[':isPublish'=>$search['isPublish']]);
         }
         return $query;

@@ -25,7 +25,7 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
 <ul class="forminfo">
     <li><label>课程名称<b>*</b></label><?php echo Html::activeTextInput($model, 'text',['class'=>'dfinput'])?><i>课程名称不能为空，且长度为2-20个字</i></li>
     <li><label>是否必修<b>*</b></label><?php echo Html::activeRadioList($model, 'isRequired', ['0'=>'否','1'=>'是'])?></li>
-    <li><label>课时数<b>*</b></label><?php echo Html::activeInput('number',$model, 'period',['class'=>'dfinput','min'=>0.5])?></li>
+    <li><label>课时数<b>*</b></label><?php echo Html::activeInput('number',$model, 'period',['class'=>'dfinput','min'=>1,'max'=>'100'])?></li>
     <li><label>主要内容<b>*</b></label><?php echo Html::activeTextarea($model, 'remarks',['class'=>'textinput'])?><i></i></li>
     <?php if(Yii::$app->session->hasFlash('error')):?>
     	<li><label>&nbsp;</label><span class="error-tip"><?php echo Yii::$app->session->getFlash('error');?></span></li>

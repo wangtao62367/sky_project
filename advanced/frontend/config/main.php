@@ -45,6 +45,8 @@ return [
     		'suffix' => '.html',
     		'rules' => [
     			'index' => 'site/index',
+    			'closing' => 'site/closing',
+    			'search/<Artile[search][keywords]:*>'   => 'site/search',
     			'<pcode:\w+>/<pid:\d+>/<cateid:\d+>' => 'news/list',
     			'detail/<id:\d+>' => 'news/detail',
     			'news/<code:\w+>' => 'news/list-by-catecode',

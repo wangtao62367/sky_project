@@ -1,31 +1,39 @@
 @charset "utf-8";   
-.pagination{
-	width: 98%;
-    margin: 0 auto;
-    margin-top: 20px;
-    text-align: right;
-}   
-.pagination a {
-    text-decoration: none;
-	border: 1px solid #AAE;
-	color: #15B;
-}
 
-.pagination a, .pagination span {
-    display: inline-block;
-    padding: 0.3em 0.8em;
-    margin-right: 5px;
-	margin-bottom: 5px;
+.page{
+	/* float:left;
+	margin:85px 140px; */
+	overflow: hidden;
+    margin: 20px auto;
 }
-
-.pagination .current {
-    background: #26B;
+#Pagination{overflow: hidden;margin-left:350px;}
+.page ul{
+	margin:0 auto;
+}
+.page ul li,.page a,.page span{
+	display:block;
+	width:40px;
+	height:30px;
+	text-align:center;
+	line-height:30px;
+	font-size:10px;
+	color:#D34231;
+	font-weight:bold;
+}
+.page ul li, .page a, .page span{
+	float:left;
+	border:1px solid #D34231;
+	margin:0 8px;
+	border-radius:5px;
+}
+.page .current.prev, .page .current.next {
+    color: #333;
+    border-color: #D34231;
+	background-color:#D34231;
+    background: #fff;
+}
+.page .current {
+    background-color:#D34231;
     color: #fff;
-	border: 1px solid #AAE;
-}
-
-.pagination .current.prev, .pagination .current.next{
-	color:#999;
-	border-color:#999;
-	background:#fff;
+    border: 1px solid #D34231;
 }
