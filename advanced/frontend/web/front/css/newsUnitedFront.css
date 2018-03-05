@@ -97,7 +97,7 @@ section{background:#fff;}
 }
 .section  .content .text .newsList{
 	width:860px;
-	float:left;
+	/* float:left; */
 	margin-left:30px;
 }
 

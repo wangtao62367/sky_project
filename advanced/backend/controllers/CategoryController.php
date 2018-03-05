@@ -99,14 +99,6 @@ class CategoryController extends CommonController
         $idsArr = explode(',',trim($ids,','));
         return Category::updateAll(['isDelete'=>1],['in','id',$idsArr]);
     }
-    /**
-     * @desc 分类导出
-     */
-    public function actionExport()
-    {
-    	$cate= new Category();
-    	$data = Yii::$app->request->get();
-    	$cate->export($data);
-    }
+
     
 }

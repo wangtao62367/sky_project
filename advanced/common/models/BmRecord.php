@@ -130,9 +130,9 @@ class BmRecord extends BaseModel
             $query = $this->filterSearch($this->search,$query);
         }
         $result = $query->all();
-        if(empty($result)){
+        /* if(empty($result)){
             return false;
-        }
+        } */
         
         $phpExcel = new \PHPExcel();
         $objSheet = $phpExcel->getActiveSheet();

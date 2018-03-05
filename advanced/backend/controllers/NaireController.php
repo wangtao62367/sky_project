@@ -79,6 +79,7 @@ class NaireController extends CommonController
             return $this->redirect(['naire/manage']);
         }
     }
+    
     /**
      * @desc 批量删除问卷
      * @return number
@@ -89,6 +90,20 @@ class NaireController extends CommonController
         $ids = Yii::$app->request->post('ids');
         $idsArr = explode(',',trim($ids,','));
         return Naire::updateAll(['isDelete'=>1],['in','id',$idsArr]);
+    }
+    
+    /**
+     * @desc 统计问卷调查
+     * @param int $id
+     */
+    public function actionStatistics(int $id)
+    {
+        $naire= Naire::getNaireById($id);
+        if(empty($naire)){
+            return $this->showDataIsNull('naire/manage');
+        }
+        
+        return $this->render('statistics',['info'=>$naire]);
     }
     
 }

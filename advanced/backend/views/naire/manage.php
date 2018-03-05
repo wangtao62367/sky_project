@@ -53,8 +53,9 @@ use backend\assets\AppAsset;
             <td><?php echo $val['isPublish'] == 0 ?'未发布':'已发布';?></td>
             <td><?php echo MyHelper::timestampToDate($val['createTime']);?></td>
             <td><?php echo MyHelper::timestampToDate($val['modifyTime']);?></td>
-            <td>
+            <td class="handle-box">
             <a href="<?php echo Url::to(['naire/edit','id'=>$val['id']]);?>" class="tablelink">编辑</a>     
+            <a href="<?php echo Url::to(['naire/statistics','id'=>$val['id']]);?>" class="tablelink">统计查看</a>   
             <a href="<?php echo Url::to(['naire/del','id'=>$val['id']]);?>" class="tablelink"> 删除</a>
             </td>
         </tr> 

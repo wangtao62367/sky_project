@@ -7,6 +7,7 @@ use Yii;
 use common\controllers\CommonController;
 use common\models\TestPaper;
 use common\models\GradeClass;
+use common\models\TestPaperUserStatistics;
 /**
  * @name 试卷管理
  * @author wangtao
@@ -95,14 +96,16 @@ class TestpaperController extends CommonController
         return TestPaper::updateAll(['isDelete'=>1],['in','id',$idsArr]);
     }
     
-    /**
-     * @desc 试卷导出
-     */
-    public function actionExport()
+    public function actionStatistics(int $id)
     {
-        $testPaper = new TestPaper();
+        $testPaper= TestPaper::findOne($id);
+        if(empty($testPaper)){
+            return $this->showDataIsNull('testpaper/manage');
+        }
+        $testPaperUserStatistics = new TestPaperUserStatistics();
         $data = Yii::$app->request->get();
-        $testPaper->export($data);
+        $list = $testPaperUserStatistics->getList($data);
+        return $this->render('statistics',['model'=>$testPaperUserStatistics,'list'=>$list,'paper'=>$testPaper]);
     }
     
 }

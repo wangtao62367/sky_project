@@ -93,7 +93,11 @@ class RbacController extends CommonController
 			return $this->redirect(['rbac/roles']);
 		}
 	}
-	
+	/**
+	 * @desc 角色分配权限
+	 * @param string $name
+	 * @return \yii\web\Response|string
+	 */
 	public function actionAssiginitem(string $name)
 	{
 		$name = htmlspecialchars($name);

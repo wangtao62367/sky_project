@@ -95,9 +95,9 @@ class Curriculum extends BaseModel
         	
         }
         $result = $query->asArray()->all();
-        if(empty($result)){
+        /* if(empty($result)){
         	return false;
-        }
+        } */
         
         $phpExcel = new \PHPExcel();
         $objSheet = $phpExcel->getActiveSheet();

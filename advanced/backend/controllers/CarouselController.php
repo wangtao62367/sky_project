@@ -46,7 +46,7 @@ class CarouselController extends CommonController
         return $this->render('add',['model'=>$carousel,'title'=>'添加轮播图']);
     }
     /**
-     * 编辑轮播图
+     * @desc 编辑轮播图
      * @param int $id
      * @return \yii\web\Response|string
      */
@@ -83,7 +83,10 @@ class CarouselController extends CommonController
         }
         return $this->redirect(['carousel/manage']);
     }
-    
+    /**
+     * @desc 批量删除轮播
+     * @return boolean
+     */
     public function actionBatchdel()
     {
         $this->setResponseJson();

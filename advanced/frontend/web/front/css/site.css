@@ -26,7 +26,7 @@ input:-webkit-autofill,
 .header form{display:inline-block;}
 .header .full-text-search {width: 1200px;margin: 0 auto;box-sizing: border-box;padding-top: 10px;padding-right: 15px;color: red;text-align: right;}
 .full-text-search .search-form-sp,.full-text-search .search-btn-sp,.full-text-search input{-moz-box-sizing: border-box;  /*Firefox3.5+*/-webkit-box-sizing: border-box; /*Safari3.2+*/-o-box-sizing: border-box; /*Opera9.6*/-ms-box-sizing: border-box; /*IE8*/box-sizing: border-box; /*W3C标准(IE9+，Safari5.1+,Chrome10.0+,Opera10.6+都符合box-sizing的w3c标准语法)*/}
-.header .full-text-search .search-form-sp{display: inline-block;width: 200px;height: 25px;border: 1px solid red;}
+.header .full-text-search .search-form-sp{display: inline-block;width: 200px;height: 25px;border: 1px solid red;    border-top-left-radius: 4px;border-bottom-left-radius: 4px;}
 .full-text-search input,.full-text-search input:focus,.full-text-search input:active{background-color: transparent;border: 0px;width: 200px;height: 25px;outline:none;padding-left: 2px;}
 .full-text-search .search-btn-sp{width: 40px;}
 .full-text-search .search-btn-sp button{outline: none;background-color: red;border: 0;height: 25px;line-height: 25px;padding-top: 1px;margin-left: -4px;color: #fff;}
@@ -161,7 +161,7 @@ ul.articlelist{padding: 20px 10px;}
 }
 /*友情链接*/
 .friendship-box{margin-top: 50px;}
-.friendship-box .tab a.tab-title{display: inline-block;margin: 0px 30px 15px 50px;color: #333333;}
+.friendship-box .tab a.tab-title{display: inline-block;margin: 0px 30px 15px 50px;color: #b9a272;font-size: 16px;font-weight:700}
 .friendship-box .tab a.active,.friendship-box .tab a:hover{color: red;}
 .friendship-box .link-list{display: none;border-top: 2px solid #f66060;padding-top: 10px;}
 

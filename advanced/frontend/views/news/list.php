@@ -154,5 +154,9 @@ $(document).on('click','.video-item',function(){
 	});
 })
 JS;
+$css = <<<CSS
+.newsList .video-item{margin-bottom:15px;}
+CSS;
 $this->registerJs($js);
+$this->registerCss($css);
 ?>

@@ -34,14 +34,5 @@ class StatisticsController extends CommonController
         return $this->render('student',['model'=>$staisticsModel,'yearMonth'=>$yearMonth,'result'=>$result]);
     }
     
-    /**
-     * @desc 答题统计
-     * @return string
-     */
-    public function actionAnswer()
-    {
-        
-        return $this->render('answer');
-    }
     
 }

@@ -118,9 +118,9 @@ class Schedule extends BaseModel
 	        $query= $this->filterSearch($this->search,$query);
 	    }
 	    $result = $query->asArray()->limit(1000)->all();
-	    if(empty($result)){
+	    /* if(empty($result)){
 	        return false;
-	    }
+	    } */
 	    
 	    $phpExcel = new \PHPExcel();
 	    $objSheet = $phpExcel->getActiveSheet();

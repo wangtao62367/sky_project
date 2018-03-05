@@ -75,7 +75,8 @@ use common\models\TestPaper;
             <td><?php echo MyHelper::timestampToDate($val['createTime']);?></td>
             <td><?php echo MyHelper::timestampToDate($val['modifyTime']);?></td>
             <td class="handle-box">
-            <a href="<?php echo Url::to(['testpaper/edit','id'=>$val['id']]);?>" class="tablelink">编辑</a>     
+            <a href="<?php echo Url::to(['testpaper/edit','id'=>$val['id']]);?>" class="tablelink">编辑</a>    
+            <a href="<?php echo Url::to(['testpaper/statistics','id'=>$val['id']]);?>" class="tablelink">统计查看</a>  
             <a href="<?php echo Url::to(['testpaper/del','id'=>$val['id']]);?>" class="tablelink"> 删除</a>
             </td>
         </tr> 
@@ -97,7 +98,7 @@ $curPage = $list['curPage'];
 $pageSize = $list['pageSize'];
 $count = $list['count'];
 $uri = Yii::$app->request->getUrl();
-$exportUrl = Url::to(['testpaper/export']);
+
 $js = <<<JS
 $('.batchDel').click(function(){
     batchDel('$batchDelUrl');
@@ -110,12 +111,7 @@ initPagination({
 	pageSize : $pageSize,
     uri : '$uri'
 });
-//导出
-$(document).on('click','.excel-btn',function(){
-    var form = $(this).parents('form')[0];
-    $(form).attr('action','$exportUrl');
-    $(form).submit();
-})
+
 JS;
 $this->registerJs($js);
 $this->registerCss($css);

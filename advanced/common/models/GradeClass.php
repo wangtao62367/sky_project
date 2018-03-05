@@ -96,9 +96,9 @@ class GradeClass extends BaseModel
             $query= $this->filterSearch($this->search, $query);
         }
         $result = $query->limit(1000)->asArray()->all();
-        if(empty($result)){
+        /* if(empty($result)){
             return false;
-        }
+        } */
         
         $phpExcel = new \PHPExcel();
         $objSheet = $phpExcel->getActiveSheet();

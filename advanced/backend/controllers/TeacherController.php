@@ -108,19 +108,5 @@ class TeacherController extends CommonController
         $result = Teacher::find()->select(['id','text'=>'trueName'])->where(['and',['isDelete'=>0],['like','trueName',$keywords]])->asArray()->all();
         return $result;
     }
-    /**
-     * @desc 导出教师列表
-     */
-    public function actionExport()
-    {
-        $teacher = new Teacher();
-        $data = Yii::$app->request->get();
-        $teacher->export($data);
-    }
-    
-    private function actionTest()
-    {
-        return $this->render('demo');
-    }
-    
+
 }
