@@ -17,7 +17,8 @@ class TestPaperUserStatistics extends BaseModel
 	public function rules()
 	{
 		return [
-			[['userId','account','paperId','anwserMark','scores','rightCount','rightScores','wrongCount','wrongScores'],'required','on'=>'add'],
+			[['userId','account','paperId','anwserMark','scores','rightCount','rightScores','wrongCount','wrongScores','answerTime'],'required','on'=>'add'],
+			[['search'],'safe'],
 		];
 	}
 	
@@ -55,6 +56,7 @@ class TestPaperUserStatistics extends BaseModel
 	        'rightScores',
 	        'wrongCount',
 	        'wrongScores',
+	    	'answerTime',
 	        'createTime',
 	        'modifyTime'
 	    ])->orderBy('modifyTime DESC');

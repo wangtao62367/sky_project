@@ -63,7 +63,7 @@ $url =Url::to(ArrayHelper::merge([$controller->id.'/'.$controller->action->id], 
             <td><?php echo MyHelper::timestampToDate($val['modifyTime']);?></td>
             <td><?php echo BmRecord::$verify_texts[$val['verify']];?></td>
             <td>
-            <?php if($val['verify'] == 0 ):?>
+            <?php if($val['verify'] == 0 || $val['verify'] == 3):?>
             <a href="<?php echo Url::to(['student/info','id'=>$val['id']]);?>" class="tablelink">查看</a> 
             <?php else :?>
             <a href="<?php echo Url::to(['student/info','id'=>$val['id']]);?>" class="tablelink">审核</a>

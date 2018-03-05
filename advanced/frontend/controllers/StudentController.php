@@ -137,7 +137,7 @@ class StudentController extends CommonController
     {
         $this->setResponseJson();
         $post = Yii::$app->request->post();
-        
+        //return $post;
         $StudentLogic = new StudentLogic();
         if($StudentLogic->submitAnswer($post)){
         	return 1;

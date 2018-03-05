@@ -21,27 +21,33 @@ $this->title = '统计查看-'.$paper['title']
 </div>
 
 <div class="rightinfo">
-	<?php echo Html::beginForm(Url::to(['testpaper/manage']),'get');?>
+	<?php echo Html::beginForm($url,'get');?>
 	<ul class="seachform">
-        <li><label>用户账号</label><?php echo Html::activeTextInput($model, 'search[account]',['class'=>'scinput','placeholder'=>'试卷主题'])?></li>
+        <li><label>用户账号</label><?php echo Html::activeTextInput($model, 'search[account]',['class'=>'scinput','placeholder'=>'用户账号'])?></li>
         <li><label>&nbsp;</label><?php echo Html::submitInput('查询',['class'=>'scbtn'])?></li>
-        <li><a href="<?php echo Url::to(['testpaper/add'])?>" class="add-btn">添加</a></li>
         <!-- <li><a href="javascript:;" class="excel-btn">导出</a></li> -->
     </ul>
     <?php echo Html::endForm();?>
 </div>
 
+<div class="warnning">
+	<h4 class="title"><a href="javascript:;" class="closeTips"><i>-</i> 注意事项：</a></h4>
+	<ul>
+		<li>1、测试试卷可以重复答题进行测试，每次测试的答题标识不一样</li>
+	</ul>
+</div>
+
 <table class="tablelist">
 	<thead>
     	<tr>
-            <th>答题人账号</th>
+            <th>用户名（账号）</th>
             <th>答题标识</th>
             <th>正确数</th>
             <th>错误数</th>
             <th>答题正确率</th>
             <th>得分</th>
+            <th>答题花费时间</th>
             <th>答题时间</th>
-            <th>操作</th>
         </tr>
     </thead>
     
@@ -53,14 +59,11 @@ $this->title = '统计查看-'.$paper['title']
             <td><?php echo $val['anwserMark'];?></td>
             <td><?php echo $val['rightCount'];?></td>
             <td><?php echo $val['wrongCount'];?></td>
-            <td><?php echo $val['rightCount']/($val['rightCount']+$val['wrongCount']);?></td>
+            <td><?php echo round( $val['rightCount']/($val['rightCount']+$val['wrongCount']),3) * 100;?>%</td>
             <td><?php echo $val['rightScores'];?></td>
+            <td><?php echo date('H:i:s',$val['answerTime']);?></td>
             <td><?php echo MyHelper::timestampToDate($val['modifyTime']);?></td>
-            <td class="handle-box">
-            <a href="<?php echo Url::to(['testpaper/edit','id'=>$val['id']]);?>" class="tablelink">编辑</a>    
-            <a href="<?php echo Url::to(['testpaper/statistics','id'=>$val['id']]);?>" class="tablelink">统计查看</a>  
-            <a href="<?php echo Url::to(['testpaper/del','id'=>$val['id']]);?>" class="tablelink"> 删除</a>
-            </td>
+            
         </tr> 
         <?php endforeach;?>
     </tbody>

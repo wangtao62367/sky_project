@@ -57,7 +57,8 @@ $submitAnswerUrl = Url::to(['student/submit-answer']);
 
 $userCenter = Url::to(['user/center']);
 $js = <<<JS
-var answerTime = 10;
+var answerTime = $answerTime;
+var answerTotalTime = $answerTime;
 var myInterval;
 $('#answer_time').text(common.sec_to_time(answerTime));
 
@@ -132,7 +133,7 @@ function submitAnswer(isTips){
         });
     })
     //提交答案
-    $.post('$submitAnswerUrl',{paperId:paperId,userAnsers:userAnswers},function(res){
+    $.post('$submitAnswerUrl',{paperId:paperId,userAnsers:userAnswers,answerTime:(answerTotalTime-answerTime)},function(res){
         if(res == 1){
 			$(".tip").remove();
 			window.location.href = '$userCenter';

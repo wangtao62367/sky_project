@@ -53,6 +53,7 @@ class StudentLogic
 	{
 		$user = Yii::$app->user->identity;
 		$paperId = $data['paperId'];
+		$answerTime = $data['answerTime'];//秒
 		
 		$recordParams = [];
 		$statisticsParams = [];
@@ -96,6 +97,7 @@ class StudentLogic
 				'rightScores' => $rightScores,
 				'wrongCount' => $wrongCount,
 				'wrongScores' => $wrongScores,
+				'answerTime'  => $answerTime
 		];
 		
 		$testPaperQuestionRecord = new TestPaperQuestionRecord();
