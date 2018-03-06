@@ -9,7 +9,7 @@ use common\models\WebCfg;
 use common\models\Common;
 use common\models\BottomLink;
 use common\models\Article;
-use yii\helpers\Url;
+use yii\caching\DbDependency;
 
 class CommonController extends Controller
 {
@@ -57,7 +57,7 @@ class CommonController extends Controller
 	public function init()
 	{
 		parent::init();
-		$webCfgs = WebCfg::getWebCfg();
+		$webCfgs = $this->getWebCfg();
 		$article = new Article();
 		$nav     = $this->getNav();
 		$bottomLinks = $this->getBottomLinks();
@@ -68,14 +68,41 @@ class CommonController extends Controller
 		$view->params['bootomLinks'] = $bottomLinks;
 	}
 	
+	public function getWebCfg()
+	{
+	    $cache = Yii::$app->cache;
+	    $key = 'WEBCFG';
+	    $data = $cache->get($key);
+	    if(!empty($data)){
+	        return $data;
+	    }
+	    $webCfgs = WebCfg::getWebCfg();
+	    $cache->set($key, $webCfgs,null,new DbDependency(['sql'=>'SELECT GROUP_CONCAT(`value`) FROM sky_WebCfg']));
+	    return $webCfgs;
+	}
+	
 	public function getNav()
 	{
+	    $cache = Yii::$app->cache;
+	    $key = 'NAV';
+	    $data = $cache->get($key);
+	    if(!empty($data)){
+	        return $data;
+	    }
 		$commonMolde = new Common();
-		return $commonMolde->getNav();
+		$nav = $commonMolde->getNav();
+		$cache->set($key, $nav,null,new DbDependency(['sql'=>'SELECT GROUP_CONCAT(`sorts`,`code`) FROM sky_Common WHERE type = \'navigation\'']));
+		return $nav;
 	}
 	
 	public function getBottomLinks()
 	{
+	    $cache = Yii::$app->cache;
+	    $key = 'BOTTOMLINKS';
+	    $data = $cache->get($key);
+	    if(!empty($data)){
+	        return $data;
+	    }
 	    $data = [];
 	    $bottomLinkCates = Common::getCommonListByType('bottomLink');
 	    foreach ($bottomLinkCates as $cate){
@@ -90,6 +117,7 @@ class CommonController extends Controller
 	            'list' => $bottomlinks
 	        ];
 	    }
+	    $cache->set($key, $data,null,new DbDependency(['sql'=>'SELECT modifyTime FROM sky_BottomLink order by modifyTime desc limit 1']));
 	    return $data;
 	}
 	
