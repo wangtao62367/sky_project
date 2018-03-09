@@ -4,6 +4,7 @@ namespace common\models;
 
 use Yii;
 use OSS\OssClient;
+use common\publics\ImageUpload;
 
 class Adv extends BaseModel
 {
@@ -62,14 +63,16 @@ class Adv extends BaseModel
     
     public static function del(Adv $adv)
     {
-        $imgs = $adv->imgs;
-        $imgsBlock = str_replace(Yii::$app->params['oss']['host'], '', $imgs);
-        if((bool)$adv->delete()){
-            if(!empty($imgsBlock)){
-                $ossClient = new OssClient(Yii::$app->params['oss']['akey'], Yii::$app->params['oss']['skey'], Yii::$app->params['oss']['endpoint'], false);
-                $ossClient->deleteObject($imgsBlock, ltrim($imgsBlock,'/'));
+        //删除旧的文件
+        $block = str_replace(Yii::$app->params['oss']['host'], '', $adv->imgs);
+        if($adv->delete() !== false){
+            if(!empty($block)){
+                $upload = new ImageUpload([]);
+                $upload->deleteImage($block);;
             }
+            return true;
         }
+        return false;
     }
     
     public static function open(Adv $adv)

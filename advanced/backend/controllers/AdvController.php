@@ -105,7 +105,7 @@ class AdvController extends CommonController
             return $this->showDataIsNull('adv/manage');
         }
         if (Adv::del($adv)){
-            return $this->redirect(['adv/manage']);
+            return $this->showSuccess('/adv/manage');
         }
     }
     /**

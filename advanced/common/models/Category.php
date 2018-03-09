@@ -88,15 +88,15 @@ class Category extends BaseModel
     			new Expression($ext),
     			'descr',
     			'parentId',
-    			'createTime',
-    			'modifyTime',
+    	        self::tableName().'.createTime',
+    	        self::tableName().'.modifyTime',
     			'isBase',
     			Common::tableName().'.id as catParentId',
     			Common::tableName().'.code',
     			Common::tableName().'.codeDesc',
     	])
     	->joinWith('parents')
-    	->where(['isDelete'=> 0,Common::tableName().'.type'=>'navigation'])
+    	->where([self::tableName().'.isDelete'=> 0,Common::tableName().'.type'=>'navigation'])
     	->orderBy(self::tableName().'.createTime desc');
     	return $query;
     }

@@ -41,6 +41,7 @@ $this->title = '左侧导航';
         <li><cite></cite><a target="rightFrame" href="<?php echo Url::to(['educationbase/manage'])?>">教育基地设置</a><i></i></li>
         <li><cite></cite><a target="rightFrame" href="<?php echo Url::to(['carousel/manage'])?>">首页轮播</a><i></i></li>  
         <li><cite></cite><a target="rightFrame" href="<?php echo Url::to(['bottomlink/manage'])?>">底部链接</a><i></i></li>
+        <li><cite></cite><a target="rightFrame" href="<?php echo Url::to(['bottomcate/manage'])?>">底部链接分类</a><i></i></li>
         <li><cite></cite><a target="rightFrame" href="<?php echo Url::to(['content/schoole'])?>">学院信息录入</a><i></i></li>
         <!-- <li><cite></cite><a target="rightFrame" href="<?php echo Url::to(['personage/manage'])?>">社院人物</a><i></i></li>-->
     </ul>
