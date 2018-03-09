@@ -91,7 +91,7 @@ class CommonController extends Controller
 	    }
 		$commonMolde = new Common();
 		$nav = $commonMolde->getNav();
-		$cache->set($key, $nav,null,new DbDependency(['sql'=>'SELECT GROUP_CONCAT(`sorts`,`code`) FROM sky_Common WHERE type = \'navigation\'']));
+		$cache->set($key, $nav,null,new DbDependency(['sql'=>'SELECT modifyTime FROM sky_Common ORDER BY modifyTime DESC LIMIT 1']));
 		return $nav;
 	}
 	

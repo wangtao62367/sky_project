@@ -6,6 +6,7 @@ use Yii;
 use common\controllers\CommonController;
 use common\models\Schedule;
 use common\models\ScheduleTable;
+use common\models\GradeClass;
 /**
  * @name 课表管理
  * @author wangtao
@@ -47,7 +48,9 @@ class ScheduleController extends CommonController
 	        Yii::$app->session->setFlash('error',$schedule->getErrorDesc());
 	    }
 	    
-	    return $this->render('add',['model'=>$schedule,'title'=>'添加课表']);
+	    $gradeClassList = GradeClass::find()->select(['id','className'])->where('isDelete=0 and closeClassTime > :now',[':now'=>date('Y-m-d')])->orderBy('openClassTime desc,modifyTime desc')->all();
+	    
+	    return $this->render('add',['model'=>$schedule,'gradeClassList'=>$gradeClassList,'title'=>'添加课表']);
 	}
 	/**
 	 * @desc 编辑课表
@@ -69,7 +72,10 @@ class ScheduleController extends CommonController
 	        }
 	    }
 	    $schedule->publishEndTime= date('Y-m-d H:i:s',$schedule->publishEndTime);
-	    return $this->render('add',['model'=>$schedule,'title'=>'编辑课表']);
+	    
+	    $gradeClassList = GradeClass::find()->select(['id','className'])->where('isDelete=0 and closeClassTime > :now',[':now'=>date('Y-m-d')])->orderBy('openClassTime desc,modifyTime desc')->all();
+	    
+	    return $this->render('add',['model'=>$schedule,'gradeClassList'=>$gradeClassList,'title'=>'编辑课表']);
 	}
 	
 	/**

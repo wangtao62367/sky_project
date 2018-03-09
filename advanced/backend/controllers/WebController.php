@@ -32,19 +32,6 @@ class WebController extends CommonController
         return $this->render('web-set',['webCfg'=>$webCfg]);
     }
     
-    private function actionImgSet()
-    {
-    	$webCfg = WebCfg::getWebCfg();
-    	if(Yii::$app->request->isPost){
-    		$data = Yii::$app->request->post();
-    		$result = WebCfg::saveImgSet($data,$webCfg);
-    		if($result){
-    			return $this->showSuccess('web/img-set');
-    		}
-    	}
-    	return $this->render('img-set',['webCfg'=>$webCfg]);
-    }
-    
     /**
      * @desc 水印设置
      * @return \yii\web\Response|string
@@ -62,4 +49,44 @@ class WebController extends CommonController
     	
     	return $this->render('watermark-set',['webCfg'=>$webCfg]);
     }
+    
+    /**
+     * @desc 清空缓存文件
+     * @return \yii\web\Response|string
+     */
+    public function actionClearCache()
+    {
+        $handle = Yii::$app->request->get('handle','');
+        if(!empty($handle)){
+            $cacheDir = dirname(Yii::$app->basePath).'/frontend/runtime/cache';
+            $cache = new \yii\caching\FileCache();
+            $cache->cachePath = $cacheDir;
+            $cache->gc(true, false); 
+            return $this->showSuccess('web/clear-cache');
+            /* if($cache->gc(true, false)){  //$this->removeDir($cacheDir)
+                return $this->showSuccess('web/clear-cache');
+            } */
+        }
+        return $this->render('clear-cache');
+    }
+    
+    private function removeDir($dirName)
+    {
+        if(! is_dir($dirName))
+        {
+            return false;
+        }
+        $handle = @opendir($dirName);
+        while(($file = @readdir($handle)) !== false)
+        {
+            if($file != '.' && $file != '..')
+            {
+                $dir = $dirName . '/' . $file;
+                is_dir($dir) ? $this->removeDir($dir) : @unlink($dir);
+            }
+        }
+        closedir($handle);
+        
+        return rmdir($dirName) ;
+    }   
 }

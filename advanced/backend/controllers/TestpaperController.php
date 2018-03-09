@@ -104,6 +104,7 @@ class TestpaperController extends CommonController
         }
         $testPaperUserStatistics = new TestPaperUserStatistics();
         $data = Yii::$app->request->get();
+        $data['TestPaperUserStatistics']['search']['paperId'] = $testPaper->id;
         $list = $testPaperUserStatistics->getList($data);
         return $this->render('statistics',['model'=>$testPaperUserStatistics,'list'=>$list,'paper'=>$testPaper]);
     }

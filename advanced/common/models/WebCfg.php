@@ -53,7 +53,7 @@ class WebCfg extends BaseModel
         }else{ //图片水印
             if(!empty($_FILES)){
                 $upload = new ImageUpload([
-                    'imageMaxSize' => 1024*1024*500,
+                    'imageMaxSize' => 1024*1024*30,
                     'imagePath'    => 'watermark',
                     'isWatermark'  => false
                 ]);

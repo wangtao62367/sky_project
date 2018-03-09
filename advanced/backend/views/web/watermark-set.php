@@ -18,9 +18,10 @@ use backend\assets\AppAsset;
 	<a href="<?php echo Url::to(['web/setting'])?>"><span>网站基础设置</span></a>
 	<!-- <a href="<?php echo Url::to(['web/img-set'])?>"><span>图片设置</span></a> -->
 	<a href="javascript:;"><span class="active">图片水印设置</span></a>
+	<a href="<?php echo Url::to(['web/clear-cache'])?>"><span>缓存清理</span></a>
 	</div>
 
-	<?php echo Html::beginForm('','post',['enctype'=>"multipart/form-data"]);?>
+	<?php echo Html::beginForm('','post',['enctype'=>"multipart/form-data",'id'=>'myForm']);?>
 <ul class="forminfo">
 	<li><label>水印类型</label>
 		<?php echo Html::radioList('watermarkCate',$webCfg['watermarkCate'],['text'=>'文字','image'=>'图片'])?>
@@ -41,12 +42,12 @@ use backend\assets\AppAsset;
         <div class="select-btn-box"><a href="javascript:;" class="btn"  id="btn-select-image">选择图片</a><p id="selectedImg"></p></div>
         <div href="javascript:;" class="image-box">
         	<?php if($webCfg['watermarkCate'] == 'image'):?>
-        		<img alt="" width="100%" src="<?php echo $webCfg['watermarkContent'];?>" />
+        		<img alt="" width="50px" src="<?php echo $webCfg['watermarkContent'];?>" />
         	<?php else :?>
         		<img alt="" src="/admin/images/ico04.png" />
         	<?php endif;?>
         </div>
-        <i>水印图片建议宽高为120像素 * 50像素;大小控制在500kb以内</i>
+        <i>水印图片建议宽高为50像素 * 50像素;大小控制在10kb以内;(水印图片不能太大)</i>
 	</li>
 	<li><label>水印位置</label>
 		<div class="vocation">
@@ -66,7 +67,7 @@ use backend\assets\AppAsset;
 	<?php if(Yii::$app->session->hasFlash('error')):?>
     	<li><label>&nbsp;</label><span class="error-tip"><?php echo Yii::$app->session->getFlash('error');?></span></li>
     <?php endif;?>
-    <li class="li-input-btn"><label>&nbsp;</label><?php echo Html::submitInput('确认保存',['class'=>'btn'])?></li>
+    <li class="li-input-btn"><label>&nbsp;</label><?php echo Html::buttonInput('确认保存',['id'=>'submitBtn','class'=>'btn'])?></li>
 </ul>
 
 </div>
@@ -74,6 +75,18 @@ use backend\assets\AppAsset;
 <?php 
 $css = <<<CSS
 .imageSet{display:none}
+.image-box{
+    width:100px;
+    height:100px;
+    line-height: 100px;
+    display: inline-block;
+    text-align: center;
+    border: 1px solid #666;
+    border-style: dotted;
+    margin-top: 10px;
+    margin-left: 86px;
+    overflow: hidden;
+}
 CSS;
 $watermarkCate = $webCfg['watermarkCate'];
 $js = <<<JS
@@ -96,19 +109,57 @@ $(document).on('click','#btn-select-image',function(){
 })
 $('#uploadFile').change(function(){
     var file = this.files && this.files[0];
-    console.log(file);
-    var maxSize = 500 * 1025;//500kb
+    var maxSize = 30 * 1024 * 10;//500kb
     var ext = ['image/jpeg','image/png','image/jpg'];
-    console.log($.inArray(file.type,ext));
     if(file.size > maxSize){
-        alert("所选图片大小不能超过500KB");return;
+        error = '所选图片大小不能超过10KB';
+        alert("所选图片大小不能超过10KB");return;
     }
     if($.inArray(file.type,ext) == -1){
+        error = '所选图片格式只能是jpg、png或jpeg';
         alert("所选图片格式只能是jpg、png或jpeg");return;
     }
 	$("#selectedImg").text(file.name);
+    testWidthHeight(file);
     //uploadFile();
 })
+
+var isAllow = false;
+var error = '';
+$('#submitBtn').click(function(){
+    if(isAllow){
+        $('#myForm').submit();
+    }else{
+        alert(error);
+    }
+});
+
+
+function testWidthHeight(file){
+      debugger;
+    var fileData = file;
+    //读取图片数据
+  var reader = new FileReader();
+  reader.onload = function (e) {
+      var data = e.target.result;
+      //加载图片获取图片真实宽度和高度
+      var image = new Image();
+      image.onload=function(){
+          var width = image.width;
+          var height = image.height;
+          if(width > 50 || height >50){
+                error = '水印图片宽高必须小于50像素';
+               alert('水印图片宽高必须小于50像素');
+          }else{
+                isAllow = true;
+           }
+            
+     };
+     image.src= data;
+  };
+  reader.readAsDataURL(fileData);
+}
+
 JS;
 
 AppAsset::addCss($this, '/admin/css/webset.css');

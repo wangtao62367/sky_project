@@ -5,6 +5,7 @@ use yii\helpers\Url;
 use yii\helpers\Html;
 use backend\assets\AppAsset;
 use backend\models\PublishCate;
+use yii\helpers\ArrayHelper;
 
 $controller = Yii::$app->controller;
 $id = Yii::$app->request->get('id','');
@@ -31,9 +32,11 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
     </li>
 	
 	<li><label>授课班级<b>*</b></label>
-    <?php echo Html::activeHiddenInput($model, 'gradeClassId',['class'=>'dfinput'])?>
-    <?php echo Html::activeTextInput($model, 'gradeClass',['class'=>'dfinput ajaxSearch gradeClass','placeholder'=>'输入搜索授课班级'])?><i>授课班级不能为空</i>
-    <div class="searchresult" style="display: none"> </div>
+    <?php echo Html::activeHiddenInput($model, 'gradeClass',['class'=>'dfinput','id'=>'gradeClass'])?>
+   		<div class="vocation">
+    		<?php echo Html::activeDropDownList($model, 'gradeClassId', ArrayHelper::map($gradeClassList, 'id', 'className'),['class'=>'sky-select','prompt'=>'请选择','id'=>'gradeClassId','style'=>'width:347px'])?>
+    		<i>还未结业的班级</i>
+    	</div>
     </li>
     
     <li><label>是否发布<b>*</b></label>
@@ -91,113 +94,16 @@ $getCurriculums = Url::to(['curriculum/ajax-curriculums']);
 $getPlaces = Url::to(['teachplace/ajax-places']);
 $getGradeClass = Url::to(['gradeclass/ajax-classes']);
 $js = <<<JS
-$(document).on('click','.searchresult p',function(){
-    console.log(23);
-    var id = $(this).data('id');
-    var text = $(this).data('text');
-    $(this).parents('li').find('input[type="text"]').val(text);
-    $(this).parents('li').find('input[type="hidden"]').val(id);
-    $(this).parent('.searchresult').hide();
-});
 
-$(document).on('focus','.ajaxSearch',function(){
-    var url = getInputAjaxtUrl(this);
-    ajacGetSearch(url,'',this);
-    $(this).parents('li').find('.searchresult').show();
-});
-
-// $(document).on('focusout','input[type="text"]',function(){
-//     $(this).parents('li').find('.searchresult').hide();
-// });
-
-$(document).on('input propertychange','.ajaxSearch',throttle(getCurriculum,500,1000));
-
-function getCurriculum(el){
-    var keywords = $(el.target).val();
-    var url = getInputAjaxtUrl(el.target);
-    ajacGetSearch(url,keywords,el.target);
-}
-
-function getInputAjaxtUrl(_this){
-    var url = '';
-    if($(_this).hasClass('teacherName')){
-        url = '$getTeachers';
-    }else if($(_this).hasClass('curriculumText')){
-       url = '$getCurriculums';
-    }else if($(_this).hasClass('teachPlace')){
-        url = '$getPlaces';
-    }else if($(_this).hasClass('gradeClass')){
-       url = '$getGradeClass';
-    }
-    return url;
-}
-
-function ajacGetSearch(url,keywords,_this){
-    $.get(url,{keywords:keywords},function(res){
-        showSearchResult(_this,res,keywords);
-    })
-}
-
-
-function showSearchResult(_this,res){
-    if(!res) return;
-    var resultHtml = '';
-    for(var i = 0;i < res.length;i++){
-        resultHtml += '<p data-id="'+res[i].id+'" data-text="'+res[i].text+'">'+res[i].text+'</p>';
-    }
-    $(_this).parents('li').find('.searchresult').empty();
-    $(_this).parents('li').find('.searchresult').append(resultHtml);
-}
-
-//节流函数
-function throttle(func, wait, mustRun) {
-    var timeout,
-        startTime = new Date();
-
-    return function() {
-        var context = this,
-            args = arguments,
-            curTime = new Date();
-
-        clearTimeout(timeout);
-        // 如果达到了规定的触发时间间隔，触发 handler
-        if(curTime - startTime >= mustRun){
-            func.apply(context,args);
-            startTime = curTime;
-        // 没达到触发间隔，重新设定定时器
-        }else{
-            timeout = setTimeout(function(){
-                func.apply(context,args);
-            }, wait);
-        }
-    };
-};
-
-
-
-
+$("#gradeClassId").change(function(){
+    var selectedClass = $(this).find("option:selected").text();
+    $("#gradeClass").val(selectedClass);
+})
 
 var now = new Date();
 var yearStart = now.getFullYear();
 var yearEnd = yearStart + 1;
 $.datetimepicker.setLocale('ch');
-$('.lessonDate').datetimepicker({
-      format:"Y-m-d",      //格式化日期
-      timepicker:false,    //关闭时间选项
-      yearStart: yearStart,     //设置最小年份
-      yearEnd:yearEnd,        //设置最大年份
-      todayButton:true    //开启选择今天按钮
-});
-$('.lessonStartTime').datetimepicker({
-	datepicker:false,
-	format:'H:i',
-	step:5
-});
-$('.lessonEndTime').datetimepicker({
-	datepicker:false,
-	format:'H:i',
-	step:5
-});
 
 $(document).on('change','#isPublish',function(){
     var val = $(this).val();
