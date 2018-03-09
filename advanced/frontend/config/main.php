@@ -44,9 +44,10 @@ return [
     		'enableStrictParsing' => false,
     		'suffix' => '.html',
     		'rules' => [
-    			'index' => 'site/index',
+    			'' => 'site/index',
     			'closing' => 'site/closing',
-    			'search/<Artile[search][keywords]:*>'   => 'site/search',
+    			'search'   => 'site/search',
+    			'search/<Article%5Bsearch%5D%5Bkeywords%5D:\*>'   => 'site/search',
     			'<pcode:\w+>/<pid:\d+>/<cateid:\d+>' => 'news/list',
     			'detail/<id:\d+>' => 'news/detail',
     			'news/<code:\w+>' => 'news/list-by-catecode',
@@ -59,6 +60,7 @@ return [
     			'edpwd'   => 'user/edit-pwd',
     			//我要报名
     			'joinup/<cid:\d+>' => 'student/joinup',
+    			'paper-anwser/<id:\d+>' => 'student/answer',
     			//课表详情
     			'schedule/<id:\d+>' => 'schedule/info',
     			//投票调查

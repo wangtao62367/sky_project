@@ -10,7 +10,7 @@ $this->title = $keywords.'_站内搜索';
 
 <ul class="search-list">
 <?php foreach ($result['data'] as $val):?>
-	<li><a href="<?php echo Url::to(['news/detail','id'=>$val['id']])?>"><?php echo $val['title']?></a><span><?php echo MyHelper::timestampToDate($val['publishTime'])?></span></li>
+	<li><a href="<?php echo Url::to(['news/detail','id'=>$val['id']])?>"><?php echo $val['title']?></a><span><?php echo MyHelper::timestampToDate($val['publishTime'],'Y-m-d')?></span></li>
 <?php endforeach;?>
 
 <?php if(empty($result['data'])):?>

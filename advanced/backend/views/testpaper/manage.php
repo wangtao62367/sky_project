@@ -32,6 +32,13 @@ use common\models\TestPaper;
     </ul>
     <?php echo Html::endForm();?>
 </div>
+<div class="warnning">
+	<h4 class="title"><a href="javascript:;" class="closeTips"><i>-</i> 注意事项：</a></h4>
+	<ul>
+		<li>1、测试试卷可以重复答题进行测试练习。</li>
+		<li>2、已发布的测试试卷谨慎编辑操作，否则引起试卷答题统计数据不准确。</li>
+	</ul>
+</div>
 
 <table class="tablelist">
 	<thead>
@@ -47,7 +54,6 @@ use common\models\TestPaper;
             <th>其他题数</th>
             <th>发布状态</th>
             <th>发布时间</th>
-            <th>审核状态</th>
             <th>试卷来源</th>
             <th>创建时间</th>
             <th>修改时间</th>
@@ -70,7 +76,6 @@ use common\models\TestPaper;
             <td><?php echo $val['otherCount'];?></td>
             <td><?php echo $val['isPublish']==0?'未发布':'已发布';?></td>
             <td><?php echo MyHelper::timestampToDate($val['publishTime']);?></td>
-            <td><?php echo TestPaper::$verifyText[$val['verify']];?></td>
             <td><?php echo $val['from'];?></td>
             <td><?php echo MyHelper::timestampToDate($val['createTime']);?></td>
             <td><?php echo MyHelper::timestampToDate($val['modifyTime']);?></td>

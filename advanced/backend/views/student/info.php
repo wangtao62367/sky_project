@@ -27,7 +27,7 @@ $url =Url::to(ArrayHelper::merge([$controller->id.'/'.$controller->action->id], 
 		<td class="title">姓别</td><td colspan="2"><?php echo $info->sex == 1 ? '男' : '女';?></td>
 		<td class="title">名族</td><td colspan="3"><?php echo $info->nation;?></td>
 		<td class="title">政治面貌</td><td colspan="2"><?php echo $info->politicalStatus;?></td>
-		<td class="title"  rowspan="4">头像</td><td colspan="4" rowspan="4"><img alt="头像" src="<?php echo $info->avater;?>"></td>
+		<td class="title"  rowspan="4">头像</td><td colspan="4" rowspan="4"><img alt="头像" width="120px" height="120px" src="<?php echo $info->avater;?>"></td>
 	</tr>
 	<tr>
 		<td class="title">出生年月</td><td colspan="2"><?php echo $info->birthday;?></td>

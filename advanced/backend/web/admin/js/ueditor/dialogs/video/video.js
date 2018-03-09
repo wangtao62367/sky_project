@@ -311,7 +311,6 @@
     /*初始化上传标签*/
     function initUpload(){
         uploadFile = new UploadFile('queueList');
-        console.log(uploadFile);
     }
 
 
@@ -406,10 +405,6 @@
                 id: '#filePickerBtn',
                 label: lang.uploadAddFile
             });
-            
-            uploader.__proto__.upload = function(){
-            	console.log(333);
-            };
 
             setState('pedding');
 
@@ -769,12 +764,8 @@
                 }
 
                 if (state === 'ready') {
-                	console.log('ready');
-                	console.log(uploader);
                     uploader.upload();
-                    console.log(33);
                 } else if (state === 'paused') {
-                	console.log('paused');
                     uploader.upload();
                 } else if (state === 'uploading') {
                     uploader.stop();
