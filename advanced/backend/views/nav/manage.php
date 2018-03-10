@@ -31,9 +31,7 @@ use yii\helpers\ArrayHelper;
             <th>操作</th>
         </tr>
     </thead>
-    
     <tbody>
-
     	<?php foreach ($list as $val):?>
     	<tr>
             <td><?php echo $val['codeDesc'];?></td>

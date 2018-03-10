@@ -234,7 +234,7 @@ class UserController extends CommonController
     	$bmRecord = new BmRecord();
     	$data = Yii::$app->request->get();
     	$data['BmRecord']['search'] = ['userId'=>Yii::$app->user->id];
-    	$result = $bmRecord->pageList($data);
+    	$result = $bmRecord->pageList($data,'verify asc,modifyTime desc,createTime desc', ['student','gradeclass']);
         return $this->render('center',['list'=>$result]);
     }
     /**

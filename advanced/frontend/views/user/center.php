@@ -47,6 +47,7 @@ $this->title = '我的报名';
             		<?php else:?>
             			<font class="verify-status status-no">审核失败</font>
             		<?php endif; ?>
+            		<span style="float:right;">教务员：<?php echo $val['gradeclass']['eduAdmin'];?>&nbsp;<?php echo $val['gradeclass']['eduAdminPhone'];?></span>
 					<br/>
 					<?php if(TestPaper::checkExistByGradeClassId($val['gradeClassId'])):?>
 					<a href="<?php echo Url::to(['student/testpapers','cid'=>$val['gradeClassId']])?>" ><b style="color: #333;font-weight: inherit;">【相关测评试卷】</b></a>

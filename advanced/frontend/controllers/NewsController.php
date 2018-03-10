@@ -83,7 +83,6 @@ class NewsController extends CommonController
                 return $this->render('schoolinfo',['parent'=>$parent,'cateList'=>$cateList,'info'=>$info,'currentCate'=>$currentCate]);
                 
         }else {
-        
             $list = $this->getNewsList($currentCate, $data);
         }
         //var_dump($list);exit();
