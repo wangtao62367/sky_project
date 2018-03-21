@@ -4,191 +4,278 @@ use yii\helpers\Url;
 use frontend\assets\AppAsset;
 $params = $this->params;
 $this->title = "首页_".$params['webCfgs']['siteName'];
+
+
 ?>
-<div class="section-1">
-	<div class="crousle-box">
-		<div id="banner">  
-		    <div id="banner_bg"></div>
-		<!--标题背景-->
-		    <div id="banner_info"></div>
-		<!--标题-->
-		    <ul> 
-		    	<?php $count = count($data['carousel']); for ($i = 1 ; $i<=$count ; $i++):?>  
-		        <li <?php echo $i==1?'class="on"':''; ?> data-num = "<?php echo $i;?>"></li>
-		        <?php endfor;?>
-		    </ul>
-		    <div id="banner_list">
-		    	<?php foreach ($data['carousel'] as $carousel):?>
-		        <a href="<?php echo $carousel['link'];?>" target="_blank"><img src="<?php echo $carousel['img'];?>" title="<?php echo $carousel['title'];?>" alt="<?php echo $carousel['title'];?>"></a>
-		        <?php endforeach;?>
-		    </div>
-		</div>  
-	</div>
-	<div class="notice-box">
-		<div class="notice-box-title"><h4 data-target-id="ggtz">公告通知</h4><a href="<?php echo Url::to(['news/list-by-catecode','code'=>'ggtz'])?>">更多&gt;</a></div>
-		<ul class="articlelist" id="ggtz">
-			<?php foreach ($data['ggtz'] as $ggtz):?>
-			<li><a href="<?php echo Url::to(['news/detail','id'=>$ggtz->id])?>" title="测试"><nobr><?php echo $ggtz->title;?></nobr></a></li>
-			<?php endforeach;?>
-		</ul>
-	</div>
-</div>
-<div class="section-2">
-	<div class="news-box">
-		<div class="title">
-    		<h4 class="news-selected" data-target-id="tzxw">统战新闻</h4>
-    		<h4 class="news-unselected" data-target-id="syxw">社院新闻</h4>
-    		<h4 class="news-unselected" data-target-id="szyw">时政要闻</h4>
-    		<a href="<?php echo Url::to(['news/list-by-catecode','code'=>'tzxw'])?>">更多&gt;</a>
+
+<div class="news-box1">
+	<div class="left tzxw">
+		<div class="left theme-box"></div>
+		<div class="left news">
+			<h4 class="text-over"><a href="<?php echo Url::to(['news/detail','id'=>$data['tzxw']['id']]);?>" title="<?php echo $data['tzxw']['title'];?>"><?php echo $data['tzxw']['title'];?></a></h4>
+			<hr />
+			<p>
+				<?php echo $data['tzxw']['summary'];?>
+			</p>
 		</div>
-		<ul class="articlelist" id="tzxw">
-			<?php foreach ($data['tzxw'] as $tzxw):?>
-			<li><a href="<?php echo Url::to(['news/detail','id'=>$tzxw->id])?>" title="<?php echo $tzxw->title;?>"><nobr><?php echo $tzxw->title?></nobr><span><?php echo date('Y-m-d',$tzxw->publishTime)?></span></a></li>
-			<?php endforeach;?>
-		</ul>
-		<ul style="display: none" class="articlelist" id="syxw">
-			<?php foreach ($data['syxw'] as $syxw):?>
-			<li><a href="<?php echo Url::to(['news/detail','id'=>$syxw->id])?>" title="<?php echo $syxw->title;?>"><nobr><?php echo $syxw->title?></nobr><span><?php echo date('Y-m-d',$syxw->publishTime)?></span></a></li>
-			<?php endforeach;?>
-		</ul>
-		<ul style="display: none" class="articlelist" id="szyw">
-			<?php foreach ($data['szyw'] as $szyw):?>
-			<li><a href="<?php echo Url::to(['news/detail','id'=>$szyw->id])?>" title="<?php echo $szyw->title;?>"><nobr><?php echo $szyw->title?></nobr><span><?php echo date('Y-m-d',$szyw->publishTime)?></span></a></li>
-			<?php endforeach;?>
-		</ul>
 	</div>
-	<div class="btn-box">
-		<a href="<?php echo Url::to(['news/list-by-catecode','code'=>'xyjj'])?>" class="btn-img-itme1"></a>
-		<a href="<?php echo Url::to(['news/list-by-catecode','code'=>'zzjg'])?>" class="btn-img-itme2"></a>
-		<a href="<?php echo Url::to(['news/list-by-catecode','code'=>'kbcx'])?>" class="btn-img-itme3"></a>
-		<a href="<?php echo Url::to(['news/list-by-catecode','code'=>'wybm'])?>" class="btn-img-itme4"></a>
-		<a href="<?php echo Url::to(['news/list-by-catecode','code'=>'wkzx'])?>" class="btn-img-itme5"></a>
-		<a href="<?php echo Yii::$app->params['xbjs.link'];?>" target= _blank  class="btn-img-itme6"></a>
+	<div class="right szyw">
+		<div class="left theme-box"></div>
+		<div class="left news">
+			<ul>
+    			<?php foreach ($data['szyw'] as $szyw):?>
+    			<li><a href="<?php echo Url::to(['news/detail','id'=>$szyw->id])?>" title="<?php echo $szyw->title;?>"><?php echo $szyw->title?></a></li>
+    			<?php endforeach;?>
+			</ul>
+		</div>
 	</div>
 </div>
+
+<div class="news-box2">
+	<div class="left news-img-box">
+		<?php if(!empty($data['recommen'])):?>
+		<a href="<?php echo Url::to(['news/detail','id'=> $data['recommen'][0]['id']])?>" title="<?php echo $data['recommen'][0]['title'];?>" ><img alt="<?php echo $data['recommen'][0]['title'];?>" src="<?php echo $data['recommen'][0]['titleImg'];?>" /></a>
+		<?php endif;?>
+	</div>
+	<div class="left news-items">
+	<?php foreach ($data['recommen'] as $k=>$recommen):?>
+		<div class="item <?php echo $k==0 ? 'selected' : '';?>" data-target-titleimg="<?php echo $recommen['titleImg'];?>" data-target-url="<?php echo Url::to(['news/detail','id'=> $recommen['id']])?>" data-target-title="<?php echo $recommen['title'];?>">
+			<h4 class="text-over"><?php echo $recommen['title'];?></h4>
+			<p>
+				<?php echo $recommen['summary'];?>
+			</p>
+		</div>
+	<?php endforeach;?>
+	</div>
+</div>
+
 <img class="main-banner" src="/front/img/index/xiaoxun.jpg" />
-<div class="section-3">
-	<div class="news-box1">
-		<div class="title">
-			<h4 class="news-selected" data-target-id="whjl">文化交流</h4>
-			<h4 class="news-unselected" data-target-id="dqxz">党群建设</h4>
-			<a href="<?php echo Url::to(['news/list-by-catecode','code'=>'whjl'])?>">更多&gt;</a>
+
+<div class="news-box3">
+	<div class="left news-list-box">
+		<div class="left news-cates">
+			<div class="cate selected" data-target-id="syxw">社院新闻</div>
+			<div class="cate" data-target-id="jxpx">教学培训</div>
+			<div class="cate" data-target-id="kydt">科研动态</div>
+			<div class="cate" data-target-id="dqxz">党群建设</div>
+			<div class="cate" data-target-id="whjl">文化学院</div>
+			<div class="cate" data-target-id="xyyd">学员天地</div>
+			<div class="cate" data-target-id="szsy">市州社院</div>
+			<div class="cate" data-target-id="zkzx">智库中心</div>
 		</div>
-		<ul class="articlelist" id="whjl">
-			<?php foreach ($data['whjl'] as $whjl):?>
-			<li><a href="<?php echo Url::to(['news/detail','id'=>$whjl->id]);?>" title="<?php echo $whjl->title;?>"><nobr><?php echo $whjl->title?></nobr></a></li>
-			<?php endforeach;?>
-		</ul>
-		<ul style="display: none" class="articlelist" id="dqxz">
-			<?php foreach ($data['dqxz'] as $dqxz):?>
-			<li><a href="<?php echo Url::to(['news/detail','id'=>$dqxz->id]);?>" title="<?php echo $dqxz->title;?>"><nobr><?php echo $dqxz->title?></nobr></a></li>
-			<?php endforeach;?>
-		</ul>
+		<!-- 社院新闻 -->
+		<div class="left news-list" style="display:block" id="syxw">
+			<div class="news-hot">
+				<?php if(!empty($data['syxw'])):?>
+				<h4 class="text-over"><a href="<?php echo Url::to(['news/detail','id'=>$data['syxw'][0]['id']]);?>" title="<?php echo $data['syxw'][0]['title'];?>"><?php echo $data['syxw'][0]['title'];?></a></h4>
+				<p><?php echo $data['syxw'][0]['summary'];?><a class="articledetail" href="<?php echo Url::to(['news/detail','id'=>$data['syxw'][0]['id']]);?>">(详情)</a></p>
+				<?php endif;?>
+			</div>
+			<ul>
+				<?php foreach ($data['syxw'] as $k=>$syxw):?>
+    				<?php if($k>0):?>
+        			<li class="text-over"><a href="<?php echo Url::to(['news/detail','id'=>$syxw->id])?>" title="<?php echo $syxw->title;?>"><?php echo $syxw->title;?></a></li>
+        			<?php endif;?>
+    			<?php endforeach;?>
+			</ul>
+			<a class="news-more" href="<?php echo Url::to(['news/list-by-catecode','code'=>'syxw']);?>">&gt;&gt;更多</a>
+		</div>
+		<!-- 教学培训 -->
+		<div class="left news-list" id="jxpx">
+			<div class="news-hot">
+				<?php if(!empty($data['jxpx'])):?>
+				<h4 class="text-over"><a href="<?php echo Url::to(['news/detail','id'=>$data['jxpx'][0]['id']]);?>" title="<?php echo $data['jxpx'][0]['title'];?>"><?php echo $data['jxpx'][0]['title'];?></a></h4>
+				<p><?php echo $data['jxpx'][0]['summary'];?><a class="articledetail" href="<?php echo Url::to(['news/detail','id'=>$data['jxpx'][0]['id']]);?>">(详情)</a></p>
+				<?php endif;?>
+			</div>
+			<ul>
+				<?php foreach ($data['jxpx'] as $k=>$jxpx):?>
+    				<?php if($k>0):?>
+        			<li class="text-over"><a href="<?php echo Url::to(['news/detail','id'=>$jxpx->id])?>" title="<?php echo $jxpx->title;?>"><?php echo $jxpx->title;?></a></li>
+        			<?php endif;?>
+    			<?php endforeach;?>
+			</ul>
+			<a class="news-more" href="<?php echo Url::to(['news/list-by-catecode','code'=>'jxxx']);?>">&gt;&gt;更多</a>
+		</div>
+		<!-- 科研动态 -->
+		<div class="left news-list" id="kydt">
+			<div class="news-hot">
+				<?php if(!empty($data['kydt'])):?>
+				<h4 class="text-over"><a href="<?php echo Url::to(['news/detail','id'=>$data['kydt'][0]['id']]);?>" title="<?php echo $data['kydt'][0]['title'];?>"><?php echo $data['kydt'][0]['title'];?></a></h4>
+				<p><?php echo $data['kydt'][0]['summary'];?><a class="articledetail" href="<?php echo Url::to(['news/detail','id'=>$data['kydt'][0]['id']]);?>">(详情)</a></p>
+				<?php endif;?>
+			</div>
+			<ul>
+				<?php foreach ($data['kydt'] as $k=>$kydt):?>
+    				<?php if($k>0):?>
+        			<li class="text-over"><a href="<?php echo Url::to(['news/detail','id'=>$kydt->id])?>" title="<?php echo $kydt->title;?>"><?php echo $kydt->title;?></a></li>
+        			<?php endif;?>
+    			<?php endforeach;?>
+			</ul>
+			<a class="news-more" href="<?php echo Url::to(['news/list-by-catecode','code'=>'kyxx']);?>">&gt;&gt;更多</a>
+		</div>
+		<!-- 党群建设 -->
+		<div class="left news-list" id="dqxz">
+			<div class="news-hot">
+				<?php if(!empty($data['dqxz'])):?>
+				<h4 class="text-over"><a href="<?php echo Url::to(['news/detail','id'=>$data['dqxz'][0]['id']]);?>" title="<?php echo $data['dqxz'][0]['title'];?>"><?php echo $data['dqxz'][0]['title'];?></a></h4>
+				<p><?php echo $data['dqxz'][0]['summary'];?><a class="articledetail" href="<?php echo Url::to(['news/detail','id'=>$data['dqxz'][0]['id']]);?>">(详情)</a></p>
+				<?php endif;?>
+			</div>
+			<ul>
+				<?php foreach ($data['dqxz'] as $k=>$dqxz):?>
+    				<?php if($k>0):?>
+        			<li class="text-over"><a href="<?php echo Url::to(['news/detail','id'=>$dqxz->id])?>" title="<?php echo $dqxz->title;?>"><?php echo $dqxz->title;?></a></li>
+        			<?php endif;?>
+    			<?php endforeach;?>
+			</ul>
+			<a class="news-more" href="<?php echo Url::to(['news/list-by-catecode','code'=>'dqxz']);?>">&gt;&gt;更多</a>
+		</div>
+		<!-- 文化学院 -->
+		<div class="left news-list" id="whjl">
+			<div class="news-hot">
+				<?php if(!empty($data['whjl'])):?>
+				<h4 class="text-over"><a href="<?php echo Url::to(['news/detail','id'=>$data['whjl'][0]['id']]);?>" title="<?php echo $data['whjl'][0]['title'];?>"><?php echo $data['whjl'][0]['title'];?></a></h4>
+				<p><?php echo $data['whjl'][0]['summary'];?><a class="articledetail" href="<?php echo Url::to(['news/detail','id'=>$data['whjl'][0]['id']]);?>">(详情)</a></p>
+				<?php endif;?>
+			</div>
+			<ul>
+				<?php foreach ($data['whjl'] as $k=>$whjl):?>
+    				<?php if($k>0):?>
+        			<li class="text-over"><a href="<?php echo Url::to(['news/detail','id'=>$whjl->id])?>" title="<?php echo $whjl->title;?>"><?php echo $whjl->title;?></a></li>
+        			<?php endif;?>
+    			<?php endforeach;?>
+    			
+			</ul>
+			<a class="news-more" href="<?php echo Url::to(['news/list-by-catecode','code'=>'whjl']);?>">&gt;&gt;更多</a>
+		</div>
+		<!-- 学员天地 -->
+		<div class="left news-list" id="xyyd">
+			<div class="news-hot">
+				<?php if(!empty($data['xyyd'])):?>
+				<h4 class="text-over"><a href="<?php echo Url::to(['news/detail','id'=>$data['xyyd'][0]['id']]);?>" title="<?php echo $data['xyyd'][0]['title'];?>"><?php echo $data['xyyd'][0]['title'];?></a></h4>
+				<p><?php echo $data['xyyd'][0]['summary'];?><a class="articledetail" href="<?php echo Url::to(['news/detail','id'=>$data['xyyd'][0]['id']]);?>">(详情)</a></p>
+				<?php endif;?>
+			</div>
+			<ul>
+				<?php foreach ($data['xyyd'] as $k=>$xyyd):?>
+    				<?php if($k>0):?>
+        			<li class="text-over"><a href="<?php echo Url::to(['news/detail','id'=>$xyyd->id])?>" title="<?php echo $xyyd->title;?>"><?php echo $xyyd->title;?></a></li>
+        			<?php endif;?>
+    			<?php endforeach;?>
+			</ul>
+			<a class="news-more" href="<?php echo Url::to(['news/list-by-catecode','code'=>'xyhd']);?>">&gt;&gt;更多</a>
+		</div>
+		<!-- 市州社院 -->
+		<div class="left news-list" id="szsy">
+			<div class="news-hot">
+				<?php if(!empty($data['szsy'])):?>
+				<h4 class="text-over"><a href="<?php echo Url::to(['news/detail','id'=>$data['szsy'][0]['id']]);?>" title="<?php echo $data['szsy'][0]['title'];?>"><?php echo $data['szsy'][0]['title'];?></a></h4>
+				<p><?php echo $data['szsy'][0]['summary'];?><a class="articledetail" href="<?php echo Url::to(['news/detail','id'=>$data['szsy'][0]['id']]);?>">(详情)</a></p>
+				<?php endif;?>
+			</div>
+			<ul>
+				<?php foreach ($data['szsy'] as $k=>$szsy):?>
+    				<?php if($k>0):?>
+        			<li class="text-over"><a href="<?php echo Url::to(['news/detail','id'=>$szsy->id])?>" title="<?php echo $szsy->title;?>"><?php echo $szsy->title;?></a></li>
+        			<?php endif;?>
+    			<?php endforeach;?>
+			</ul>
+			<a class="news-more" href="<?php echo Url::to(['news/list-by-catecode','code'=>'szsy']);?>">&gt;&gt;更多</a>
+		</div>
+		<!-- 智库中心 -->
+		<div class="left news-list" id="zkzx">
+			<div class="news-hot">
+				<?php if(!empty($data['zkzx'])):?>
+				<h4 class="text-over"><a href="<?php echo Url::to(['news/detail','id'=>$data['zkzx'][0]['id']]);?>" title="<?php echo $data['zkzx'][0]['title'];?>"><?php echo $data['zkzx'][0]['title'];?></a></h4>
+				<p><?php echo $data['zkzx'][0]['summary'];?><a class="articledetail" href="<?php echo Url::to(['news/detail','id'=>$data['zkzx'][0]['id']]);?>">(详情)</a></p>
+				<?php endif;?>
+			</div>
+			<ul>
+				<?php foreach ($data['zkzx'] as $k=>$zkzx):?>
+    				<?php if($k>0):?>
+        			<li class="text-over"><a href="<?php echo Url::to(['news/detail','id'=>$zkzx->id])?>" title="<?php echo $zkzx->title;?>"><?php echo $zkzx->title;?></a></li>
+        			<?php endif;?>
+    			<?php endforeach;?>
+			</ul>
+			<a class="news-more" href="<?php echo Url::to(['news/list-by-catecode','code'=>'xxdt']);?>">&gt;&gt;更多</a>
+		</div>
 	</div>
-	<div class="news-box2">
-		<div class="title">
-			<h4 class="news-selected" data-target-id="jxxx">教学培训</h4>
-			<h4 class="news-unselected" data-target-id="xyhd">学员活动</h4>
-			<a href="<?php echo Url::to(['news/list-by-catecode','code'=>'jxxx'])?>">更多&gt;</a>
-		</div>
-		<ul class="articlelist" id="jxxx">
-			<?php foreach ($data['jxpx'] as $jxpx):?>
-			<li><a href="<?php echo Url::to(['news/detail','id'=>$jxpx->id]);?>" title="<?php echo $jxpx->title;?>"><nobr><?php echo $jxpx->title?></nobr></a></li>
-			<?php endforeach;?>
-		</ul>
-		<ul style="display: none" class="articlelist" id="xyhd">
-			<?php foreach ($data['xyyd'] as $xyyd):?>
-			<li><a href="<?php echo Url::to(['news/detail','id'=>$xyyd->id]);?>" title="<?php echo $xyyd->title;?>"><nobr><?php echo $xyyd->title?></nobr></a></li>
-			<?php endforeach;?>
-		</ul>
-	</div>
-	<div class="news-box3">
-		<div class="title">
-			<h4 class="news-selected" data-target-id="kyxx">科研动态</h4>
-			<h4 class="news-unselected" data-target-id="xxdt">智库中心</h4>
-			<a href="<?php echo Url::to(['news/list-by-catecode','code'=>'kyxx'])?>">更多&gt;</a>
-		</div>
-		<ul class="articlelist" id="kydt">
-			<?php foreach ($data['kydt'] as $kydt):?>
-			<li><a href="<?php echo Url::to(['news/detail','id'=>$kydt->id])?>" title="<?php echo $kydt->title;?>"><nobr><?php echo $kydt->title?></nobr></a></li>
-			<?php endforeach;?>
-		</ul>
-		<ul style="display: none" class="articlelist" id="xxdt">
-			<?php foreach ($data['zkzx'] as $zkzx):?>
-			<li><a href="<?php echo Url::to(['news/detail','id'=>$zkzx->id])?>" title="<?php echo $zkzx->title;?>"><nobr><?php echo $zkzx->title?></nobr></a></li>
+	
+	<div class="right ggtz-box">
+		<ul>
+			<?php foreach ($data['ggtz'] as $ggtz):?>
+			<li><a href="<?php echo Url::to(['news/detail','id'=>$ggtz->id])?>" title="<?php echo $ggtz->title;?>"><?php echo $ggtz->title;?></a></li>
 			<?php endforeach;?>
 		</ul>
 	</div>
 </div>
 <img class="main-banner" src="/front/img/index/hengfu.gif" />
-<div class="section-4">
-	<div class="news-box1">
-		<div class="title">
-			<h4 class="news-selected" data-target-id="szsy">市州社院</h4>
-			<a href="<?php echo Url::to(['news/list-by-catecode','code'=>'szsy'])?>">更多&gt;</a>
-		</div>
-		<ul class="articlelist" id="szsy">
-			<?php foreach ($data['szsy'] as $szsy):?>
-			<li><a href="<?php echo Url::to(['news/detail','id'=>$szsy->id])?>" title="<?php echo $szsy->title;?>"><nobr><?php echo $szsy->title?></nobr></a></li>
-			<?php endforeach;?>
-		</ul>
-	</div>
-	<div class="edu-box">
-		<img src="/front/img/index/whjd_bg.jpg" width="100%" />
+<div class="news-box4">
+	<div class="left edu-box">
+		<img src="/front/img/index/whjd_img.jpg" width="100%" />
 		<div id="scroll_div">
 			<ul id="edu-list" class="edu-list">
 				<?php foreach ($data['jyjd'] as $jyjd):?>
 				<li>
-					<a href="<?php echo $jyjd->link;?>">
-						<img  src="<?php echo $jyjd->baseImg?>"/>
-						<p><?php echo $jyjd->baseName;?></p>
+					<a href="<?php echo $jyjd['link'];?>">
+						<img  src="<?php echo $jyjd['baseImg'];?>"/>
+						<p><?php echo $jyjd['baseName'];?></p>
 					</a>
 				</li>
 				<?php endforeach;?>
 			</ul>
-			<!-- 用于滚动轮播 -->
 			<ul id="edu-list-end" class="edu-list">
 				<?php foreach ($data['jyjd'] as $jyjd):?>
 				<li>
-					<a href="<?php echo $jyjd->link;?>">
-						<img  src="<?php echo $jyjd->baseImg?>"/>
-						<p><?php echo $jyjd->baseName;?></p>
+					<a href="<?php echo $jyjd['link'];?>">
+						<img  src="<?php echo $jyjd['baseImg'];?>"/>
+						<p><?php echo $jyjd['baseName'];?></p>
 					</a>
 				</li>
 				<?php endforeach;?>
 			</ul>
 		</div>
 	</div>
-
+	<div class="right quickbtn-box">
+		<a href="<?php echo Url::to(['news/list-by-catecode','code'=>'zzjg'])?>"><img alt="机构设置" src="/front/img/index/zzjg_img_btn.png" /></a>
+		<a href="<?php echo Url::to(['news/list-by-catecode','code'=>'kbcx'])?>"><img alt="课表查询" src="/front/img/index/kbcx_img_btn.png" /></a>
+		<a href="<?php echo Url::to(['news/list-by-catecode','code'=>'wybm'])?>"><img alt="在线报名" src="/front/img/index/zxbm_img_btn.png" /></a>
+		<a href="<?php echo Url::to(['news/list-by-catecode','code'=>'wkzx'])?>"><img alt="微课中心" src="/front/img/index/wkzx_img_btn.png" /></a>
+		<a href="<?php echo Yii::$app->params['xbjs.link'];?>" target= _blank ><img alt="学报检索" src="/front/img/index/xbjs_img_btn.png" /></a>
+	</div>
 </div>
-<div class="video-banner"><a href="<?php echo Url::to(['news/list-by-catecode','code'=>'sxsy'])?>">更多&gt;</a></div>
-<div id="video-box" class="video-box">
-    <div id="video-list-box" class="video-list-box">
-    	<?php foreach ($data['sxsy'] as $sxsy):?>
-    	<div class="video-item" data-videourl="<?php echo $sxsy->video;?>" id="video_item_<?php echo $sxsy->id;?>">
-    		<a href="javascript:;">
-    			<img src="<?php echo $sxsy->videoImg;?>" />
-    			<p><?php echo $sxsy->descr;?></p>
-    			<span class="video-btn"></span>
-    		</a>
-    	</div>
-    	<?php endforeach;?>
-    </div>
-    <!-- 用于滚动轮播 -->
-    <div class="video-list-box" id="video-list-box-end">
-    	<?php foreach ($data['sxsy'] as $sxsy):?>
-    	<div class="video-item" data-videourl="<?php echo $sxsy->video;?>" id="video_item_<?php echo $sxsy->id;?>_cp">
-    		<a href="javascript:;">
-    			<img src="<?php echo $sxsy->videoImg;?>" />
-    			<p><?php echo $sxsy->descr;?></p>
-    			<span class="video-btn"></span>
-    		</a>
-    	</div>
-    	<?php endforeach;?>
-    </div>
+
+<div class="news-box5">
+	<div class="video-banner"><a href="<?php echo Url::to(['news/list-by-catecode','code'=>'sxsy'])?>" title="">更多&gt;</a></div>
+	<div id="video-box" class="video-box">
+    	<div id="video-list-box" class="video-list-box">
+        	<?php foreach ($data['sxsy'] as $sxsy):?>
+        	<div class="video-item" data-videourl="<?php echo $sxsy->video;?>" id="video_item_<?php echo $sxsy->id;?>">
+        		<a href="javascript:;">
+        			<img src="<?php echo $sxsy['videoImg'];?>" />
+        			<p><?php echo $sxsy['descr'];?></p>
+        			<span class="video-btn"></span>
+        		</a>
+        	</div>
+        	<?php endforeach;?>
+        </div>
+        <div class="video-list-box" id="video-list-box-end">
+        	<?php foreach ($data['sxsy'] as $sxsy):?>
+        	<div class="video-item" data-videourl="<?php echo $sxsy->video;?>" id="video_item_<?php echo $sxsy->id;?>_cp">
+        		<a href="javascript:;">
+        			<img src="<?php echo $sxsy['videoImg'];?>" />
+        			<p><?php echo $sxsy['descr'];?></p>
+        			<span class="video-btn"></span>
+        		</a>
+        	</div>
+        	<?php endforeach;?>
+        </div>
+	</div>
 </div>
 <?php 
 AppAsset::addScript($this, '/front/js/index.js');
+AppAsset::addCss($this, '/front/css/index.css');
 $getAdv = Url::to(['site/adv']);
 $js = <<<JS
 showAdv();

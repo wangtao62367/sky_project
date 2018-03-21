@@ -75,20 +75,6 @@ class ArticleController extends CommonController
         $parentCates = Category::getArticleCates();
         if(Yii::$app->request->isPost){
             $post = Yii::$app->request->post();
-            
-            //先上传图片 再写数据
-            if(isset($_FILES['image']) && !empty($_FILES['image']) && !empty($_FILES['image']['tmp_name']) ){
-                
-                $upload = new ImageUpload([
-                    'imageMaxSize' => 1024*1024*500,
-                    'isWatermark'  => false,
-                    'imagePath'    => 'article'
-                ]);
-                $result = $upload->Upload('image');
-                $imageName = Yii::$app->params['oss']['host'].$result;
-                $post['Article']['titleImg'] = $imageName;
-            }
-            
             $result = $article->create($post);
             if($result){
                 return $this->showSuccess('article/articles');
@@ -112,24 +98,6 @@ class ArticleController extends CommonController
         $parentCates = Category::getArticleCates();
         if(Yii::$app->request->isPost){
             $post = Yii::$app->request->post();
-            //先上传图片 再写数据
-            if(isset($_FILES['image']) && !empty($_FILES['image']) && !empty($_FILES['image']['tmp_name']) ){
-                
-                $upload = new ImageUpload([
-                    'imageMaxSize' => 1024*1024*500,
-                    'isWatermark'  => false,
-                    'imagePath'    => 'article'
-                ]);
-                $result = $upload->Upload('image');
-                $imageName = Yii::$app->params['oss']['host'].$result;
-                $post['Article']['titleImg'] = $imageName;
-                if(!empty($article->titleImg)){
-                    //删除旧的文件
-                    $block = str_replace(Yii::$app->params['oss']['host'], '', $article->titleImg);
-                    $upload->deleteImage($block);
-                }
-            }
-
             $model = new Article();
             $result = $model->edit($post, $article);
 

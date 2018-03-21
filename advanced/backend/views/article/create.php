@@ -38,10 +38,10 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
         		<img alt="" src="/admin/images/ico04.png" />
         	<?php endif;?>
         </div>
-        <i>图片大小不超过500KB，且格式必须是png、jpeg或jpg的图片。（建议图片尺寸为：780像素 * 370像素）</i>
+        <i>图片大小不超过500KB，且格式必须是png、jpeg或jpg的图片。（建议图片尺寸为：684像素 * 321像素）</i>
     </li>
     
-    <li><label>新闻摘要<b>*</b></label><?php echo Html::activeTextarea($model, 'summary',['class'=>'textinput'])?><i></i></li>
+    <li><label>新闻摘要<b>*</b></label><?php echo Html::activeTextarea($model, 'summary',['class'=>'textinput'])?><i>新闻摘要字数在80字以内</i></li>
     <!-- <li><label>新闻超链接</label>
     <?php echo Html::activeTextInput($model, 'url',['class'=>'dfinput']);?><i>链接地址必须是URL全连接；如：百度 http://www.baidu.com</i>
     </li> -->
@@ -51,6 +51,13 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
     		<?php echo Html::activeDropDownList($model, 'categoryId', ArrayHelper::map($parentCates,'id','text'),['prompt'=>'请选择','class'=>'sky-select'])?>
     	</div>
     </li>
+    
+    <li>
+    	<label>首页推荐<b>*</b></label>
+    	<?php echo Html::activeRadioList($model, 'isRecommen', ['0'=>'否','1'=>'是'],['value'=>0]);?>
+    	<i>推荐首页的文章必须上传新闻主图，否则无法上传成功</i>
+    </li>
+    
     <li>
     	<label>是否置顶<b>*</b></label>
     	<?php echo Html::activeRadioList($model, 'ishot', ['0'=>'否','1'=>'是'],['value'=>0]);?>

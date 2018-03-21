@@ -27,51 +27,38 @@ $params = $this->params;
 <body>
 <?php $this->beginBody() ?>
 <header class="header">
-			<div class="container">
-				<div class="full-text-search">
-					<?php echo  Html::beginForm(Url::to(['site/search']),'get');?>
-					<span class="search-form-sp"><?php echo Html::activeTextInput($params['searchModel'],'search[keywords]');?></span>
-					<span class="search-btn-sp"><?php echo Html::submitButton('搜索')?></span>
-					<?php echo Html::endForm();?>
+	<div class="toole-logo-box">
+		<div class="tools">
+			<div class="left weather-box">
+				<span><span id="currentdata">2017年03月19号</span>&nbsp;&nbsp;<span id="weather">多云转晴</span></span>
+				<span class=""><a href="javascript:;" class="addcollection">加入收藏</a>&nbsp;|&nbsp;<a href="javascript:;" class="setindex">设为首页</a></span>
+			</div>
+			<div class="right search-box">
+				<?php echo  Html::beginForm(Url::to(['site/search']),'get');?>
+					<span class="search-text"><?php echo Html::activeTextInput($params['searchModel'],'search[keywords]');?><?php echo Html::submitButton('')?></span>
+				<?php echo Html::endForm();?>
+				<div class="login-reg-box">
 					<?php if(Yii::$app->user->isGuest):?>
 					<a href="<?php echo Url::to(['user/login']);?>">登录</a> | <a href="<?php echo Url::to(['user/reg']);?>">注册</a>
 					<?php else :?>
 					欢迎您，<a href="<?php echo Url::to(['user/center']);?>"><?php echo Yii::$app->user->identity->account;?></a> | <a href="<?php echo Url::to(['user/logout']);?>">退出</a>
 					<?php endif;?>
 				</div>
-				<div class="header-crousel">
-					<div class="logo">
-						<img src="<?php echo $params['webCfgs']['logo'] ? $params['webCfgs']['logo']: '/front/img/index/logo.png';?>" width="140px" />
-						<div class="logo-title">
-							<h3><?php echo $params['webCfgs']['siteName'];?></h3>
-							<h3><?php echo $params['webCfgs']['siteName2'];?></h3>
-						</div>
-					</div>
-					<div class="crousel-parent">
-						<div class="crousel">
-							<img src="/front/img/index/_001.png" width="447px" height="200px"/>
-							<img src="/front/img/index/_002.png" width="447px" height="200px"/>
-							<img src="/front/img/index/_003.png" width="447px" height="200px"/>
-						</div>
-					</div>
-				</div>
-				<!-- 导航栏 -->
-				<div class="nav">
-					<ul>
-						<li><a  <?php if(!isset($params['pid'])){echo 'class="active"';}?>  href="<?php echo Url::to(['site/index'])?>">学院首页</a></li>
-						<?php foreach ($params['nav'] as $v):?>
-						<li><a <?php if(isset($params['pid']) && $params['pid'] == $v['id']){echo 'class="active"';}?> href="<?php echo Url::to(['news/list','pid'=>$v['id'],'cateid'=>0,'pcode'=>$v['code']])?>"><?php echo $v['codeDesc'];?></a>
-							<ul class="nav-item" >
-								<?php foreach ($v['cates'] as $cate):?>
-								<li><a  href="<?php echo Url::to(['news/list','pid'=>$v['id'],'cateid'=>$cate['id'],'pcode'=>$v['code']])?>"><?php echo $cate['text'];?></a></li>
-								<?php endforeach;?>
-							</ul>
-						</li>
-						<?php endforeach;?>
-					</ul>
-				</div>
 			</div>
-		</header>
+		</div>
+		<img class="logo" src="<?php echo $params['webCfgs']['logo'] ? $params['webCfgs']['logo']: '/front/img/index/logo_v2.png';?>" alt="logo" />
+	</div>
+	<div class="nav">
+		<ul>
+			<li><a <?php if(!isset($params['pid'])){echo 'class="active"';}?>   href="<?php echo Url::to(['site/index'])?>">学院首页</a></li>
+			<?php foreach ($params['nav'] as $v):?>
+			<li>
+			<a <?php if(isset($params['pid']) && $params['pid'] == $v['id']){echo 'class="active"';}?> href="<?php echo Url::to(['news/list','pid'=>$v['id'],'cateid'=>0,'pcode'=>$v['code']])?>"><?php echo $v['codeDesc'];?></a>
+			</li>
+			<?php endforeach;?>
+		</ul>
+	</div>
+</header>
 		
 		<section class="section">
 			<?= $content ?>
@@ -101,7 +88,13 @@ $params = $this->params;
 				<img src="/front/img/index/company_icon.png"/>
 			</p>
 		</footer>
-
+<?php 
+$getweather = Url::to(['site/getweather']);
+$js=<<<JS
+getWeather('$getweather');
+JS;
+$this->registerJs($js);
+?>
 <?php $this->endBody() ?>
 </body>
 </html>

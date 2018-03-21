@@ -5,6 +5,8 @@ use frontend\logic\SiteLogic;
 use Yii;
 use common\models\Article;
 use common\models\Adv;
+use common\publics\MyHelper;
+use yii\caching\ExpressionDependency;
 /**
  * Site controller
  */
@@ -53,5 +55,21 @@ class SiteController extends CommonController
 	    $this->setResponseJson();
 	    $adv = Adv::find()->all();
 	    return $adv;
+	}
+	
+	public function actionGetweather()
+	{
+	    $cache = Yii::$app->cache;
+	    $key = 'INDEX_weatherinfo';
+	    $res = $cache->get($key);
+	    if(!empty($res)){
+	        return $res;
+	    }
+	    //成都地区的天气
+	    $url = 'http://www.weather.com.cn/data/cityinfo/101270101.html';
+	    $this->setResponseJson();
+	    $res = MyHelper::httpGet($url);
+	    $cache->set($key, $res,null,new ExpressionDependency(['expression'=>strtotime(date('Y-m-d'))]));
+	    return $res;
 	}
 }

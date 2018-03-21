@@ -3,10 +3,11 @@ namespace common\models;
 
 
 
-
+use Yii;
 use common\publics\MyHelper;
 use backend\models\ArticleCollectionWebsite;
 use common\publics\SimpleHtmlDom;
+use common\publics\ImageUpload;
 
 class Article extends BaseModel
 {
@@ -36,7 +37,7 @@ class Article extends BaseModel
             ['content','required','message'=>'文章内容不能为空','on'=>['create','edit']],
             ['categoryId','required','message'=>'文章分类不能为空','on'=>['create','edit']],
             ['sorts','default','value'=>999999],
-            [['sorts','isPublish','titleImg','publishCode','publishTime','tags','search','imgCount','sourceLinke','imgProvider','remarks','leader','contentCount','source','ishot','url'],'safe']
+            [['sorts','isRecommen','isPublish','titleImg','publishCode','publishTime','tags','search','imgCount','sourceLinke','imgProvider','remarks','leader','contentCount','source','ishot','url'],'safe']
         ];
     }
     
@@ -184,7 +185,7 @@ class Article extends BaseModel
     	])
     	->with('categorys')
     	->where([self::tableName().'.isDelete'=>0])
-    	->orderBy('ishot desc,sorts asc,modifyTime desc');
+    	->orderBy('modifyTime desc,createTime desc');
     	return $query;
     }
     
@@ -215,6 +216,24 @@ class Article extends BaseModel
     {
         $this->scenario = 'create';
         if($this->load($data) && $this->validate()){
+            //如果选择了首页推荐   未上传新闻主题
+            if($this->isRecommen == 1 && empty($_FILES['image'])){
+                $this->addError('url','推荐首页的文章必须上传新闻主图');
+                return false;
+            }
+            //先上传图片 再写数据
+            if(isset($_FILES['image']) && !empty($_FILES['image']) && !empty($_FILES['image']['tmp_name']) ){
+                
+                $upload = new ImageUpload([
+                    'imageMaxSize' => 1024*1024*500,
+                    'isWatermark'  => false,
+                    'imagePath'    => 'article'
+                ]);
+                $result = $upload->Upload('image');
+                $imageName = Yii::$app->params['oss']['host'].$result;
+                $this->titleImg = $imageName;
+            }
+            
             self::getPublishTime($this->publishCode,$this);
             if(!empty($this->url)){
                 if(!MyHelper::urlIsValid($this->url)){
@@ -234,6 +253,28 @@ class Article extends BaseModel
     {
         $article->scenario = 'edit';
         if($article->load($data) && $article->validate()){
+            //如果选择了首页推荐   未上传新闻主题
+            if($article->isRecommen == 1 && empty($article->titleImg) && empty($_FILES['image'])){
+                $article->addError('url','推荐首页的文章必须上传新闻主图');
+                return false;
+            }
+            //先上传图片 再写数据
+            if(isset($_FILES['image']) && !empty($_FILES['image']) && !empty($_FILES['image']['tmp_name']) ){
+                
+                $upload = new ImageUpload([
+                    'imageMaxSize' => 1024*1024*500,
+                    'isWatermark'  => false,
+                    'imagePath'    => 'article'
+                ]);
+                $result = $upload->Upload('image');
+                $imageName = Yii::$app->params['oss']['host'].$result;
+                if(!empty($article->titleImg)){
+                    //删除旧的文件
+                    $block = str_replace(Yii::$app->params['oss']['host'], '', $article->titleImg);
+                    $upload->deleteImage($block);
+                }
+                $article->titleImg = $imageName;
+            }
             self::getPublishTime($article->publishCode,$article);
             if($article->save(false)){
                 return true;//self::batchAddArticleTags($this->tags,$this->id);

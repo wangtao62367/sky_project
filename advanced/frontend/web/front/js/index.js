@@ -19,6 +19,53 @@
     _this.parent().find("a").attr("href",newUrl)
 });
 
+/**
+ * 新闻列表切换 
+ */
+$(document).on('click','.news-cates .cate',function(){
+	var _this = $(this);
+	if(_this.hasClass("selected")){
+		return false; 
+	}
+	var cateCode = _this.data("target-id");
+	_this.parent().parent().find('.news-list').hide();
+    $("#"+cateCode).show();
+    
+    _this.parent().find('.cate').removeClass('selected');
+    _this.addClass('selected');
+    
+});
+
+/**
+ * 图文新闻切换
+ */
+$(document).on('click','.news-items .item',function(){
+	 var _this = $(this);
+	 if(_this.hasClass("selected")){
+		return false; 
+	 }
+	 var titleImg = _this.data("target-titleimg");
+	 var url = _this.data("target-url");
+	 var title = _this.data("target-title");
+	 $('.news-img-box').find("img").attr("src",titleImg);
+	 $('.news-img-box').find("a").attr("href",url).attr("title",title);;
+	 
+	 _this.parent().find('.item').removeClass('selected');
+	 _this.addClass('selected');
+	
+})
+
+//加入收藏
+$(document).on('click','.addcollection',function(){
+	addFavorite(window.location,document.title);
+})
+//设为首页
+$(document).on('click','.setindex',function(){
+	setHome(this,window.location);
+})
+
+
+
 $(document).on('click','.video-item',function(){
 	if($(this).hasClass('prism-player')){
 		return false;
@@ -55,6 +102,37 @@ $(document).on('click','.video-item',function(){
 		$(".prism-big-play-btn").remove();
 	});
 })
+
+// 加入收藏 <a onclick="addFavorite(window.location,document.title)">加入收藏</a>
+function addFavorite(sURL, sTitle) {
+    try {
+        window.external.addFavorite(sURL, sTitle);
+    } catch (e) {
+        try {
+            window.sidebar.addPanel(sTitle, sURL, "");
+        } catch (e) {
+            alert("加入收藏失败，请使用Ctrl+D进行添加");
+        }
+    }
+}
+//设为首页 <a onclick="setHome(this,window.location)" >设为首页</a>
+function setHome(obj, vrl) {
+    try {
+        obj.style.behavior = 'url(#default#homepage)';
+        obj.setHomePage(vrl);
+    } catch (e) {
+        if (window.netscape) {
+            try {
+                netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");
+            } catch (e) {
+                alert("此操作被浏览器拒绝！\n请在浏览器地址栏输入“about:config”并回车\n然后将 [signed.applets.codebase_principal_support]的值设置为'true',双击即可。");
+            }
+            var prefs = Components.classes['@mozilla.org/preferences-service;1'].getService(Components.interfaces.nsIPrefBranch);
+            prefs.setCharPref('browser.startup.homepage', vrl);
+        }
+    }
+}
+
 //创建首页浮动广告
 function createAdvDom(position,title,img,link){
     var advBox = $("<div></div>").addClass("adv-box");
@@ -96,7 +174,7 @@ function ScrollImgLeft(id,scrollId){
 	var scroll_div = $("#"+scrollId);
 	
 	var childW = $(scroll_begin.children(':first-child')[0]).width();
-	var w = (childW+10) * (scroll_begin.children()).length;
+	var w = (childW+25) * (scroll_begin.children()).length;
 	scroll_begin.width(w);
 	scroll_end.width(w);
 	function Marquee(){  

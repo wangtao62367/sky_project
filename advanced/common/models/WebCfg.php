@@ -125,7 +125,7 @@ class WebCfg extends BaseModel
                 self::updateAll(['value'=>$data['closeReasons']],['name'=>'closeReasons']);
             }
         }
-        if(!empty($_FILES)){
+        if( !empty($_FILES) && isset($_FILES['files']) && !empty($_FILES['files']) ){
             $logoFile = $_FILES['files'];
             $oldFile = $webCfgs['logo'];
             $result = Photo::upload($logoFile,$oldFile);

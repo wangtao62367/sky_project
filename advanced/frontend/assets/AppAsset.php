@@ -13,7 +13,7 @@ class AppAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'front/css/normalize.css',
-        'front/css/site.css',
+        'front/css/site_v2.css',
     ];
     public $js = [
         'front/js/common.js',
