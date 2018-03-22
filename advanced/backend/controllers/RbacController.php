@@ -5,7 +5,6 @@ namespace backend\controllers;
 
 use Yii;
 use common\controllers\CommonController;
-use yii\db\Query;
 use backend\models\Rbac;
 /**
  * @name 权限管理

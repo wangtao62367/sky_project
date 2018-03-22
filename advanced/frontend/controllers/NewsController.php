@@ -56,7 +56,7 @@ class NewsController extends CommonController
         Yii::$app->view->params['pid'] = $parent->id;
         //父级分类为  文化学院模块 
         if($parent->code == 'whxy' && $cateid == 0){
-            $this->layout = 'index';
+            $this->layout = 'whxy';
             $data = [
                 'whjl' => NewsLogic::getWhjlList(),
                 'whlt' => NewsLogic::getWhltList()
@@ -106,9 +106,9 @@ class NewsController extends CommonController
             $currentCate->cateCode == CategoryType::SZQK || $currentCate->cateCode == CategoryType::XYJJ ||
             $currentCate->cateCode == CategoryType::XYDZ || $currentCate->cateCode == CategoryType::ZZJG || $currentCate->cateCode == CategoryType::ZKZX){
                 
-                $info = SchooleInformation::findOne(['type'=>$currentCate->cateCode]);
+            $info = SchooleInformation::findOne(['type'=>$currentCate->cateCode]);
                 
-                return $this->render('schoolinfo',['parent'=>$parent,'cateList'=>$cateList,'info'=>$info,'currentCate'=>$currentCate]);
+            return $this->render('schoolinfo',['parent'=>$parent,'cateList'=>$cateList,'info'=>$info,'currentCate'=>$currentCate]);
         }else {
         	
         	$list = $this->getNewsList($currentCate, $data);

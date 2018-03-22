@@ -5,10 +5,10 @@
 
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
-use frontend\assets\AppAsset;
+use frontend\assets\WhxyAsset;
 use yii\helpers\Url;
 
-AppAsset::register($this);
+WhxyAsset::register($this); 
 $params = $this->params;
 ?>
 <?php $this->beginPage() ?>
@@ -20,8 +20,6 @@ $params = $this->params;
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
-    <link rel="stylesheet" href="//g.alicdn.com/de/prismplayer/2.5.0/skins/default/aliplayer-min.css" />
-     <script type="text/javascript" src="//g.alicdn.com/de/prismplayer/2.5.0/aliplayer-min.js"></script>
     <?php $this->head() ?>
 </head>
 <body>
@@ -41,11 +39,7 @@ $params = $this->params;
 				</div>
 				<div class="header-crousel">
 					<div class="logo">
-						<img src="<?php echo $params['webCfgs']['logo'] ? $params['webCfgs']['logo']: '/front/img/index/logo.png';?>" width="140px" />
-						<div class="logo-title">
-							<h3><?php echo $params['webCfgs']['siteName'];?></h3>
-							<h3><?php echo $params['webCfgs']['siteName2'];?></h3>
-						</div>
+						<img src="<?php echo '/front/img/news/whxy_logo.png';?>" width="180px" />
 					</div>
 					<div class="crousel-parent">
 						<div class="crousel">
@@ -61,11 +55,6 @@ $params = $this->params;
 						<li><a <?php if(!isset($params['pid'])){echo 'class="active"';}?>   href="<?php echo Url::to(['site/index'])?>">学院首页</a></li>
 						<?php foreach ($params['nav'] as $v):?>
 						<li><a <?php if(isset($params['pid']) && $params['pid'] == $v['id']){echo 'class="active"';}?> href="<?php echo Url::to(['news/list','pid'=>$v['id'],'cateid'=>0,'pcode'=>$v['code']])?>"><?php echo $v['codeDesc'];?></a>
-							<ul class="nav-item" >
-								<?php foreach ($v['cates'] as $cate):?>
-								<li><a  href="<?php echo Url::to(['news/list','pid'=>$v['id'],'cateid'=>$cate['id'],'pcode'=>$v['code']])?>"><?php echo $cate['text'];?></a></li>
-								<?php endforeach;?>
-							</ul>
 						</li>
 						<?php endforeach;?>
 					</ul>

@@ -1,0 +1,76 @@
+*{margin: 0;padding: 0;font-size: 14px;font-family: "微软雅黑";}
+body{background: -moz-linear-gradient(top, #d2d1d7 0%, #ffffff 100%);background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#d2d1d7), color-stop(100%,#ffffff));background: -webkit-linear-gradient(top, #d2d1d7 0%,#ffffff 100%);background: -o-linear-gradient(top, #d2d1d7 0%,#ffffff 100%);background: -ms-linear-gradient(top, #d2d1d7 0%,#ffffff 100%);background: linear-gradient(to bottom, #d2d1d7 0%,#ffffff 100%);}
+a{text-decoration: none;}
+ul{list-style: none;}
+address, cite, dfn, em, var, i {font-style: normal;}
+.btn,.btn:focus,.btn:active{padding:5px 10px;border:0px;border-radius: 2px;background:#f3f3f3;outline: none;}
+input:-webkit-autofill, input:-webkit-autofill:hover,input:-webkit-autofill:focus,input:-webkit-autofill:active {-webkit-transition-delay: 99999s;-webkit-transition: color 99999s ease-out, background-color 99999s ease-out;}
+/*头部*/
+.header{height: 288px;width: 100%;min-width: 1200px;max-width: 2000px;margin: 0 auto;background: url(../img/news/whxy_top_bg.jpg) no-repeat center !important; background-size: 2000px 288px;}
+/*头部搜索框*/
+.header form{display:inline-block;}
+.header .full-text-search {width: 1200px;margin: 0 auto;box-sizing: border-box;padding-top: 10px;padding-right: 15px;color: red;text-align: right;}
+.full-text-search .search-form-sp,.full-text-search .search-btn-sp,.full-text-search input{-moz-box-sizing: border-box;  /*Firefox3.5+*/-webkit-box-sizing: border-box; /*Safari3.2+*/-o-box-sizing: border-box; /*Opera9.6*/-ms-box-sizing: border-box; /*IE8*/box-sizing: border-box; /*W3C标准(IE9+，Safari5.1+,Chrome10.0+,Opera10.6+都符合box-sizing的w3c标准语法)*/}
+.header .full-text-search .search-form-sp{display: inline-block;width: 200px;height: 25px;border: 1px solid red;    border-top-left-radius: 4px;border-bottom-left-radius: 4px;}
+.full-text-search input,.full-text-search input:focus,.full-text-search input:active{background-color: transparent;border: 0px;width: 200px;height: 25px;outline:none;padding-left: 2px;}
+.full-text-search .search-btn-sp{width: 40px;}
+.full-text-search .search-btn-sp button{outline: none;background-color: red;border: 0;height: 25px;line-height: 25px;padding-top: 1px;margin-left: -4px;color: #fff;}
+.header .full-text-search a{text-decoration: none;color: red;font-weight: bold;margin-left: 5px;    display: inline-block;height: 25px;line-height: 25px;padding: 0px 10px;}
+/*头部右侧轮播图*/
+.header .header-crousel{width: 1200px;margin: 0 auto;box-sizing: border-box;height: 200px;margin-top: -10px;text-align: right;position: relative;}
+.header .header-crousel .crousel-parent{width: 447px;height: 200px;overflow: hidden;float: right;}
+.header .header-crousel .crousel img{background-clip: padding-box;display: block;float: left;}
+.header .header-crousel .crousel{width:1341px;height:200px;-webkit-animation:change 10s linear infinite; /*10s是整个动画的秒数 infinite永久循环*/}
+@-webkit-keyframes change{
+    0%{
+        margin-left:0;
+    }
+    30%{
+        margin-left:0; 
+    }
+    /*总共用10秒，0%到30% 也是3.333秒第一张图片停留位置后面以此类推*/
+    33%{
+        margin-left:-447px;
+    }
+    63%{
+        margin-left:-447px;
+    }
+    66%{
+        margin-left:-894px;
+    }
+    97%{
+        margin-left:-894px;
+    }
+    100%{
+        margin-left:-1341px;
+    }
+}
+/*头部LOGO*/
+.header .header-crousel .logo{float: left;height: 200px;position: relative;}
+.header .header-crousel .logo img{display: block;position: absolute;width: 180px;height: 180px;top: 50%;margin-top: -90px;}
+.header .header-crousel .logo .logo-title{position: absolute;width: 431px;top: 50%;height: 140px;margin-top: -70px;text-align: left;padding: 20px;left: 140px;}
+.header .header-crousel .logo .logo-title h3{font-size: 35px;color: red;text-shadow: 2px 3px 10px #fff, 2px -2px 2px #fff;font-family:"微软雅黑";}
+/*首页导航*/
+.header .nav{width:100%;height: 60px;line-height: 44px;min-width: 1200px;max-width: 2000px;margin: 0 auto;background-size: 2000px 60px;}
+.header .nav ul {width: 1200px;margin: 0 auto;position: relative;box-sizing: border-box;}
+.header .nav li{position: relative;float: left;display: inline-block;width: 100px;text-align: center;}
+.header .nav li a{display: inline-block;width: 100px;font-size: 16px;font-weight: bold;color: #fff;text-align: center;}
+.header .nav li a:first-child{text-align: left;padding-left: 10px;}
+.header .nav li:hover .nav-item,.header .nav li .nav-item{display: block;}
+.header .nav li .nav-item{position: absolute;width: 100px;height: auto;background: #d34231;z-index: 10;opacity: 0.8;display: none;border-bottom-left-radius: 10px;border-bottom-right-radius: 10px;word-wrap: break-word;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
+.header .nav li .nav-item li{height: 35px;line-height: 35px;}
+.header .nav li .nav-item li a{font-size: 14px;    word-wrap: break-word;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;box-sizing: border-box;}
+.header .nav li .nav-item li:hover a,.header .nav li a.active{color: #fac747;}
+/*内容区域*/
+section{width: 1200px;height:auto;margin: 0 auto;padding: 15px;box-sizing: border-box;    padding-bottom: 80px;background:#fff;}
+/*友情链接*/
+.friendship-box{margin-top: 50px;}
+.friendship-box .tab a.tab-title{display: inline-block;margin: 0px 30px 15px 50px;color: #b9a272;font-size: 16px;font-weight:700}
+.friendship-box .tab a.active,.friendship-box .tab a:hover{color: red;}
+.friendship-box .link-list{display: none;border-top: 2px solid #f66060;padding-top: 10px;}
+
+.friendship-box .link-list ul {padding: 0px 0px;display: block;position: relative;overflow: hidden;}
+.friendship-box .link-list li a{display: block;padding: 10px 15px 10px 5px;float: left;margin-right: 50px;color: #333333;}
+/*footer*/
+.footer{width: 1200px;margin: 0 auto;height: 230px;background: url(../img/index/footer_bg.jpg) center no-repeat;background-size:1200px 230px;position: relative;}
+.footer p{text-align: center;color: #333;font-weight: 600;padding: 10px 0px;}

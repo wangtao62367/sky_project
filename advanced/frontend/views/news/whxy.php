@@ -1,7 +1,7 @@
 <?php
 
 
-use frontend\assets\AppAsset;
+use frontend\assets\WhxyAsset;
 use yii\helpers\Url;
 
 $this->title = '文化学院';
@@ -50,5 +50,5 @@ $this->title = '文化学院';
 </div>
 
 <?php 
-AppAsset::addCss($this, '/front/css/whxy.css');
+WhxyAsset::addCss($this, '/front/css/whxy.css');
 ?>
