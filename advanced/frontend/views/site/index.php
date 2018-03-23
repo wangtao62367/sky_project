@@ -40,6 +40,7 @@ $this->title = "首页_".$params['webCfgs']['siteName'];
 	<div class="left news-items">
 	<?php foreach ($data['recommen'] as $k=>$recommen):?>
 		<div class="item <?php echo $k==0 ? 'selected' : '';?>" data-target-titleimg="<?php echo $recommen['titleImg'];?>" data-target-url="<?php echo Url::to(['news/detail','id'=> $recommen['id']])?>" data-target-title="<?php echo $recommen['title'];?>">
+			<img alt="" src="<?php echo $recommen['titleImg'];?>" style="display: none;">
 			<h4 class="text-over"><?php echo $recommen['title'];?></h4>
 			<p>
 				<?php echo $recommen['summary'];?>

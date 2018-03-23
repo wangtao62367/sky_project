@@ -10,6 +10,7 @@ use yii\helpers\Url;
 
 AppAsset::register($this);
 $params = $this->params;
+
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -52,9 +53,16 @@ $params = $this->params;
 		<ul>
 			<li><a <?php if(!isset($params['pid'])){echo 'class="active"';}?>   href="<?php echo Url::to(['site/index'])?>">学院首页</a></li>
 			<?php foreach ($params['nav'] as $v):?>
-			<li>
-			<a <?php if(isset($params['pid']) && $params['pid'] == $v['id']){echo 'class="active"';}?> href="<?php echo Url::to(['news/list','pid'=>$v['id'],'cateid'=>0,'pcode'=>$v['code']])?>"><?php echo $v['codeDesc'];?></a>
-			</li>
+    			<li>
+    				<a <?php if(isset($params['pid']) && $params['pid'] == $v['id']){echo 'class="active"';}?> href="<?php echo Url::to(['news/list','pid'=>$v['id'],'cateid'=>0,'pcode'=>$v['code']])?>"><?php echo $v['codeDesc'];?></a>
+        			<?php if( $v['code'] != 'whxy' ):?>
+            			<ul class="nav-item">
+            				<?php foreach ($v['cates'] as $cate):?>
+            					<li><a href="<?php echo Url::to(['news/list','pid'=>$v['id'],'cateid'=>$cate['id'],'pcode'=>$v['code']])?>"><?php echo $cate['text'];?></a></li>
+            				<?php endforeach;?>
+            			</ul>
+            		<?php endif;?>
+    			</li>
 			<?php endforeach;?>
 		</ul>
 	</div>

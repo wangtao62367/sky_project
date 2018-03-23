@@ -197,6 +197,11 @@ class Article extends BaseModel
         if(!empty($search['categoryId']) && $search['categoryId'] != 'unkown'){
             $query = $query->andWhere('categoryId = :categoryId',[':categoryId'=>$search['categoryId']]);
         }
+        
+        if(!empty($search['categoryIds'])){
+            $query = $query->andWhere(['in','categoryId',$search['categoryIds']]);
+        }
+        
         if(is_numeric($search['isPublish'])){
             $query = $query->andWhere('isPublish = :isPublish',[':isPublish'=>$search['isPublish']]);
         }

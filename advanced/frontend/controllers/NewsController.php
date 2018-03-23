@@ -45,15 +45,17 @@ class NewsController extends CommonController
     public function actionList()
     {
         $pid = Yii::$app->request->get('pid',0);
+        $pcode = Yii::$app->request->get('pcode','');
         //信息化建设模块  临时处理
         if($pid == 12){
             return $this->redirect(Yii::$app->params['xbjs.link']);
         }
         $cateid = Yii::$app->request->get('cateid',0);
         
-        $parent = Common::find()->select(['id','codeDesc','code'])->where(['id'=>$pid])->one();
+        $parent = Common::find()->select(['id','codeDesc','code'])->where(['or',['id'=>$pid],['code'=>$pcode]])->one();
         
         Yii::$app->view->params['pid'] = $parent->id;
+        Yii::$app->view->params['pcode'] = $parent->code;
         //父级分类为  文化学院模块 
         if($parent->code == 'whxy' && $cateid == 0){
             $this->layout = 'whxy';
@@ -64,7 +66,7 @@ class NewsController extends CommonController
             return $this->render('whxy',['data'=>$data]);
         }
         
-        $cateList = Category::find()->select(['id','text','parentId','type'])->where(['parentId'=>$pid,'isDelete'=>0])->orderBy('isBase desc,modifyTime ASC')->all();
+        $cateList = Category::find()->select(['id','text','parentId','type'])->where(['parentId'=>$parent->id,'isDelete'=>0])->orderBy('isBase desc,modifyTime ASC')->all();
         if($cateid == 0 && !empty($cateList)){
             
             $cateid = $cateList[0]->id;
@@ -100,6 +102,7 @@ class NewsController extends CommonController
         $cateList = Category::find()->select(['id','text','parentId','type'])->where(['isDelete'=>0,'parentId'=>$currentCate->parentId])->orderBy('isBase desc,modifyTime ASC')->all();
         
         Yii::$app->view->params['pid'] = $parent->id;
+        Yii::$app->view->params['pcode'] = $parent->code;
         $data = Yii::$app->request->get();
         //先判断当前分类是否是特殊页面类型
         if ($currentCate->cateCode == CategoryType::FZLC || $currentCate->cateCode == CategoryType::SYFC ||

@@ -28,7 +28,13 @@ header.header>.nav{height: 56px;margin-top: 60px;}
 header.header .nav li{position: relative;float: left;display: inline-block;width: 100px;text-align: center;height: 46px;line-height: 46px;}
 header.header .nav li a{display: inline-block;width: 100px;font-size: 16px;font-weight: bold;color: #fff;text-align: center;}
 header.header .nav li a:first-child{text-align: left;padding-left: 10px;}
-header.header .nav li:hover a,header.header .nav li a.active{color: #fac747;}
+
+.header .nav li:hover .nav-item,.header .nav li .nav-item{display: block;}
+.header .nav li .nav-item{position: absolute;width: 100px;height: auto;background: #7f0708;z-index: 10;opacity: 0.8;display: none;border-bottom-left-radius: 10px;border-bottom-right-radius: 10px;word-wrap: break-word;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;padding-top: 2px;top: 40px;padding-bottom: 8px;}
+.header .nav li .nav-item li{height: 35px;line-height: 35px;}
+.header .nav li .nav-item li a{font-size: 14px;    word-wrap: break-word;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;box-sizing: border-box;}
+.header .nav li .nav-item li:hover a,.header .nav li a.active{color: #fac747;}
+
 /*主体*/
 section.section{width: 1200px;margin: 0 auto;padding: 15px;box-sizing: border-box;background: #FFFFFF;display: block;position: relative;border-top-left-radius:2px;border-top-right-radius:2px;}
 

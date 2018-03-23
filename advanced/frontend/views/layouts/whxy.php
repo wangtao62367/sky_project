@@ -27,7 +27,7 @@ $params = $this->params;
 <header class="header">
 			<div class="container">
 				<div class="full-text-search">
-					<?php echo  Html::beginForm(Url::to(['site/search']),'get');?>
+					<?php echo  Html::beginForm(Url::to(['site/search','pcode'=>'whxy']),'get');?>
 					<span class="search-form-sp"><?php echo Html::activeTextInput($params['searchModel'],'search[keywords]');?></span>
 					<span class="search-btn-sp"><?php echo Html::submitButton('搜索')?></span>
 					<?php echo Html::endForm();?>
@@ -53,10 +53,13 @@ $params = $this->params;
 				<div class="nav">
 					<ul>
 						<li><a <?php if(!isset($params['pid'])){echo 'class="active"';}?>   href="<?php echo Url::to(['site/index'])?>">学院首页</a></li>
-						<?php foreach ($params['nav'] as $v):?>
-						<li><a <?php if(isset($params['pid']) && $params['pid'] == $v['id']){echo 'class="active"';}?> href="<?php echo Url::to(['news/list','pid'=>$v['id'],'cateid'=>0,'pcode'=>$v['code']])?>"><?php echo $v['codeDesc'];?></a>
-						</li>
-						<?php endforeach;?>
+						<li><a   href="<?php echo Url::to(['news/list-by-catecode','code'=>'xyjj'])?>">学院概况</a></li>
+						<li><a   href="<?php echo Url::to(['news/list-by-catecode','code'=>'tzxw'])?>">新闻活动</a></li>
+						<li><a   href="<?php echo Url::to(['news/list-by-catecode','code'=>'jxxx'])?>">教学培训</a></li>
+						<li><a   href="<?php echo Url::to(['news/list-by-catecode','code'=>'whjl'])?>">文化交流</a></li>
+						<li><a   href="<?php echo Url::to(['news/list-by-catecode','code'=>'whlt'])?>">文化论坛</a></li>
+						<li><a   href="<?php echo Url::to(['news/list-by-catecode','code'=>'whkt'])?>">文化课堂</a></li>
+						<li><a   href="<?php echo Url::to(['news/list-by-catecode','code'=>'llyj']);?>">理论研究</a></li>
 					</ul>
 				</div>
 			</div>

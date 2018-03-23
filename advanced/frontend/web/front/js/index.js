@@ -22,7 +22,7 @@
 /**
  * 新闻列表切换 
  */
-$(document).on('click','.news-cates .cate',function(){
+$(document).on('mouseover','.news-cates .cate',function(){
 	var _this = $(this);
 	if(_this.hasClass("selected")){
 		return false; 
@@ -39,7 +39,7 @@ $(document).on('click','.news-cates .cate',function(){
 /**
  * 图文新闻切换
  */
-$(document).on('click','.news-items .item',function(){
+$(document).on('mouseover','.news-items .item',function(){
 	 var _this = $(this);
 	 if(_this.hasClass("selected")){
 		return false; 

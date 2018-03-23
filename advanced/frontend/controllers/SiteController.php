@@ -7,6 +7,10 @@ use common\models\Article;
 use common\models\Adv;
 use common\publics\MyHelper;
 use yii\caching\ExpressionDependency;
+use common\models\Common;
+use common\models\Category;
+use common\models\CategoryType;
+use yii\helpers\ArrayHelper;
 /**
  * Site controller
  */
@@ -24,6 +28,15 @@ class SiteController extends CommonController
 	public function actionSearch()
 	{
 	    $this->layout = 'index';
+	    
+	    $pcode = Yii::$app->request->get('pcode','');
+	    $cateIds = [];
+	    if(!empty($pcode)){
+	        $parent = Common::find()->select(['id','codeDesc','code'])->where(['code'=>$pcode])->one();
+	        $cateList = Category::find()->select(['id','text','parentId','type'])->where(['parentId'=>$parent->id,'isDelete'=>0,'type'=>CategoryType::ARTICLE])->orderBy('isBase desc,modifyTime ASC')->asArray()->all();
+	        $cateIds = ArrayHelper::getColumn($cateList, 'id');
+	    }
+	    
 	    $data = Yii::$app->request->get();
 	    if(empty($data)){
             return $this->redirect(['site/index']);
