@@ -10,6 +10,7 @@ use common\controllers\CommonController;
 use common\models\Student;
 use common\models\BestStudent;
 use common\models\BmRecord;
+use yii\db\Expression;
 /**
  * @name 学员管理
  * @author wt
@@ -129,7 +130,7 @@ class StudentController extends CommonController
             $bmRecord->verifyReason2 = $reasons2;
             $bmRecord->verifyAdmin2  = Yii::$app->user->id;
             $bmRecord->verifyTime2   = TIMESTAMP;
-            $bmRecord->studyNum  = date('Ymd').$student->politicalStatusCode.self::getStudyNumInGradeClass($bmRecord->gradeClass);
+            $bmRecord->studyNum  = date('Ymd').$student->politicalStatusCode.self::getStudyNumInGradeClass($bmRecord->gradeClassId);
             if($bmRecord->save(false)){
                 return $this->showSuccess('student/info?id='.$id);
             }else{
@@ -141,7 +142,7 @@ class StudentController extends CommonController
     
     private static function getStudyNumInGradeClass($gradeClassId)
     {
-        $num = BmRecord::find()->where(['gradeClassId'=>$gradeClassId,'verify'=>3])->groupBy('userId')->count('id');
+        $num = BmRecord::find()->select('id')->where(['gradeClassId'=>$gradeClassId,'verify'=>3])->count('DISTINCT userId');
         $num ++;
         if($num < 10){
             return '00'.$num;
@@ -150,6 +151,7 @@ class StudentController extends CommonController
         }else{
             return $num;
         }
+        
     }
     
     /**
@@ -220,6 +222,16 @@ class StudentController extends CommonController
             }
         }
         return $this->render('edit_best',['info'=>$student,'model'=>$model,'title'=>'修改优秀学员']);
+    }
+    
+    public function actionPrint(int $id)
+    {
+        $bmRecord= BmRecord::findOne($id);
+        if(empty($bmRecord)){
+            return $this->showDataIsNull('student/manage');
+        }
+        
+        return $this->render('print');
     }
     
 }

@@ -26,6 +26,7 @@ $params = $this->params;
 <?php $this->beginBody() ?>
 <header class="header">
 			<div class="container">
+				<!--  
 				<div class="full-text-search">
 					<?php echo  Html::beginForm(Url::to(['site/search','pcode'=>'whxy']),'get');?>
 					<span class="search-form-sp"><?php echo Html::activeTextInput($params['searchModel'],'search[keywords]');?></span>
@@ -37,6 +38,19 @@ $params = $this->params;
 					欢迎您，<a href="<?php echo Url::to(['user/center']);?>"><?php echo Yii::$app->user->identity->account;?></a> | <a href="<?php echo Url::to(['user/logout']);?>">退出</a>
 					<?php endif;?>
 				</div>
+				-->
+				<div class="right search-box">
+    				<?php echo  Html::beginForm(Url::to(['site/search']),'get');?>
+    					<span class="search-text"><?php echo Html::activeTextInput($params['searchModel'],'search[keywords]');?><?php echo Html::submitButton('')?></span>
+    				<?php echo Html::endForm();?>
+    				<div class="login-reg-box">
+    					<?php if(Yii::$app->user->isGuest):?>
+    					<a href="<?php echo Url::to(['user/login']);?>">登录</a> | <a href="<?php echo Url::to(['user/reg']);?>">注册</a>
+    					<?php else :?>
+    					欢迎您，<a href="<?php echo Url::to(['user/center']);?>"><?php echo Yii::$app->user->identity->account;?></a> | <a href="<?php echo Url::to(['user/logout']);?>">退出</a>
+    					<?php endif;?>
+    				</div>
+    			</div>
 				<div class="header-crousel">
 					<div class="logo">
 						<img src="<?php echo '/front/img/news/whxy_logo.png';?>" width="180px" />

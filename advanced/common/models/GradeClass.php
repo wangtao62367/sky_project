@@ -49,6 +49,9 @@ class GradeClass extends BaseModel
             ['currentTeachs','number','min'=>0,'message'=>'本院教师任课节数数据无效','on'=>['create','edit']],
             ['invitTeachs','number','min'=>0,'message'=>'邀约教师任课节数数据无效','on'=>['create','edit']],
             
+            ['periods','required','message'=>'班级期数不能为空','on'=>['create','edit']],
+            ['periods','number','min'=>1,'message'=>'班级期数数据无效','on'=>['create','edit']],
+            
             ['createAdminId','default','value'=>Yii::$app->user->id],
             [['curPage','pageSize','search','remarks'],'safe']
         ];    

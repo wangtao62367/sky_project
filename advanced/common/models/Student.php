@@ -56,31 +56,31 @@ class Student extends BaseModel
     public function rules()
     {
         return [
-            ['trueName','required','message'=>'姓名不能为空','on'=>'add'],
-            ['sex','required','message'=>'性别不能为空','on'=>'add'],
-            ['IDnumber','required','message'=>'身份证号码不能为空','on'=>'add'],
-        	['IDnumber','match','pattern'=>'/^\d{6}(19|20)?\d{2}(0[1-9]|1[012])(0[1-9]|[12]\d|3[01])\d{3}(\d|[xX])$/','message'=>'身份证号码无效','on'=>'add'],
-            ['birthday','required','message'=>'出生年月不能为空','on'=>'add'],
+            ['trueName','required','message'=>'姓名不能为空','on'=>['add','edit']],
+            ['sex','required','message'=>'性别不能为空','on'=>['add','edit']],
+            ['IDnumber','required','message'=>'身份证号码不能为空','on'=>['add','edit']],
+            ['IDnumber','match','pattern'=>'/^\d{6}(19|20)?\d{2}(0[1-9]|1[012])(0[1-9]|[12]\d|3[01])\d{3}(\d|[xX])$/','message'=>'身份证号码无效','on'=>['add','edit']],
+            ['birthday','required','message'=>'出生年月不能为空','on'=>['add','edit']],
             //['nation','required','message'=>'名族不能为空','on'=>'add'],
-            ['nationCode','required','message'=>'名族不能为空','on'=>'add'],
-            ['city','required','message'=>'所在城市不能为空','on'=>'add'],
+            ['nationCode','required','message'=>'名族不能为空','on'=>['add','edit']],
+            ['city','required','message'=>'所在城市不能为空','on'=>['add','edit']],
             ['phone','required','message'=>'手机号不能为空','on'=>'add'],
         	['phone','match','pattern'=>'/^[1][34578][0-9]{9}$/','message'=>'手机号无效','on'=>'add'],
-            ['company','required','message'=>'现工作单位不能为空','on'=>'add'],
-            ['workYear','required','message'=>'工作年限不能为空','on'=>'add'],
+            ['company','required','message'=>'现工作单位不能为空','on'=>['add','edit']],
+            ['workYear','required','message'=>'工作年限不能为空','on'=>['add','edit']],
         	['workYear', 'compare', 'compareValue' => 0, 'operator' => '>=','message'=>'工作年限必须正整数'],
-            ['graduationSchool','required','message'=>'毕业学校不能为空','on'=>'add'],
-            ['graduationMajor','required','message'=>'毕业专业不能为空','on'=>'add'],
-            ['eduationCode','required','message'=>'学历不能为空','on'=>'add'],
-            ['politicalStatusCode','required','message'=>'政治面貌不能为空','on'=>'add'],
+            ['graduationSchool','required','message'=>'毕业学校不能为空','on'=>['add','edit']],
+            ['graduationMajor','required','message'=>'毕业专业不能为空','on'=>['add','edit']],
+            ['eduationCode','required','message'=>'学历不能为空','on'=>['add','edit']],
+            ['politicalStatusCode','required','message'=>'政治面貌不能为空','on'=>['add','edit']],
 
             [['search','address','selfIntruduce','positionalTitles','avater'],'safe']
         ];
     }
     
-    public static function add(array $data,Student $model,$oprate = 'bm')
+    public static function add(array $data,Student $model,$oprate = 'add')
     {
-        $model->scenario = 'add';
+        $model->scenario = $oprate;
         if($model->load($data) && $model->validate()){
             $model->userId = Yii::$app->user->id;
             $model->nation = Yii::$app->params['nations'][$model->nationCode];

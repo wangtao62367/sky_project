@@ -26,6 +26,9 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
 <ul class="forminfo">
     <li><label>班级名称<b>*</b></label><?php echo Html::activeTextInput($model, 'className',['class'=>'dfinput'])?><i>班级名称长度为2-20个字</i></li>
     <li><label>班级人数<b>*</b></label><?php echo Html::activeTextInput($model, 'classSize',['class'=>'dfinput'])?><i>班级人数5-60人</i></li>
+    
+    <li><label>班级期数<b>*</b></label><?php echo Html::activeInput('number',$model, 'periods',['class'=>'dfinput'])?><i>班级期数不能为空</i></li>
+    
     <li><label>报名时间<b>*</b></label><?php echo Html::activeTextInput($model, 'joinStartDate',['class'=>'dfinput joinStartDate','style'=>'width:240px;','placeholder'=>'开始时间'])?> - 
     <?php echo Html::activeTextInput($model, 'joinEndDate',['class'=>'dfinput joinEndDate','style'=>'width:240px;','placeholder'=>'结束时间'])?>
     </li>

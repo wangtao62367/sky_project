@@ -3,6 +3,8 @@ section{background:#fff;}
 	height:182px;
 	max-height: 182px;
 	margin-top: -15px;
+	margin-left:-15px;
+	width:1200px;
 }
 .section .main{min-height:500px;}
 .section .navigation{

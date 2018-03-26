@@ -55,7 +55,7 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
     <li>
     	<label>首页推荐<b>*</b></label>
     	<?php echo Html::activeRadioList($model, 'isRecommen', ['0'=>'否','1'=>'是'],['value'=>0]);?>
-    	<i>推荐首页的文章必须上传新闻主图，否则无法上传成功</i>
+    	<i>推荐首页的文章必须上传新闻主图，否则无法生效</i>
     </li>
     
     <li>

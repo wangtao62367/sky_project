@@ -52,7 +52,7 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
     <?php if(Yii::$app->session->hasFlash('error')):?>
     	<li><label>&nbsp;</label><span class="error-tip"><?php echo Yii::$app->session->getFlash('error');?></span></li>
     <?php endif;?>
-    <li><label>&nbsp;</label><a href="javascript:;" class="btn" id="formSubmit">确认保持</a> <?php // echo Html::submitInput('确认保存',['class'=>'btn','id'=>'formSubmit'])?></li>
+    <li><label>&nbsp;</label><a href="javascript:;" class="btn" id="formSubmit">确认上传</a> <?php // echo Html::submitInput('确认保存',['class'=>'btn','id'=>'formSubmit'])?></li>
 </ul>
 <?php  echo Html::endForm();?>
 </div>

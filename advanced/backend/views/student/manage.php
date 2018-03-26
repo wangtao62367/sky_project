@@ -109,6 +109,7 @@ use common\models\Student;
             <a href="<?php echo Url::to(['student/edit-best','id'=>$val['student']['id']]);?>" class="tablelink">修改优秀学员</a>
             <?php endif;?>
             <a href="<?php echo Url::to(['student/del','id'=>$val['id']]);?>" class="tablelink"> 删除</a>
+            <a href="<?php echo Url::to(['student/print','id'=>$val['id']]);?>" class="tablelink"> 打印结业证书</a>
             </td>
         </tr> 
         <?php endforeach;?>

@@ -112,7 +112,7 @@ class UserController extends CommonController
     	}
     	if(Yii::$app->request->isPost){
     		$post = Yii::$app->request->post();
-    		$result = Student::add($post,$student,'editInfo');
+    		$result = Student::add($post,$student,'edit');
     		if(!$result){
     		    Yii::$app->session->setFlash('error',$student->getErrorDesc());
     		}

@@ -5,20 +5,33 @@ ul{list-style: none;}
 address, cite, dfn, em, var, i {font-style: normal;}
 .btn,.btn:focus,.btn:active{padding:5px 10px;border:0px;border-radius: 2px;background:#f3f3f3;outline: none;}
 input:-webkit-autofill, input:-webkit-autofill:hover,input:-webkit-autofill:focus,input:-webkit-autofill:active {-webkit-transition-delay: 99999s;-webkit-transition: color 99999s ease-out, background-color 99999s ease-out;}
+.right{float:right;}
+.left{float:left;}
 /*头部*/
 .header{height: 288px;width: 100%;min-width: 1200px;max-width: 2000px;margin: 0 auto;background: url(../img/news/whxy_top_bg.jpg) no-repeat center !important; background-size: 2000px 288px;}
+.header .container{width:1200px;margin:0 auto;}
 /*头部搜索框*/
 .header form{display:inline-block;}
 .header .full-text-search {width: 1200px;margin: 0 auto;box-sizing: border-box;padding-top: 10px;padding-right: 15px;color: red;text-align: right;}
-.full-text-search .search-form-sp,.full-text-search .search-btn-sp,.full-text-search input{-moz-box-sizing: border-box;  /*Firefox3.5+*/-webkit-box-sizing: border-box; /*Safari3.2+*/-o-box-sizing: border-box; /*Opera9.6*/-ms-box-sizing: border-box; /*IE8*/box-sizing: border-box; /*W3C标准(IE9+，Safari5.1+,Chrome10.0+,Opera10.6+都符合box-sizing的w3c标准语法)*/}
+.full-text-search .search-form-sp,.full-text-search .search-btn-sp,.full-text-search input{-moz-box-sizing: border-box;  /*Firefox3.5+*/-webkit-box-sizing: border-box; /*Safari3.2+*/-o-box-sizing: border-box; /*Opera9.6*/-ms-box-sizing: border-box; /*IE8*/box-sizing: border-box; }
 .header .full-text-search .search-form-sp{display: inline-block;width: 200px;height: 25px;border: 1px solid red;    border-top-left-radius: 4px;border-bottom-left-radius: 4px;}
 .full-text-search input,.full-text-search input:focus,.full-text-search input:active{background-color: transparent;border: 0px;width: 200px;height: 25px;outline:none;padding-left: 2px;}
 .full-text-search .search-btn-sp{width: 40px;}
 .full-text-search .search-btn-sp button{outline: none;background-color: red;border: 0;height: 25px;line-height: 25px;padding-top: 1px;margin-left: -4px;color: #fff;}
 .header .full-text-search a{text-decoration: none;color: red;font-weight: bold;margin-left: 5px;    display: inline-block;height: 25px;line-height: 25px;padding: 0px 10px;}
+
+.search-box {height:30px;margin-top:5px;}
+.search-box form{display: inline-block; margin-right: 30px;}
+.search-box .search-text{height: 27px;width: 241px; background: url(../img/index/search_bg.png) no-repeat center !important;position: relative;display: block;}
+.search-box .login-reg-box{float: right;height:27px;line-height:27px;}
+.search-text input, .search-text input:focus, .search-text input:active {background: none;border: none;height: 27px;outline: none;box-sizing: border-box;padding-left: 5px;width: 200px;float: left;}
+.search-text button,.search-text button:active,.search-text button:focus,.search-text button:visited{width: 40px;height: 27px;background: none;border: none;outline: none;float: left;}
+.search-box span,.search-box a,.login-reg-box{color: #FFFFFF;}
+
+
 /*头部右侧轮播图*/
-.header .header-crousel{width: 1200px;margin: 0 auto;box-sizing: border-box;height: 200px;margin-top: -10px;text-align: right;position: relative;}
-.header .header-crousel .crousel-parent{width: 447px;height: 200px;overflow: hidden;float: right;}
+.header .header-crousel{clear: both;width: 1200px;margin: 0 auto;box-sizing: border-box;height: 192px;margin-top: -10px;text-align: right;position: relative;}
+.header .header-crousel .crousel-parent{width: 447px;height: 190px;overflow: hidden;float: right;}
 .header .header-crousel .crousel img{background-clip: padding-box;display: block;float: left;}
 .header .header-crousel .crousel{width:1341px;height:200px;-webkit-animation:change 10s linear infinite; /*10s是整个动画的秒数 infinite永久循环*/}
 @-webkit-keyframes change{
