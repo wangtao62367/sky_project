@@ -3,13 +3,40 @@
 .main-banner{max-width: 1200px;max-height: 100px;display: block;margin: 0 auto;margin-top: 15px;margin-left: -15px;margin-right: -15px;}
 .news-box1,.news-box2,.news-box3,.news-box4,.news-box5{width: 100%;display: block;position: relative;box-sizing: border-box;overflow: hidden;}
 /*统战新闻 时政要闻*/
-.news-box1 .tzxw,.news-box1 .szyw{height: 158px;width: 563px;border:2px solid red;border-left: 4px solid red;border-radius: 2px;margin-bottom: 15px;position: relative;;overflow: hidden}
-.tzxw>.theme-box,.szyw>.theme-box{width: 60px;height: 147px;margin-top: 5.5px;margin-left: -1px;}
+/* .news-box1 .tzxw,.news-box1 .szyw{height: 158px;width: 563px;border:2px solid red;border-left: 4px solid red;border-radius: 2px;margin-bottom: 15px;position: relative;;overflow: hidden}
+.tzxw>.theme-box,.szyw>.theme-box{width: 60px;height: 147px;margin-top: 5.5px;margin-left: -1px;} */
 .tzxw>.news,.szyw>.news{width: 503px;height: 158px;position: relative;box-sizing: border-box;}
-.tzxw>.news{padding: 15px 28px;}
-.szyw>.news{padding: 13px;}
-.tzxw>.theme-box{background: url(../img/index/tzxw_bg.png) center no-repeat !important;}
-.szyw>.theme-box{background: url(../img/index/szyw_bg.png) center no-repeat !important;}
+/* .tzxw>.news{padding: 15px 28px;} */
+.szyw>.news{padding: 13px;padding-left: 50px;}
+.news-box1 .tzxw, .news-box1 .szyw {
+    height: 158px;
+    width: 533px;
+    border: 2px solid #e03138;
+    /* border-left: 4px solid red; */
+    border-radius: 10px;
+    margin-bottom: 15px;
+    position: relative;
+    /* overflow: hidden; */
+    margin-left: 30px;
+}
+.tzxw>.theme-box, .szyw>.theme-box {
+    width: 60px;
+    height: 147px;
+    margin-top: 5.5px;
+    margin-left: 0px;
+    position: absolute;
+    left: -30px;
+    border-radius: 10px;
+}
+.tzxw>.news {
+    /* padding: 15px 28px; */
+    padding-left: 50px;
+    padding-top: 15px;
+}
+
+
+/* .tzxw>.theme-box{background: url(../img/index/tzxw_bg.png) center no-repeat !important;}
+.szyw>.theme-box{background: url(../img/index/szyw_bg.png) center no-repeat !important;} */
 
 .tzxw>.news h4 a,.news-box3>.news-list-box>.news-list .news-hot h4 a{font-size: 25px;font-weight: 500;color:#000;}
 .tzxw>.news hr{border: 1px solid #b8b7b7;margin: 8px 0px;}
@@ -42,8 +69,8 @@
 .news-list a.news-more{float: right;color: #373737; position: absolute;right: 25px;bottom: 15px;}
 .news-list a.articledetail{color:red;display:inline-block;margin-left:20px;}
 
-.ggtz-box ul{list-style: disc inside;margin-top: 90px;padding: 0 15px;}
-.ggtz-box ul li{margin-bottom: 20px;line-height: 25px;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 2;overflow: hidden;text-indent: 20px;background-position:0px 10px;background-image: url(../img/index/news_list_icon.png);background-repeat:no-repeat;}
+.ggtz-box ul{list-style: disc inside;margin-top: 78px;padding: 0 15px;}
+.ggtz-box ul li{margin-bottom: 20px;line-height: 25px;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 1;overflow: hidden;text-indent: 20px;background-position:0px 10px;background-image: url(../img/index/news_list_icon.png);background-repeat:no-repeat;}
 /*教育基地   快捷入口*/
 .news-box4{height: 370px;margin-top: 20px;}
 .news-box4 .edu-box{width: 830px;height: 370px;position: relative;overflow: hidden;}

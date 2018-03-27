@@ -67,7 +67,7 @@ class StudentController extends CommonController
         $model->gradeClass = $gradeClass->className;
         if(Yii::$app->request->isPost){
         	$post = Yii::$app->request->post();
-        	$result = Student::add($post,$model);
+        	$result = Student::add($post,$model,'bm');
         	if($result){
         		return $this->redirect(['user/center']);
         	}else{

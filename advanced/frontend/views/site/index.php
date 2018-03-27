@@ -10,7 +10,9 @@ $this->title = "首页_".$params['webCfgs']['siteName'];
 
 <div class="news-box1">
 	<div class="left tzxw">
-		<div class="left theme-box"></div>
+		<div class="left theme-box">
+			<img alt="" src="/front/img/index/tzxw_bg.png">
+		</div>
 		<div class="left news">
 			<h4 class="text-over"><a href="<?php echo Url::to(['news/detail','id'=>$data['tzxw']['id']]);?>" title="<?php echo $data['tzxw']['title'];?>"><?php echo $data['tzxw']['title'];?></a></h4>
 			<hr />
@@ -20,7 +22,9 @@ $this->title = "首页_".$params['webCfgs']['siteName'];
 		</div>
 	</div>
 	<div class="right szyw">
-		<div class="left theme-box"></div>
+		<div class="left theme-box">
+			<img alt="" src="/front/img/index/szyw_bg.png">
+		</div>
 		<div class="left news">
 			<ul>
     			<?php foreach ($data['szyw'] as $szyw):?>
@@ -57,9 +61,9 @@ $this->title = "首页_".$params['webCfgs']['siteName'];
 		<div class="left news-cates">
 			<div class="cate selected" data-target-id="syxw">社院新闻</div>
 			<div class="cate" data-target-id="jxpx">教学培训</div>
+			<div class="cate" data-target-id="whjl">文化交流</div>
 			<div class="cate" data-target-id="kydt">科研动态</div>
 			<div class="cate" data-target-id="dqxz">党群建设</div>
-			<div class="cate" data-target-id="whjl">文化学院</div>
 			<div class="cate" data-target-id="xyyd">学员天地</div>
 			<div class="cate" data-target-id="szsy">市州社院</div>
 			<div class="cate" data-target-id="zkzx">智库中心</div>
