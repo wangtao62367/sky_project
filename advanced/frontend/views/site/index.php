@@ -9,19 +9,7 @@ $this->title = "首页_".$params['webCfgs']['siteName'];
 ?>
 
 <div class="news-box1">
-	<div class="left tzxw">
-		<div class="left theme-box">
-			<img alt="" src="/front/img/index/tzxw_bg.png">
-		</div>
-		<div class="left news">
-			<h4 class="text-over"><a href="<?php echo Url::to(['news/detail','id'=>$data['tzxw']['id']]);?>" title="<?php echo $data['tzxw']['title'];?>"><?php echo $data['tzxw']['title'];?></a></h4>
-			<hr />
-			<p>
-				<?php echo $data['tzxw']['summary'];?>
-			</p>
-		</div>
-	</div>
-	<div class="right szyw">
+	<div class="left szyw">
 		<div class="left theme-box">
 			<img alt="" src="/front/img/index/szyw_bg.png">
 		</div>
@@ -31,6 +19,18 @@ $this->title = "首页_".$params['webCfgs']['siteName'];
     			<li><a href="<?php echo Url::to(['news/detail','id'=>$szyw->id])?>" title="<?php echo $szyw->title;?>"><?php echo $szyw->title?></a></li>
     			<?php endforeach;?>
 			</ul>
+		</div>
+	</div>
+	<div class="right tzxw">
+		<div class="left theme-box">
+			<img alt="" src="/front/img/index/tzxw_bg.png">
+		</div>
+		<div class="left news">
+			<h4 class="text-over"><a href="<?php echo Url::to(['news/detail','id'=>$data['tzxw']['id']]);?>" title="<?php echo $data['tzxw']['title'];?>"><?php echo $data['tzxw']['title'];?></a></h4>
+			<hr />
+			<p>
+				<?php echo $data['tzxw']['summary'];?>
+			</p>
 		</div>
 	</div>
 </div>
@@ -96,7 +96,7 @@ $this->title = "首页_".$params['webCfgs']['siteName'];
 			<ul>
 				<?php foreach ($data['jxpx'] as $k=>$jxpx):?>
     				<?php if($k>0):?>
-        			<li class="text-over"><a href="<?php echo Url::to(['news/detail','id'=>$jxpx->id])?>" title="<?php echo $jxpx->title;?>"><?php echo $jxpx->title;?></a></li>
+        			<li class="text-over"><a style="display: inline-block;max-width:500px;" class="text-over" href="<?php echo Url::to(['news/detail','id'=>$jxpx->id])?>" title="<?php echo $jxpx->title;?>"><?php echo $jxpx->title;?></a><img alt="热点新闻" src="/front/img/index/hot_news.png"></li>
         			<?php endif;?>
     			<?php endforeach;?>
 			</ul>

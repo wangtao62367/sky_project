@@ -64,8 +64,8 @@
 
 .news-box3>.news-list-box>.news-list{width: 620px;height: 430px;box-sizing: border-box;padding: 20px 25px 10px 30px;position: relative;display:none;}
 .news-box3>.news-list-box>.news-list .news-hot p{margin-top: 25px;color: #000;font-size: 15px;font-weight: 700;}
-.news-list ul{list-style: disc inside;margin-top: 40px;}
-.news-list ul li{margin-bottom: 10px;}
+.news-list ul{/* list-style: disc inside; */margin-top: 40px;}
+.news-list ul li{margin-bottom: 10px;text-indent:20px;background:url(../img/index/news_list_icon.png)  no-repeat !important;background-size: 8px 12px;background-attachment:fixed;background-position-y:5px;}
 .news-list a.news-more{float: right;color: #373737; position: absolute;right: 25px;bottom: 15px;}
 .news-list a.articledetail{color:red;display:inline-block;margin-left:20px;}
 

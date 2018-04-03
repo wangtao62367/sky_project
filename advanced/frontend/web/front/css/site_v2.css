@@ -9,9 +9,9 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
 .right{float: right;}
 .text-over{word-wrap: break-word;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
 /*头部*/
-header.header{width: 100%;min-width: 1200px;max-width: 2000px;height: 405px;background-size: 2000px 288px;background: url(../img/index/top_v2_bg.jpg) no-repeat center !important;position: relative;display: block;}
+header.header{width: 100%;min-width: 1200px;max-width: 2000px;height: 318px;background-size: 2000px 318px;background: url(../img/index/top_v3_bg.jpg) no-repeat center !important;position: relative;display: block;}
 header.header>.toole-logo-box,header.header>.nav{width: 1200px;display: block;margin: 0 auto;position: relative;padding: 5px 15px;box-sizing: border-box;}
-header.header>.toole-logo-box>.logo{margin-top: 35px;margin-left: 160px;width:205px;height:205px}
+header.header>.toole-logo-box>.logo{margin-top: 35px;margin-left: 160px;width:170px;height:170px}
 header.header>.toole-logo-box>.tools{display: block;position: relative;height: 27px;}
 .tools>.weather-box{width: 600px;height: 27px;line-height: 27px;}
 .tools>.weather-box .addcollection{margin-left: 30px;}
@@ -23,7 +23,7 @@ header.header>.toole-logo-box>.tools{display: block;position: relative;height: 2
 .search-text button,.search-text button:active,.search-text button:focus,.search-text button:visited{width: 40px;height: 27px;background: none;border: none;outline: none;float: left;}
 .tools span,.tools a,.login-reg-box{color: #FFFFFF;}
 
-header.header>.nav{height: 56px;margin-top: 60px;}
+header.header>.nav{height: 56px;margin-top: 12px;}
 .nav ul {width: 1200px;margin: 0 auto;position: relative;box-sizing: border-box;}
 header.header .nav li{position: relative;float: left;display: inline-block;width: 100px;text-align: center;height: 46px;line-height: 46px;}
 header.header .nav li a{display: inline-block;width: 100px;font-size: 16px;font-weight: bold;color: #fff;text-align: center;}
