@@ -8,7 +8,7 @@ use Yii;
 use common\controllers\CommonController;
 use common\models\SchooleInformation;
 /**
-* 学院基本信息管理
+* @name 学院基本信息管理
 * @date: 2018年2月8日 上午9:29:08
 * @author: wangtao
 */

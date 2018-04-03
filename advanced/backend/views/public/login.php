@@ -22,7 +22,7 @@ $this->title = '欢迎登陆';
 	    	</li>
 	    	<li>
 	    		<?php echo Html::submitInput('登陆',['class'=>'loginbtn'])?>
-	    		<label><?php echo Html::a('忘记密码？',Url::to(['public/forgetpwd']))?></label>
+	    		<label><?php //echo Html::a('忘记密码？',Url::to(['public/forgetpwd']))?></label>
 	    	</li>
 	    </ul>
 	    <?php echo Html::endForm();?>  

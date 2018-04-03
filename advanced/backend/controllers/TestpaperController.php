@@ -95,7 +95,11 @@ class TestpaperController extends CommonController
         $idsArr = explode(',',trim($ids,','));
         return TestPaper::updateAll(['isDelete'=>1],['in','id',$idsArr]);
     }
-    
+    /**
+     * @desc 试卷统计
+     * @param int $id
+     * @return \yii\web\Response|string
+     */
     public function actionStatistics(int $id)
     {
         $testPaper= TestPaper::findOne($id);

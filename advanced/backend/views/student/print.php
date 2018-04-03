@@ -25,8 +25,7 @@ $url =Url::to(ArrayHelper::merge([$controller->id.'/'.$controller->action->id], 
 	<div id="printArea">
 		
 		<div class="certificate">
-		
-		
+			
 		</div>
 		
 	</div>

@@ -9,7 +9,7 @@ use common\models\Personage;
 use common\models\Common;
 use common\publics\ImageUpload;
 /**
- * 社院人物管理
+ * @name 社院人物管理
  * @author wt
  *
  */

@@ -24,6 +24,13 @@ class RbacController extends Controller
                 if(isset($isExtend[0]) && !empty($isExtend[0])){
                     preg_match('/class ([a-zA-Z]+)Controller/', $content, $match);
                     preg_match('/@name ([\x{4e00}-\x{9fa5}]+)/u', $content,$name);
+                    if(!isset($match[1])){
+                        var_dump($match);exit('控制器');
+                    }
+                    if(!isset($name[1])){
+                        var_dump($match);exit('控制器');
+                        var_dump($isExtend);exit('方法');
+                    }
                     $cName = $match[1];
                     $cNameDesc = $name[1];
                     $permissions[] = [

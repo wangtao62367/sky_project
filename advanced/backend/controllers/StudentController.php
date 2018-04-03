@@ -223,7 +223,11 @@ class StudentController extends CommonController
         }
         return $this->render('edit_best',['info'=>$student,'model'=>$model,'title'=>'修改优秀学员']);
     }
-    
+    /**
+     * @desc 打印结业证书
+     * @param int $id
+     * @return \yii\web\Response|string
+     */
     public function actionPrint(int $id)
     {
         $bmRecord= BmRecord::findOne($id);
