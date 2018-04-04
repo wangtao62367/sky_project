@@ -31,6 +31,9 @@ $this->title = $parent->codeDesc . '-'.$currentCate->text;
 	<div class="text">
 		<div class="newsList">
 			<ul>
+			<?php if(empty($list['data'])):?>
+					<li>抱歉！暂时没有此类型的新闻</li>
+			<?php endif;?>
 			<?php foreach ($list['data'] as $val):?>
 				<!-- 特别的类型数据 -->
     			<?php if($currentCate->cateCode == CategoryType::ZKJS || $currentCate->cateCode == CategoryType::XRLD):?>

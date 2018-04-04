@@ -30,6 +30,9 @@ $this->title = $parent->codeDesc . '-' .$currentCate->text;
 	<div class="text">
 		<div class="newsList">
 			<ul>
+			<?php if(empty($list['data'])):?>
+					<li>抱歉！暂时没有此类型的新闻</li>
+			<?php endif;?>
 			<?php foreach ($list['data'] as $val):?>
 				<?php if ($currentCate->type == CategoryType::ARTICLE):?>
 					<li class="article-item"><a href="<?php echo Url::to(['news/detail','id'=>$val['id']])?>" title="<?php echo $val['title'];?>"><?php echo MyHelper::timestampToDate($val['publishTime'],'Y-m-d');?>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $val['title'];?></a></li>

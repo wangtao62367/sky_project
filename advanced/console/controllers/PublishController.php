@@ -36,6 +36,17 @@ class PublishController extends Controller
         echo "成功发布课表  \n";
     }
     /**
+     * 删除课表
+     */
+    public function actionDelpaper()
+    {
+        Schedule::updateAll([
+            'isDelete' => 1,
+            'modifyTime' => time(),
+        ],'isDelete = 0 and publishEndTime <= :time',[':time'=>time()]);
+        echo "成功删除课表  \n";
+    }
+    /**
      * 发布试卷
      */
     public function actionPaper()
@@ -46,5 +57,7 @@ class PublishController extends Controller
         ],'isPublish = 0 and isDelete = 0 and publishTime <= :time',[':time'=>time()]);
         echo "成功发布试卷  \n";
     }
+    
+    
     
 }
