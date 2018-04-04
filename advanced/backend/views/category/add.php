@@ -29,7 +29,7 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
     <li><label>分类名称<b>*</b></label><?php echo Html::activeTextInput($model, 'text',ArrayHelper::merge($inputExtends, ['class'=>'dfinput']))?><i>教师名称不能为空，且长度为2-20个字</i></li>
     <li><label>分类类别<b>*</b></label>
     	<div class="vocation">
-    		<?php echo Html::activeDropDownList($model, 'type', Category::$type_arr,ArrayHelper::merge($inputExtends, ['prompt'=>'请选择','class'=>'sky-select']))?>
+    		<?php echo Html::activeDropDownList($model, 'type', Category::$type_arr2,ArrayHelper::merge($inputExtends, ['prompt'=>'请选择','class'=>'sky-select']))?>
     	</div>
     </li>
     <li><label>所属板块<b>*</b></label>

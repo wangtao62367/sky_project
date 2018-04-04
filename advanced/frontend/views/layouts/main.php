@@ -57,7 +57,9 @@ $params = $this->params;
 				<?php if( $v['code'] != 'whxy' ):?>
             			<ul class="nav-item">
             				<?php foreach ($v['cates'] as $cate):?>
+            					<?php if($cate['isDelete'] == 0):?>
             					<li><a href="<?php echo Url::to(['news/list','pid'=>$v['id'],'cateid'=>$cate['id'],'pcode'=>$v['code']])?>"><?php echo $cate['text'];?></a></li>
+            					<?php endif;?>
             				<?php endforeach;?>
             			</ul>
             	<?php endif;?>                                                                                         

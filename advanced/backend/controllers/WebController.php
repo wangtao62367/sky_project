@@ -59,11 +59,14 @@ class WebController extends CommonController
         $handle = Yii::$app->request->get('handle','');
         if(!empty($handle)){
             $cacheDir = dirname(Yii::$app->basePath).'/frontend/runtime/cache';
+            $this->removeDir($cacheDir);
+            return $this->showSuccess('web/clear-cache');
+            /* echo $cacheDir;exit();
             $cache = new \yii\caching\FileCache();
             $cache->cachePath = $cacheDir;
             $cache->gc(true, false); 
             return $this->showSuccess('web/clear-cache');
-            /* if($cache->gc(true, false)){  //$this->removeDir($cacheDir)
+            if($cache->gc(true, false)){  //$this->removeDir($cacheDir)
                 return $this->showSuccess('web/clear-cache');
             } */
         }

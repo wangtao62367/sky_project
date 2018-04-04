@@ -10,6 +10,7 @@ use common\models\Video;
 use common\models\EducationBase;
 use common\models\Carousel;
 use yii\caching\DbDependency;
+use yii\db\Expression;
 
 /**
  * 首页

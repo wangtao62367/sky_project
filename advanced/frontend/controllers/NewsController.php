@@ -67,12 +67,14 @@ class NewsController extends CommonController
         }
         
         $cateList = Category::find()->select(['id','text','parentId','type'])->where(['parentId'=>$parent->id,'isDelete'=>0])->orderBy('isBase desc,modifyTime ASC')->all();
+       
         if($cateid == 0 && !empty($cateList)){
             
             $cateid = $cateList[0]->id;
         }
         
         $currentCate = Category::find()->select(['id','text','cateCode','parentId','type'])->where(['id'=>$cateid])->one();
+        //var_dump($currentCate);exit();
         $data = Yii::$app->request->get();
         
         //先判断当前分类是否是特殊页面类型
@@ -173,6 +175,7 @@ class NewsController extends CommonController
                     ];
                     $video->pageSize = 15;
                     $list = $video->getPageList($data);
+                    //var_dump($list);exit();
                     break;
                 case CategoryType::IMAGE:
                     $photo = new Photo();

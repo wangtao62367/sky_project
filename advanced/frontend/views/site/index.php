@@ -79,7 +79,7 @@ $this->title = "首页_".$params['webCfgs']['siteName'];
 			<ul>
 				<?php foreach ($data['syxw'] as $k=>$syxw):?>
     				<?php if($k>0):?>
-        			<li class="text-over"><a href="<?php echo Url::to(['news/detail','id'=>$syxw->id])?>" title="<?php echo $syxw->title;?>"><?php echo $syxw->title;?></a></li>
+    				<li class="text-over"><a <?php if($syxw['publishTime'] > (time() - 5*24*3600)):?> class="hotnews" <?php endif;?> href="<?php echo Url::to(['news/detail','id'=>$syxw->id])?>" title="<?php echo $syxw->title;?>"><?php echo mb_substr($syxw->title, 0,33,'utf-8');?></a><?php if($syxw['publishTime'] > (time() - 5*24*3600)):?><img alt="热点新闻" src="/front/img/index/hot_news.png"><?php endif;?></li>
         			<?php endif;?>
     			<?php endforeach;?>
 			</ul>
@@ -96,7 +96,7 @@ $this->title = "首页_".$params['webCfgs']['siteName'];
 			<ul>
 				<?php foreach ($data['jxpx'] as $k=>$jxpx):?>
     				<?php if($k>0):?>
-        			<li class="text-over"><a style="display: inline-block;max-width:500px;" class="text-over" href="<?php echo Url::to(['news/detail','id'=>$jxpx->id])?>" title="<?php echo $jxpx->title;?>"><?php echo $jxpx->title;?></a><img alt="热点新闻" src="/front/img/index/hot_news.png"></li>
+        			<li class="text-over"><a <?php if($jxpx['publishTime'] > (time() - 5*24*3600)):?> class="hotnews" <?php endif;?> href="<?php echo Url::to(['news/detail','id'=>$jxpx->id])?>" title="<?php echo $jxpx->title;?>"><?php echo mb_substr($jxpx->title,0,33,'utf-8');?></a><?php if($jxpx['publishTime'] > (time() - 5*24*3600)):?><img alt="热点新闻" src="/front/img/index/hot_news.png"><?php endif;?></li>
         			<?php endif;?>
     			<?php endforeach;?>
 			</ul>
@@ -113,7 +113,7 @@ $this->title = "首页_".$params['webCfgs']['siteName'];
 			<ul>
 				<?php foreach ($data['kydt'] as $k=>$kydt):?>
     				<?php if($k>0):?>
-        			<li class="text-over"><a href="<?php echo Url::to(['news/detail','id'=>$kydt->id])?>" title="<?php echo $kydt->title;?>"><?php echo $kydt->title;?></a></li>
+        			<li class="text-over"><a <?php if($kydt['publishTime'] > (time() - 5*24*3600)):?> class="hotnews" <?php endif;?> href="<?php echo Url::to(['news/detail','id'=>$kydt->id])?>" title="<?php echo $kydt->title;?>"><?php echo mb_substr($kydt->title,0,33,'utf-8');?></a><?php if($kydt['publishTime'] > (time() - 5*24*3600)):?><img alt="热点新闻" src="/front/img/index/hot_news.png"><?php endif;?></li>
         			<?php endif;?>
     			<?php endforeach;?>
 			</ul>
@@ -130,7 +130,7 @@ $this->title = "首页_".$params['webCfgs']['siteName'];
 			<ul>
 				<?php foreach ($data['dqxz'] as $k=>$dqxz):?>
     				<?php if($k>0):?>
-        			<li class="text-over"><a href="<?php echo Url::to(['news/detail','id'=>$dqxz->id])?>" title="<?php echo $dqxz->title;?>"><?php echo $dqxz->title;?></a></li>
+        			<li class="text-over"><a <?php if($dqxz['publishTime'] > (time() - 5*24*3600)):?> class="hotnews" <?php endif;?> href="<?php echo Url::to(['news/detail','id'=>$dqxz->id])?>" title="<?php echo $dqxz->title;?>"><?php echo mb_substr($dqxz->title,0,33,'utf-8');?></a><?php if($dqxz['publishTime'] > (time() - 5*24*3600)):?><img alt="热点新闻" src="/front/img/index/hot_news.png"><?php endif;?></li>
         			<?php endif;?>
     			<?php endforeach;?>
 			</ul>
@@ -147,7 +147,7 @@ $this->title = "首页_".$params['webCfgs']['siteName'];
 			<ul>
 				<?php foreach ($data['whjl'] as $k=>$whjl):?>
     				<?php if($k>0):?>
-        			<li class="text-over"><a href="<?php echo Url::to(['news/detail','id'=>$whjl->id])?>" title="<?php echo $whjl->title;?>"><?php echo $whjl->title;?></a></li>
+        			<li class="text-over"><a <?php if($whjl['publishTime'] > (time() - 5*24*3600)):?> class="hotnews" <?php endif;?> href="<?php echo Url::to(['news/detail','id'=>$whjl->id])?>" title="<?php echo $whjl->title;?>"><?php echo mb_substr($whjl->title,0,33,'utf-8');?></a><?php if($whjl['publishTime'] > (time() - 5*24*3600)):?><img alt="热点新闻" src="/front/img/index/hot_news.png"><?php endif;?></li>
         			<?php endif;?>
     			<?php endforeach;?>
     			
@@ -165,7 +165,7 @@ $this->title = "首页_".$params['webCfgs']['siteName'];
 			<ul>
 				<?php foreach ($data['xyyd'] as $k=>$xyyd):?>
     				<?php if($k>0):?>
-        			<li class="text-over"><a href="<?php echo Url::to(['news/detail','id'=>$xyyd->id])?>" title="<?php echo $xyyd->title;?>"><?php echo $xyyd->title;?></a></li>
+        			<li class="text-over"><a <?php if($xyyd['publishTime'] > (time() - 5*24*3600)):?> class="hotnews" <?php endif;?> href="<?php echo Url::to(['news/detail','id'=>$xyyd->id])?>" title="<?php echo $xyyd->title;?>"><?php echo mb_substr($xyyd->title,0,33,'utf-8');?></a><?php if($xyyd['publishTime'] > (time() - 5*24*3600)):?><img alt="热点新闻" src="/front/img/index/hot_news.png"><?php endif;?></li>
         			<?php endif;?>
     			<?php endforeach;?>
 			</ul>
@@ -182,7 +182,7 @@ $this->title = "首页_".$params['webCfgs']['siteName'];
 			<ul>
 				<?php foreach ($data['szsy'] as $k=>$szsy):?>
     				<?php if($k>0):?>
-        			<li class="text-over"><a href="<?php echo Url::to(['news/detail','id'=>$szsy->id])?>" title="<?php echo $szsy->title;?>"><?php echo $szsy->title;?></a></li>
+        			<li class="text-over"><a <?php if($szsy['publishTime'] > (time() - 5*24*3600)):?> class="hotnews" <?php endif;?> href="<?php echo Url::to(['news/detail','id'=>$szsy->id])?>" title="<?php echo $szsy->title;?>"><?php echo mb_substr($szsy->title,0,33,'utf-8');?></a><?php if($szsy['publishTime'] > (time() - 5*24*3600)):?><img alt="热点新闻" src="/front/img/index/hot_news.png"><?php endif;?></li>
         			<?php endif;?>
     			<?php endforeach;?>
 			</ul>
@@ -199,7 +199,7 @@ $this->title = "首页_".$params['webCfgs']['siteName'];
 			<ul>
 				<?php foreach ($data['zkzx'] as $k=>$zkzx):?>
     				<?php if($k>0):?>
-        			<li class="text-over"><a href="<?php echo Url::to(['news/detail','id'=>$zkzx->id])?>" title="<?php echo $zkzx->title;?>"><?php echo $zkzx->title;?></a></li>
+        			<li class="text-over"><a <?php if($zkzx['publishTime'] > (time() - 5*24*3600)):?> class="hotnews" <?php endif;?> href="<?php echo Url::to(['news/detail','id'=>$zkzx->id])?>" title="<?php echo $zkzx->title;?>"><?php echo mb_substr($zkzx->title,0,33,'utf-8');?></a><?php if($zkzx['publishTime'] > (time() - 5*24*3600)):?><img alt="热点新闻" src="/front/img/index/hot_news.png"><?php endif;?></li>
         			<?php endif;?>
     			<?php endforeach;?>
 			</ul>

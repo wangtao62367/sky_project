@@ -260,10 +260,10 @@ class ImageUpload
     
     public static function getWatermarkConfig()
     {
-        $watermarkconfig = Yii::$app->cache->get('watermarkconfig');
-        if(!empty($watermarkconfig)){
-            return $watermarkconfig;
-        }
+//         $watermarkconfig = Yii::$app->cache->get('watermarkconfig');
+//         if(!empty($watermarkconfig)){
+//             return $watermarkconfig;
+//         }
         $webCfgs = WebCfg::find()->where(['or',
             ['name'=>'watermarkCate'],
             ['name'=>'watermarkContent'],
@@ -276,7 +276,7 @@ class ImageUpload
             foreach ($webCfgs as $v){
                 $result[$v->name] = $v->value;
             }
-            Yii::$app->cache->set('watermarkconfig', $result,null,new DbDependency(['sql'=>'select value from sky_WebCfg where name = \'watermarkCate\' or name = \'watermarkContent\' or name = \'watermarkPosition\' or name = \'watermarkTextColor\' or name = \'watermarkTextFont\' ']));
+            //Yii::$app->cache->set('watermarkconfig', $result,null,new DbDependency(['sql'=>'select value from sky_WebCfg where name = \'watermarkCate\' or name = \'watermarkContent\' or name = \'watermarkPosition\' or name = \'watermarkTextColor\' or name = \'watermarkTextFont\' ']));
         }
         return $result;
     }

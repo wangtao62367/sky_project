@@ -17,6 +17,13 @@ class Category extends BaseModel
         'hot' => '焦点区',
     ];
     
+    public static $type_arr2 = [
+        CategoryType::ARTICLE => '文章',
+        CategoryType::IMAGE   => '图片',
+        CategoryType::VIDEO   => '视频',
+        CategoryType::FILE    => '文件',
+    ];
+    
     public static $type_arr = [
         CategoryType::ARTICLE => '文章',
         CategoryType::IMAGE   => '图片',

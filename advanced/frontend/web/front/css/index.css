@@ -54,6 +54,9 @@
 .news-box2>.news-items>.selected{background: url(../img/index/news_item_selected.png) no-repeat !important;}
 .news-box2>.news-items>.selected h4,.news-box2>.news-items>.selected p,.news-box2>.news-items>.selected h4,.news-box2>.news-items>.selected a{color: #FFFFFF;}
 /*新闻列表*/
+
+a.hotnews{max-width:500px;word-wrap: break-word;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
+
 .news-box3{height: 430px;margin-top: 15px;}
 .news-box3>.news-list-box{width: 847px;height: 430px;background: url(../img/index/news_list_box_bg.png) center no-repeat !important;background-size: 847px 430px;position: relative;overflow: hidden;}
 .news-box3>.ggtz-box{width: 317px;height: 430px;background: url(../img/index/news_ggtz_bg.png) center no-repeat !important;background-size: 317px 430px;position: relative;overflow: hidden;}
@@ -64,13 +67,15 @@
 
 .news-box3>.news-list-box>.news-list{width: 620px;height: 430px;box-sizing: border-box;padding: 20px 25px 10px 30px;position: relative;display:none;}
 .news-box3>.news-list-box>.news-list .news-hot p{margin-top: 25px;color: #000;font-size: 15px;font-weight: 700;}
-.news-list ul{/* list-style: disc inside; */margin-top: 40px;}
-.news-list ul li{margin-bottom: 10px;text-indent:20px;background:url(../img/index/news_list_icon.png)  no-repeat !important;background-size: 8px 12px;background-attachment:fixed;background-position-y:5px;}
+.news-list ul{list-style: disc inside;margin-top: 40px;}
+.news-list ul li{margin-bottom: 10px;text-indent:20px;/* background-image:url(../img/index/news_list_icon.png) !important; */background-repeat:no-repeat;background-size: 8px 12px;background-position:0px;}
+/* .news-list ul li a{display:inline-block;} */
+.news-list li img{margin-left:8px;}
 .news-list a.news-more{float: right;color: #373737; position: absolute;right: 25px;bottom: 15px;}
 .news-list a.articledetail{color:red;display:inline-block;margin-left:20px;}
 
 .ggtz-box ul{list-style: disc inside;margin-top: 78px;padding: 0 15px;}
-.ggtz-box ul li{margin-bottom: 20px;line-height: 25px;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 1;overflow: hidden;text-indent: 20px;background-position:0px 10px;background-image: url(../img/index/news_list_icon.png);background-repeat:no-repeat;}
+.ggtz-box ul li{margin-bottom: 20px;line-height: 25px;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 1;overflow: hidden;text-indent: 20px;background-position:0px 10px;background-image: url(../img/index/news_list_icon.png);background-size: 8px 12px;background-repeat:no-repeat;background-position:0px 7px;}
 /*教育基地   快捷入口*/
 .news-box4{height: 370px;margin-top: 20px;}
 .news-box4 .edu-box{width: 830px;height: 370px;position: relative;overflow: hidden;}
