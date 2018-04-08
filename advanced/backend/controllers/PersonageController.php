@@ -34,6 +34,9 @@ class PersonageController extends CommonController
     public function actionAdd()
     {
         $model = new Personage();
+        $search = Yii::$app->request->get('Personage');
+        $role = isset($search['search']['role']) ? $search['search']['role'] : 'zkjs';
+        $model->role = $role;
         if(Yii::$app->request->isPost){
             $data = Yii::$app->request->post();
             //上传图片
@@ -49,7 +52,7 @@ class PersonageController extends CommonController
             $imageName = Yii::$app->params['oss']['host'].$result;
             $data['Personage']['photo'] = $imageName;
             if($model->add($data)){
-                return $this->showSuccess('personage/manage');
+                return $this->showSuccess('personage/manage?Personage[search][role]='.$role);
             }else{
                 Yii::$app->session->set('error', $model->getErrorDesc());
             }
@@ -65,15 +68,16 @@ class PersonageController extends CommonController
     public function actionEdit(int $id)
     {
         $personage = Personage::findOne($id);
+        $role= Yii::$app->request->get('role','zkjs');
         if(empty($personage)){
-            return $this->showDataIsNull('personage/manage');
+            return $this->showDataIsNull('personage/manage?Personage[search][role]='.$role);
         }
-        
+        $personage->role = $role;
         if(Yii::$app->request->isPost){
             $data = Yii::$app->request->post();
             
             //上传图片
-            if(!empty($_FILES) && !isset($_FILES['files']) && !isset($_FILES['files']['name'])){
+            if(!empty($_FILES) && isset($_FILES['files']) && isset($_FILES['files']['name']) && !empty($_FILES['files']['name'])){
                 $upload = new ImageUpload([
                     'imageMaxSize' => 1024*1024*500,
                     'imagePath'    => 'personage',
@@ -87,11 +91,12 @@ class PersonageController extends CommonController
                 $upload->deleteImage($block);
             }
             if(Personage::edit($data, $personage)){
-                return $this->showSuccess('personage/manage');
+                return $this->showSuccess('personage/manage?Personage[search][role]='.$role);
             }else{
                 Yii::$app->session->set('error', $personage->getErrorDesc());
             }
         }
+        
         $roles= Common::getCommonListByType('personage');
         return $this->render('add',['model'=>$personage,'roles'=>$roles,'title'=>'编辑社院人物']);
     }

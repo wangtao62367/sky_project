@@ -22,6 +22,7 @@ $this->title = '个人信息';
 		
 		<li><a href="<?php echo Url::to(['user/edit-pwd']);?>" >修改密码</a></li>
 
+		<li><a href="<?php echo Url::to(['news/list-by-catecode','code'=>'wybm']);?>">我要报名</a></li>
 	</ul>
 </div>
 <div class="content">

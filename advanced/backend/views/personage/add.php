@@ -15,7 +15,7 @@ $url =Url::to(ArrayHelper::merge($param, [$controller->id.'/'.$controller->actio
     <span>位置：</span>
     <ul class="placeul">
         <li><a href="javascript:;">网站管理系统</a></li>
-        <li><a href="<?php echo Url::to(['personage/manage'])?>">社院人物管理</a></li>
+        <li><a href="<?php echo Url::to(['personage/manage','Personage[search][role]'=>$model->role])?>">社院人物管理</a></li>
         <li><a href="<?php echo $url;?>"><?php echo $title?></a></li>
     </ul>
 </div>
@@ -25,6 +25,12 @@ $url =Url::to(ArrayHelper::merge($param, [$controller->id.'/'.$controller->actio
 <div class="formtitle"><span><?php echo $title?></span></div>
 <?php echo Html::beginForm('','post',['enctype'=>"multipart/form-data"]);?>
 <ul class="forminfo">
+	<li><label>人物角色<b>*</b></label>
+    	<div class="vocation">
+            <?php echo Html::activeDropDownList($model, 'role', ArrayHelper::map($roles,'code','codeDesc'),['prompt'=>'请选择','class'=>'sky-select','disabled'=>'true'])?>
+        </div>
+    </li>
+    
     <li><label>人物姓名<b>*</b></label><?php echo Html::activeTextInput($model, 'fullName',['class'=>'dfinput'])?></li>
     <li><label>人物头像<b>*</b></label>
     <?php echo Html::activeHiddenInput($model, 'photo',['class'=>'dfinput','id'=>'photo'])?>
@@ -38,11 +44,6 @@ $url =Url::to(ArrayHelper::merge($param, [$controller->id.'/'.$controller->actio
         	<?php endif;?>
         </div>
         <i>头像建议宽高为100像素 * 100像素;大小控制在500kb以内</i>
-    </li>
-    <li><label>人物角色<b>*</b></label>
-    	<div class="vocation">
-            <?php echo Html::activeDropDownList($model, 'role', ArrayHelper::map($roles,'code','codeDesc'),['prompt'=>'请选择','class'=>'sky-select'])?>
-        </div>
     </li>
     <li><label>职        务<b>*</b></label><?php echo Html::activeTextInput($model, 'duties',['class'=>'dfinput'])?></li>
     <li><label>个人简介</label><?php echo Html::activeTextarea($model, 'intruduce',['class'=>'textinput'])?></li>

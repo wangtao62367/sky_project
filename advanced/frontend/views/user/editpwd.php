@@ -20,7 +20,8 @@ $this->title = '修改密码';
 		<li><a href="<?php echo Url::to(['user/info']);?>" >我的信息</a></li>
 		
 		<li><a href="javascript:;"  class="UnitedFront">修改密码</a></li>
-
+		
+		<li><a href="<?php echo Url::to(['news/list-by-catecode','code'=>'wybm']);?>">我要报名</a></li>
 	</ul>
 </div>
 <div class="content">

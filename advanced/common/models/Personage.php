@@ -17,7 +17,7 @@ class Personage extends BaseModel
     public function rules()
     {
         return [
-            [['search','intruduce'],'safe'],
+            [['search','intruduce','photo'],'safe'],
             ['fullName','required','message'=>'人物姓名不能为空','on'=>['add','edit']],
             ['role','required','message'=>'人物角色不能为空','on'=>['add','edit']],
             ['duties','required','message'=>'人物职务不能为空','on'=>['add','edit']],

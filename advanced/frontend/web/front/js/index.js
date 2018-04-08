@@ -28,10 +28,10 @@ $(document).on('mouseover','.news-cates .cate',function(){
 		return false; 
 	}
 	var cateCode = _this.data("target-id");
-	_this.parent().parent().find('.news-list').hide();
+	_this.parents('.news-cates').parent().find('.news-list').hide();
     $("#"+cateCode).show();
     
-    _this.parent().find('.cate').removeClass('selected');
+    _this.parents('.news-cates').find('.cate').removeClass('selected');
     _this.addClass('selected');
     
 });

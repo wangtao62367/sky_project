@@ -3,13 +3,15 @@ use yii\helpers\Url;
 use common\publics\MyHelper;
 use yii\helpers\Html;
 use common\models\Common;
+use yii\helpers\ArrayHelper;
 
+$param = Yii::$app->request->get();
 ?>
 <div class="place">
     <span>位置：</span>
     <ul class="placeul">
         <li><a href="javascript:;">网站管理系统</a></li>
-        <li><a href="<?php echo Url::to(['personage/manage'])?>">社院人物管理</a></li>
+        <li><a href="<?php echo Url::to(ArrayHelper::merge($param,['personage/manage']))?>">社院人物管理</a></li>
         <li><a href="<?php echo Url::to(['personage/manage'])?>">人物列表</a></li>
     </ul>
 </div>
@@ -20,16 +22,13 @@ use common\models\Common;
         <li><label>姓名</label>
         <?php echo Html::activeTextInput($model, 'search[fullName]',['class'=>'scinput','placeholder'=>'姓名'])?>
         </li>
-        <li><label>人物角色</label>
-        <?php echo Html::activeTextInput($model, 'search[role]',['class'=>'scinput','placeholder'=>'人物角色'])?>
-        </li>
         <li>
         	<label>创建时间</label>
         	<?php echo Html::activeTextInput($model, 'search[startTime]',['class'=>'scinput startTime','placeholder'=>'开始时间'])?> - 
     		<?php echo Html::activeTextInput($model, 'search[endTime]',['class'=>'scinput endTime','placeholder'=>'结束时间'])?>
         </li>
         <li><label>&nbsp;</label><?php echo Html::submitInput('查询',['class'=>'scbtn'])?></li>
-        <li><a href="<?php echo Url::to(['personage/add'])?>" class="add-btn">添加</a></li>
+        <li><a href="<?php echo Url::to(ArrayHelper::merge($param,['personage/add']))?>" class="add-btn">添加</a></li>
         <li><a href="javascript:;" class="del-btn batchDel">删除</a></li>
         <!-- <li><a href="javascript:;" class="excel-btn">导出</a></li> -->
     </ul>
@@ -60,7 +59,7 @@ use common\models\Common;
             <td><?php echo MyHelper::timestampToDate($val['createTime']);?></td>
             <td><?php echo MyHelper::timestampToDate($val['modifyTime']);?></td>
             <td class="handle-box">
-            <a href="<?php echo Url::to(['personage/edit','id'=>$val['id']]);?>" class="tablelink">编辑</a>     
+            <a href="<?php echo Url::to(['personage/edit','id'=>$val['id'],'role'=>$val['role']['code']]);?>" class="tablelink">编辑</a>     
             <a href="<?php echo Url::to(['personage/del','id'=>$val['id']]);?>" class="tablelink"> 删除</a>
             </td>
         </tr> 

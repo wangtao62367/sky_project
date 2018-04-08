@@ -24,7 +24,7 @@ use backend\assets\AppAsset;
 	<?php echo Html::beginForm('','post',['enctype'=>"multipart/form-data",'id'=>'myForm']);?>
 <ul class="forminfo">
 	<li><label>水印类型</label>
-		<?php echo Html::radioList('watermarkCate',$webCfg['watermarkCate'],['text'=>'文字','image'=>'图片'])?>
+		<?php echo Html::radioList('watermarkCate',$webCfg['watermarkCate'],['text'=>'文字','image'=>'图片'],['id'=>'watermarkCate'])?>
 	</li>
 	<li class="fontSet"><label>文字内容</label>
 		<?php echo Html::textInput('watermarkContent',$webCfg['watermarkContent'],['class'=>'dfinput'])?>
@@ -127,11 +127,17 @@ $('#uploadFile').change(function(){
 var isAllow = false;
 var error = '';
 $('#submitBtn').click(function(){
-    if(isAllow){
+     var watermarkCate = $("input[type='radio']:checked").val();;    
+    if(watermarkCate == 'text'){
         $('#myForm').submit();
     }else{
-        alert(error);
+        if(isAllow){
+            $('#myForm').submit();
+        }else{
+            alert(error);
+        }
     }
+    
 });
 
 

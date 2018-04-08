@@ -11,7 +11,7 @@ $this->title = "首页_".$params['webCfgs']['siteName'];
 <div class="news-box1">
 	<div class="left szyw">
 		<div class="left theme-box">
-			<img alt="" src="/front/img/index/szyw_bg.png">
+			<a href="<?php echo Url::to(['news/list-by-catecode','code'=>'szyw']);?>" title="更多时政新闻"><img alt="" src="/front/img/index/szyw_bg.png"></a>
 		</div>
 		<div class="left news">
 			<ul>
@@ -23,7 +23,7 @@ $this->title = "首页_".$params['webCfgs']['siteName'];
 	</div>
 	<div class="right tzxw">
 		<div class="left theme-box">
-			<img alt="" src="/front/img/index/tzxw_bg.png">
+			<a href="<?php echo Url::to(['news/list-by-catecode','code'=>'tzxw']);?>" title="更多统战新闻"><img alt="" src="/front/img/index/tzxw_bg.png"></a>
 		</div>
 		<div class="left news">
 			<h4 class="text-over"><a href="<?php echo Url::to(['news/detail','id'=>$data['tzxw']['id']]);?>" title="<?php echo $data['tzxw']['title'];?>"><?php echo $data['tzxw']['title'];?></a></h4>
@@ -43,13 +43,17 @@ $this->title = "首页_".$params['webCfgs']['siteName'];
 	</div>
 	<div class="left news-items">
 	<?php foreach ($data['recommen'] as $k=>$recommen):?>
+		
 		<div class="item <?php echo $k==0 ? 'selected' : '';?>" data-target-titleimg="<?php echo $recommen['titleImg'];?>" data-target-url="<?php echo Url::to(['news/detail','id'=> $recommen['id']])?>" data-target-title="<?php echo $recommen['title'];?>">
 			<img alt="" src="<?php echo $recommen['titleImg'];?>" style="display: none;">
+			<a href="<?php echo Url::to(['news/detail','id'=> $recommen['id']])?>" title="<?php echo $recommen['title'];?>" >
 			<h4 class="text-over"><?php echo $recommen['title'];?></h4>
 			<p>
 				<?php echo $recommen['summary'];?>
 			</p>
+			</a>
 		</div>
+					
 	<?php endforeach;?>
 	</div>
 </div>
@@ -59,14 +63,30 @@ $this->title = "首页_".$params['webCfgs']['siteName'];
 <div class="news-box3">
 	<div class="left news-list-box">
 		<div class="left news-cates">
+			<a class="news-more" href="<?php echo Url::to(['news/list-by-catecode','code'=>'syxw']);?>">
 			<div class="cate selected" data-target-id="syxw">社院新闻</div>
+			</a>
+			<a class="news-more" href="<?php echo Url::to(['news/list-by-catecode','code'=>'jxxx']);?>">
 			<div class="cate" data-target-id="jxpx">教学培训</div>
+			</a>
+			<a class="news-more" href="<?php echo Url::to(['news/list-by-catecode','code'=>'whjl']);?>">
 			<div class="cate" data-target-id="whjl">文化交流</div>
+			</a>
+			<a class="news-more" href="<?php echo Url::to(['news/list-by-catecode','code'=>'kyxx']);?>">
 			<div class="cate" data-target-id="kydt">科研动态</div>
+			</a>
+			<a class="news-more" href="<?php echo Url::to(['news/list-by-catecode','code'=>'dqxz']);?>">
 			<div class="cate" data-target-id="dqxz">党群建设</div>
+			</a>
+			<a class="news-more" href="<?php echo Url::to(['news/list-by-catecode','code'=>'xyhd']);?>">
 			<div class="cate" data-target-id="xyyd">学员天地</div>
+			</a>
+			<a class="news-more" href="<?php echo Url::to(['news/list-by-catecode','code'=>'szsy']);?>">
 			<div class="cate" data-target-id="szsy">市州社院</div>
+			</a>
+			<a class="news-more" href="<?php echo Url::to(['news/list-by-catecode','code'=>'xxdt']);?>">
 			<div class="cate" data-target-id="zkzx">智库中心</div>
+			</a>
 		</div>
 		<!-- 社院新闻 -->
 		<div class="left news-list" style="display:block" id="syxw">

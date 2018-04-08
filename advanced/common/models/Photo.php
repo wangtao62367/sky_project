@@ -19,8 +19,8 @@ class Photo extends BaseModel
 	public function rules()
 	{
 		return [
-			['photo','required','message'=>'图片不能为空','on'=>['add','edit']],
-		    ['categoryId','required','message'=>'图片分类不能为空','on'=>['add','edit']],
+			['photo','required','message'=>'请选择图片','on'=>['add','edit']],
+		    ['categoryId','required','message'=>'请选择图片分类','on'=>['add','edit']],
 		    ['title','required','message'=>'图片标题不能为空','on'=>['add','edit']],
 		    ['title', 'string' ,'length'=>[0,25],'tooLong'=>'图片标题最多50个字', 'tooShort'=>'图片标题最多50个字','on'=>['add','edit']],
 		    [['search','oldFile','link','provider','leader','remarks'],'safe']
@@ -44,7 +44,7 @@ class Photo extends BaseModel
 	    if($photo->load($data) && $photo->validate()){
 	        return $photo->save(false);
 	    }
-	    return true;
+	    return false;
 	}
 	
 	public static function del(Photo $photo)
