@@ -18,6 +18,7 @@ use backend\assets\AppAsset;
 <a href="<?php echo Url::to(['web/setting'])?>"><span>网站基础设置</span></a>
 <a href="<?php echo Url::to(['web/watermark-set'])?>"><span>图片水印设置</span></a>
 <a href="javascript:;"><span class="active">缓存清理</span></a>
+<a href="<?php echo Url::to(['web/indexbanner-set'])?>"><span >首页banner图设置</span></a>
 </div >
 
 <div class=""> 

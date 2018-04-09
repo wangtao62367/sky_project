@@ -137,4 +137,46 @@ class WebCfg extends BaseModel
         return true;
     }
     
+    public static function saveIndexbannerCfg($data, $webCfg)
+    {
+        if(!empty($_FILES['indexMainBanner1']) && !empty($_FILES['indexMainBanner1']['name'])){
+            $upload = new ImageUpload([
+                'imageMaxSize' => 1024*1024*500,
+                'imagePath'    => 'index',
+                'isWatermark'  => false
+            ]);
+            $result = $upload->Upload('indexMainBanner1');
+            $imageName = Yii::$app->params['oss']['host'].$result;
+            self::updateAll(['value'=>$imageName],['name'=>'indexMainBanner1']);
+            if(!empty($webCfg['indexMainBanner1']) && strripos($webCfg['indexMainBanner1'], Yii::$app->params['oss']['host']) !== false ){
+                $ossBlock = str_replace(Yii::$app->params['oss']['host'], '', $webCfg['indexMainBanner1']);
+                $upload->deleteImage($ossBlock);
+            }
+        }
+        
+        if(!empty($_FILES['indexMainBanner2']) && !empty($_FILES['indexMainBanner2']['name'])){
+            $upload = new ImageUpload([
+                'imageMaxSize' => 1024*1024*500,
+                'imagePath'    => 'index',
+                'isWatermark'  => false
+            ]);
+            $result = $upload->Upload('indexMainBanner2');
+            $imageName = Yii::$app->params['oss']['host'].$result;
+            self::updateAll(['value'=>$imageName],['name'=>'indexMainBanner2']);
+            if(!empty($webCfg['indexMainBanner2']) && strripos($webCfg['indexMainBanner2'], Yii::$app->params['oss']['host']) !== false ){
+                $ossBlock = str_replace(Yii::$app->params['oss']['host'], '', $webCfg['indexMainBanner2']);
+                $upload->deleteImage($ossBlock);
+            }
+        }
+        
+        if(!empty($data['indexMainBanner1Link']) && $data['indexMainBanner1Link'] != $webCfg['indexMainBanner1Link']){
+            self::updateAll(['value'=>$data['indexMainBanner1Link']],['name'=>'indexMainBanner1Link']);
+        }
+        if(!empty($data['indexMainBanner2Link']) && $data['indexMainBanner2Link'] != $webCfg['indexMainBanner2Link']){
+            self::updateAll(['value'=>$data['indexMainBanner2Link']],['name'=>'indexMainBanner2Link']);
+        }
+        
+        return true;
+    }
+    
 }

@@ -31,19 +31,21 @@ class CategoryType
     //发展历程
     const FZLC = 'fzlc';
     //师资情况
-    const SZQK = 'szqk';
+    const SZQK = 'szqk'; //人物
     //组织机构
     const ZZJG = 'zzjg';
     //现任领导
-    const XRLD = 'xrld';  
+    const XRLD = 'xrld';  //人物
     //客座教授
-    const ZKJS = 'zkjs';
+    const ZKJS = 'kzjs';  //人物
     //社院风采
     const SYFC = 'syfc';
     //校园风光
     const XYFG = 'xyfg';
     //学院地址
     const XYDZ = 'xydz';
+    //学员风采
+    const XYFC = 'xyfc';  //人物
     //*****************新闻活动*************************
     //统战新闻
     const TZXW = 'tzxw';
@@ -79,8 +81,6 @@ class CategoryType
     //文化论坛
     const WHLT = 'whlt';
     //******************学员天地*************************
-    //学员风采
-    const XYFC = 'xyfc';
     //学员活动
     const XYHD = 'xyhd';
     //*****************智库中心*************************

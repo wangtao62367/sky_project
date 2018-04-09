@@ -78,9 +78,10 @@ class NewsController extends CommonController
         $data = Yii::$app->request->get();
         
         //先判断当前分类是否是特殊页面类型
+        //发展历程 | 社院风采 | 学院简介 | 学院地址 | 组织机构 | 智库简介（智库中心）
         if ($currentCate->cateCode == CategoryType::FZLC || $currentCate->cateCode == CategoryType::SYFC ||
-            $currentCate->cateCode == CategoryType::SZQK || $currentCate->cateCode == CategoryType::XYJJ ||
-            $currentCate->cateCode == CategoryType::XYDZ || $currentCate->cateCode == CategoryType::ZZJG || $currentCate->cateCode == CategoryType::ZKZX){
+            $currentCate->cateCode == CategoryType::XYJJ || $currentCate->cateCode == CategoryType::XYDZ || 
+            $currentCate->cateCode == CategoryType::ZZJG || $currentCate->cateCode == CategoryType::ZKZX){
                 
                 $info = SchooleInformation::findOne(['type'=>$currentCate->cateCode]);
                 
@@ -107,9 +108,10 @@ class NewsController extends CommonController
         Yii::$app->view->params['pcode'] = $parent->code;
         $data = Yii::$app->request->get();
         //先判断当前分类是否是特殊页面类型
+        //发展历程 | 社院风采 | 学院简介 | 学院地址 | 组织机构 | 智库简介（智库中心）
         if ($currentCate->cateCode == CategoryType::FZLC || $currentCate->cateCode == CategoryType::SYFC ||
-            $currentCate->cateCode == CategoryType::SZQK || $currentCate->cateCode == CategoryType::XYJJ ||
-            $currentCate->cateCode == CategoryType::XYDZ || $currentCate->cateCode == CategoryType::ZZJG || $currentCate->cateCode == CategoryType::ZKZX){
+            $currentCate->cateCode == CategoryType::XYJJ || $currentCate->cateCode == CategoryType::XYDZ ||
+            $currentCate->cateCode == CategoryType::ZZJG || $currentCate->cateCode == CategoryType::ZKZX){
                 
             $info = SchooleInformation::findOne(['type'=>$currentCate->cateCode]);
                 
@@ -125,8 +127,8 @@ class NewsController extends CommonController
     
     public function getNewsList(Category $currentCate,array $data)
     {
-        //客座教授  | 现任领导
-        if($currentCate->cateCode == CategoryType::ZKJS|| $currentCate->cateCode == CategoryType::XRLD){
+        //客座教授  | 现任领导  | 师资情况 |学员风采
+        if($currentCate->cateCode == CategoryType::ZKJS|| $currentCate->cateCode == CategoryType::XRLD || $currentCate->cateCode == CategoryType::SZQK || $currentCate->cateCode == CategoryType::XYFC){
             $personage = new Personage();
             $personage->pageSize = 3;
             $data['Personage']['search'] = [

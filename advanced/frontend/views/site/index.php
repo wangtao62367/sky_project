@@ -58,7 +58,11 @@ $this->title = "首页_".$params['webCfgs']['siteName'];
 	</div>
 </div>
 
-<img class="main-banner" src="/front/img/index/xiaoxun.jpg" />
+<?php if(empty($params['webCfgs']['indexMainBanner1'])):?>
+	<img class="main-banner" src="/front/img/index/xiaoxun.jpg" />
+<?php else:?>
+<a href="<?php echo empty($params['webCfgs']['indexMainBanner1Link']) ? 'javascript:;' : $params['webCfgs']['indexMainBanner1Link'];?>"><img class="main-banner" src="<?php echo $params['webCfgs']['indexMainBanner1'];?>" /></a>
+<?php endif;?>
 
 <div class="news-box3">
 	<div class="left news-list-box">
@@ -235,7 +239,12 @@ $this->title = "首页_".$params['webCfgs']['siteName'];
 		</ul>
 	</div>
 </div>
-<img class="main-banner" src="/front/img/index/hengfu.gif" />
+<?php if(empty($params['webCfgs']['indexMainBanner2'])):?>
+	<img class="main-banner" src="/front/img/index/hengfu.gif" />
+<?php else:?>
+<a href="<?php echo empty($params['webCfgs']['indexMainBanner2Link']) ? 'javascript:;' : $params['webCfgs']['indexMainBanner2Link'];?>"><img class="main-banner" src="<?php echo $params['webCfgs']['indexMainBanner2'];?>" /></a>
+<?php endif;?>
+
 <div class="news-box4">
 	<div class="left edu-box">
 		<img src="/front/img/index/whjd_img.jpg" width="100%" />

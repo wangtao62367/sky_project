@@ -72,6 +72,22 @@ class WebController extends CommonController
         }
         return $this->render('clear-cache');
     }
+    /**
+     * @desc 首页Banner图设置
+     */
+    public function actionIndexbannerSet()
+    {
+        $webCfg = WebCfg::getWebCfg();
+        if(Yii::$app->request->isPost){
+            $data= Yii::$app->request->post();
+            $result = WebCfg::saveIndexbannerCfg($data, $webCfg);
+            if($result){
+                return $this->showSuccess('web/indexbanner-set');
+            }
+        }
+        
+        return $this->render('indexbanner-set',['webCfg'=>$webCfg]);
+    }
     
     private function removeDir($dirName)
     {

@@ -36,7 +36,7 @@ $this->title = $parent->codeDesc . '-'.$currentCate->text;
 			<?php endif;?>
 			<?php foreach ($list['data'] as $val):?>
 				<!-- 特别的类型数据 -->
-    			<?php if($currentCate->cateCode == CategoryType::ZKJS || $currentCate->cateCode == CategoryType::XRLD):?>
+    			<?php if($currentCate->cateCode == CategoryType::ZKJS || $currentCate->cateCode == CategoryType::XRLD || $currentCate->cateCode == CategoryType::SZQK || $currentCate->cateCode == CategoryType::XYFC):?>
     				<li class="personage-item">
     					<img alt="" src="<?php echo $val['photo']?>">
     					<div class="personage-info">
