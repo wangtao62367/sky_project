@@ -8,7 +8,7 @@ use Yii;
 use common\publics\Xcrypt;
 use frontend\models\EditPwdForm;
 use common\models\BmRecord;
-use common\models\Student;
+use common\models\Profile;
 use common\publics\ImageUpload;
 /**
 * 用户
@@ -105,20 +105,20 @@ class UserController extends CommonController
     public function actionInfo()
     {
     	$userId = Yii::$app->user->id;
-    	$student = Student::find()->where(['userId'=>$userId])->one();
-    	if(empty($student)){
-    	    $student = new  Student();
-    	    $student->sex = 1;
+    	$profile= Profile::find()->where(['userId'=>$userId])->one();
+    	if(empty($profile)){
+    	    $profile= new  Profile();
+    	    $profile->sex = 1;
     	}
     	if(Yii::$app->request->isPost){
     		$post = Yii::$app->request->post();
-    		$result = Student::add($post,$student,'edit');
+    		$result = Profile::add($post,$profile,'edit');
     		if(!$result){
-    		    Yii::$app->session->setFlash('error',$student->getErrorDesc());
+    		    Yii::$app->session->setFlash('error',$profile->getErrorDesc());
     		}
     	}
     	
-    	return $this->render('info',['model'=>$student]);
+    	return $this->render('info',['model'=>$profile]);
     }
     
     
@@ -234,7 +234,7 @@ class UserController extends CommonController
     	$bmRecord = new BmRecord();
     	$data = Yii::$app->request->get();
     	$data['BmRecord']['search'] = ['userId'=>Yii::$app->user->id];
-    	$result = $bmRecord->pageList($data,'verify asc,modifyTime desc,createTime desc', ['student','gradeclass']);
+    	$result = $bmRecord->pageList($data,'verify asc,modifyTime desc,createTime desc', ['gradeclass']);
         return $this->render('center',['list'=>$result]);
     }
     /**

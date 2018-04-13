@@ -48,6 +48,7 @@ $this->title = '统计查看-'.$paper['title']
             <th>得分</th>
             <th>答题花费时间</th>
             <th>答题时间</th>
+            <th>操作</th>
         </tr>
     </thead>
     
@@ -63,7 +64,9 @@ $this->title = '统计查看-'.$paper['title']
             <td><?php echo $val['rightScores'];?></td>
             <td><?php echo date('H:i:s',$val['answerTime']);?></td>
             <td><?php echo MyHelper::timestampToDate($val['modifyTime']);?></td>
-            
+            <td class="handle-box">
+            	<a href="<?php echo Url::to(['/testpaper/answer-info','paperid'=>$val['paperId'],'userid'=>$val['userId'],'mark'=>$val['anwserMark']]);?>" title="查看答题详情">答题详情</a>
+            </td>
         </tr> 
         <?php endforeach;?>
     </tbody>

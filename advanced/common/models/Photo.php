@@ -5,6 +5,7 @@ namespace common\models;
 use Yii;
 use yii\helpers\ArrayHelper;
 use OSS\OssClient;
+use common\publics\ImageUpload;
 
 class Photo extends BaseModel
 {
@@ -19,7 +20,6 @@ class Photo extends BaseModel
 	public function rules()
 	{
 		return [
-			['photo','required','message'=>'请选择图片','on'=>['add','edit']],
 		    ['categoryId','required','message'=>'请选择图片分类','on'=>['add','edit']],
 		    ['title','required','message'=>'图片标题不能为空','on'=>['add','edit']],
 		    ['title', 'string' ,'length'=>[0,25],'tooLong'=>'图片标题最多50个字', 'tooShort'=>'图片标题最多50个字','on'=>['add','edit']],
@@ -32,6 +32,18 @@ class Photo extends BaseModel
 	{
 	    $this->scenario = 'add';
 	    if($this->load($data) && $this->validate()){
+	        //先上传图片 再写数据
+	        if(!empty($_FILES) && !empty($_FILES['files']) && !empty($_FILES['files']['tmp_name'])){
+	            $upload = new ImageUpload([
+	                'imageMaxSize' => 1024*1024*500
+	            ]);
+	            $result = $upload->Upload('files');
+	            $imageName = Yii::$app->params['oss']['host'].$result;
+	            $this->photo = $imageName;
+	        }else{
+	            Yii::$app->session->setFlash('error','图片不能为空');
+	            return false;
+	        }
 	        return $this->save(false);
 	    }
 	    
@@ -42,6 +54,19 @@ class Photo extends BaseModel
 	{
 	    $photo->scenario = 'edit';
 	    if($photo->load($data) && $photo->validate()){
+	        //先上传图片 再写数据
+	        if(!empty($_FILES) && !empty($_FILES['files']) && !empty($_FILES['files']['tmp_name'])){
+	            $upload = new ImageUpload([
+	                'imageMaxSize' => 1024*1024*500
+	            ]);
+	            $result = $upload->Upload('files');
+	            $imageName = Yii::$app->params['oss']['host'].$result;
+	            if(!empty($photo->photo)){
+	                $block = str_replace(Yii::$app->params['oss']['host'], '', $photo->photo);
+	                $upload->deleteImage($block);
+	            }
+	            $photo->photo = $imageName;
+	        }
 	        return $photo->save(false);
 	    }
 	    return false;

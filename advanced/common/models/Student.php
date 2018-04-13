@@ -4,49 +4,13 @@ namespace common\models;
 
 
 
-use Yii;
+
+
 use yii\db\ActiveQuery;
-use common\publics\ImageUpload;
 
 class Student extends BaseModel
 {
     
-    const STUDENT_VERIFY_NO  = 0;
-    
-    const STUDENT_VERIFY_STEP1 = 1;
-    
-    const STUDENT_VERIFY_STEP2= 2;
-    
-    const STUDENT_VERIFY_FINISH = 3;
-    
-    public $gradeClass;
-    
-    public $gradeClassId;
-    
-    
-    public static $verify_texts = [
-        self::STUDENT_VERIFY_NO     => '审核失败',
-        self::STUDENT_VERIFY_STEP1  => '初审中',
-        self::STUDENT_VERIFY_STEP2  => '终审中',
-        self::STUDENT_VERIFY_FINISH => '审核完成',
-    ];
-    
-    //政治面貌
-    public static $politicalStatusArr = [
-    	'01' => '党员',
-    	'02' => '团员',
-    	'03' => '群众',
-    ];
-    //学历
-    public static $eduationArr = [
-    	'01' => '小学',
-    	'02' => '初中',
-    	'03' => '高中',
-    	'04' => '大专',
-    	'05' => '本科',
-    	'06' => '硕士',
-    	'07' => '博士',
-    ];
     
     public static function tableName()
     {
@@ -56,128 +20,219 @@ class Student extends BaseModel
     public function rules()
     {
         return [
-            ['trueName','required','message'=>'姓名不能为空','on'=>['bm','add','edit']],
-            ['sex','required','message'=>'性别不能为空','on'=>['bm','add','edit']],
-            ['IDnumber','required','message'=>'身份证号码不能为空','on'=>['bm','add','edit']],
-            ['IDnumber','match','pattern'=>'/^\d{6}(19|20)?\d{2}(0[1-9]|1[012])(0[1-9]|[12]\d|3[01])\d{3}(\d|[xX])$/','message'=>'身份证号码无效','on'=>['bm','add','edit']],
-            ['birthday','required','message'=>'出生年月不能为空','on'=>['bm','add','edit']],
-            //['nation','required','message'=>'名族不能为空','on'=>'add'],
-            ['nationCode','required','message'=>'名族不能为空','on'=>['bm','add','edit']],
-            ['city','required','message'=>'所在城市不能为空','on'=>['bm','add','edit']],
-            ['phone','required','message'=>'手机号不能为空','on'=>['bm','add']],
-            ['phone','match','pattern'=>'/^[1][34578][0-9]{9}$/','message'=>'手机号无效','on'=>['bm','add']],
-            ['company','required','message'=>'现工作单位不能为空','on'=>['bm','add','edit']],
-            ['workYear','required','message'=>'工作年限不能为空','on'=>['bm','add','edit']],
-        	['workYear', 'compare', 'compareValue' => 0, 'operator' => '>=','message'=>'工作年限必须正整数'],
-            ['graduationSchool','required','message'=>'毕业学校不能为空','on'=>['bm','add','edit']],
-            ['graduationMajor','required','message'=>'毕业专业不能为空','on'=>['bm','add','edit']],
-            ['eduationCode','required','message'=>'学历不能为空','on'=>['bm','add','edit']],
-            ['politicalStatusCode','required','message'=>'政治面貌不能为空','on'=>['bm','add','edit']],
-
-            [['search','address','selfIntruduce','positionalTitles','avater'],'safe']
+          
+            [['search'],'safe']
         ];
     }
-    
-    public static function add(array $data,Student $model,$oprate = 'add')
-    {
-        $model->scenario = $oprate;
-        if($model->load($data) && $model->validate()){
-            $model->userId = Yii::$app->user->id;
-            $model->nation = Yii::$app->params['nations'][$model->nationCode];
-            $model->politicalStatus = self::$politicalStatusArr[$model->politicalStatusCode];
-            $model->eduation= self::$eduationArr[$model->eduationCode];
-            //先上传图片 再写数据
-            if(isset($_FILES['avater']) && !empty($_FILES['avater']) && !empty($_FILES['avater']['tmp_name']) ){
-                
-                $upload = new ImageUpload([
-                    'imageMaxSize' => 1024*50,
-                    'imagePath'    => 'avater',
-                    'isWatermark'  => false,
-                ]);
-                $result = $upload->Upload('avater');
-                $imageName = Yii::$app->params['oss']['host'].$result;
-                //并且删除老的头像
-                if(!empty($model->avater)){
-                    $block = str_replace(Yii::$app->params['oss']['host'], '', $model->avater);
-                    $upload->deleteImage($block);
-                }
-                $model->avater = $imageName;
-            }else {
-            	if($oprate == 'bm' && empty($model->avater)){
-            		$model->addError('avater','头像不能为空');
-            		return false;
-            	}
-            }
-            if($model->save(false)){
-                if($oprate == 'bm'){
-                    $bmRecord = new BmRecord();
-                    $bmRecord->userId = Yii::$app->user->id;
-                    $bmRecord->gradeClass = $model->gradeClass;
-                    $bmRecord->gradeClassId = $model->gradeClassId;
-                    $bmRecord->verify = 1;
-                    return $bmRecord->save(false);
-                }
-                return true;
-            }
-        }
-        return false;
-    }
-    
     
     public static function del(Student $student)
     {
         $student->isDelete = 1;
         return $student->save(false);
     }
-    
+    /**
+     * 分页列表
+     * @param array $data
+     * @param string $field
+     * @return number[]|array[]|\common\models\int[]|number
+     */
     public function pageList(array $data,$field = '*')
     {
         $this->curPage = isset($data['curPage']) && !empty($data['curPage']) ? $data['curPage'] : $this->curPage;
-        $query = self::find()->select($field)->where(['isDelete'=>0])->orderBy('createTime desc,modifyTime desc');
+        $query = $this->getQuery();
         if($this->load($data) && !empty($this->search)){
             $query = $this->filterSearch($this->search, $query);
         }
         $result = $this->query($query, $this->curPage, $this->pageSize);
         return $result;
     }
-    
+    /**
+     * 查询
+     * @return \yii\db\ActiveQuery
+     */
+    public function getQuery()
+    {
+        return self::find()->select([
+            self::tableName().'.id',
+            self::tableName().'.userId',
+            self::tableName().'.gradeClassId',
+            self::tableName().'.studyNum',
+            self::tableName().'.isBest',
+            self::tableName().'.createTime',
+            self::tableName().'.modifyTime',
+            
+            'bmId' => BmRecord::tableName().'.id',
+            BmRecord::tableName().'.gradeClass',
+            BmRecord::tableName().'.trueName',
+            BmRecord::tableName().'.sex',
+            BmRecord::tableName().'.birthday',
+            BmRecord::tableName().'.avater',
+            BmRecord::tableName().'.political',
+            BmRecord::tableName().'.nation',
+            BmRecord::tableName().'.health',
+            BmRecord::tableName().'.eduDegree',
+            BmRecord::tableName().'.speciality',
+            
+            BmRecord::tableName().'.dateToWork',
+            BmRecord::tableName().'.dateToPolitical',
+            BmRecord::tableName().'.politicalGrade',
+            BmRecord::tableName().'.workplace',
+            BmRecord::tableName().'.workDuties',
+            BmRecord::tableName().'.orgCode',
+            BmRecord::tableName().'.IDnumber',
+            BmRecord::tableName().'.address',
+            BmRecord::tableName().'.phone',
+            BmRecord::tableName().'.postcode',
+            BmRecord::tableName().'.socialDuties',
+            BmRecord::tableName().'.politicalDuties',
+            BmRecord::tableName().'.recommend',
+            BmRecord::tableName().'.citystate',
+            BmRecord::tableName().'.introduction',
+            BmRecord::tableName().'.trueName',
+            'bmCreateTime' => BmRecord::tableName().'.createTime',
+            'bmModifyTime' => BmRecord::tableName().'.modifyTime',
+            
+            'gid' => GradeClass::tableName().'.id',
+            GradeClass::tableName().'.closeClassTime',
+            GradeClass::tableName().'.periods',
+
+        ])->joinWith(['bminfo','gradeclass'])->where([self::tableName().'.isDelete'=>0])->orderBy(self::tableName().'.createTime desc,'.self::tableName().'.modifyTime desc');
+    }
+    /**
+     * 搜索
+     * @param array $search
+     * @param ActiveQuery $query
+     * @return \yii\db\ActiveQuery
+     */
     public function filterSearch(array $search,ActiveQuery $query)
     {
         if(isset($search['trueName']) && !empty($search['trueName'])){
-            $query = $query->andWhere(['like','trueName',$search['trueName']]);
+            $query = $query->andWhere(['like',BmRecord::tableName().'.trueName',$search['trueName']]);
         }
         /* if(isset($search['gradeClass']) && !empty($search['gradeClass'])){
-            $query = $query->andWhere(['like','gradeClass',$search['gradeClass']]);
-        } */
+         $query = $query->andWhere(['like','gradeClass',$search['gradeClass']]);
+         } */
         if(isset($search['sex']) && !empty($search['sex'])){
-            $query = $query->andWhere('sex = :sex',[':sex'=>$search['sex']]);
+            $query = $query->andWhere(BmRecord::tableName().'.sex = :sex',[':sex'=>$search['sex']]);
         }
         
         if(isset($search['isBest']) && !empty($search['isBest'])){
-            $query = $query->andWhere('isBest = :isBest',[':isBest'=>$search['isBest']]);
+            $query = $query->andWhere(self::tableName().'.isBest = :isBest',[':isBest'=>$search['isBest']]);
         }
         
         if(isset($search['nationCode']) && !empty($search['nationCode'])){
-            $query = $query->andWhere('nationCode = :nationCode',[':nationCode'=>$search['nationCode']]);
+            $query = $query->andWhere(BmRecord::tableName().'.nationCode = :nationCode',[':nationCode'=>$search['nationCode']]);
         }
         
         if(isset($search['startTime']) && !empty($search['startTime'])){
-            $query = $query->andWhere('createTime >= :startTime',[':startTime'=>strtotime($search['startTime'])]);
+            $query = $query->andWhere(BmRecord::tableName().'.createTime >= :startTime',[':startTime'=>strtotime($search['startTime'])]);
         }
         
         if(isset($search['startTime']) && !empty($search['startTime'])){
-            $query = $query->andWhere('createTime <= :endTime',[':endTime'=>strtotime($search['endTime'])]);
+            $query = $query->andWhere(BmRecord::tableName().'.createTime <= :endTime',[':endTime'=>strtotime($search['endTime'])]);
         }
-        
-        /* if(isset($search['verify']) && is_numeric($search['verify'])){
-            $query = $query->andWhere('verify = :verify',[':verify'=>$search['verify']]);
-        } */
+        //是否结业
+        if(isset($search['isEnd']) && is_numeric($search['isEnd'])){
+            if(intval($search['isEnd']) == 1){
+                $query = $query->andWhere(GradeClass::tableName().'.closeClassTime < :date',[':date'=>date('Y-m-d')]);
+            }else{
+                $query = $query->andWhere(GradeClass::tableName().'.closeClassTime >= :date',[':date'=>date('Y-m-d')]);
+            }
+        }
         
         if(isset($search['userId']) && is_numeric($search['userId'])){
-            $query = $query->andWhere('userId = :userId',[':userId'=>$search['userId']]);
+            $query = $query->andWhere(self::tableName().'.userId = :userId',[':userId'=>$search['userId']]);
         }
         return $query;
     }
+    /**
+     * 导出
+     * @param array $data
+     */
+    public function exportStudent(array $data)
+    {
+        $query = $this->getQuery();
+        if($this->load($data) && !empty($this->search)){
+            $query = $this->filterSearch($this->search, $query);
+        }
+        $result = $query->asArray()->all();
+        
+        $phpExcel = new \PHPExcel();
+        $objSheet = $phpExcel->getActiveSheet();
+        //水平垂直方向居中
+        $objSheet->getDefaultStyle()->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER)->setVertical(\PHPExcel_Style_Alignment::VERTICAL_CENTER)->setWrapText(true);
+        $objSheet->setTitle('学员列表');
+        
+        $objSheet->setCellValue('A1','学号')->setCellValue('B1','姓名')->setCellValue('C1','所在班级')->setCellValue('D1','报名时间')->setCellValue('E1','联系电话')
+        ->setCellValue('F1','是否结业')->setCellValue('G1','优秀学员')->setCellValue('H1','性别')->setCellValue('I1','出生年月')
+        ->setCellValue('J1','名族')->setCellValue('K1','党派')->setCellValue('L1','级别')->setCellValue('M1','健康状况')
+        ->setCellValue('N1','文化程度')->setCellValue('O1','工作单位')->setCellValue('P1','职务或职称')->setCellValue('Q1','身份证号')->setCellValue('R1','市州');
+        
+        //设置填充的样式和背景色
+        $colTitle = $objSheet->getStyle('A1:R1');
+        $colTitle->getFill()->setFillType(\PHPExcel_Style_Fill::FILL_SOLID);
+        $colTitle->getFill()->getStartColor()->setARGB('b6cad2');
+        $colTitle->getFont()->setBold(true);
+        $colTitle->getFont()->getColor()->setARGB(\PHPExcel_Style_Color::COLOR_WHITE);
+        $colTitle->getFont()->setSize(12);
+        
+        //设置行高
+        $objSheet->getDefaultRowDimension()->setRowHeight(24);
+        //固定第一行
+        $objSheet->freezePane('A2');
+        
+        //内容自适应
+        $objSheet->getColumnDimension('A')->setWidth(30);
+        $objSheet->getColumnDimension('B')->setWidth(20);
+        $objSheet->getColumnDimension('C')->setWidth(30);
+        $objSheet->getColumnDimension('D')->setWidth(20);
+        $objSheet->getColumnDimension('E')->setWidth(20);
+        $objSheet->getColumnDimension('F')->setWidth(10);
+        $objSheet->getColumnDimension('G')->setWidth(10);
+        $objSheet->getColumnDimension('H')->setWidth(10);
+        $objSheet->getColumnDimension('I')->setWidth(20);
+        $objSheet->getColumnDimension('J')->setWidth(10);
+        $objSheet->getColumnDimension('M')->setWidth(10);
+        $objSheet->getColumnDimension('O')->setWidth(10);
+        $objSheet->getColumnDimension('C')->setWidth(30);
+        $objSheet->getColumnDimension('K')->setWidth(30);
+        $objSheet->getColumnDimension('N')->setWidth(30);
+        $objSheet->getColumnDimension('O')->setWidth(50);
+        $objSheet->getColumnDimension('P')->setWidth(30);
+        $objSheet->getColumnDimension('Q')->setWidth(50);
+        $objSheet->getColumnDimension('R')->setWidth(30);
+        
+        $num = 2;
+        foreach ($result as $val){
+            $isEnd = strtotime($val['gradeclass']['closeClassTime'].' 23:59:59') < time() == 1 ? '是':'否';
+            $isBest = $val['isBest'] == 1 ? '是':'否';
+            $sex = $val['sex'] == 1 ? '男' : '女';
+            $heath = BmRecord::$health_texts[$val['health']];
+            $objSheet->setCellValue('A'.$num,$val['studyNum'])->setCellValue('B'.$num,$val['trueName'])->setCellValue('C'.$num,$val['gradeClass'])->setCellValue('D'.$num,date('Y-m-d H:i:s',$val['bmCreateTime']))
+            ->setCellValue('E'.$num,$val['phone'])->setCellValue('F'.$num,$isEnd)->setCellValue('G'.$num,$isBest)->setCellValue('H'.$num,$sex)->setCellValue('I'.$num,$val['birthday'])
+            ->setCellValue('J'.$num,$val['nation'])->setCellValue('K'.$num,$val['political'])->setCellValue('L'.$num,$val['politicalGrade'])->setCellValue('M'.$num,$heath)
+            ->setCellValue('N'.$num,"".$val['eduDegree'])->setCellValue('O'.$num,$val['workplace'])->setCellValue('P'.$num,$val['workDuties'])->setCellValue('Q'.$num,$val['IDnumber'])
+            ->setCellValue('R'.$num,$val['citystate']);
+            
+            $objSheet->getStyle('A' . $num)->getNumberFormat()->setFormatCode("@");
+            $objSheet->getStyle('E' . $num)->getNumberFormat()->setFormatCode("@");
+            $objSheet->getStyle('Q' . $num)->getNumberFormat()->setFormatCode("@");
+            $num ++;
+        }
+        
+        $objWriter = \PHPExcel_IOFactory::createWriter($phpExcel,'Excel2007');
+        ExcelMolde::exportBrowser('学员列表.xlsx');
+        $objWriter->save('php://output');
+    }
     
     
+    public function getBminfo()
+    {
+        return $this->hasOne(BmRecord::className(), ['userId'=>'userId']);
+    }
+    
+    public function getGradeclass()
+    {
+        return $this->hasOne(GradeClass::className(), ['id'=>'gradeClassId']);
+    }
 }

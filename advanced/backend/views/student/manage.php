@@ -73,11 +73,15 @@ use common\models\Student;
             <th><input name="" type="checkbox" value="" class="s-all" /></th>
             <th>学员姓名</th>
             <th>所在班级</th>
+            <th>期数</th>
+            <th>学号</th>
             <th>联系电话</th>
             <th>性别</th>
             <th>名族</th>
-            <th>职称</th>
             <th>工作单位</th>
+            <th>职称</th>
+            <th>市州</th>
+            <th>党派</th>
             <th>报名时间</th>
             <th>优秀学员</th>
             <th>是否结业</th>
@@ -90,26 +94,30 @@ use common\models\Student;
     	<?php foreach ($list['data'] as $val):?>
     	<tr>
             <td><input name="ids" class="item" type="checkbox" value="<?php echo $val['id'];?>" /></td>
-            <td><?php echo $val['student']['trueName'];?></td>
+            <td><?php echo $val['trueName'];?></td>
             <td><?php echo $val['gradeClass'];?></td>
-            <td><?php echo $val['student']['phone'];?></td>
-            <td><?php echo $val['student']['sex'] == 1 ? '男':'女';?></td>
-            <td><?php echo $val['student']['nation'];?></td>
-            <td><?php echo $val['student']['positionalTitles'];?></td>
-            <td><?php echo $val['student']['company'];?></td>
+            <td><?php echo $val['periods'];?></td>
+            <td><?php echo $val['studyNum'];?></td>
+            <td><?php echo $val['bminfo']['phone'];?></td>
+            <td><?php echo $val['sex'] == 1 ? '男':'女';?></td>
+            <td><?php echo $val['nation'];?></td>
+            <td><?php echo $val['workplace'];?></td>
+            <td><?php echo $val['workDuties'];?></td>
+            <td><?php echo $val['citystate'];?></td>
+            <td><?php echo $val['political'];?></td>
             
             <td><?php echo MyHelper::timestampToDate($val['createTime']);?></td>
-            <td><?php echo $val['student']['isBest'] == 1 ? '是':'否';?></td>
+            <td><?php echo $val['isBest'] == 1 ? '是':'否';?></td>
             <td><?php echo strtotime($val['gradeclass']['closeClassTime'].' 23:59:59') < time() == 1 ? '是':'否';?></td>
             <td class="handle-box">
-            <a href="<?php echo Url::to(['student/info','id'=>$val['id']]);?>" class="tablelink">查看</a> 
-            <?php if($val['student']['isBest'] == 0):?> 
-            <a href="<?php echo Url::to(['student/set-best','id'=>$val['student']['id']]);?>" class="tablelink">加入优秀学员</a>
+            <a href="<?php echo Url::to(['student/info','id'=>$val['bmId']]);?>" class="tablelink">查看</a> 
+            <?php if($val['isBest'] == 0):?> 
+            <a href="<?php echo Url::to(['student/set-best','id'=>$val['id']]);?>" class="tablelink">加入优秀学员</a>
             <?php else:?>    
-            <a href="<?php echo Url::to(['student/edit-best','id'=>$val['student']['id']]);?>" class="tablelink">修改优秀学员</a>
+            <a href="<?php echo Url::to(['student/edit-best','id'=>$val['id']]);?>" class="tablelink">修改优秀学员</a>
             <?php endif;?>
             <a href="<?php echo Url::to(['student/del','id'=>$val['id']]);?>" class="tablelink"> 删除</a>
-            <a href="<?php echo Url::to(['student/print','id'=>$val['id']]);?>" class="tablelink"> 打印结业证书</a>
+            
             </td>
         </tr> 
         <?php endforeach;?>

@@ -3,6 +3,7 @@
 use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
+use common\models\BmRecord;
 
 
 $controller = Yii::$app->controller;
@@ -22,66 +23,179 @@ $url =Url::to(ArrayHelper::merge([$controller->id.'/'.$controller->action->id], 
 <div class="rightinfo">
 
 <table class="studentInfo">
-	<tr>
-		<td class="title">姓名</td><td colspan="2"><?php echo $info->trueName;?></td>
-		<td class="title">姓别</td><td colspan="2"><?php echo $info->sex == 1 ? '男' : '女';?></td>
-		<td class="title">名族</td><td colspan="3"><?php echo $info->nation;?></td>
-		<td class="title">政治面貌</td><td colspan="2"><?php echo $info->politicalStatus;?></td>
-		<td class="title"  rowspan="4">头像</td><td colspan="4" rowspan="4"><img alt="头像" width="120px" height="120px" src="<?php echo $info->avater;?>"></td>
-	</tr>
-	<tr>
-		<td class="title">出生年月</td><td colspan="2"><?php echo $info->birthday;?></td>
-		<td class="title">身份证号</td><td colspan="9"><?php echo $info->IDnumber;?></td>
-	</tr>
-	<tr>
-		<td class="title">联系电话</td><td colspan="2"><?php echo $info->phone;?></td>
-		<td class="title">现居城市</td><td colspan="2"><?php echo $info->city;?></td>
-		<td class="title">详细地址</td><td colspan="6"><?php echo $info->address;?></td>
-	</tr>
-	<tr>
-		<td class="title">毕业学校</td><td colspan="5"><?php echo $info->graduationSchool;?></td>
-		<td class="title">学历</td><td colspan="2"><?php echo $info->eduation;?></td>
-		<td class="title">毕业专业</td><td colspan="3"><?php echo $info->graduationMajor;?></td>
-	</tr>
-	<tr>
-		<td class="title" colspan="2">工作单位（公司）</td><td colspan="7"><?php echo $info->company;?></td>
-		<td class="title">职称</td><td colspan="3"><?php echo $info->positionalTitles;?></td>
-	    <td class="title">工作年限</td><td ><?php echo $info->workYear;?></td>
-	</tr>
-	<tr>
-		<td class="title" colspan="2">个人介绍</td><td colspan="14"><?php echo $info->selfIntruduce;?></td>
-	</tr>
 	
 	<tr>
-		<td class="title" colspan="2">现报名班级</td><td colspan="14"><?php echo $bmRecord->gradeClass?></td>
-	</tr>
+				<td class="title">姓名</td>
+				<td>
+					<?php echo $info['trueName'];?>
+				</td>
+				
+				<td class="title">性别</td>
+				<td>
+					<?php echo $info['sex'] == 1 ? '男' : '女';?>
+				</td>
+				
+				<td class="title">出生年月</td>
+				<td>
+					<?php echo $info['birthday'];?>
+				</td>
+				
+				<td rowspan="3">
+					<div class="avater-box" id="avater-upload">
+						<img width="120px" height="120px" src="<?php echo $info['avater'];?>" />
+					</div>
+					<p class="form-error"></p>
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="title">党派</td>
+				<td>
+					<?php echo $info['political']?>
+				</td>
+				
+				<td class="title">名族</td>
+				<td>
+					<?php echo $info['nation'];?>
+				</td>
+				
+				<td class="title">健康状况</td>
+				<td>
+					<?php echo BmRecord::$health_texts[$info['health']];?>
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="title">文化程度</td>
+				<td>
+					<?php echo $info['eduDegree'];?>
+				</td>
+				
+				<td class="title">特长</td>
+				<td colspan="3">
+					<?php echo $info['speciality'];?>
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="title">参加工作时间</td>
+				<td>
+					<?php echo $info['dateToWork'];?>
+				</td>
+				
+				<td class="title">参加党派时间</td>
+				<td colspan="2">
+					<?php echo $info['dateToPolitical'];?>
+				</td>
+				
+				<td class="title">级别</td>
+				<td>
+					<?php echo $info['politicalGrade'];?>
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="title">工作单位</td>
+				<td colspan="4">
+					<?php echo $info['workplace'];?>
+				</td>
+				
+				<td class="title">职务及职称</td>
+				<td colspan="3">
+					<?php echo $info['workDuties'];?>
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="title">组织机构</td>
+				<td colspan="3">
+					<?php echo $info['orgCode'];?>
+				</td>
+				
+				<td class="title">身份证号码</td>
+				<td colspan="2">
+					<?php echo $info['IDnumber'];?>
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="title" rowspan="2">通讯地址</td>
+				<td colspan="4" rowspan="2">
+					<?php echo $info['address'];?>
+				</td>
+				
+				<td class="title">邮编</td>
+				<td>
+					<?php echo $info['postcode'];?>
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="title">电话</td>
+				<td>
+					<?php echo $info['phone'];?>
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="title">社会职务</td>
+				<td colspan="3">
+					<?php echo $info['socialDuties'];?>
+				</td>
+				
+				<td class="title">党派职务</td>
+				<td colspan="2">
+					<?php echo $info['politicalDuties'];?>
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="title">简历</td>
+				<td colspan="6">
+					<?php echo $info['introduction'];?>
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="title">推荐单位</td>
+				<td colspan="4">
+					<?php echo $info['recommend'];?>
+				</td>
+				
+				<td class="title">市州</td>
+				<td >
+					<?php echo $info['citystate'];?>
+				</td>
+			</tr>
+
+	
 	<tr>
-		<td class="title" colspan="2">初始审核</td>
-		<td colspan="14" class="verifyForm">
-			<?php if($bmRecord->verify == 1):?>
-				<?php echo Html::beginForm(Url::to(['student/verify-one','id'=>$bmRecord->id]),'post',['id'=>'verifyStep1']);?>
+		<td class="title" >初始审核</td>
+		<td colspan="6" class="verifyForm">
+			<?php if($info->verify == 1):?>
+				<?php echo Html::beginForm(Url::to(['student/verify-one','id'=>$info->id]),'post',['id'=>'verifyStep1']);?>
 					<textarea rows="5" cols="7" name="reasons1" placeholder="请填写审核理由"></textarea>
 					<input type="hidden" name="isAgree" />
 					<a href="javascript:;" class="btn-verify agree">同意</a>
 					<a href="javascript:;" class="btn-verify disagree">不同意</a>
 				<?php echo Html::endForm();?>
 			<?php else :?>
-				<?php echo $bmRecord->verifyReason1;?>
+				<?php echo $info->verifyReason1;?>
 			<?php endif;?>
 		</td>
 	</tr>
 	<tr>
-		<td class="title" colspan="2">二次审核</td>
-		<td colspan="14" class="verifyForm">
-			<?php if($bmRecord->verify == 2):?>
-				<?php echo Html::beginForm(Url::to(['student/verify-two','id'=>$bmRecord->id]),'post',['id'=>'verifyStep2']);?>
+		<td class="title" >二次审核</td>
+		<td colspan="6" class="verifyForm">
+			<?php if($info->verify == 2):?>
+				<?php echo Html::beginForm(Url::to(['student/verify-two','id'=>$info->id]),'post',['id'=>'verifyStep2']);?>
 					<textarea rows="5" cols="7" name="reasons2" placeholder="请填写审核理由"></textarea>
 					<input type="hidden" name="isAgree" />
 					<a href="javascript:;" class="btn-verify agree">同意</a>
 					<a href="javascript:;" class="btn-verify disagree">不同意</a>
 				<?php echo Html::endForm();?>
 			<?php else :?>
-				<?php echo $bmRecord->verifyReason2;?>
+				<?php echo $info->verifyReason2;?>
 			<?php endif;?>
 		</td>
 	</tr>
@@ -91,17 +205,39 @@ $url =Url::to(ArrayHelper::merge([$controller->id.'/'.$controller->action->id], 
 
 <?php 
 $css = <<<CSS
-table.studentInfo{
-    border : 1px solid #3f3f3f;
+
+table {
+    border-collapse: collapse;
+    width:890px;
+    margin:0 auto;
 }
-table.studentInfo td{
-    border : 1px solid #3f3f3f;
-    padding:10px 20px;
+
+table, td, th {
+    border: 1px solid #333;
+    text-align:left;
+    padding-left:10px;
+    padding-top:10px;
+    padding-bottom:10px;
+    height:60px;
+    min-width:80px;
 }
-table.studentInfo td.title{
-    background:#f3f3f3;
-    text-align: center
+table input,textarea{outline:none;border:none;padding:8px;box-sizing: border-box;min-width:200px;width:100%;height: 50px;}
+table .title{
+    font-weight:700;
+    text-align:center;
 }
+.avater-box{
+    width:120px;
+    height:120px;
+    margin:0 auto;
+    text-align:center;
+    line-height:120px;
+    border:1px solid #333;
+    border-style: dotted;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
 table.studentInfo td.verifyForm{text-align: left}
 .verifyForm textarea{
     width: 700px;

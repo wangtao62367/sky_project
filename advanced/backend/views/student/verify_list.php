@@ -56,10 +56,10 @@ $url =Url::to(ArrayHelper::merge([$controller->id.'/'.$controller->action->id], 
 
     	<?php foreach ($list['data'] as $val):?>
     	<tr>
-            <td><?php echo $val['student']['trueName'];?></td>
+            <td><?php echo $val['trueName'];?></td>
             <td><?php echo $val['gradeClass'];?></td>
-            <td><?php echo $val['student']['phone'];?></td>
-            <td><?php echo $val['student']['sex'] == 1 ? '男':'女';?></td>
+            <td><?php echo $val['phone'];?></td>
+            <td><?php echo $val['sex'] == 1 ? '男':'女';?></td>
             <td><?php echo MyHelper::timestampToDate($val['modifyTime']);?></td>
             <td><?php echo BmRecord::$verify_texts[$val['verify']];?></td>
             <td>

@@ -8,6 +8,8 @@ use common\controllers\CommonController;
 use common\models\TestPaper;
 use common\models\GradeClass;
 use common\models\TestPaperUserStatistics;
+use common\models\TestPaperQuestionRecord;
+use common\models\BmRecord;
 /**
  * @name 试卷管理
  * @author wangtao
@@ -111,6 +113,35 @@ class TestpaperController extends CommonController
         $data['TestPaperUserStatistics']['search']['paperId'] = $testPaper->id;
         $list = $testPaperUserStatistics->getList($data);
         return $this->render('statistics',['model'=>$testPaperUserStatistics,'list'=>$list,'paper'=>$testPaper]);
+    }
+    
+    /**
+     * @desc 查看答题详情
+     * @param int $paperid
+     * @param int $userid
+     * @param string $mark
+     * @return string
+     */
+    public function actionAnswerInfo(int $paperid,int $userid,string $mark)
+    {
+        $testPaper= TestPaper::findOne($paperid);
+        if(empty($testPaper)){
+            return $this->showDataIsNull('testpaper/manage');
+        }
+        //获取答题人姓名
+        $trueNanme = BmRecord::find()->select(['trueName'])->where(['userId'=>$userid,'gradeClassId'=>$testPaper->gradeClassId])->one()->trueName;
+        //获取用户答题统计信息
+        $paperstatics = TestPaperUserStatistics::find()->where(['paperId'=>$paperid,'userId'=>$userid,'anwserMark'=>$mark])->one();
+        //获取试卷答题记录信息
+        $paperQuestRecord = new TestPaperQuestionRecord();
+        $answers = $paperQuestRecord->getAnwserInfo($paperid, $userid, $mark);
+        //var_dump($answerInfo[0]->question);exit();
+        //导出excel
+        $handle = Yii::$app->request->get('handle','');
+        if(!empty($handle) && $handle == 'excel'){
+            TestPaper::exportAnswer($testPaper,$trueNanme,$paperstatics,$answers);exit();
+        }
+        return $this->render('answerinfo',['testPaper'=>$testPaper,'trueName'=>$trueNanme,'paperstatics'=>$paperstatics,'answers'=>$answers]);
     }
     
 }

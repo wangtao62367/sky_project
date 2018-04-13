@@ -57,24 +57,21 @@ class StudentController extends CommonController
             	return $this->redirect(['user/center']);
             }
         }
-        //查看当前用户基本信息
-        $model = Student::findOne(['userId'=>$userId]);
-        if(empty($model)){
-            $model = new Student();
-            $model->sex = 1;
-        }
+        $model = new BmRecord();
         $model->gradeClassId = $gradeClass->id;
         $model->gradeClass = $gradeClass->className;
         if(Yii::$app->request->isPost){
         	$post = Yii::$app->request->post();
-        	$result = Student::add($post,$model,'bm');
+        	
+        	$result = $model->add($post);
+        	
         	if($result){
         		return $this->redirect(['user/center']);
         	}else{
         	    Yii::$app->session->setFlash('error',$model->getErrors());
         	}
         }
-        return $this->render('joinup',['model'=>$model,'gradeClass'=>$gradeClass]);
+        return $this->render('joinup2',['model'=>$model,'gradeClass'=>$gradeClass]);
     }
     
     /**
@@ -91,7 +88,6 @@ class StudentController extends CommonController
     	if(empty($info)){
     		return $this->redirect(['user/center']);
     	}
-    	//var_dump($info);
     	return $this->render('bminfo',['info'=>$info]);
     }
     

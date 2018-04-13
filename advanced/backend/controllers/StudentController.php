@@ -10,7 +10,6 @@ use common\controllers\CommonController;
 use common\models\Student;
 use common\models\BestStudent;
 use common\models\BmRecord;
-use yii\db\Expression;
 /**
  * @name 学员管理
  * @author wt
@@ -25,17 +24,15 @@ class StudentController extends CommonController
      */
     public function actionManage()
     {
-        $model = new BmRecord();
+        $model = new Student();
         $data = Yii::$app->request->get();
-        $data['BmRecord']['search']['verify'] = 3;
         $export = Yii::$app->request->get('handle','');
         //导出操作
         if(strtolower(trim($export)) == 'export'){
             $result = $model -> exportStudent($data);
             Yii::$app->end();
         }
-        
-        $list = $model->pageList($data,'verify asc,modifyTime desc,createTime desc',['student','gradeclass']);
+        $list = $model->pageList($data);
         
         return $this->render('manage',['model'=>$model,'list'=>$list]);
         
@@ -70,9 +67,9 @@ class StudentController extends CommonController
             return $this->showDataIsNull('student/verify-list');
         }
         
-        $student = Student::findOne(['userId'=>$bmRecord->userId]);
+        //$student = Student::findOne(['userId'=>$bmRecord->userId]);
         
-        return $this->render('info',['bmRecord'=>$bmRecord,'info'=>$student]);
+        return $this->render('info',['info'=>$bmRecord]);
     }
     /**
      * @desc 初审报名
@@ -85,8 +82,6 @@ class StudentController extends CommonController
         if(empty($bmRecord)){
             return $this->showDataIsNull('student/verify-list');
         }
-        $student = Student::findOne(['userId'=>$bmRecord->userId]);
-        
     	if(Yii::$app->request->isPost){
     		$isAgree = Yii::$app->request->post('isAgree');
     		$reasons1= Yii::$app->request->post('reasons1');
@@ -104,7 +99,7 @@ class StudentController extends CommonController
     			Yii::$app->session->setFlash('error','操作失败');
     		}
     	}
-    	return $this->render('info',['bmRecord'=>$bmRecord,'info'=>$student]);
+    	return $this->render('info',['info'=>$bmRecord]);
     }
     /**
      * @desc 终审报名
@@ -117,7 +112,6 @@ class StudentController extends CommonController
         if(empty($bmRecord)){
             return $this->showDataIsNull('student/verify-list');
         }
-        $student = Student::findOne(['userId'=>$bmRecord->userId]);
         
         if(Yii::$app->request->isPost){
             $isAgree = Yii::$app->request->post('isAgree');
@@ -130,16 +124,28 @@ class StudentController extends CommonController
             $bmRecord->verifyReason2 = $reasons2;
             $bmRecord->verifyAdmin2  = Yii::$app->user->id;
             $bmRecord->verifyTime2   = TIMESTAMP;
-            $bmRecord->studyNum  = date('Ymd').$student->politicalStatusCode.self::getStudyNumInGradeClass($bmRecord->gradeClassId);
+            $bmRecord->studyNum  = date('Ymd').self::getStudyNumInGradeClass($bmRecord->gradeClassId);
             if($bmRecord->save(false)){
+                //终审通过  写入学生表
+                if($verify == 3){
+                    $student = new Student();
+                    $student->userId = $bmRecord->userId;
+                    $student->gradeClassId = $bmRecord->gradeClassId;
+                    $student->studyNum = $bmRecord->studyNum;
+                    $student->save(false);
+                }
                 return $this->showSuccess('student/info?id='.$id);
             }else{
                 Yii::$app->session->setFlash('error','操作失败');
             }
         }
-        return $this->render('info',['bmRecord'=>$bmRecord,'info'=>$student]);
+        return $this->render('info',['info'=>$bmRecord]);
     }
-    
+    /**
+     * 获取学号
+     * @param unknown $gradeClassId
+     * @return string|number|string
+     */
     private static function getStudyNumInGradeClass($gradeClassId)
     {
         $num = BmRecord::find()->select('id')->where(['gradeClassId'=>$gradeClassId,'verify'=>3])->count('DISTINCT userId');
@@ -169,6 +175,16 @@ class StudentController extends CommonController
     		return $this->redirect(['student/manage']);
     	}
     }
+    /**
+     * @desc 批量删除学员
+     */
+    public function actionBatchdel()
+    {
+        $this->setResponseJson();
+        $ids = Yii::$app->request->post('ids');
+        $idsArr = explode(',',trim($ids,','));
+        return Student::updateAll(['isDelete'=>1],['in','id',$idsArr]);
+    }
     
     /**
      * @desc 加入优秀学员
@@ -177,7 +193,7 @@ class StudentController extends CommonController
      */
     public function actionSetBest(int $id)
     {
-        $student = Student::findOne($id);
+        $student = Student::find()->joinWith('bminfo')->where([Student::tableName().'.id'=>$id])->one();
         if(empty($student)){
             return $this->showDataIsNull('student/manage');
         }
@@ -204,7 +220,7 @@ class StudentController extends CommonController
      */
     public function actionEditBest(int $id)
     {
-        $student = Student::findOne($id);
+        $student = Student::find()->joinWith('bminfo')->where([Student::tableName().'.id'=>$id])->one();
         if(empty($student)){
             return $this->showDataIsNull('student/manage');
         }
@@ -228,7 +244,7 @@ class StudentController extends CommonController
      * @param int $id
      * @return \yii\web\Response|string
      */
-    public function actionPrint(int $id)
+    private function actionPrint(int $id)
     {
         $bmRecord= BmRecord::findOne($id);
         if(empty($bmRecord)){

@@ -2,8 +2,9 @@
 namespace common\models;
 
 
-
+use Yii;
 use yii\db\Query;
+use common\publics\ImageUpload;
 
 class BmRecord extends BaseModel
 {
@@ -23,6 +24,8 @@ class BmRecord extends BaseModel
         self::STUDENT_VERIFY_FINISH => '审核完成',
     ];
     
+    public static $health_texts = ['1'=>'良好','2'=>'一般','3'=>'差'];
+    
     public static function tableName()
     {
         return '{{%BmRecord}}';
@@ -31,13 +34,74 @@ class BmRecord extends BaseModel
     public function rules()
     {
         return [
+            ['gradeClass','required','message'=>'请先选择班级','on'=>'add'],
+            ['gradeClassId','required','message'=>'请先选择班级','on'=>'add'],
+            
+            ['trueName','required','message'=>'姓名不能为空','on'=>'add'],
+            ['sex','required','message'=>'性别不能为空','on'=>'add'],
+            ['birthday','required','message'=>'出生年月不能为空','on'=>'add'],
+            ['birthday','date','message'=>'请输入正确出生年月','on'=>'add'],
+            //['avater','required','message'=>'头像不能为空','on'=>'add'],
+            ['political','required','message'=>'党派不能为空','on'=>'add'],
+            ['nationCode','required','message'=>'名族不能为空','on'=>'add'],
+            ['health','required','message'=>'健康状况不能为空','on'=>'add'],
+            ['eduDegree','required','message'=>'文化程度不能为空','on'=>'add'],
+            ['speciality','required','message'=>'特长爱好不能为空','on'=>'add'],
+            ['dateToWork','required','message'=>'参加工作的时间不能为空','on'=>'add'],
+            ['dateToWork','date','message'=>'请输入正确参加工作的时间','on'=>'add'],
+            ['dateToPolitical','required','message'=>'参加党派的时间不能为空','on'=>'add'],
+            ['dateToPolitical','date','message'=>'请输入正确参加党派的时间','on'=>'add'],
+            ['politicalGrade','required','message'=>'级别不能为空','on'=>'add'],
+            ['workplace','required','message'=>'工作单位不能为空','on'=>'add'],
+            ['workDuties','required','message'=>'工作职务或职称不能为空','on'=>'add'],
+            ['orgCode','required','message'=>'组织机构代码不能为空','on'=>'add'],
+            
+            ['IDnumber','required','message'=>'身份证号不能为空','on'=>'add'],
+            ['IDnumber','match','pattern'=>'/^\d{6}(19|20)?\d{2}(0[1-9]|1[012])(0[1-9]|[12]\d|3[01])\d{3}(\d|[xX])$/','message'=>'身份证号码无效','on'=>['add']],
+            ['address','required','message'=>'通讯地址不能为空','on'=>'add'],
+            ['phone','required','message'=>'电话不能为空','on'=>'add'],
+            ['phone','match','pattern'=>'/(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}/','message'=>'电话号码无效','on'=>['add']],
+            ['postcode','required','message'=>'邮编不能为空','on'=>'add'],
+            ['phone','match','pattern'=>'/[1-9]{1}(\d+){5}/','message'=>'请填写正确邮编','on'=>['add']],
+            ['socialDuties','required','message'=>'社会职务不能为空','on'=>'add'],
+            ['politicalDuties','required','message'=>'党派职务不能为空','on'=>'add'],
+            ['introduction','required','message'=>'简介不能为空','on'=>'add'],
+            ['recommend','required','message'=>'推荐单位不能为空','on'=>'add'],
+            ['citystate','required','message'=>'市州不能为空','on'=>'add'],
+            
 			[['search'],'safe'],
         ];
     }
     
+    public function add(array $data)
+    {
+        $this->scenario = 'add';
+        if($this->load($data) && $this->validate()){
+            $this->userId = Yii::$app->user->id;
+            $this->nation = Yii::$app->params['nations'][$this->nationCode];
+            //先上传图片 再写数据
+            if(isset($_FILES['avater']) && !empty($_FILES['avater']) && !empty($_FILES['avater']['name']) ){
+                
+                $upload = new ImageUpload([
+                    'imageMaxSize' => 1024*50,
+                    'imagePath'    => 'avater',
+                    'isWatermark'  => false,
+                ]);
+                $result = $upload->Upload('avater');
+                $imageName = Yii::$app->params['oss']['host'].$result;
+                $this->avater = $imageName;
+            }else {
+                $this->addError('avater','头像不能为空');
+                return false;
+            }
+            return $this->save(false);
+        }
+        return false;
+    }
+    
     public function getBmInfo(array $where,$field = '*')
     {
-    	return self::find()->select($field)->joinWith('student')->where($where)->one();
+    	return self::find()->select($field)->where($where)->one();
     }
     /**
      * 导出在线报名信息
@@ -45,7 +109,7 @@ class BmRecord extends BaseModel
      */
     public function exportVerify(array $data,$verify)
     {
-        $query = self::find()->joinWith(['student','gradeclass'])->orderBy('verify asc,modifyTime desc,createTime desc');
+        $query = self::find()->joinWith(['gradeclass'])->orderBy('verify asc,modifyTime desc,createTime desc');
         if($this->load($data) && !empty($this->search)){
             $query = $this->filterSearch($this->search,$query);
         }
@@ -98,8 +162,8 @@ class BmRecord extends BaseModel
         
         $num = 2;
         foreach ($result as $val){
-            $sex = $val->student->sex == 1 ? '男' : '女';
-           $obj = $objSheet->setCellValue('A'.$num,$val->student->trueName)->setCellValue('B'.$num,$val->gradeClass)->setCellValue('C'.$num,$val->student->phone)->setCellValue('D'.$num,$sex)->setCellValue('E'.$num,date('Y-m-d H:i:s',$val->createTime))
+            $sex = $val->sex == 1 ? '男' : '女';
+           $obj = $objSheet->setCellValue('A'.$num,$val->trueName)->setCellValue('B'.$num,$val->gradeClass)->setCellValue('C'.$num,$val->phone)->setCellValue('D'.$num,$sex)->setCellValue('E'.$num,date('Y-m-d H:i:s',$val->createTime))
             ->setCellValue('F'.$num,self::$verify_texts[$verify]);
             if($verify == self::STUDENT_VERIFY_STEP2){
                 $obj->setCellValue('G'.$num,$val->verifyReason1);
@@ -196,7 +260,7 @@ class BmRecord extends BaseModel
     }
     
     
-    public function pageList(array $data,$orderBy = 'verify asc,modifyTime desc,createTime desc',$jowin = ['student'])
+    public function pageList(array $data,$orderBy = 'verify asc,modifyTime desc,createTime desc',$jowin = [])
     {
     	$this->curPage = isset($data['curPage']) && !empty($data['curPage']) ? $data['curPage'] : $this->curPage;
     	$query = self::find()->joinWith($jowin)->orderBy($orderBy);
@@ -213,19 +277,19 @@ class BmRecord extends BaseModel
     	}
     	
     	if(isset($search['trueName']) && !empty($search['trueName'])){
-    		$query = $query->andWhere(['like',Student::tableName().'.trueName',$search['trueName']]);
+    	    $query = $query->andWhere(['like',self::tableName().'.trueName',$search['trueName']]);
     	}
 
     	if(isset($search['sex']) && !empty($search['sex'])){
-    		$query = $query->andWhere(Student::tableName().'.sex = :sex',[':sex'=>$search['sex']]);
+    	    $query = $query->andWhere(self::tableName().'.sex = :sex',[':sex'=>$search['sex']]);
     	}
     	
-    	if(isset($search['isBest']) && !empty($search['isBest'])){
-    		$query = $query->andWhere(Student::tableName().'.isBest = :isBest',[':isBest'=>$search['isBest']]);
-    	}
+//     	if(isset($search['isBest']) && !empty($search['isBest'])){
+//     		$query = $query->andWhere(Student::tableName().'.isBest = :isBest',[':isBest'=>$search['isBest']]);
+//     	}
     	
     	if(isset($search['nationCode']) && !empty($search['nationCode'])){
-    		$query = $query->andWhere(Student::tableName().'.nationCode = :nationCode',[':nationCode'=>$search['nationCode']]);
+    	    $query = $query->andWhere(self::tableName().'.nationCode = :nationCode',[':nationCode'=>$search['nationCode']]);
     	}
     	
     	if(isset($search['startTime']) && !empty($search['startTime'])){
@@ -257,10 +321,10 @@ class BmRecord extends BaseModel
     }
     
     
-    public function getStudent()
-    {
-    	return $this->hasOne(Student::className(), ['userId'=>'userId']);
-    }
+//     public function getStudent()
+//     {
+//     	return $this->hasOne(Student::className(), ['userId'=>'userId']);
+//     }
     
     public function getGradeclass()
     {

@@ -5,7 +5,7 @@ use frontend\assets\AppAsset;
 use yii\helpers\Url;
 use common\models\TestPaper;
 use yii\helpers\Html;
-use common\models\Student;
+use common\models\Profile;
 
 $this->title = '个人信息';
 ?>
@@ -76,7 +76,7 @@ $this->title = '个人信息';
 			<div class="field">
 				<div class="field-left field-politicalStatus">
 					<label class="title">政治面貌：</label>
-					<?php echo Html::activeDropDownList($model, 'politicalStatusCode', Student::$politicalStatusArr,['class'=>'dropselect'])?>
+					<?php echo Html::activeDropDownList($model, 'politicalStatusCode', Profile::$politicalStatusArr,['class'=>'dropselect'])?>
 				</div>
 				<div class="field-left field-IDnumber">
 					<label class="title">身份证号：</label>
@@ -117,7 +117,7 @@ $this->title = '个人信息';
 				</div>
 				<div class="field-left field-eduation">
 					<label class="title">学历：</label>
-					<?php echo Html::activeDropDownList($model, 'eduationCode', Student::$eduationArr,['class'=>'dropselect'])?>
+					<?php echo Html::activeDropDownList($model, 'eduationCode', Profile::$eduationArr,['class'=>'dropselect'])?>
 				</div>
 			</div>
 			

@@ -40,18 +40,6 @@ class VideoController extends CommonController
         $parentCates = Category::getArticleCates('video');
         if(Yii::$app->request->isPost){
             $data = Yii::$app->request->post();
-            
-            //先上传图片 再写数据
-            if(isset($_FILES['image']) && !empty($_FILES['image']) && !empty($_FILES['image']['tmp_name']) ){
-            	
-            	$upload = new ImageUpload([
-            			'imageMaxSize' => 1024*1024*500
-            	]);
-            	$result = $upload->Upload('image');
-            	$imageName = Yii::$app->params['oss']['host'].$result;
-            	$data['Video']['videoImg'] = $imageName;
-            }
-            
             $result = $model->add($data);
             if($result){
                 return $this->showSuccess('video/manage');
@@ -74,16 +62,6 @@ class VideoController extends CommonController
     	}
     	if(Yii::$app->request->isPost){
     		$data = Yii::$app->request->post();
-    		//先上传图片 再写数据
-    		if(isset($_FILES['image']) && !empty($_FILES['image']) && !empty($_FILES['image']['tmp_name']) ){
-
-    			$upload = new ImageUpload([
-    					'imageMaxSize' => 1024*1024*500
-    			]);
-    			$result = $upload->Upload('image');
-    			$imageName = Yii::$app->params['oss']['host'].$result;
-    			$data['Video']['videoImg'] = $imageName;
-    		}
     		if(Video::edit($data, $model)){
     			return $this->showSuccess('video/manage');
     		}else{

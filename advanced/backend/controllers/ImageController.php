@@ -41,26 +41,12 @@ class ImageController extends CommonController
 	    $parentCates = Category::getArticleCates('image');
 	    if(Yii::$app->request->isPost){
 	        $data = Yii::$app->request->post();
-	        //var_dump($_FILES);exit();
-	        //先上传图片 再写数据
-	        if(!empty($_FILES)){
-	        	$upload = new ImageUpload([
-	        			'imageMaxSize' => 1024*1024*500
-	        	]);
-	        	$result = $upload->Upload('files');
-	        	$imageName = Yii::$app->params['oss']['host'].$result;
-	        	$data['Photo']['photo'] = $imageName;
-	        	$result = $model->add($data);
-	        	if($result){
-	        		return $this->showSuccess('image/manage');
-	        	}else{
-	        		Yii::$app->session->setFlash('error',$model->getErrorDesc());
-	        	}
-	        	
+	        $result = $model->add($data);
+	        if($result){
+	            return $this->showSuccess('image/manage');
 	        }else{
-	        	Yii::$app->session->setFlash('error','图片不能为空');
+	            Yii::$app->session->setFlash('error',$model->getErrorDesc());
 	        }
-	        
 	    }
 	    return $this->render('add1',['model'=>$model,'parentCates'=>$parentCates,'title'=>'添加图片']);
 	}
@@ -77,22 +63,6 @@ class ImageController extends CommonController
 	    }
 	    if(Yii::$app->request->isPost){
 	        $data = Yii::$app->request->post();
-	        //先上传图片 再写数据
-	        if(!empty($_FILES) && !empty($_FILES['files']) && !empty($_FILES['files']['tmp_name'])){
-	        	$upload = new ImageUpload([
-	        			'imageMaxSize' => 1024*1024*500
-	        	]);
-	        	$result = $upload->Upload('files');
-	        	$imageName = Yii::$app->params['oss']['host'].$result;
-	        	$data['Photo']['photo'] = $imageName;
-	        	/* $file = $_FILES['files'];
-	        	$oldFile = $data['Photo']['oldFile'];
-	        	$result = Photo::upload($file,$oldFile);
-	        	if($result['success']){
-	        		$data['Photo']['photo'] = $result['fileFullName'];
-	        	} */
-	        }
-	        
 	        $result = Photo::edit($data,$photo);
 	        if($result){
 	        	return $this->showSuccess('image/manage');

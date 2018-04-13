@@ -51,13 +51,13 @@ AppAsset::addScript($this, '/admin/js/echarts.common.min.js');
 $bySexDatasX = json_encode( array_column($result['bySex'],'sex') );
 $bySexDatass = json_encode( array_column($result['bySex'],'sum') );
 
-$bypoliticalStatusDataX = json_encode( array_column($result['bypoliticalStatus'],'politicalStatus') );
+$bypoliticalStatusDataX = json_encode( array_column($result['bypoliticalStatus'],'political') );
 $bypoliticalStatusDatas = json_encode( array_column($result['bypoliticalStatus'],'sum') );
 
-$byEduationDataX = json_encode( array_column($result['byEduation'],'eduation') );
+$byEduationDataX = json_encode( array_column($result['byEduation'],'eduDegree') );
 $byEduationDatas = json_encode( array_column($result['byEduation'],'sum') );
 
-$byCityDataX = json_encode( array_column($result['byCity'],'city') );
+$byCityDataX = json_encode( array_column($result['byCity'],'citystate') );
 $byCityDatas = json_encode( array_column($result['byCity'],'sum') );
 $js = <<<JS
 var barWidth = 40;
@@ -66,11 +66,11 @@ var colorList = ['rgb(164,205,238)','rgb(42,170,227)','rgb(25,46,94)','rgb(195,2
 
 initBarChart('statistics-sex','按性别统计',null,'$bySexDatasX',null,'$bySexDatass',null,'rgb(164,205,238)');
 
-initBarChart('statistics-politicalStatus','按政治面貌统计',null,'$bypoliticalStatusDataX',null,'$bypoliticalStatusDatas',null,'rgb(42,170,227)');
+initBarChart('statistics-politicalStatus','按党派统计',null,'$bypoliticalStatusDataX',null,'$bypoliticalStatusDatas',null,'rgb(42,170,227)');
 
-initBarChart('statistics-eduation','按学历统计',null,'$byEduationDataX',null,'$byEduationDatas',null,'rgb(25,46,94)');
+initBarChart('statistics-eduation','按文化程度统计',null,'$byEduationDataX',null,'$byEduationDatas',null,'rgb(25,46,94)');
 
-initBarChart('statistics-city','按城市统计',null,'$byCityDataX',null,'$byCityDatas',null,'rgb(195,229,235)');
+initBarChart('statistics-city','按市州统计',null,'$byCityDataX',null,'$byCityDatas',null,'rgb(195,229,235)');
 
 function initBarChart(id,title,legend,datax,yAxis,datas,tooltip,barColor){
     //基于准备好的dom，初始化echarts实例

@@ -106,9 +106,12 @@ section{background:#fff;}
     margin-top: 40px;
     outline: none;
     margin:0 auto;
-    color: #000;
+    color: #fff;
     width: 150px;
-    background-color: #e1e7ea;
+    background-color: brown;
+}
+.btn:hover{
+	background-color:#691919;
 }
 .form-box .field-btn{margin-top:20px}
 .form-box .btn-next{

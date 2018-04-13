@@ -24,7 +24,7 @@ class Video extends BaseModel
             ['video','required','message'=>'视频不能为空','on'=>['add','edit']],
             ['categoryId','required','message'=>'视频分类不能为空','on'=>['add','edit']],
             ['descr','required','message'=>'视频名称不能为空','on'=>['add','edit']],
-        	['videoImg','required','message'=>'视频背景图不能为空','on'=>['add','edit']],
+        	//['videoImg','required','message'=>'视频背景图不能为空','on'=>['add','edit']],
             ['sorts','default','value'=>100000],
         	[['search','oldVideoImg','provider','leader','remarks','sorts'],'safe']
         ];
@@ -35,6 +35,19 @@ class Video extends BaseModel
     {
         $this->scenario = 'add';
         if($this->load($data) && $this->validate()){
+            //先上传图片 再写数据
+            if(isset($_FILES['image']) && !empty($_FILES['image']) && !empty($_FILES['image']['tmp_name']) ){
+                
+                $upload = new ImageUpload([
+                    'imageMaxSize' => 1024*1024*500
+                ]);
+                $result = $upload->Upload('image');
+                $imageName = Yii::$app->params['oss']['host'].$result;
+                $this->videoImg = $imageName;
+            }else{
+                Yii::$app->session->setFlash('error','视频背景图不能为空');
+                return false;
+            }
             return $this->save(false);
         }
         
@@ -45,15 +58,23 @@ class Video extends BaseModel
     {
         $video->scenario = 'edit';
         if($video->load($data) && $video->validate()){
-            if(!$video->save(false)){
-                return false;
+            //先上传图片 再写数据
+            if(isset($_FILES['image']) && !empty($_FILES['image']) && !empty($_FILES['image']['tmp_name']) ){
+                
+                $upload = new ImageUpload([
+                    'imageMaxSize' => 1024*1024*500
+                ]);
+                $result = $upload->Upload('image');
+                $imageName = Yii::$app->params['oss']['host'].$result;
+                if(!empty($video->oldVideo)){
+                    //删除旧的文件
+                    $block = str_replace(Yii::$app->params['oss']['host'], '', $video->oldVideo);
+                    $upload = new ImageUpload([]);
+                    $upload->deleteImage($block);
+                }
+                $video->videoImg = $imageName;
             }
-            if(!empty($video->oldVideo)){
-                //删除旧的文件
-                $block = str_replace(Yii::$app->params['oss']['host'], '', $video->oldVideo);
-                $upload = new ImageUpload([]);
-                $upload->deleteImage($block);
-            }
+            return $video->save(false);
         }
         return false;
     }
