@@ -22,6 +22,13 @@ use backend\assets\AppAsset;
 <a href="<?php echo Url::to(['web/indexbanner-set'])?>"><span >首页banner图设置</span></a>
 </div>
 
+<div class="warnning">
+	<h4 class="title"><a href="javascript:;" class="closeTips"><i>-</i> 注意事项：</a></h4>
+	<ul>
+		<li>1、基础配置信息有修改等操作以后， 请前往基础配置进行缓存清理，否则前台页面不会生效</li>
+	</ul>
+</div>  
+
 <?php echo Html::beginForm('','post',['enctype'=>"multipart/form-data"]);?>
 <ul class="forminfo">
     <li><label>网站名称</label><?php echo Html::textInput('siteName',$webCfg['siteName'],['class'=>'dfinput'])?><i></i></li>

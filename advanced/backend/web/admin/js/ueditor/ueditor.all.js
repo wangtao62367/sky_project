@@ -9965,6 +9965,7 @@ var LocalStorage = UE.LocalStorage = (function () {
 ///plugin 编辑器默认的过滤转换机制
 
 UE.plugins['defaultfilter'] = function () {
+	return false;
     var me = this;
     me.setOpt({
         'allowDivTransToP':true,
@@ -10012,13 +10013,13 @@ UE.plugins['defaultfilter'] = function () {
                         break;
                     case 'img':
                         //todo base64暂时去掉，后边做远程图片上传后，干掉这个
-                        if (val = node.getAttr('src')) {
-                            if (/^data:/.test(val)) {
-                                node.parentNode.removeChild(node);
-                                break;
-                            }
-                        }
-                        node.setAttr('_src', node.getAttr('src'));
+//                        if (val = node.getAttr('src')) {
+//                            if (/^data:/.test(val)) {
+//                                node.parentNode.removeChild(node);
+//                                break;
+//                            }
+//                        }
+//                        node.setAttr('_src', node.getAttr('src'));
                         break;
                     case 'span':
                         if (browser.webkit && (val = node.getStyle('white-space'))) {

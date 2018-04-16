@@ -106,7 +106,7 @@ var upload =  uploader.init({
             requestUrl :'$url',
             mine_types : [ //只允许上传mp4格式的视频文件
                 //{ title : "Image files", extensions : "jpg,gif,png,bmp" }, 
-                { title : "Zip files", extensions : "zip,rar,exe" },
+                //{ title : "Zip files", extensions : "zip,rar,exe,doc,xls,pdf,ppt,txt,rtf" },
                 //{ title : "Vedio files", extensions : "mp4" }
             ],
             max_file_size : 1024*1024*1024*1,  // 大小限制在 1G之内

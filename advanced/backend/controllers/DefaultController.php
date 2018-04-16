@@ -60,4 +60,9 @@ class DefaultController extends Controller
         $this->layout = 'main';
         return $this->render('main');
     }
+    
+    public function actionDenyAccess()
+    {
+        return $this->render('deny-access');
+    }
 }

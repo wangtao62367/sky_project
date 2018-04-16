@@ -3,6 +3,7 @@
 
 use yii\helpers\Url;
 use backend\assets\AppAsset;
+use yii\helpers\Html;
 
 $controller = Yii::$app->controller;
 $id = Yii::$app->request->get('id','');
@@ -80,12 +81,15 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
     <li><label>&nbsp;</label><input @click="createPaper()" type="button" class="btn" value="创建试卷"/></li>
 </ul>
 
+<?php echo Html::activeHiddenInput($model, 'title',['id'=>'title']);?>
+<?php echo Html::activeHiddenInput($model, 'marks',['id'=>'marks']);?>
+
 </div>
 <?php 
 $success = Url::to(['success/suc','back'=>'testpaper/manage']);
 $publishArr = json_encode($model->publishTimeArr);
-$title = $model->title;
-$marks = $model->marks;
+//$title = $model->title;
+//$marks = $model->marks;
 $publishCode = $model->publishCode ;
 $questions = json_encode($model->questions);
 $gradeClassId = $model->gradeClassId;
@@ -96,6 +100,8 @@ $from = $model->from;
 $getGradeClass = Url::to(['gradeclass/ajax-classes']);
 $addGradeClass = Url::to(['gradeclass/add']);
 $js = <<<JS
+
+
 function getOptionTypeText(optionsType){
 	switch(optionsType){
 		case 'radio':
@@ -152,13 +158,15 @@ $(document).on('click','.sure',function(){
 	$(".tip").remove();
 	$(".modal").remove();
 });
+// var title = $('#title').val();
+// var marks = $('#marks').val();
 var vm = new Vue({
 	el : "#app",
 	data : {
         publishList : JSON.parse('$publishArr'), 
 		paper : {
-			title : '$title',
-            marks : '$marks',
+			title : $('#title').val(),
+            marks : $('#marks').val(),
 			gradeClassId : '$gradeClassId',
 			gradeClass : '$gradeClass',
 			timeToAnswer : '$timeToAnswer',

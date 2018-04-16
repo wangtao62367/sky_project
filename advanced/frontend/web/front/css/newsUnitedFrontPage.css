@@ -57,7 +57,7 @@ hr{
 	margin:0 auto;	
 }
 .content p,.content img{
-	display:block;
+	/* display:block; */
 	margin:0 auto;
 }
 .content p{
@@ -92,6 +92,17 @@ hr{
 	float:right;
 	padding-right:20px;
 }
+
+video::-internal-media-controls-download-button {
+    display:none;
+}
+video::-webkit-media-controls-enclosure {
+    overflow:hidden;
+}
+video::-webkit-media-controls-panel {
+    width: calc(100% + 30px); 
+}
+
 /*测评试卷列表*/
 .testpaper-list li{margin-top:20px;}
 .testpaper-list li a{color:#333}

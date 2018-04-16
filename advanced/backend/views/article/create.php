@@ -119,7 +119,9 @@ $conllectWebsiteArr = json_encode(ArticleCollectionWebsite::$conllectWebsiteArr)
 $url = Url::to(['article/conllect-content']);
 $uploadurl = Url::to(['article/upload']);
 $content = $model->content;
+
 $js = <<<JS
+//alert('$content');
 $(document).on('click','.getArticle-btn',function(){
     var _this = $(this);
 	var sourceLinke = $('#sourceLinke').val();
@@ -197,7 +199,7 @@ $('#uploadFile').change(function(){
 
 JS;
 AppAsset::addScript($this, '/admin/js/ueditor/ueditor.config.js');
-AppAsset::addScript($this, '/admin/js/ueditor/ueditor.all.min.js');
+AppAsset::addScript($this, '/admin/js/ueditor/ueditor.all.js');
 AppAsset::addCss($this, '/admin/css/jquery.datetimepicker.css');
 AppAsset::addScript($this, '/admin/js/jquery.datetimepicker.full.js');
 AppAsset::addCss($this, '/admin/css/webset.css');

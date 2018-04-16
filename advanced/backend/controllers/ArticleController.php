@@ -29,6 +29,10 @@ class ArticleController extends CommonController
                 //'lang' => 'zh-cn',
                 'config' => [
                     "fileUrlPrefix" => Yii::$app->params['oss']['host'],
+                    "filePathFormat" => "upload/article/{yyyy}{mm}{dd}/{time}{rand:6}",
+                    "fileRoot" => '',
+                    "maxSize" => 1024 * 1024 *50,
+                    
                     "imageUrlPrefix"  => Yii::$app->params['oss']['host'],//图片访问路径前缀
                     "imagePathFormat" => "upload/article/{yyyy}{mm}{dd}/{time}{rand:6}", //上传保存路径
                     "imageRoot" => '',//Yii::getAlias("@frontend").'/web',
@@ -36,8 +40,9 @@ class ArticleController extends CommonController
                 	"videoFieldName"=> "upfile",
                     "videoUrlPrefix"  => Yii::$app->params['oss']['host'],//图片访问路径前缀
                     "videoPathFormat" => "upload/video/{yyyy}{mm}{dd}/{time}{rand:6}", //上传保存路径
+                    "videoRoot" => '',
                     "videoAllowFiles" => ['.mp4'],
-                    "videoMaxSize"    => 1024*1024*1024
+                    "videoMaxSize"    => 1024*1024*500
                     
                 ],
             ]

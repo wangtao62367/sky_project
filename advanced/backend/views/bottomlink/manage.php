@@ -37,6 +37,7 @@ use yii\helpers\ArrayHelper;
 	<h4 class="title"><a href="javascript:;" class="closeTips"><i>-</i> 注意事项：</a></h4>
 	<ul>
 		<li>1、链接地址必须是URL全路径，否则跳转失败；如：百度 http://www.baidu.com </li>
+		<li>2、底部链接有添加或编辑等操作，请前往基础配置进行缓存清理，否则前台页面不会生效 </li>
 	</ul>
 </div>  
 

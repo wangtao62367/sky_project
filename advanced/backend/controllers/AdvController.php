@@ -42,7 +42,7 @@ class AdvController extends CommonController
                 
                 $upload = new ImageUpload([
                     'imageMaxSize' => 1024*1024*500,
-                    'isWatermark'  => false
+                    'isWatermark'  => true
                 ]);
 
                 $result = $upload->Upload('files');
@@ -77,7 +77,7 @@ class AdvController extends CommonController
                 
                 $upload = new ImageUpload([
                     'imageMaxSize' => 1024*1024*500,
-                    'isWatermark'  => false
+                    'isWatermark'  => true
                 ]);
                 $result = $upload->Upload('files');
                 $imageName = Yii::$app->params['oss']['host'].$result;
