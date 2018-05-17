@@ -126,7 +126,7 @@ class SiteLogic
     public static function getSzyw()
     {
         $cate = Category::getCatesByCode('szyw');
-        $articles = Article::find()->select(['id','title','publishTime','ishot','summary'])->where(['categoryId'=>$cate->id,'isPublish'=>1,'isDelete'=>0])->orderBy('ishot desc,sorts asc,publishTime desc')->limit(7)->all();
+        $articles = Article::find()->select(['id','title','publishTime','ishot','summary'])->where(['categoryId'=>$cate->id,'isPublish'=>1,'isDelete'=>0])->orderBy('ishot desc,sorts asc,publishTime desc')->limit(5)->all();
         return $articles;
     }
     
