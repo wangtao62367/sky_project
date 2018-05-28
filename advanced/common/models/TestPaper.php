@@ -149,6 +149,7 @@ class TestPaper extends BaseModel
     			break;
     		default: 
     			$this->isPublish  = 0;
+    			$this->publishTime= TIMESTAMP + 60 * 60 * 24 * 3000;
     			break;
     	}
     }

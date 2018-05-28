@@ -129,7 +129,11 @@ class TestpaperController extends CommonController
             return $this->showDataIsNull('testpaper/manage');
         }
         //获取答题人姓名
-        $trueNanme = BmRecord::find()->select(['trueName'])->where(['userId'=>$userid,'gradeClassId'=>$testPaper->gradeClassId])->one()->trueName;
+        $BmRecord = BmRecord::find()->select(['trueName'])->where(['userId'=>$userid,'gradeClassId'=>$testPaper->gradeClassId])->one();
+        if(empty($BmRecord)){
+            return $this->showDataIsNull('testpaper/manage');
+        }
+        $trueNanme = $BmRecord->trueName;
         //获取用户答题统计信息
         $paperstatics = TestPaperUserStatistics::find()->where(['paperId'=>$paperid,'userId'=>$userid,'anwserMark'=>$mark])->one();
         //获取试卷答题记录信息

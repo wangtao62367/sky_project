@@ -36,7 +36,7 @@ use common\models\TestPaper;
 	<h4 class="title"><a href="javascript:;" class="closeTips"><i>-</i> 注意事项：</a></h4>
 	<ul>
 		<li>1、测试试卷可以重复答题进行测试练习。</li>
-		<li>2、已发布的测试试卷谨慎编辑操作，否则引起试卷答题统计数据不准确。</li>
+		<li style="color: red;">2、已发布的测试试卷谨慎编辑操作，否则引起试卷答题统计数据不准确或出现数据异常。</li>
 	</ul>
 </div>
 

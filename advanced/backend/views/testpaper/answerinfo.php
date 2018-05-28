@@ -40,7 +40,7 @@ $this->title = '查看答题详情-'.$testPaper['title']
 		<label>姓名：</label><span style="display:inline;text-decoration: underline;font-size:18px;">&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $trueName;?>&nbsp;&nbsp;&nbsp;&nbsp;</span>
 		<label>日期：</label><span style="display:inline;text-decoration: underline;font-size:18px;">&nbsp;&nbsp;&nbsp;&nbsp;<?php echo date('Y-m-d',$paperstatics['createTime']);?>&nbsp;&nbsp;&nbsp;&nbsp;</span>
 		<label>用时：</label><span style="display:inline;text-decoration: underline;font-size:18px;">&nbsp;&nbsp;&nbsp;&nbsp;<?php echo ceil($paperstatics['answerTime']/60);?>分钟&nbsp;&nbsp;&nbsp;&nbsp;</span>
-		<label>得分：</label><span style="display:inline;text-decoration: underline;font-size:20px;color:red">&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $paperstatics['scores'];?>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+		<label>得分：</label><span style="display:inline;text-decoration: underline;font-size:20px;color:red">&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $paperstatics['rightScores'];?>&nbsp;&nbsp;&nbsp;&nbsp;</span>
 	</div>
     <table border="0" cellpadding="0" cellspacing="0" style="width:794px;height:auto;;margin-left:auto; margin-right:auto; margin-top:10px; margin-bottom:10px; background:#ffffff;border:1px solid #000;">
     	<tr>

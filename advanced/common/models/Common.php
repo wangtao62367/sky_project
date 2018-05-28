@@ -125,7 +125,7 @@ class Common extends BaseModel
     			self::tableName().'.typeDesc'
     	])
     	->joinWith('cates')
-    	->where(self::tableName().'.type = :type',[':type'=>'navigation'])->andWhere([self::tableName().'.isDelete'=>0,Category::tableName().'.isDelete'=>0])->orderBy(self::tableName().'.sorts ASC,'.self::tableName().'.modifyTime DESC')->asArray()->all();
+    	->where(self::tableName().'.type = :type',[':type'=>'navigation'])->andWhere([self::tableName().'.isDelete'=>0])->orderBy(self::tableName().'.sorts ASC,'.self::tableName().'.modifyTime DESC')->asArray()->all();
     }
     
     public function getCates()

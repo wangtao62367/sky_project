@@ -65,7 +65,7 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
     
     <li><label>所属班级<b>*</b></label>
     	<input type="hidden" class="dfinput" v-model="paper.gradeClassId" />
-    	<input type="text" class="dfinput ajaxSearch gradeClass" v-model="paper.gradeClass" />
+    	<input type="text" class="dfinput ajaxSearch gradeClass" v-model="paper.gradeClass" <?php echo $model->isPublish == 1?'disabled':'';?>/>
     	<div class="searchresult" style="display: none"> </div>
     </li>
     
@@ -96,6 +96,7 @@ $gradeClassId = $model->gradeClassId;
 $gradeClass   = $className;
 $timeToAnswer = $model->timeToAnswer;
 $from = $model->from;
+
 
 $getGradeClass = Url::to(['gradeclass/ajax-classes']);
 $addGradeClass = Url::to(['gradeclass/add']);
@@ -172,7 +173,7 @@ var vm = new Vue({
 			timeToAnswer : '$timeToAnswer',
             from : '$from',
             publishCode  : '$publishCode',
-			questions : JSON.parse('$questions')
+			questions : JSON.parse('$questions'),
 		}
 	},
 	methods : {
@@ -216,10 +217,10 @@ $(document).on('click','.searchresult p',function(){
 
 $(document).on('focus','.ajaxSearch',function(){
     var url = getInputAjaxtUrl(this);
-	if(!$(this).val()){
+	//if(!$(this).val()){
    		ajacGetSearch(url,'',this);
     	$(this).parents('li').find('.searchresult').show();
-	}
+	//}
 });
 
 // $(document).on('focusout','input[type="text"]',function(){
