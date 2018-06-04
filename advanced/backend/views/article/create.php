@@ -71,7 +71,7 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
     	</div>
     </li>
     
-    <li class="publishTimeByUser" <?php echo $model->isPublish === 'userDefined' ? 'style="display:block"' : 'style="display:none"'; ?>><label>发布时间<b>*</b></label><?php echo Html::activeTextInput($model, 'publishTime',['class'=>'dfinput','style'=>'width:308px;','id'=>"publishTime"])?><i></i></li>
+    <li class="publishTimeByUser" <?php echo $model->isPublish === 'userDefined' ? 'style="display:block"' : 'style="display:none"'; ?>><label>发布时间<b>*</b></label><?php echo Html::activeTextInput($model, 'publishTime',['class'=>'dfinput','style'=>'width:308px;','id'=>"publishTime",'autocomplete'=>"off"])?><i></i></li>
 	
 	<li><label>图片数量<b>*</b></label><?php echo Html::activeInput('number',$model, 'imgCount',['class'=>'dfinput','value'=>0])?><i></i></li>
 	
@@ -171,9 +171,9 @@ $('#publishTime').datetimepicker({
       //lang:"zh", //语言选择中文 注：旧版本 新版方法：$.datetimepicker.setLocale('ch');
       format:"Y-m-d H:m:i",      //格式化日期
       timepicker:true,    
-      minDate : now,
-      minTime : now,
-      yearStart: yearStart,     //设置最小年份
+      //minDate : now,
+      //minTime : now,
+      yearStart: '2000',     //设置最小年份
       yearEnd:yearEnd,        //设置最大年份
       todayButton:true    //开启选择今天按钮
 });

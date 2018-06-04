@@ -25,17 +25,37 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
 <div class="formtitle"><span><?php echo $title?></span></div>
 <?php echo Html::beginForm('','post',['id'=>'myform','enctype'=>"multipart/form-data"]);?>
 <ul class="forminfo">
+	
+	<li>
+		<label>视频类型<b>*</b></label>
+		<div>
+			<label>
+				<input type="radio" value="1" checked name="video_type"> 本地视频
+			</label>
+			
+			<label>
+				<input type="radio" value="2" name="video_type"> 远程视频
+			</label>
+		</div>
+		
+	</li>
+
 	<li><label>上传视频<b>*</b></label>
 	<?php echo Html::activeHiddenInput($model,'oldVideo',['id'=>'oldVideo']);?>
-    <?php echo Html::activeHiddenInput($model, 'video',['class'=>'dfinput','id'=>'video'])?>
+	<div id="linkvideo" style="margin-left: 86px;display:none;">
+		<?php echo Html::activeTextInput($model, 'video',['class'=>'dfinput','id'=>'video'])?><i>视频链接必须有效</i>
+	</div>
     
-    <div style="margin-left: 86px">
+    
+    <div id="uploadvideo" style="margin-left: 86px">
     		<div id="btn-select-video"></div><p><i>视频上传过程中，切勿做其他操作</i></p>
     		<?php if(!empty($model->video)):?>
     		<div>已上传视频链接：<?php echo $model->video;?></div>
     		<?php endif;?>
     </div>
 	</li>
+	
+	
 	 <li><label>视频背景图<b>*</b></label>
     <?php echo Html::activeHiddenInput($model,'oldVideoImg',['id'=>'oldVideoImg']);?>
     <?php echo Html::activeHiddenInput($model, 'videoImg',['class'=>'dfinput','id'=>'videoImg'])?>
@@ -107,6 +127,17 @@ vertical-align: middle;
 CSS;
 $url = Url::to(['alioss/manage']);
 $js = <<<JS
+//选择上传视频的类型
+$(document).on('click','input[name="video_type"]',function(){
+    if($(this).val() == 1){
+        $('#uploadvideo').show();
+        $('#linkvideo').hide();
+    }else{
+        $('#uploadvideo').hide();
+        $('#linkvideo').show();
+    }
+})
+
 function selectImage(){
     return  $('#uploadFile').click();
 }
@@ -173,7 +204,7 @@ $('#formSubmit').click(function(){
     }else if($('#video').val()){
         $('#myform').submit();
     }else{
-        alert('请选择视频文件');return;
+        alert('请选择视频');return;
     }
 });
 var upload =  uploader.init({

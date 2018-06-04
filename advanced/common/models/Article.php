@@ -308,7 +308,11 @@ class Article extends BaseModel
                 $obj->publishTime= TIMESTAMP + 60 * 60 * 24;
                 break;
             case 'userDefined':
-                $obj->isPublish  = 0;
+                if(strtotime($obj->publishTime) <= time()){
+                    $obj->isPublish  = 1;
+                }else{
+                    $obj->isPublish  = 0;
+                }
                 $obj->publishTime = strtotime($obj->publishTime);
                 break;
             default:
