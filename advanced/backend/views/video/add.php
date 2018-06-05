@@ -29,30 +29,24 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
 	<li>
 		<label>视频类型<b>*</b></label>
 		<div>
-			<label>
-				<input type="radio" value="1" checked name="video_type"> 本地视频
-			</label>
+			<?php echo Html::activeRadioList($model, 'videoType', ['1'=>'本地视频','2'=>'远程视频'])?>
 			
-			<label>
-				<input type="radio" value="2" name="video_type"> 远程视频
-			</label>
 		</div>
 		
 	</li>
 
 	<li><label>上传视频<b>*</b></label>
 	<?php echo Html::activeHiddenInput($model,'oldVideo',['id'=>'oldVideo']);?>
-	<div id="linkvideo" style="margin-left: 86px;display:none;">
-		<?php echo Html::activeTextInput($model, 'video',['class'=>'dfinput','id'=>'video'])?><i>视频链接必须有效</i>
-	</div>
-    
-    
-    <div id="uploadvideo" style="margin-left: 86px">
+    <div id="uploadvideo" style="margin-left: 86px;<?php if($model->videoType==2){echo 'display:none;';}?>">
     		<div id="btn-select-video"></div><p><i>视频上传过程中，切勿做其他操作</i></p>
     		<?php if(!empty($model->video)):?>
     		<div>已上传视频链接：<?php echo $model->video;?></div>
     		<?php endif;?>
     </div>
+    
+    <div id="linkvideo" style="margin-left: 86px;<?php if($model->videoType==1){echo 'display:none;';}?>">
+		<?php echo Html::activeTextInput($model, 'video',['class'=>'dfinput','id'=>'video'])?><i>视频链接为包含http://获取https://的url全路径且必须有效。如百度：http://www.baidu.com</i>
+	</div>
 	</li>
 	
 	
@@ -128,7 +122,7 @@ CSS;
 $url = Url::to(['alioss/manage']);
 $js = <<<JS
 //选择上传视频的类型
-$(document).on('click','input[name="video_type"]',function(){
+$(document).on('click','input[name="Video[videoType]"]',function(){
     if($(this).val() == 1){
         $('#uploadvideo').show();
         $('#linkvideo').hide();
@@ -151,7 +145,6 @@ $('#uploadFile').change(function(){
     var file = this.files && this.files[0];
     var maxSize = 500 * 1024;//500kb
     var ext = ['image/jpeg','image/png','image/jpg'];
-    console.log($.inArray(file.type,ext));
     if(file.size > maxSize){
         alert("所选图片大小不能超过500KB");return;
     }

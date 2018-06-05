@@ -72,7 +72,7 @@ $this->title = $parent->codeDesc . '-'.$currentCate->text;
     				<?php if ($currentCate->type == CategoryType::ARTICLE):?>
     					<li class="article-item"><a href="<?php echo Url::to(['news/detail','id'=>$val['id']])?>" title="<?php echo $val['title'];?>"><?php echo MyHelper::timestampToDate($val['publishTime'],'Y-m-d');?>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $val['title'];?></a></li>
     				<?php elseif ($currentCate->type == CategoryType::VIDEO):?>
-    					<li  class="video-item" data-videourl="<?php echo $val['video'];?>" id="video_item_<?php echo $val['id'];?>">
+    					<li  class="video-item" data-videourl="<?php echo $val['video'];?>" data-videotype="<?php echo $val['videoType'];?>" id="video_item_<?php echo $val['id'];?>">
         					<a href="javascript:;">
                     			<img src="<?php echo $val['videoImg'];?>" />
                     			<p><?php echo $val['descr'];?></p>
@@ -126,6 +126,12 @@ $(document).on('click','.video-item',function(){
 		return false;
 	}
 	var source = $(this).data('videourl');
+    var videoType = $(this).data('videotype');
+	//远程视频链接
+	if(videoType == 2){
+		window.open(source);
+		return false;
+	}
 	var id = $(this).attr('id');
 	var player = new Aliplayer({
             id: id,

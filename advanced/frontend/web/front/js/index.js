@@ -62,6 +62,12 @@ $(document).on('click','.video-item',function(){
 		return false;
 	}
 	var source = $(this).data('videourl');
+	var videoType = $(this).data('videotype');
+	//远程视频链接
+	if(videoType == 2){
+		window.open(source);
+		return false;
+	}
 	var id = $(this).attr('id');
 	var player = new Aliplayer({
             id: id,

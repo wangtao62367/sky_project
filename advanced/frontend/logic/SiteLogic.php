@@ -213,7 +213,7 @@ class SiteLogic
             return $result;
         }
         $cate = Category::getCatesByCode('sxsy');
-        $videos = Video::find()->select(['id','videoImg','descr','video'])->where(['categoryId'=>$cate->id,'isDelete'=>0])->orderBy('sorts asc,modifyTime desc')->limit(10)->all();
+        $videos = Video::find()->select(['id','videoImg','descr','video','videoType'])->where(['categoryId'=>$cate->id,'isDelete'=>0])->orderBy('sorts asc,modifyTime desc')->limit(10)->all();
         $cache->set($key, $videos,null,new DbDependency(['sql'=>'SELECT modifyTime FROM sky_Video WHERE isDelete = 0 AND categoryId='.$cate->id.' ORDER BY modifyTime desc limit 1']));
         return $videos;
     }

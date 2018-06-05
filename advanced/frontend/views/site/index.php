@@ -285,7 +285,7 @@ $this->title = "首页_".$params['webCfgs']['siteName'];
 	<div id="video-box" class="video-box">
     	<div id="video-list-box" class="video-list-box">
         	<?php foreach ($data['sxsy'] as $sxsy):?>
-        	<div class="video-item" data-videourl="<?php echo $sxsy->video;?>" id="video_item_<?php echo $sxsy->id;?>">
+        	<div class="video-item" data-videourl="<?php echo $sxsy->video;?>" data-videotype="<?php echo $sxsy->videoType;?>" id="video_item_<?php echo $sxsy->id;?>">
         		<a href="javascript:;">
         			<img src="<?php echo $sxsy['videoImg'];?>" />
         			<p><?php echo $sxsy['descr'];?></p>
@@ -296,7 +296,7 @@ $this->title = "首页_".$params['webCfgs']['siteName'];
         </div>
         <div class="video-list-box" id="video-list-box-end">
         	<?php foreach ($data['sxsy'] as $sxsy):?>
-        	<div class="video-item" data-videourl="<?php echo $sxsy->video;?>" id="video_item_<?php echo $sxsy->id;?>_cp">
+        	<div class="video-item" data-videourl="<?php echo $sxsy->video;?>" data-videotype="<?php echo $sxsy->videoType;?>" id="video_item_<?php echo $sxsy->id;?>_cp">
         		<a href="javascript:;">
         			<img src="<?php echo $sxsy['videoImg'];?>" />
         			<p><?php echo $sxsy['descr'];?></p>
