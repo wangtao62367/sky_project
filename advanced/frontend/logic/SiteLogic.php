@@ -55,7 +55,7 @@ class SiteLogic
                 //市州社院
                 'szsy' => self::getSzsy(),
             ];
-            $cache->set($key, $newsdata,null,new DbDependency(['sql'=>'SELECT modifyTime FROM sky_Article WHERE isPublish = 1 AND isDelete =0 ORDER BY modifyTime desc limit 1']));
+            $cache->set($key, $newsdata,7200,new DbDependency(['sql'=>'SELECT modifyTime FROM sky_Article WHERE isPublish = 1 AND isDelete =0 ORDER BY modifyTime desc limit 1']));
         }
         $ortherdata = [
             //特色教育基地
@@ -83,7 +83,7 @@ class SiteLogic
             return $result;
         }
         $result = Carousel::find()->select(['id','title','link','img'])->orderBy('sorts asc,modifyTime desc')->all();
-        $cache->set($key, $result,null,new DbDependency(['sql'=>'SELECT modifyTime FROM sky_Carousel ORDER BY modifyTime desc limit 1']));
+        $cache->set($key, $result,7200,new DbDependency(['sql'=>'SELECT modifyTime FROM sky_Carousel ORDER BY modifyTime desc limit 1']));
         return $result;
     }
     
@@ -214,7 +214,7 @@ class SiteLogic
         }
         $cate = Category::getCatesByCode('sxsy');
         $videos = Video::find()->select(['id','videoImg','descr','video','videoType'])->where(['categoryId'=>$cate->id,'isDelete'=>0])->orderBy('sorts asc,modifyTime desc')->limit(10)->all();
-        $cache->set($key, $videos,null,new DbDependency(['sql'=>'SELECT modifyTime FROM sky_Video WHERE isDelete = 0 AND categoryId='.$cate->id.' ORDER BY modifyTime desc limit 1']));
+        $cache->set($key, $videos,7200,new DbDependency(['sql'=>'SELECT count(1) FROM sky_Video WHERE isDelete = 0 AND categoryId='.$cate->id.' ORDER BY modifyTime desc limit 1']));
         return $videos;
     }
     /**
@@ -229,7 +229,7 @@ class SiteLogic
             return $result;
         }
         $eduBases = EducationBase::find()->select(['id','baseName','baseImg','link'])->orderBy('sorts asc,modifyTime desc')->limit(10)->all();
-        $cache->set($key, $eduBases,null,new DbDependency(['sql'=>'SELECT modifyTime FROM sky_EducationBase ORDER BY modifyTime desc limit 1']));
+        $cache->set($key, $eduBases,7200,new DbDependency(['sql'=>'SELECT count(1) FROM sky_EducationBase ORDER BY modifyTime desc limit 1']));
         return $eduBases;
     }
     /**
@@ -245,7 +245,7 @@ class SiteLogic
             return $list;
         }
        $list = Article::find()->select(['id','title','titleImg','publishTime','ishot','summary'])->where(['isPublish'=>1,'isDelete'=>0])->andWhere(['<>','titleImg',''])->orderBy('isRecommen desc,ishot desc,sorts asc,publishTime desc,modifyTime desc')->limit(3)->all();
-       $cache->set($key, $list,null,new DbDependency(['sql'=>'SELECT modifyTime FROM sky_Article WHERE isPublish = 1 AND isDelete =0 AND titleImg <> \'\' ORDER BY isRecommen desc,ishot desc,sorts asc,modifyTime desc limit 1']));
+       $cache->set($key, $list,7200,new DbDependency(['sql'=>'SELECT modifyTime FROM sky_Article WHERE isPublish = 1 AND isDelete =0 AND titleImg <> \'\' ORDER BY isRecommen desc,ishot desc,sorts asc,modifyTime desc limit 1']));
        return $list;
     }
 }

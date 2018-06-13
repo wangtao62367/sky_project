@@ -107,7 +107,7 @@ class EducationbaseController extends CommonController
             return $this->showDataIsNull('educationbase/manage');
         }
         if(EducationBase::del($EducationBaseInfo)){
-            return $this->showSuccess(['educationbase/manage']);
+            return $this->redirect('/educationbase/manage');
         }
     }
     /**

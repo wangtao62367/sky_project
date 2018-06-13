@@ -19,8 +19,8 @@ $this->title = 'top';
             
     <div class="topright">    
     <ul>
-    <!--<li><span><img src="images/help.png" title="帮助"  class="helpimg"/></span><a href="#">帮助</a></li>
-    <li><a href="#">关于</a></li>-->
+    <!--<li><span><img src="images/help.png" title="帮助"  class="helpimg"/></span><a href="#">帮助</a></li>-->
+    <li><a href="http://120.79.36.167:8080/" target="_blank" >前台的主页</a></li>
     <li><a href="<?php echo Url::to(['public/logout']);?>" target="_parent">退出</a></li>
     </ul>
      
