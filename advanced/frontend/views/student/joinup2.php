@@ -36,12 +36,12 @@ $nations = Yii::$app->params['nations'];
 				
 				<td class="title">性别</td>
 				<td>
-					<?php echo Html::activeDropDownList($model, 'sex', ['1'=>'男','2'=>'女'])?>
+					<?php echo Html::activeDropDownList($model, 'sex', ['1'=>'男','2'=>'女'],['autocomplete'=>'off'])?>
 				</td>
 				
 				<td class="title">出生年月</td>
 				<td>
-					<?php echo Html::activeTextInput($model, 'birthday',['class'=>'timeselect'])?>
+					<?php echo Html::activeTextInput($model, 'birthday',['class'=>'timeselect','autocomplete'=>'off'])?>
 				</td>
 				
 				<td rowspan="3">
@@ -59,7 +59,7 @@ $nations = Yii::$app->params['nations'];
 					<?php echo Html::activeTextInput($model, 'political')?>
 				</td>
 				
-				<td class="title">名族</td>
+				<td class="title">民族</td>
 				<td>
 					<?php echo Html::activeDropDownList($model, 'nationCode', $nations)?>
 				</td>
@@ -85,12 +85,12 @@ $nations = Yii::$app->params['nations'];
 			<tr>
 				<td class="title">参加工作时间</td>
 				<td>
-					<?php echo Html::activeTextInput($model, 'dateToWork',['class'=>'timeselect'])?>
+					<?php echo Html::activeTextInput($model, 'dateToWork',['class'=>'timeselect','autocomplete'=>'off'])?>
 				</td>
 				
 				<td class="title">参加党派时间</td>
 				<td colspan="2">
-					<?php echo Html::activeTextInput($model, 'dateToPolitical',['class'=>'timeselect'])?>
+					<?php echo Html::activeTextInput($model, 'dateToPolitical',['class'=>'timeselect','autocomplete'=>'off'])?>
 				</td>
 				
 				<td class="title">级别</td>
@@ -119,7 +119,7 @@ $nations = Yii::$app->params['nations'];
 				
 				<td class="title">身份证号码</td>
 				<td colspan="2">
-					<?php echo Html::activeTextInput($model, 'IDnumber')?>
+					<?php echo Html::activeTextInput($model, 'IDnumber',['autocomplete'=>'off'])?>
 				</td>
 			</tr>
 			
@@ -138,7 +138,7 @@ $nations = Yii::$app->params['nations'];
 			<tr>
 				<td class="title">电话</td>
 				<td>
-					<?php echo Html::activeTextInput($model, 'phone')?>
+					<?php echo Html::activeTextInput($model, 'phone',['autocomplete'=>'off'])?>
 				</td>
 			</tr>
 			

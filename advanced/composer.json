@@ -26,7 +26,8 @@
 		"phpoffice/phpexcel" : "dev-develop",
 		"kucha/ueditor" : "*",
 		"aliyuncs/oss-sdk-php" : "~2.0",
-		"yiisoft/yii2-imagine" : "*"
+		"yiisoft/yii2-imagine" : "*",
+		"daixianceng/yii2-smser" : "^1.4"
 	},
 	"require-dev" : {
 		"yiisoft/yii2-debug" : "~2.0.0",

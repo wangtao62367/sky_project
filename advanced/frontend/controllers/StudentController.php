@@ -45,12 +45,13 @@ class StudentController extends CommonController
         $bmRecords = BmRecord::find()->select('id,userId,verify')->where(['gradeClassId'=>$gradeClass->id])->asArray()->all();
 
         if(!empty($bmRecords)){
-            $verifyCounts = array_count_values(array_column($bmRecords,"verify"));
-            $sum = isset($verifyCounts[3]) ? $verifyCounts[3] : 0;
-            //班级人数已满
-            if($gradeClass->classSize <= $sum){
-            	Yii::$app->session->setFlash('error','本班人数限额已满');
-            }
+               //不限制班级人数
+//             $verifyCounts = array_count_values(array_column($bmRecords,"verify"));
+//             $sum = isset($verifyCounts[3]) ? $verifyCounts[3] : 0;
+//             //班级人数已满
+//             if($gradeClass->classSize <= $sum){
+//             	Yii::$app->session->setFlash('error','本班人数限额已满');
+//             }
             //判断是否已经报过名
             $userIds = array_column($bmRecords,"userId");
             if(in_array($userId, $userIds)){

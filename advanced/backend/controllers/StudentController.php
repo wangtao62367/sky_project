@@ -10,6 +10,7 @@ use common\controllers\CommonController;
 use common\models\Student;
 use common\models\BestStudent;
 use common\models\BmRecord;
+use common\models\GradeClass;
 /**
  * @name 学员管理
  * @author wt
@@ -134,6 +135,10 @@ class StudentController extends CommonController
                     $student->studyNum = $bmRecord->studyNum;
                     $student->save(false);
                 }
+                //终审通过  给用户发送短信
+                //获取班级信息
+                $gradeClass = GradeClass::find()->select(['openClassTime','contact','phone'])->where(['id'=>$bmRecord->gradeClassId])->one();
+                Yii::$app->smser->send($bmRecord->phone, $bmRecord->trueName.' 先生/女士，你已成功报名参加四川省社会主义学院 '.$bmRecord->gradeClass.' 学习培训班，请于'.$gradeClass->openClassTime.'报到，联系电话：'.$gradeClass->phone);
                 return $this->showSuccess('student/info?id='.$id);
             }else{
                 Yii::$app->session->setFlash('error','操作失败');

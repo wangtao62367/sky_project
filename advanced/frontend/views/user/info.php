@@ -46,7 +46,9 @@ $this->title = '个人信息';
 					<?php endif;?>
 					<div class="img-select-btn">
 						<?php echo  Html::fileInput('avater',null,['style'=>'display:none','id'=>"avater",'accept'=>"image/png, image/jpeg,image/jpg"])?>
-						<a href="javascript:;" id="selectimgbtn">选择图片</a><span class="form-error"></span>   <span id="selectedimg"></span><span>  （只支持.png、.jpeg和.jpg格式的图片）</span>
+						<a href="javascript:;" id="selectimgbtn">选择图片</a> <span id="selectedimg"></span>
+						<span>（只支持.png、.jpeg和.jpg格式的图片）</span>
+						<p class="form-error"></p>
 					</div>
 				</div>
 			</div>
@@ -64,7 +66,7 @@ $this->title = '个人信息';
 			
 			<div class="field">
 				<div class="field-left field-nation">
-					<label class="title">名族：</label>
+					<label class="title">民族：</label>
 					<?php echo Html::activeDropDownList($model, 'nationCode', Yii::$app->params['nations'],['class'=>'dropselect'])?>
 				</div>
 				<div class="field-left field-birthday">
@@ -184,6 +186,7 @@ $css = <<<CSS
 CSS;
 AppAsset::addCss($this, '/front/css/jquery.datetimepicker.css');
 AppAsset::addScript($this, '/front/js/jquery.datetimepicker.full.js');
+$uploadurl = Url::to(['/user/ajax-upload']);
 $js = <<<JS
 $(document).on('click','#selectimgbtn',function(){
     $("#avater").click();
@@ -205,8 +208,10 @@ $("#avater").change(function(){
     var formData = new FormData();
     formData.append('file',file);
     $('.img-box').empty().append('<img src="/front/img/loading.gif" />');
-    common.uploadFile(formData,function(res){
-        console.log(res);
+    common.uploadFile(formData,'$uploadurl',function(res){
+        if(res.success){
+            $('.img-box').empty().append('<img src="'+res.data+'" width="120px" height="120px"/>');
+        }
     },function(err){
         console.log(err);
     });

@@ -32,7 +32,7 @@ use common\models\Student;
             </div>
         </li>
         
-        <li><label>学员名族</label>
+        <li><label>学员民族</label>
         	<div class="vocation">
                 <?php echo Html::activeDropDownList($model, 'search[nationCode]', Yii::$app->params['nations'],['prompt'=>'请选择','class'=>'sky-select'])?>
             </div>
@@ -77,7 +77,7 @@ use common\models\Student;
             <th>学号</th>
             <th>联系电话</th>
             <th>性别</th>
-            <th>名族</th>
+            <th>民族</th>
             <th>工作单位</th>
             <th>职称</th>
             <th>市州</th>

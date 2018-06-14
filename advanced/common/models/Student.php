@@ -165,7 +165,7 @@ class Student extends BaseModel
         
         $objSheet->setCellValue('A1','学号')->setCellValue('B1','姓名')->setCellValue('C1','所在班级')->setCellValue('D1','报名时间')->setCellValue('E1','联系电话')
         ->setCellValue('F1','是否结业')->setCellValue('G1','优秀学员')->setCellValue('H1','性别')->setCellValue('I1','出生年月')
-        ->setCellValue('J1','名族')->setCellValue('K1','党派')->setCellValue('L1','级别')->setCellValue('M1','健康状况')
+        ->setCellValue('J1','民族')->setCellValue('K1','党派')->setCellValue('L1','级别')->setCellValue('M1','健康状况')
         ->setCellValue('N1','文化程度')->setCellValue('O1','工作单位')->setCellValue('P1','职务或职称')->setCellValue('Q1','身份证号')->setCellValue('R1','市州');
         
         //设置填充的样式和背景色

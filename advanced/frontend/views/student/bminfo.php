@@ -91,7 +91,7 @@ $this->title = '我要报名-查看报名信息';
 					<?php echo $info['political']?>
 				</td>
 				
-				<td class="title">名族</td>
+				<td class="title">民族</td>
 				<td>
 					<?php echo $info['nation'];?>
 				</td>

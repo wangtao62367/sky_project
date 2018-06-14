@@ -43,7 +43,7 @@ class BmRecord extends BaseModel
             ['birthday','date','format'=>'yyyy-MM-dd','message'=>'请输入正确出生年月','on'=>'add'],
             //['avater','required','message'=>'头像不能为空','on'=>'add'],
             ['political','required','message'=>'党派不能为空','on'=>'add'],
-            ['nationCode','required','message'=>'名族不能为空','on'=>'add'],
+            ['nationCode','required','message'=>'民族不能为空','on'=>'add'],
             ['health','required','message'=>'健康状况不能为空','on'=>'add'],
             ['eduDegree','required','message'=>'文化程度不能为空','on'=>'add'],
             ['speciality','required','message'=>'特长爱好不能为空','on'=>'add'],
@@ -206,7 +206,7 @@ class BmRecord extends BaseModel
         
         $objSheet->setCellValue('A1','学号')->setCellValue('B1','姓名')->setCellValue('C1','所在班级')->setCellValue('D1','报名时间')->setCellValue('E1','联系电话')
         ->setCellValue('F1','是否结业')->setCellValue('G1','优秀学员')->setCellValue('H1','性别')->setCellValue('I1','出生年月')
-        ->setCellValue('J1','名族')->setCellValue('K1','工作单位')->setCellValue('L1','职称')->setCellValue('M1','政治面貌')
+        ->setCellValue('J1','民族')->setCellValue('K1','工作单位')->setCellValue('L1','职称')->setCellValue('M1','政治面貌')
         ->setCellValue('N1','身份证号')->setCellValue('O1','现居城市')->setCellValue('P1','详细地址')->setCellValue('Q1','备注');
         
         //设置填充的样式和背景色

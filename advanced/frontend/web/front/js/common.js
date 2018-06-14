@@ -51,19 +51,20 @@
 	     * @param trueCallBack 请求成功回调
 	     * @param failCallBack 请求失败回调
 	     */
-	    uploadFile : function (formData,trueCallBack,failCallBack) {
+	    uploadFile : function (formData,url,trueCallBack,failCallBack) {
 	    	
 	    	$.ajax({
-	    	    url: '/user/ajax-upload',
+	    	    url: url,
 	    	    type: 'POST',
 	    	    cache: false,
 	    	    data: formData,//new FormData($('#uploadForm')[0]),
 	    	    processData: false,
 	    	    contentType: false
 	    	}).done(function(res) {
-	    		trueCallBack || trueCallBack(res);
+	    		//console.log(res);
+	    		trueCallBack && trueCallBack(res);
 	    	}).fail(function(res) {
-	    		failCallBack || failCallBack();
+	    		failCallBack && failCallBack();
 	    	}); 
 	    }
 	};

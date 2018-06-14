@@ -72,7 +72,7 @@ $nations = Yii::$app->params['nations'];
 	</div>
 	
 	<div class="field">
-		<label  class="field-title">名族：</label>
+		<label  class="field-title">民族：</label>
 		<?php echo Html::activeDropDownList($model, 'nationCode',$nations,['class'=>'text']);?><i>*</i>
 		<p class="form-error">
 			<?php 
@@ -85,7 +85,7 @@ $nations = Yii::$app->params['nations'];
 	
 	<div class="field">
 		<label  class="field-title">出生年月：</label>
-		<?php echo Html::activeTextInput($model, 'birthday',['class'=>'text birthday']);?><i>*</i>
+		<?php echo Html::activeTextInput($model, 'birthday',['class'=>'text birthday','autocomplete'=>'off']);?><i>*</i>
 		<p class="form-error">
 			<?php 
 			     if(isset($error) && isset($error['birthday'])){
@@ -97,7 +97,7 @@ $nations = Yii::$app->params['nations'];
 	
 	<div class="field">
 		<label  class="field-title">身份证号：</label>
-		<?php echo Html::activeTextInput($model, 'IDnumber',['class'=>'text']);?><i>*</i>
+		<?php echo Html::activeTextInput($model, 'IDnumber',['class'=>'text','autocomplete'=>'off']);?><i>*</i>
 		<p class="form-error">
 			<?php 
 			     if(isset($error) && isset($error['IDnumber'])){
@@ -121,7 +121,7 @@ $nations = Yii::$app->params['nations'];
 	
 	<div class="field">
 		<label  class="field-title">联系电话：</label>
-		<?php echo Html::activeTextInput($model, 'phone',['class'=>'text']);?><i>*</i>
+		<?php echo Html::activeTextInput($model, 'phone',['class'=>'text','autocomplete'=>'off']);?><i>*</i>
 		<p class="form-error">
 			<?php 
 			     if(isset($error) && isset($error['phone'])){
