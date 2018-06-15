@@ -185,7 +185,7 @@ class Article extends BaseModel
     	])
     	->with('categorys')
     	->where([self::tableName().'.isDelete'=>0])
-    	->orderBy('modifyTime desc,createTime desc');
+    	->orderBy('ishot desc,sorts asc,publishTime desc');
     	return $query;
     }
     

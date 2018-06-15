@@ -1,6 +1,6 @@
 /*首页*/
 .section a,.section p{color: #373737;}
-.main-banner{max-width: 1200px;max-height: 100px;display: block;margin: 0 auto;margin-top: 15px;margin-left: -15px;margin-right: -15px;}
+.main-banner{width: 1200px;height: 100px;display: block;margin: 0 auto;margin-top: 15px;margin-left: -15px;margin-right: -15px;}
 .news-box1,.news-box2,.news-box3,.news-box4,.news-box5{width: 100%;display: block;position: relative;box-sizing: border-box;overflow: hidden;}
 /*统战新闻 时政要闻*/
 /* .news-box1 .tzxw,.news-box1 .szyw{height: 158px;width: 563px;border:2px solid red;border-left: 4px solid red;border-radius: 2px;margin-bottom: 15px;position: relative;;overflow: hidden}
