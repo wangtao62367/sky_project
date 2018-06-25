@@ -137,8 +137,8 @@ class StudentController extends CommonController
                 }
                 //终审通过  给用户发送短信
                 //获取班级信息
-                $gradeClass = GradeClass::find()->select(['openClassTime','contact','phone'])->where(['id'=>$bmRecord->gradeClassId])->one();
-                Yii::$app->smser->send($bmRecord->phone, $bmRecord->trueName.' 先生/女士，你已成功报名参加四川省社会主义学院 '.$bmRecord->gradeClass.' 学习培训班，请于'.$gradeClass->openClassTime.'报到，联系电话：'.$gradeClass->phone);
+                $gradeClass = GradeClass::find()->select(['openClassTime','eduAdmin','eduAdminPhone'])->where(['id'=>$bmRecord->gradeClassId])->one();
+                Yii::$app->smser->send($bmRecord->phone, $bmRecord->trueName.' 同志，你已成功报名参加四川省社会主义学院 '.$bmRecord->gradeClass.' 学习培训班，请于'.$gradeClass->openClassTime.'报到，联系电话：'.$gradeClass->eduAdminPhone);
                 return $this->showSuccess('student/info?id='.$id);
             }else{
                 Yii::$app->session->setFlash('error','操作失败');

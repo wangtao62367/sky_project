@@ -4,6 +4,8 @@ use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use common\models\BmRecord;
+use backend\assets\AppAsset;
+use yii\web\View;
 
 
 $controller = Yii::$app->controller;
@@ -22,8 +24,20 @@ $url =Url::to(ArrayHelper::merge([$controller->id.'/'.$controller->action->id], 
 
 <div class="rightinfo">
 
+<div id="printArea">
+<style>
+table {border-collapse: collapse;width:700px;height:978px;margin:0 auto;}
+
+table, td, th {border: 1px solid #333;text-align:left;padding-left:10px;padding-top:5px;padding-bottom:5px;height:50px;min-width:80px;}
+table input,textarea{outline:none;border:none;padding:8px;box-sizing: border-box;min-width:200px;width:100%;height: 50px;}
+table .title{font-weight:700;text-align:center;}
+.avater-box{width:120px;height:120px; margin:0 auto;text-align:center;line-height:120px;border:1px solid #333;border-style: dotted;border-radius: 5px;cursor: pointer;}
+
+table.studentInfo td.verifyForm{text-align: left}
+.verifyForm textarea{width: 700px;border: 1px solid #c5c59f;padding:2px;}
+.verifyForm a.btn-verify{display: inline-block;padding: 5px 20px;background: #2da3ea;border-radius: 5px;margin-left: 19px;color:#fff;}
+</style>
 <table class="studentInfo">
-	
 	<tr>
 				<td class="title">姓名</td>
 				<td>
@@ -169,7 +183,7 @@ $url =Url::to(ArrayHelper::merge([$controller->id.'/'.$controller->action->id], 
 			</tr>
 
 	
-	<tr>
+	<tr class="verifyarea">
 		<td class="title" >初始审核</td>
 		<td colspan="6" class="verifyForm">
 			<?php if($info->verify == 1):?>
@@ -184,7 +198,7 @@ $url =Url::to(ArrayHelper::merge([$controller->id.'/'.$controller->action->id], 
 			<?php endif;?>
 		</td>
 	</tr>
-	<tr>
+	<tr class="verifyarea">
 		<td class="title" >二次审核</td>
 		<td colspan="6" class="verifyForm">
 			<?php if($info->verify == 2):?>
@@ -199,59 +213,29 @@ $url =Url::to(ArrayHelper::merge([$controller->id.'/'.$controller->action->id], 
 			<?php endif;?>
 		</td>
 	</tr>
-</table>
+  </table>
+</div>
+<?php if($info->verify == 3):?>
+<div style="width: 890px;margin:0 auto;text-align:center;margin-top:10px;margin-bottom:30px;">
+  <a href="javascript:;" class="print-btn">打印</a>
+</div>
+<?php endif;?>
 <p><?php if(Yii::$app->session->hasFlash('error')){echo Yii::$app->session->getFlash('error');}?></p>
 </div>
 
 <?php 
+AppAsset::addScript($this, '/admin/js/jquery.PrintArea.js');
 $css = <<<CSS
+table {border-collapse: collapse;width:890px;margin:0 auto;}
 
-table {
-    border-collapse: collapse;
-    width:890px;
-    margin:0 auto;
-}
-
-table, td, th {
-    border: 1px solid #333;
-    text-align:left;
-    padding-left:10px;
-    padding-top:10px;
-    padding-bottom:10px;
-    height:60px;
-    min-width:80px;
-}
+table, td, th {border: 1px solid #333;text-align:left;padding-left:10px;padding-top:10px;padding-bottom:10px;height:60px;min-width:80px;}
 table input,textarea{outline:none;border:none;padding:8px;box-sizing: border-box;min-width:200px;width:100%;height: 50px;}
-table .title{
-    font-weight:700;
-    text-align:center;
-}
-.avater-box{
-    width:120px;
-    height:120px;
-    margin:0 auto;
-    text-align:center;
-    line-height:120px;
-    border:1px solid #333;
-    border-style: dotted;
-    border-radius: 5px;
-    cursor: pointer;
-}
+table .title{font-weight:700;text-align:center;}
+.avater-box{width:120px;height:120px; margin:0 auto;text-align:center;line-height:120px;border:1px solid #333;border-style: dotted;border-radius: 5px;cursor: pointer;}
 
 table.studentInfo td.verifyForm{text-align: left}
-.verifyForm textarea{
-    width: 700px;
-    border: 1px solid #c5c59f;
-	padding:2px;
-}
-.verifyForm a.btn-verify{
-    display: inline-block;
-    padding: 5px 20px;
-    background: #2da3ea;
-    border-radius: 5px;
-    margin-left: 19px;
-	color:#fff;
-}
+.verifyForm textarea{width: 700px;border: 1px solid #c5c59f;padding:2px;}
+.verifyForm a.btn-verify{display: inline-block;padding: 5px 20px;background: #2da3ea;border-radius: 5px;margin-left: 19px;color:#fff;}
 CSS;
 $js = <<<JS
 $(document).on('click','.agree,.disagree',function(){
@@ -269,7 +253,11 @@ $(document).on('click','.agree,.disagree',function(){
 	$(this).parent().find('input[name=isAgree]').val(isAgree);
 	$(this).parent('form').submit();
 })
+$(document).on('click','.print-btn',function(){
+    //$(".verifyarea").hide();
+    $("div#printArea").printArea(); 
+})
 JS;
-$this->registerCss($css);
+//$this->registerCss($css);
 $this->registerJs($js);
 ?>

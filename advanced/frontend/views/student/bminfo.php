@@ -29,7 +29,44 @@ $this->title = '我要报名-查看报名信息';
     <div class="_hr">
         <hr class="first"/><hr class="second"/>
     </div>
-    <div class="text">
+
+    <div class="text" >
+    	<div id="bminfoArea">
+    	<style>
+            table {
+                border-collapse: collapse;
+                width:700px;height:978px;
+                margin:0 auto;
+            }
+            
+            table, td, th {
+                border: 1px solid #333;
+                text-align:left;
+                padding-left:10px;
+                height:45px;
+                min-width:80px;
+            }
+            table input,textarea{outline:none;border:none;padding:8px;box-sizing: border-box;min-width:200px;width:100%;height: 50px;}
+            table .title{
+                font-weight:700;
+                text-align:center;
+            }
+            .avater-box{
+                width:120px;
+                height:120px;
+                margin:0 auto;
+                text-align:center;
+                line-height:120px;
+                border:1px solid #333;
+                border-style: dotted;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+            
+            .bminfo .maxrow{height:100px;}
+            .bminfo td .avater{display:block;margin: auto;border-radius: 5px;}
+            td .verify-status{color:red;font-weight:700;}
+        </style>
         <table class="bminfo">
             <tr class="maxrow">
             	<td class="title">审核状态</td>
@@ -77,7 +114,7 @@ $this->title = '我要报名-查看报名信息';
 					<?php echo $info['birthday'];?>
 				</td>
 				
-				<td rowspan="3">
+				<td rowspan="3" style="padding-left:5px;padding-right:5px;">
 					<div class="avater-box" id="avater-upload">
 						<img width="120px" height="120px" src="<?php echo $info['avater'];?>" />
 					</div>
@@ -208,6 +245,10 @@ $this->title = '我要报名-查看报名信息';
         
         </table>
     		
+    	</div>	
+    	<div style="width: 700px;margin:0 auto;text-align:center;margin-top:25px;margin-bottom:30px;">
+          <a href="javascript:;" class="print-btn">打印</a>
+        </div>
     </div>
 </div>
 <div style="clear: both"></div>
@@ -217,6 +258,7 @@ $this->title = '我要报名-查看报名信息';
 
 <?php 
 AppAsset::addCss($this, '/front/css/newsUnitedFront.css');
+AppAsset::addScript($this, '/front/js/jquery.PrintArea.js');
 $css=<<<CSS
 .section .content ._hr {
     width: 890px;
@@ -234,42 +276,21 @@ $css=<<<CSS
     width: 615px;
     float: left;
 }
-
-table {
-    border-collapse: collapse;
-    width:890px;
-    margin:0 auto;
+.print-btn{
+    background: #009688;
+    color: #fff;
+    padding: 8px 25px;
+    border-radius: 4px;
 }
-
-table, td, th {
-    border: 1px solid #333;
-    text-align:left;
-    padding-left:10px;
-    height:60px;
-    min-width:80px;
-}
-table input,textarea{outline:none;border:none;padding:8px;box-sizing: border-box;min-width:200px;width:100%;height: 50px;}
-table .title{
-    font-weight:700;
-    text-align:center;
-}
-.avater-box{
-    width:120px;
-    height:120px;
-    margin:0 auto;
-    text-align:center;
-    line-height:120px;
-    border:1px solid #333;
-    border-style: dotted;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.bminfo .maxrow{height:150px;}
-.bminfo td .avater{display:block;margin: auto;border-radius: 5px;}
-td .verify-status{color:red;font-weight:700;}
+.print-btn:hover{background: #0e736a;}
 CSS;
+$js= <<<JS
+$(document).on('click','.print-btn',function(){
+    $("div#bminfoArea").printArea(); 
+})
 
+JS;
 
+$this->registerJs($js);
 $this->registerCss($css);
 ?>
