@@ -5,7 +5,8 @@
 /*统战新闻 时政要闻*/
 /* .news-box1 .tzxw,.news-box1 .szyw{height: 158px;width: 563px;border:2px solid red;border-left: 4px solid red;border-radius: 2px;margin-bottom: 15px;position: relative;;overflow: hidden}
 .tzxw  .theme-box,.szyw  .theme-box{width: 60px;height: 147px;margin-top: 5.5px;margin-left: -1px;} */
-.tzxw  .news,.szyw  .news{width: 503px;height: 158px;position: relative;box-sizing: border-box;}
+.tzxw  .news,.szyw  .news{width: 525px;height: 158px;position: relative;box-sizing: border-box;}
+
 /* .tzxw  .news{padding: 15px 28px;} */
 .szyw  .news{padding: 13px;padding-left: 50px;}
 .news-box1 .tzxw, .news-box1 .szyw {

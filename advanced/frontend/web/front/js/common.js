@@ -163,7 +163,11 @@ function getCurrentDateTime() {
     curDateTime = curDateTime + " " + weekday;  
     return curDateTime;  
 } 
-
+/**
+ * 
+ * @param url
+ * @returns
+ */
 function getWeather(url){
 	$.get(url,function(res){
 		if(res){

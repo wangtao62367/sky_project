@@ -103,9 +103,9 @@ section{background:#fff;}
 	margin-left:30px;
 }
 
-.newsList img{width:860px;}
+.shooleinfo img{width:860px;}
 
-.newsList .article-item,.newsList .article-item a,.newsList .file-item,.newsList .file-item a{
+.newsList .article-item,.newsList .file-item,.newsList .file-item a{
 	font-size:16px;
 	margin-bottom:25px;
 	padding-left:20px;
@@ -113,13 +113,14 @@ section{background:#fff;}
 	font-weight:600; 
 	height:18px;
 	line-height:18px;
-	width:800px;
+	width:840px;
 	box-sizing:border-box;
 	display: inline-block;
     word-wrap: break-word;
     overflow: hidden;
     text-overflow: ellipsis;
 }
+.newsList .article-item a{color:#333;font-size:16px;}
 .newsList .article-item,.newsList .file-item{
 	background:url(../img/news/list.png) no-repeat;
 }
@@ -129,15 +130,16 @@ section{background:#fff;}
     float: left;
     margin-right: 16.6px;
     position: relative;
-    overflow: hidden;
+    /* overflow: hidden; */
     display: block;
 	/* margin-bottom: 50px; */
 }
-.newsList .video-item a img ,.newsList .image-item a img{
+.newsList .video-item a img ,.newsList .image-item a .image-box{
     width: 267px;
     height: 170px;
 	border-radius:2px;
 }
+.newsList .image-item a .image-box img{width:100%;height:100%}
 .video-item a p{
 	position: absolute;
     left: 0px;

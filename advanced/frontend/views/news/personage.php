@@ -35,7 +35,7 @@ $this->title = $parent->codeDesc . '-' .$currentCate->text;
 			<?php endif;?>
 			<?php foreach ($list['data'] as $val):?>
 				<?php if ($currentCate->type == CategoryType::ARTICLE):?>
-					<li class="article-item"><a href="<?php echo Url::to(['news/detail','id'=>$val['id']])?>" title="<?php echo $val['title'];?>"><?php echo MyHelper::timestampToDate($val['publishTime'],'Y-m-d');?>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $val['title'];?></a></li>
+					<li class="article-item"><a href="<?php echo Url::to(['news/detail','id'=>$val['id']])?>" title="<?php echo $val['title'];?>"><?php echo MyHelper::timestampToDate($val['publishTime'],'Y-m-d');?>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo mb_substr($val['title'],0,41,'utf-8');?>&nbsp;&nbsp</a><?php if($val['publishTime'] > (time() - 5*24*3600)):?><img alt="热点新闻" src="/front/img/index/hot_news.gif"><?php endif;?></li>
 				<?php elseif ($currentCate->type == CategoryType::VIDEO):?>
 					<li  class="video-item">
     					<a href="<?php echo Url::to(['video/start','id'=>$val['id']]);?>">
@@ -46,9 +46,9 @@ $this->title = $parent->codeDesc . '-' .$currentCate->text;
 					</li>
 				<?php elseif ($currentCate->type == CategoryType::IMAGE):?>
 					<li  class="image-item">
-    					<a href="<?php echo !empty($val['link']) ? $val['link'] : 'javascript:;';?>">
-                			<img src="<?php echo $val['photo'];?>" />
-                			<p><?php echo $val['title'];?></p>
+        					<a target="_blank" href="<?php echo !empty($val['link']) ? $val['link'] : 'javascript:;';?>">
+                    			<p class="image-box"><img src="<?php echo $val['photo'];?>"  class="<?php echo empty($val['link']) ? 'img-rounded' :''; ?>"/></p>
+                    			<p><?php echo $val['title'];?></p>
     					</a>
 					</li>
 				<?php elseif ($currentCate->type == CategoryType::FILE):?>
@@ -67,4 +67,13 @@ $this->title = $parent->codeDesc . '-' .$currentCate->text;
 
 <?php 
 AppAsset::addCss($this, '/front/css/newsUnitedFront.css');
+AppAsset::addCss($this, '/front/js/zoomify/zoomify.min.css');
+AppAsset::addScript($this, '/front/js/zoomify/zoomify.js');
+
+$js=<<<JS
+$('.img-rounded').zoomify({
+	scale : 4,
+});
+JS;
+$this->registerJs($js);
 ?>

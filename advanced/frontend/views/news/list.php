@@ -70,7 +70,7 @@ $this->title = $parent->codeDesc . '-'.$currentCate->text;
     				</li>
     			<?php else :?>
     				<?php if ($currentCate->type == CategoryType::ARTICLE):?>
-    					<li class="article-item"><a href="<?php echo Url::to(['news/detail','id'=>$val['id']])?>" title="<?php echo $val['title'];?>"><?php echo MyHelper::timestampToDate($val['publishTime'],'Y-m-d');?>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $val['title'];?></a></li>
+    					<li class="article-item"><a target="_blank" href="<?php echo Url::to(['news/detail','id'=>$val['id']])?>" title="<?php echo $val['title'];?>"><?php echo MyHelper::timestampToDate($val['publishTime'],'Y-m-d');?>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo mb_substr($val['title'],0,41,'utf-8');?>&nbsp;&nbsp</a><?php if($val['publishTime'] > (time() - 5*24*3600)):?><img alt="热点新闻" src="/front/img/index/hot_news.gif"><?php endif;?></li>
     				<?php elseif ($currentCate->type == CategoryType::VIDEO):?>
     					<li  class="video-item" data-videourl="<?php echo $val['video'];?>" data-videotype="<?php echo $val['videoType'];?>" id="video_item_<?php echo $val['id'];?>">
         					<a href="javascript:;">
@@ -82,7 +82,7 @@ $this->title = $parent->codeDesc . '-'.$currentCate->text;
     				<?php elseif ($currentCate->type == CategoryType::IMAGE):?>
     					<li  class="image-item">
         					<a href="<?php echo !empty($val['link']) ? $val['link'] : 'javascript:;';?>">
-                    			<img src="<?php echo $val['photo'];?>" />
+                    			<p class="image-box"><img src="<?php echo $val['photo'];?>"  class="<?php echo empty($val['link']) ? 'img-rounded' :''; ?>"/></p>
                     			<p><?php echo $val['title'];?></p>
         					</a>
     					</li>
@@ -108,7 +108,10 @@ $this->title = $parent->codeDesc . '-'.$currentCate->text;
 <?php 
 AppAsset::addCss($this, '/front/css/newsUnitedFront.css');
 AppAsset::addCss($this, '/front/css/pagination.css');
+AppAsset::addCss($this, '/front/js/zoomify/zoomify.min.css');
 AppAsset::addScript($this, '/front/js/jquery.pagination.js');
+
+AppAsset::addScript($this, '/front/js/zoomify/zoomify.js');
 $curPage = $list['curPage'];
 $pageSize = $list['pageSize'];
 $count = $list['count'];
@@ -121,6 +124,7 @@ initPagination({
 	pageSize : $pageSize,
     uri : '$uri'
 });
+//视频播放
 $(document).on('click','.video-item',function(){
 	if($(this).hasClass('prism-player')){
 		return false;
@@ -163,6 +167,11 @@ $(document).on('click','.video-item',function(){
 		$(".prism-big-play-btn").remove();
 	});
 })
+
+$('.img-rounded').zoomify({
+	scale : 4,
+});
+
 JS;
 $css = <<<CSS
 .newsList .video-item{margin-bottom:15px;}

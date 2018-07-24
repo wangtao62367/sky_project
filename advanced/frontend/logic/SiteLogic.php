@@ -93,7 +93,7 @@ class SiteLogic
     public static function getGgtz()
     {
         $cate = Category::getCatesByCode('ggtz');
-        $articles = Article::find()->select(['id','title','ishot'])->where(['categoryId'=>$cate->id,'isPublish'=>1,'isDelete'=>0])->orderBy('ishot desc,sorts asc,publishTime desc')->limit(8)->all();
+        $articles = Article::find()->select(['id','title','ishot','publishTime'])->where(['categoryId'=>$cate->id,'isPublish'=>1,'isDelete'=>0])->orderBy('ishot desc,sorts asc,publishTime desc')->limit(8)->all();
         return $articles;
     }
     

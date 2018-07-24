@@ -26,7 +26,7 @@ $this->title = $parent->codeDesc . '-' .$currentCate->text;
 	    <hr class="first"/><hr class="second"/>
 	</div>
 	<div class="text">
-		<div class="newsList">
+		<div class="newsList shooleinfo">
 			<?php echo $info->text;?>
 		</div>
 	    <div class="page">

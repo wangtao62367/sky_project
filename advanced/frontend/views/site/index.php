@@ -16,7 +16,7 @@ $this->title = "首页_".$params['webCfgs']['siteName'];
 		<div class="left news">
 			<ul>
     			<?php foreach ($data['szyw'] as $szyw):?>
-    			<li><a href="<?php echo Url::to(['news/detail','id'=>$szyw->id])?>" title="<?php echo $szyw->title;?>"><?php echo $szyw->title?></a></li>
+    			<li><a href="<?php echo Url::to(['news/detail','id'=>$szyw->id])?>" title="<?php echo $szyw->title;?>"><?php echo mb_substr($szyw->title,0,29,'utf-8');?></a><?php if($szyw['publishTime'] > (time() - 5*24*3600)):?><img alt="热点新闻" src="/front/img/index/hot_news.gif"><?php endif;?></li>
     			<?php endforeach;?>
 			</ul>
 		</div>
@@ -234,7 +234,7 @@ $this->title = "首页_".$params['webCfgs']['siteName'];
 	<div class="right ggtz-box">
 		<ul>
 			<?php foreach ($data['ggtz'] as $ggtz):?>
-			<li><a href="<?php echo Url::to(['news/detail','id'=>$ggtz->id])?>" title="<?php echo $ggtz->title;?>"><?php echo $ggtz->title;?></a></li>
+			<li><a href="<?php echo Url::to(['news/detail','id'=>$ggtz->id])?>" title="<?php echo $ggtz->title;?>"><?php echo mb_substr($ggtz->title,0,16,'utf-8');?></a><?php if($ggtz->publishTime > (time() - 5*24*3600)):?><img alt="热点新闻" src="/front/img/index/hot_news.gif"><?php endif;?></li>
 			<?php endforeach;?>
 		</ul>
 	</div>
