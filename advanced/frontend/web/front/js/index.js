@@ -39,21 +39,69 @@ $(document).on('mouseover','.news-cates .cate',function(){
 /**
  * 图文新闻切换
  */
-$(document).on('mouseover','.news-items .item',function(){
-	 var _this = $(this);
-	 if(_this.hasClass("selected")){
-		return false; 
-	 }
-	 var titleImg = _this.data("target-titleimg");
-	 var url = _this.data("target-url");
-	 var title = _this.data("target-title");
-	 $('.news-img-box').find("img").attr("src",titleImg);
-	 $('.news-img-box').find("a").attr("href",url).attr("title",title);;
-	 
-	 _this.parent().find('.item').removeClass('selected');
-	 _this.addClass('selected');
+//$(document).on('mouseover','.news-items .item',function(){
+//	 var _this = $(this);
+//	 if(_this.hasClass("selected")){
+//		return false; 
+//	 }
+//	 var titleImg = _this.data("target-titleimg");
+//	 var url = _this.data("target-url");
+//	 var title = _this.data("target-title");
+//	 $('.news-img-box').find("img").attr("src",titleImg);
+//	 $('.news-img-box').find("a").attr("href",url).attr("title",title);;
+//	 
+//	 _this.parent().find('.item').removeClass('selected');
+//	 _this.addClass('selected');
+//})
+
+//轮播  切换图文新闻
+$(function(){
+	var index = 0;
+	var len = $('.news-items .item').length;
+	var auto;
+	
+	function move(_this){
+		 var titleImg = _this.data("target-titleimg");
+		 var url = _this.data("target-url");
+		 var title = _this.data("target-title");
+		 $('.news-img-box').find("img").attr("src",titleImg);
+		 $('.news-img-box').find("a").attr("href",url).attr("title",title);;
+		 
+		 _this.parent().find('.item').removeClass('selected');
+		 _this.addClass('selected');
+	}
+	$(document).on('mouseover','.news-img-box',function(){
+		 clearInterval(auto);
+	});
+	$(document).on('mouseover','.news-items .item',function(){
+		 clearInterval(auto);
+		 var _this = $(this);
+		 if(_this.hasClass("selected")){
+			return false; 
+		 }
+		 index = _this.index();
+		 move(_this);
+	});
+	
+	$(document).on('mouseout','.news-items .item,.news-img-box',function(){
+		 autos();
+	});
+	
+	//自动轮播
+	function autos(){
+        auto = setInterval(function(){
+            index++;
+            if(index == len){
+                index = 0;
+            }
+            move($($('.news-items .item')[index]));
+        }, 2500);
+    }
+    autos();
 	
 })
+
+
 
 
 

@@ -48,6 +48,8 @@ class CommonController extends Controller
         $view = Yii::$app->view;
         if($view->params['webCfgs']['status'] == 0 && $action->id != 'closing'){
         	return $this->redirect(['site/closing'])->send();
+        }elseif ($view->params['webCfgs']['status'] == 1 && $action->id == 'closing'){
+            return $this->redirect(['site/index'])->send();
         }
         
         return true;

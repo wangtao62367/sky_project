@@ -99,7 +99,15 @@ class Common extends BaseModel
     
     public function getPageList()
     {
-        $query = self::find()->select([self::tableName().'.id','codeDesc','sorts'])->joinWith('categorys')->where([self::tableName().'.type'=>'navigation'])->andWhere([self::tableName().'.isDelete'=>0])->andWhere(self::tableName().'.code != :code',[':code'=>'sylb'])->orderBy(self::tableName().'.sorts ASC,'.self::tableName().'.modifyTime DESC');
+        $query = self::find()->select([self::tableName().'.id','codeDesc','sorts'])
+        ->with(['categorys' => function($query) {
+            $query->andWhere([Category::tableName().'.isDelete'=>0]);
+          },
+        ])
+        ->where([self::tableName().'.type'=>'navigation'])
+        ->andWhere([self::tableName().'.isDelete'=>0])
+        ->andWhere(self::tableName().'.code != :code',[':code'=>'sylb'])
+        ->orderBy(self::tableName().'.sorts ASC,'.self::tableName().'.modifyTime DESC');
     	
     	return $query->asArray()->all();
     }
@@ -125,7 +133,7 @@ class Common extends BaseModel
     			self::tableName().'.typeDesc'
     	])
     	->joinWith('cates')
-    	->where(self::tableName().'.type = :type',[':type'=>'navigation'])->andWhere([self::tableName().'.isDelete'=>0])->orderBy(self::tableName().'.sorts ASC,'.self::tableName().'.modifyTime DESC')->asArray()->all();
+    	->where(self::tableName().'.type = :type AND isShow = 1',[':type'=>'navigation'])->andWhere([self::tableName().'.isDelete'=>0])->orderBy(self::tableName().'.sorts ASC,'.self::tableName().'.modifyTime DESC')->asArray()->all();
     }
     
     public function getCates()

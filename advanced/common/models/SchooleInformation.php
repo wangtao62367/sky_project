@@ -19,7 +19,9 @@ class SchooleInformation extends BaseModel
         CategoryType::XYDZ => '学院地址',
         CategoryType::ZZJG => '组织机构',
         
-        CategoryType::ZKZX => '智库简介'
+        CategoryType::ZKZX => '智库简介',
+        
+        CategoryType::WHXYJJ => '文化学院简介',
     ];
     
     public static  function tableName()

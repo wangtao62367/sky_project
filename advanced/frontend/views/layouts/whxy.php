@@ -69,6 +69,8 @@ $params = $this->params;
 						<li><a <?php if(!isset($params['pid'])){echo 'class="active"';}?>   href="<?php echo Url::to(['site/index'])?>">学院首页</a></li>
 						<li><a   href="<?php echo Url::to(['news/list-by-catecode','code'=>'xyjj'])?>">学院概况</a></li>
 						<li><a   href="<?php echo Url::to(['news/list-by-catecode','code'=>'tzxw'])?>">新闻活动</a></li>
+						<li><a   href="<?php echo Url::to(['news/list-by-catecode','code'=>'tzgs'])?>">统战故事</a></li>
+						<li><a   href="<?php echo Url::to(['news/list-by-catecode','code'=>'wxsh'])?>">文学书画</a></li>
 						<li><a   href="<?php echo Url::to(['news/list-by-catecode','code'=>'jxxx'])?>">教学培训</a></li>
 						<li><a   href="<?php echo Url::to(['news/list-by-catecode','code'=>'whjl'])?>">文化交流</a></li>
 						<li><a   href="<?php echo Url::to(['news/list-by-catecode','code'=>'whlt'])?>">文化论坛</a></li>

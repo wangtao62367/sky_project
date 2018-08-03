@@ -37,7 +37,7 @@ use backend\assets\AppAsset;
         	<?php endif;?>
         </div>
         <br/>
-        <i>首页Banner1图片建议宽高为1200像素 * 200像素;大小控制在500kb以内;</i>
+        <i>首页Banner1图片建议宽高为580像素 * 100像素;大小控制在500kb以内;</i>
 	</li>
 	
 	<li>
@@ -58,7 +58,7 @@ use backend\assets\AppAsset;
         	<?php endif;?>
         </div>
         <br/>
-        <i>首页Banner2图片建议宽高为1200像素 * 200像素;大小控制在500kb以内;</i>
+        <i>首页Banner2图片建议宽高为580像素 * 100像素;大小控制在500kb以内;</i>
 	</li>
 	
 	<li>

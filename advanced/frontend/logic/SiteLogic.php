@@ -11,6 +11,7 @@ use common\models\EducationBase;
 use common\models\Carousel;
 use yii\caching\DbDependency;
 use yii\db\Expression;
+use common\models\FamousTeacher;
 
 /**
  * 首页
@@ -54,6 +55,11 @@ class SiteLogic
                 'zkzx' => self::getZkzx(),
                 //市州社院
                 'szsy' => self::getSzsy(),
+                //统战故事
+                'tzgs' => self::getTzgs(),
+                //文学书画
+                'wxsh' => self::getWxsh(),
+                
             ];
             $cache->set($key, $newsdata,7200,new DbDependency(['sql'=>'SELECT modifyTime FROM sky_Article WHERE isPublish = 1 AND isDelete =0 ORDER BY modifyTime desc limit 1']));
         }
@@ -66,6 +72,8 @@ class SiteLogic
             'carousel' => self::getCarousel(),
             //首页推荐文章
             'recommen' => self::getRecommen(),
+            //名师堂
+            'mmst' => self::getMmst(),
         ];
         
         return ArrayHelper::merge($newsdata, $ortherdata);
@@ -76,6 +84,7 @@ class SiteLogic
      */
     public static function getCarousel()
     {
+        return [];
         $cache = Yii::$app->cache;
         $key = 'INDEX_Carousel';
         $result = $cache->get($key);
@@ -247,5 +256,33 @@ class SiteLogic
        $list = Article::find()->select(['id','title','titleImg','publishTime','ishot','summary'])->where(['isPublish'=>1,'isDelete'=>0])->andWhere(['<>','titleImg',''])->orderBy('isRecommen desc,ishot desc,sorts asc,publishTime desc,modifyTime desc')->limit(3)->all();
        $cache->set($key, $list,7200,new DbDependency(['sql'=>'SELECT modifyTime FROM sky_Article WHERE isPublish = 1 AND isDelete =0 AND titleImg <> \'\' ORDER BY isRecommen desc,ishot desc,sorts asc,modifyTime desc limit 1']));
        return $list;
+    }
+    /**
+     * 名师堂
+     * @return array|\yii\db\ActiveRecord[]
+     */
+    public static function getMmst()
+    {
+       $list = FamousTeacher::find()->select('id,name,teach,avater')->orderBy('sorts ASC,id DESC')->limit(6)->all();
+       return $list;
+    }
+    /**
+     * 统战故事
+     */
+    public static function getTzgs()
+    {
+        $cate = Category::getCatesByCode('tzgs');
+        $articles = Article::find()->select(['id','title','titleImg','publishTime','ishot','summary'])->where(['categoryId'=>$cate->id,'isPublish'=>1,'isDelete'=>0])->orderBy('ishot desc,sorts asc,publishTime desc')->limit(2)->all();
+        return $articles;
+    }
+    
+    /**
+     * 文学书画
+     */
+    public static function getWxsh()
+    {
+        $cate = Category::getCatesByCode('wxsh');
+        $articles = Article::find()->select(['id','title','titleImg','publishTime','ishot','summary'])->where(['categoryId'=>$cate->id,'isPublish'=>1,'isDelete'=>0])->orderBy('ishot desc,sorts asc,publishTime desc')->limit(2)->all();
+        return $articles;
     }
 }

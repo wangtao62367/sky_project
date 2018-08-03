@@ -11,6 +11,7 @@ use common\models\Common;
 use common\models\Category;
 use common\models\CategoryType;
 use yii\helpers\ArrayHelper;
+use common\models\FamousTeacher;
 /**
  * Site controller
  */
@@ -52,7 +53,7 @@ class SiteController extends CommonController
 	
 	public function actionClosing()
 	{
-		$this->layout = 'index';
+	    $this->layout = false;
 		return $this->render('closing');
 	}
 	
@@ -85,4 +86,6 @@ class SiteController extends CommonController
 	    $cache->set($key, $res,null,new ExpressionDependency(['expression'=>strtotime(date('Y-m-d'))]));
 	    return $res;
 	}
+	
+	
 }

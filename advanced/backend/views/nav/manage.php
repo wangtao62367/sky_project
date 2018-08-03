@@ -46,7 +46,6 @@ use yii\helpers\ArrayHelper;
         <?php endforeach;?>
     </tbody>
 </table>
-
 <?php 
 $css = <<<CSS
 .tablelist{

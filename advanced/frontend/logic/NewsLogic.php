@@ -91,4 +91,24 @@ class NewsLogic
         ])->where(['isDelete'=>0,'isPublish'=>1,'categoryId'=>$cateId])
         ->orderBy('ishot desc,publishTime desc')->limit($limit)->asArray()->all();
     }
+    
+    /**
+     * 统战故事
+     */
+    public static function getTzgs()
+    {
+        $cate = Category::getCatesByCode('tzgs');
+        $articles = Article::find()->select(['id','title','titleImg','publishTime','ishot','summary'])->where(['categoryId'=>$cate->id,'isPublish'=>1,'isDelete'=>0])->orderBy('ishot desc,sorts asc,publishTime desc')->limit(3)->all();
+        return $articles;
+    }
+    
+    /**
+     * 文学书画
+     */
+    public static function getWxsh()
+    {
+        $cate = Category::getCatesByCode('wxsh');
+        $articles = Article::find()->select(['id','title','titleImg','publishTime','ishot','summary'])->where(['categoryId'=>$cate->id,'isPublish'=>1,'isDelete'=>0])->orderBy('ishot desc,sorts asc,publishTime desc')->limit(3)->all();
+        return $articles;
+    }
 }

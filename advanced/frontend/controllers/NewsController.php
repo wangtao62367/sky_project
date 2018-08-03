@@ -18,6 +18,7 @@ use common\models\SchooleInformation;
 use common\models\GradeClass;
 use common\models\Naire;
 use common\models\Schedule;
+use common\models\FamousTeacher;
 /**
  * 新闻
  * @author 
@@ -59,9 +60,13 @@ class NewsController extends CommonController
         //父级分类为  文化学院模块 
         if($parent->code == 'whxy' && $cateid == 0){
             $this->layout = 'whxy';
+            $info = SchooleInformation::findOne(['type'=>CategoryType::WHXYJJ]);
             $data = [
+                'info' => $info,
                 'whjl' => NewsLogic::getWhjlList(),
-                'whlt' => NewsLogic::getWhltList()
+                'whlt' => NewsLogic::getWhltList(),
+                'tzgs' => NewsLogic::getTzgs(),
+                'wxsh' => NewsLogic::getWxsh()
             ];
             return $this->render('whxy',['data'=>$data]);
         }
@@ -159,6 +164,11 @@ class NewsController extends CommonController
             	'isDelete' => 0,
             ];
             $list = $schedule->pageList($data);
+        }elseif ($currentCate->cateCode == CategoryType::MMST){
+            $famousTeacher = new FamousTeacher();
+            
+            $famousTeacher->pageSize = 15;
+            $list = $famousTeacher->getPageList($data);
         }else {
             switch ($currentCate->type){
                 case CategoryType::ARTICLE :

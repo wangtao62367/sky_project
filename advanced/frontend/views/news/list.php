@@ -68,6 +68,19 @@ $this->title = $parent->codeDesc . '-'.$currentCate->text;
     				<li class="article-item">
     				<a href="<?php echo Url::to(['schedule/info','id'=>$val['id']])?>" title="<?php echo $val['title'];?>">【<?php echo $val['gradeClass'];?>】 <?php echo $val['title'];?></a>
     				</li>
+    				
+    			<?php elseif($currentCate->cateCode == CategoryType::MMST):?>
+    				
+    				<li class="mmst-item">
+    					<a  href="javascript:;" class="dialog" data-tagget-url="<?php echo Url::to(['famous-teacher/showinfo','id'=>$val['id']])?>">
+            				<div style="width: 75px;text-align:center;">
+            					<img alt="" src="<?php echo $val['avater'];?>" width="75px" height="125px">
+            					<p class="mmst-name" style="margin-top: 10px;margin-bottom: 10px;font-size: 16px;color: #191919;font-weight: 600;"><?php echo $val['name'];?></p>
+            				</div>
+            			</a>
+    				</li>
+    				
+    				
     			<?php else :?>
     				<?php if ($currentCate->type == CategoryType::ARTICLE):?>
     					<li class="article-item"><a target="_blank" href="<?php echo Url::to(['news/detail','id'=>$val['id']])?>" title="<?php echo $val['title'];?>"><?php echo MyHelper::timestampToDate($val['publishTime'],'Y-m-d');?>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo mb_substr($val['title'],0,41,'utf-8');?>&nbsp;&nbsp</a><?php if($val['publishTime'] > (time() - 5*24*3600)):?><img alt="热点新闻" src="/front/img/index/hot_news.gif"><?php endif;?></li>

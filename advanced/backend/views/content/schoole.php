@@ -37,6 +37,13 @@ use common\models\CategoryType;
 		    <li><a href="<?php echo Url::to(['schoole/edit','type'=>CategoryType::ZKZX])?>"><img src="/admin/images/i06.png" /></a><h2>智库简介</h2></li>     
 	    </ul>
     </div>
+    
+    <div class="toolsli">
+    	 <h4>文化学院信息录入</h4>
+	    <ul class="toollist">
+		    <li><a href="<?php echo Url::to(['schoole/edit','type'=>CategoryType::WHXYJJ])?>"><img src="/admin/images/i06.png" /></a><h2>学院简介</h2></li>     
+	    </ul>
+    </div>
 </div>
 
 <?php 

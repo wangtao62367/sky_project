@@ -1,4 +1,16 @@
 ;(function(w){
+	
+	$(document).on("click",".modal-close",function(){
+		$(this).parent().parent(".dialog").remove();
+	});
+	//弹出框
+	$("a.dialog").click(function(){
+	    var url =$(this).data('tagget-url');
+	    $.get(url,function(res){
+	        $(document).find('body').append(res);
+	    })
+	})
+	
 	var fn = {
 		changeUrlArg : function (url, arg, val){
 		    var pattern = arg+'=([^&]*)';

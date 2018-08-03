@@ -61,8 +61,16 @@ $this->title = "首页_".$params['webCfgs']['siteName'];
 <?php if(empty($params['webCfgs']['indexMainBanner1'])):?>
 	<img class="main-banner" src="/front/img/index/xiaoxun.jpg" />
 <?php else:?>
-<a href="<?php echo empty($params['webCfgs']['indexMainBanner1Link']) ? 'javascript:;' : $params['webCfgs']['indexMainBanner1Link'];?>"><img class="main-banner" src="<?php echo $params['webCfgs']['indexMainBanner1'];?>" /></a>
+<a href="<?php echo empty($params['webCfgs']['indexMainBanner1Link']) ? 'javascript:;' : $params['webCfgs']['indexMainBanner1Link'];?>"><img class="main-banner indexMainBanner1" src="<?php echo $params['webCfgs']['indexMainBanner1'];?>" /></a>
 <?php endif;?>
+
+<?php if(empty($params['webCfgs']['indexMainBanner2'])):?>
+	<img class="main-banner" src="/front/img/index/hengfu.gif" />
+<?php else:?>
+<a href="<?php echo empty($params['webCfgs']['indexMainBanner2Link']) ? 'javascript:;' : $params['webCfgs']['indexMainBanner2Link'];?>"><img class="main-banner indexMainBanner2" src="<?php echo $params['webCfgs']['indexMainBanner2'];?>" /></a>
+<?php endif;?>
+
+
 
 <div class="news-box3">
 	<div class="left news-list-box">
@@ -73,6 +81,9 @@ $this->title = "首页_".$params['webCfgs']['siteName'];
 			<a class="news-more" href="<?php echo Url::to(['news/list-by-catecode','code'=>'jxxx']);?>">
 			<div class="cate" data-target-id="jxpx">教学培训</div>
 			</a>
+			<a class="news-more" href="<?php echo Url::to(['news/list-by-catecode','code'=>'mmst']);?>">
+			<div class="cate" data-target-id="mmst">名师堂</div>
+			</a>
 			<a class="news-more" href="<?php echo Url::to(['news/list-by-catecode','code'=>'whjl']);?>">
 			<div class="cate" data-target-id="whjl">文化交流</div>
 			</a>
@@ -80,13 +91,10 @@ $this->title = "首页_".$params['webCfgs']['siteName'];
 			<div class="cate" data-target-id="kydt">科研动态</div>
 			</a>
 			<a class="news-more" href="<?php echo Url::to(['news/list-by-catecode','code'=>'dqxz']);?>">
-			<div class="cate" data-target-id="dqxz">党群建设</div>
+			<div class="cate" data-target-id="dqxz">党群行政</div>
 			</a>
 			<a class="news-more" href="<?php echo Url::to(['news/list-by-catecode','code'=>'xyhd']);?>">
 			<div class="cate" data-target-id="xyyd">学员天地</div>
-			</a>
-			<a class="news-more" href="<?php echo Url::to(['news/list-by-catecode','code'=>'szsy']);?>">
-			<div class="cate" data-target-id="szsy">市州社院</div>
 			</a>
 			<a class="news-more" href="<?php echo Url::to(['news/list-by-catecode','code'=>'xxdt']);?>">
 			<div class="cate" data-target-id="zkzx">智库中心</div>
@@ -125,6 +133,27 @@ $this->title = "首页_".$params['webCfgs']['siteName'];
     			<?php endforeach;?>
 			</ul>
 			<a class="news-more" href="<?php echo Url::to(['news/list-by-catecode','code'=>'jxxx']);?>">&gt;&gt;更多</a>
+		</div>
+		<!-- 名师堂 -->
+		<div class="left news-list" id="mmst">
+			
+			<?php foreach ($data['mmst'] as $k=>$val):?>
+			
+			<div class="mmst-item" >
+				<a  href="javascript:;" class="dialog" data-tagget-url="<?php echo Url::to(['famous-teacher/showinfo','id'=>$val['id']])?>">
+				<div class="mmst-img-box" style="">
+					<img alt="" src="<?php echo $val['avater'];?>" width="75px" height="115px">
+				</div>
+				<div class="mmst-desc" style="">
+					<p class="mmst-name" style="margin-top: 30px;margin-bottom: 10px;font-size: 20px;color: #191919;font-weight: 600;"><?php echo $val['name'];?></p>
+					<p class="mmst-job" style="font-weight:600;font-size:16px"> <?php echo $val['teach'];?></p>
+				</div>
+				</a>
+			</div>
+			
+			<?php endforeach;?>
+			
+			<a class="news-more" href="<?php echo Url::to(['news/list-by-catecode','code'=>'mmst']);?>">&gt;&gt;更多</a>
 		</div>
 		<!-- 科研动态 -->
 		<div class="left news-list" id="kydt">
@@ -195,23 +224,7 @@ $this->title = "首页_".$params['webCfgs']['siteName'];
 			</ul>
 			<a class="news-more" href="<?php echo Url::to(['news/list-by-catecode','code'=>'xyhd']);?>">&gt;&gt;更多</a>
 		</div>
-		<!-- 市州社院 -->
-		<div class="left news-list" id="szsy">
-			<div class="news-hot">
-				<?php if(!empty($data['szsy'])):?>
-				<h4 class="text-over"><a href="<?php echo Url::to(['news/detail','id'=>$data['szsy'][0]['id']]);?>" title="<?php echo $data['szsy'][0]['title'];?>"><?php echo $data['szsy'][0]['title'];?></a></h4>
-				<p><?php echo mb_substr($data['szsy'][0]['summary'],0,108,'utf-8');?><a class="articledetail" href="<?php echo Url::to(['news/detail','id'=>$data['szsy'][0]['id']]);?>">(详情)</a></p>
-				<?php endif;?>
-			</div>
-			<ul>
-				<?php foreach ($data['szsy'] as $k=>$szsy):?>
-    				<?php if($k>0):?>
-        			<li class="text-over"><a <?php if($szsy['publishTime'] > (time() - 5*24*3600)):?> class="hotnews" <?php endif;?> href="<?php echo Url::to(['news/detail','id'=>$szsy->id])?>" title="<?php echo $szsy->title;?>"><?php echo mb_substr($szsy->title,0,33,'utf-8');?></a><?php if($szsy['publishTime'] > (time() - 5*24*3600)):?><img alt="热点新闻" src="/front/img/index/hot_news.gif"><?php endif;?></li>
-        			<?php endif;?>
-    			<?php endforeach;?>
-			</ul>
-			<a class="news-more" href="<?php echo Url::to(['news/list-by-catecode','code'=>'szsy']);?>">&gt;&gt;更多</a>
-		</div>
+
 		<!-- 智库中心 -->
 		<div class="left news-list" id="zkzx">
 			<div class="news-hot">
@@ -239,11 +252,42 @@ $this->title = "首页_".$params['webCfgs']['siteName'];
 		</ul>
 	</div>
 </div>
-<?php if(empty($params['webCfgs']['indexMainBanner2'])):?>
-	<img class="main-banner" src="/front/img/index/hengfu.gif" />
-<?php else:?>
-<a href="<?php echo empty($params['webCfgs']['indexMainBanner2Link']) ? 'javascript:;' : $params['webCfgs']['indexMainBanner2Link'];?>"><img class="main-banner" src="<?php echo $params['webCfgs']['indexMainBanner2'];?>" /></a>
-<?php endif;?>
+
+<div class="new-box6">
+	<div class="box-tzgs">
+		<img class="" src="/front/img/index/tzgs_bg.png" />
+		<a class="more tzgs-more" href="<?php echo Url::to(['news/list-by-catecode','code'=>'tzgs'])?>" title="查看更多统一战线故事"></a>
+		<div class="tzgs-news-box">
+			<?php foreach ($data['tzgs'] as $val):?>
+			<div class="news-items">
+				<a href="<?php echo Url::to(['news/detail','id'=>$val->id])?>" title="<?php echo $val->title ;?>">
+					<img alt="" src="<?php echo $val->titleImg;?>" height="170px" width="255px">
+					<p><?php echo $val->title;?></p>
+				</a>
+				
+			</div>
+			<?php endforeach;?>
+		</div>
+	</div>
+	<div class="box-wxsh">
+		<img src="/front/img/index/wxsh_bg.png" />
+		<a class="more wxsh-more" href="<?php echo Url::to(['news/list-by-catecode','code'=>'wxsh'])?>" title="查看更多优秀文学书画"></a>
+		<div class="wxsh-news-box">
+			<?php foreach ($data['wxsh'] as $val):?>
+			<div class="news-items">
+				<a href="<?php echo Url::to(['news/detail','id'=>$val->id])?>" title="<?php echo $val->title ;?>">
+					<img alt="" src="<?php echo $val->titleImg;?>" height="170px" width="255px">
+					<p><?php echo $val->title;?></p>
+				</a>
+				
+			</div>
+			<?php endforeach;?>
+			
+		</div>
+	</div>
+
+</div>
+
 
 <div class="news-box4">
 	<div class="left edu-box">
@@ -273,10 +317,15 @@ $this->title = "首页_".$params['webCfgs']['siteName'];
 	</div>
 	<div class="right quickbtn-box">
 		<a href="<?php echo Url::to(['news/list-by-catecode','code'=>'zzjg'])?>"><img alt="机构设置" src="/front/img/index/zzjg_img_btn.png" /></a>
+		<a href="<?php echo Url::to(['news/list-by-catecode','code'=>'mmst'])?>"><img alt="名师堂" src="/front/img/index/mst_img_btn.png" /></a>
 		<a href="<?php echo Url::to(['news/list-by-catecode','code'=>'kbcx'])?>"><img alt="课表查询" src="/front/img/index/kbcx_img_btn.png" /></a>
+		<a href="<?php echo Url::to(['news/list-by-catecode','code'=>'qyxw'])?>"><img alt="理论前沿" src="/front/img/index/llqy_img_btn.png" /></a>
 		<a href="<?php echo Url::to(['news/list-by-catecode','code'=>'wybm'])?>"><img alt="在线报名" src="/front/img/index/zxbm_img_btn.png" /></a>
+		<a href="<?php echo Url::to(['news/list-by-catecode','code'=>'szsy'])?>"><img alt="市州社院" src="/front/img/index/szsy_img_btn.png" /></a>
 		<a href="<?php echo Url::to(['news/list-by-catecode','code'=>'wkzx'])?>"><img alt="微课中心" src="/front/img/index/wkzx_img_btn.png" /></a>
+		<a href="<?php echo Url::to(['news/list-by-catecode','code'=>'xxhjs'])?>"><img alt="微课中心" src="/front/img/index/xxhjs_img_btn.png" /></a>
 		<a href="<?php echo Yii::$app->params['xbjs.link'];?>" target= _blank ><img alt="学报检索" src="/front/img/index/xbjs_img_btn.png" /></a>
+		<a href="<?php echo Url::to(['news/list-by-catecode','code'=>'zlxz'])?>"><img alt="微课中心" src="/front/img/index/zlxz_img_btn.png" /></a>
 	</div>
 </div>
 

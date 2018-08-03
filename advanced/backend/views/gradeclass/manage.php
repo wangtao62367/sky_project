@@ -2,7 +2,7 @@
 use yii\helpers\Url;
 use common\publics\MyHelper;
 use yii\helpers\Html;
-use backend\assets\AppAsset;
+
 
 ?>
 <div class="place">
