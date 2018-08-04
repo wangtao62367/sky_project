@@ -1,9 +1,7 @@
 *{margin: 0;padding: 0;font-size: 14px;font-family: "微软雅黑";}
 body{background: -moz-linear-gradient(top, #d2d1d7 0%, #ffffff 100%);background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#d2d1d7), color-stop(100%,#ffffff));background: -webkit-linear-gradient(top, #d2d1d7 0%,#ffffff 100%);background: -o-linear-gradient(top, #d2d1d7 0%,#ffffff 100%);background: -ms-linear-gradient(top, #d2d1d7 0%,#ffffff 100%);background: linear-gradient(to bottom, #d2d1d7 0%,#ffffff 100%);}
-a{text-decoration: none;}
-a:-webkit-any-link {
-    color: -webkit-link;
-    cursor: pointer;
+
+a,a:focus,a:hover {
     text-decoration: none;
 }
 ul{list-style: none;}
@@ -13,6 +11,19 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
 .left{float: left;}
 .right{float: right;}
 .text-over{word-wrap: break-word;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
+
+.p-after:after{
+    content: "..."; 
+    position: absolute; 
+    bottom: 15px; 
+    right: 12px; 
+    padding-left: 40px;
+    background: -webkit-linear-gradient(left, transparent, #fff 55%);
+    background: -moz-linear-gradient(left, transparent, #fff 55%);
+    background: -o-linear-gradient(left, transparent, #fff 55%);
+    background: linear-gradient(to right, transparent, #fff 55%);
+}
+
 /*头部*/
 header.header{width: 100%;min-width: 1200px;max-width: 2000px;height: 318px;background-size: 2000px 318px;background: url(../img/index/top_v4_bg.jpg) no-repeat center !important;position: relative;display: block;}
 header.header>.toole-logo-box,header.header>.nav{width: 1200px;display: block;margin: 0 auto;position: relative;padding: 5px 15px;box-sizing: border-box;}
@@ -28,7 +39,7 @@ header.header>.toole-logo-box>.tools{display: block;position: relative;height: 2
 .search-text button,.search-text button:active,.search-text button:focus,.search-text button:visited{width: 40px;height: 27px;background: none;border: none;outline: none;float: left;}
 .tools span,.tools a,.login-reg-box{color: #FFFFFF;}
 
-header.header>.nav{height: 56px;margin-top: 15px;}
+header.header>.nav{height: 56px;margin-top: 21px;}
 .nav ul {width: 1200px;margin: 0 auto;position: relative;box-sizing: border-box;}
 header.header .nav li{position: relative;float: left;display: inline-block;width: 100px;text-align: center;height: 46px;line-height: 46px;}
 header.header .nav li a{display: inline-block;width: 100px;font-size: 16px;font-weight: bold;color: #fff;text-align: center;}

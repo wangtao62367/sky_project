@@ -82,7 +82,7 @@ $this->title = "首页_".$params['webCfgs']['siteName'];
 			<div class="cate" data-target-id="jxpx">教学培训</div>
 			</a>
 			<a class="news-more" href="<?php echo Url::to(['news/list-by-catecode','code'=>'mmst']);?>">
-			<div class="cate" data-target-id="mmst">名师堂</div>
+			<div class="cate" data-target-id="mmst">名&nbsp;&nbsp;师&nbsp;&nbsp;堂</div>
 			</a>
 			<a class="news-more" href="<?php echo Url::to(['news/list-by-catecode','code'=>'whjl']);?>">
 			<div class="cate" data-target-id="whjl">文化交流</div>
@@ -105,7 +105,7 @@ $this->title = "首页_".$params['webCfgs']['siteName'];
 			<div class="news-hot">
 				<?php if(!empty($data['syxw'])):?>
 				<h4 class="text-over"><a href="<?php echo Url::to(['news/detail','id'=>$data['syxw'][0]['id']]);?>" title="<?php echo $data['syxw'][0]['title'];?>"><?php echo $data['syxw'][0]['title'];?></a></h4>
-				<p><?php echo mb_substr($data['syxw'][0]['summary'],0,108,'utf-8');?><a class="articledetail" href="<?php echo Url::to(['news/detail','id'=>$data['syxw'][0]['id']]);?>">(详情)</a></p>
+				<p><?php echo mb_substr($data['syxw'][0]['summary'],0,106,'utf-8');?><a class="articledetail" href="<?php echo Url::to(['news/detail','id'=>$data['syxw'][0]['id']]);?>">(详情)</a></p>
 				<?php endif;?>
 			</div>
 			<ul>
@@ -122,7 +122,7 @@ $this->title = "首页_".$params['webCfgs']['siteName'];
 			<div class="news-hot">
 				<?php if(!empty($data['jxpx'])):?>
 				<h4 class="text-over"><a href="<?php echo Url::to(['news/detail','id'=>$data['jxpx'][0]['id']]);?>" title="<?php echo $data['jxpx'][0]['title'];?>"><?php echo $data['jxpx'][0]['title'];?></a></h4>
-				<p><?php echo mb_substr($data['jxpx'][0]['summary'],0,108,'utf-8');?><a class="articledetail" href="<?php echo Url::to(['news/detail','id'=>$data['jxpx'][0]['id']]);?>">(详情)</a></p>
+				<p><?php echo mb_substr($data['jxpx'][0]['summary'],0,106,'utf-8');?><a class="articledetail" href="<?php echo Url::to(['news/detail','id'=>$data['jxpx'][0]['id']]);?>">(详情)</a></p>
 				<?php endif;?>
 			</div>
 			<ul>
@@ -160,7 +160,7 @@ $this->title = "首页_".$params['webCfgs']['siteName'];
 			<div class="news-hot">
 				<?php if(!empty($data['kydt'])):?>
 				<h4 class="text-over"><a href="<?php echo Url::to(['news/detail','id'=>$data['kydt'][0]['id']]);?>" title="<?php echo $data['kydt'][0]['title'];?>"><?php echo $data['kydt'][0]['title'];?></a></h4>
-				<p><?php echo mb_substr($data['kydt'][0]['summary'],0,108,'utf-8');?><a class="articledetail" href="<?php echo Url::to(['news/detail','id'=>$data['kydt'][0]['id']]);?>">(详情)</a></p>
+				<p><?php echo mb_substr($data['kydt'][0]['summary'],0,106,'utf-8');?><a class="articledetail" href="<?php echo Url::to(['news/detail','id'=>$data['kydt'][0]['id']]);?>">(详情)</a></p>
 				<?php endif;?>
 			</div>
 			<ul>
@@ -177,7 +177,7 @@ $this->title = "首页_".$params['webCfgs']['siteName'];
 			<div class="news-hot">
 				<?php if(!empty($data['dqxz'])):?>
 				<h4 class="text-over"><a href="<?php echo Url::to(['news/detail','id'=>$data['dqxz'][0]['id']]);?>" title="<?php echo $data['dqxz'][0]['title'];?>"><?php echo $data['dqxz'][0]['title'];?></a></h4>
-				<p><?php echo mb_substr($data['dqxz'][0]['summary'],0,108,'utf-8');?><a class="articledetail" href="<?php echo Url::to(['news/detail','id'=>$data['dqxz'][0]['id']]);?>">(详情)</a></p>
+				<p><?php echo mb_substr($data['dqxz'][0]['summary'],0,106,'utf-8');?><a class="articledetail" href="<?php echo Url::to(['news/detail','id'=>$data['dqxz'][0]['id']]);?>">(详情)</a></p>
 				<?php endif;?>
 			</div>
 			<ul>
@@ -194,7 +194,7 @@ $this->title = "首页_".$params['webCfgs']['siteName'];
 			<div class="news-hot">
 				<?php if(!empty($data['whjl'])):?>
 				<h4 class="text-over"><a href="<?php echo Url::to(['news/detail','id'=>$data['whjl'][0]['id']]);?>" title="<?php echo $data['whjl'][0]['title'];?>"><?php echo $data['whjl'][0]['title'];?></a></h4>
-				<p><?php echo mb_substr($data['whjl'][0]['summary'],0,108,'utf-8');?><a class="articledetail" href="<?php echo Url::to(['news/detail','id'=>$data['whjl'][0]['id']]);?>">(详情)</a></p>
+				<p><?php echo mb_substr($data['whjl'][0]['summary'],0,106,'utf-8');?><a class="articledetail" href="<?php echo Url::to(['news/detail','id'=>$data['whjl'][0]['id']]);?>">(详情)</a></p>
 				<?php endif;?>
 			</div>
 			<ul>
@@ -212,7 +212,7 @@ $this->title = "首页_".$params['webCfgs']['siteName'];
 			<div class="news-hot">
 				<?php if(!empty($data['xyyd'])):?>
 				<h4 class="text-over"><a href="<?php echo Url::to(['news/detail','id'=>$data['xyyd'][0]['id']]);?>" title="<?php echo $data['xyyd'][0]['title'];?>"><?php echo $data['xyyd'][0]['title'];?></a></h4>
-				<p><?php echo mb_substr($data['xyyd'][0]['summary'],0,108,'utf-8');?><a class="articledetail" href="<?php echo Url::to(['news/detail','id'=>$data['xyyd'][0]['id']]);?>">(详情)</a></p>
+				<p><?php echo mb_substr($data['xyyd'][0]['summary'],0,106,'utf-8');?><a class="articledetail" href="<?php echo Url::to(['news/detail','id'=>$data['xyyd'][0]['id']]);?>">(详情)</a></p>
 				<?php endif;?>
 			</div>
 			<ul>
@@ -230,7 +230,7 @@ $this->title = "首页_".$params['webCfgs']['siteName'];
 			<div class="news-hot">
 				<?php if(!empty($data['zkzx'])):?>
 				<h4 class="text-over"><a href="<?php echo Url::to(['news/detail','id'=>$data['zkzx'][0]['id']]);?>" title="<?php echo $data['zkzx'][0]['title'];?>"><?php echo $data['zkzx'][0]['title'];?></a></h4>
-				<p><?php echo mb_substr($data['zkzx'][0]['summary'],0,108,'utf-8');?><a class="articledetail" href="<?php echo Url::to(['news/detail','id'=>$data['zkzx'][0]['id']]);?>">(详情)</a></p>
+				<p><?php echo mb_substr($data['zkzx'][0]['summary'],0,106,'utf-8');?><a class="articledetail" href="<?php echo Url::to(['news/detail','id'=>$data['zkzx'][0]['id']]);?>">(详情)</a></p>
 				<?php endif;?>
 			</div>
 			<ul>
