@@ -21,6 +21,7 @@ $this->title = '统计查看-'.$info['title'];
 
 <div class="statistics-box">
 <h2><?php echo $info['title'];?></h2>
+<p style="text-align: center;">(参与投票人数：<?php echo $count;?> 人)</p>
 <div class="marks">
 备注：
 <?php echo $info['marks'] ? $info['marks'] : '无';?>

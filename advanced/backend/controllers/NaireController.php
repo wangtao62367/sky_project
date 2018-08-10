@@ -6,6 +6,7 @@ namespace backend\controllers;
 use Yii;
 use common\controllers\CommonController;
 use common\models\Naire;
+use common\models\VoteUser;
 
 /**
  * @name 问卷调查管理
@@ -102,8 +103,12 @@ class NaireController extends CommonController
         if(empty($naire)){
             return $this->showDataIsNull('naire/manage');
         }
+        //获取参与投票的总人数
         
-        return $this->render('statistics',['info'=>$naire]);
+        $count = VoteUser::find()->where(['naireId'=>$id])->groupBy('voteId,userId')->count('id');
+        
+        
+        return $this->render('statistics',['info'=>$naire,'count'=>$count]);
     }
     
 }

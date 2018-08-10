@@ -35,7 +35,7 @@ header.header>.toole-logo-box>.tools{display: block;position: relative;height: 2
 .tools>.search-box form{display: inline-block; margin-right: 30px;}
 .search-box .search-text{height: 27px;width: 241px; background: url(../img/index/search_bg.png) no-repeat center !important;position: relative;display: block;}
 .search-box .login-reg-box{float: right;}
-.search-text input, .search-text input:focus, .search-text input:active {background: none;border: none;height: 27px;outline: none;box-sizing: border-box;padding-left: 5px;width: 200px;float: left;}
+.search-text input, .search-text input:focus, .search-text input:active {background: none;border: none;height: 27px;outline: none;box-sizing: border-box;padding-left: 5px;width: 200px;float: left;color: #333;}
 .search-text button,.search-text button:active,.search-text button:focus,.search-text button:visited{width: 40px;height: 27px;background: none;border: none;outline: none;float: left;}
 .tools span,.tools a,.login-reg-box{color: #FFFFFF;}
 
