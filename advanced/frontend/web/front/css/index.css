@@ -51,10 +51,10 @@
 .news-box2{height: 321px;}
 .news-box2  .news-img-box img{width: 684px;height: 321px;}
 .news-box2  .news-items{width: 486px;height: 321px;}
-.news-box2  .news-items  .item{width: 486px;height: 95px;overflow: hidden;margin-bottom: 18px;box-sizing: border-box;padding: 1px 15px;background: url(../img/index/news_item_unselected.png) no-repeat !important;background-size: 486px 95px; cursor: pointer;}
+.news-box2  .news-items  .item{width: 483px;height: 95px;overflow: hidden;margin-bottom: 16px;box-sizing: border-box;padding: 1px 15px;/* background: url(../img/index/news_item_unselected.png) no-repeat !important;background-size: 486px 95px; */ cursor: pointer;background-color:#d5d5d8;box-shadow: 3px 3px 3px #989595;-moz-box-shadow: 3px 3px 3px #989595; /* 老的 Firefox */}
 .news-box2  .news-items  .item h4{font-size: 22px;font-weight: 500;width: 460px;}
 .news-box2  .news-items  .item p{line-height: 22px;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 2;overflow: hidden;width: 460px;}
-.news-box2  .news-items  .selected{background: url(../img/index/news_item_selected.png) no-repeat !important;}
+.news-box2  .news-items  .selected{background: #e03138;box-shadow: 3px 3px 3px #e88589;-moz-box-shadow: 3px 3px 3px #e88589;/* url(../img/index/news_item_selected.png) no-repeat !important */;}
 .news-box2  .news-items  .selected h4,.news-box2  .news-items  .selected p,.news-box2  .news-items  .selected h4,.news-box2  .news-items  .selected a{color: #FFFFFF;}
 /*新闻列表*/
 
