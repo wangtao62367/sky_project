@@ -17,7 +17,7 @@ use frontend\assets\AppAsset;
             		</div>
             	</div>
             	<div class="avater-box">
-            		<img alt="" src="<?php echo $info->avater;?>" width="75px" height="125px" style="margin-top: 20px;margin-left:30px;"/>
+            		<img alt="" src="<?php echo $info->avater;?>" width="190px" height="219px" style="margin-top: 20px;margin-left:6px;"/>
             	</div>
 				
             </div>
@@ -42,16 +42,18 @@ $css = <<<CSS
     margin-right: 2px;
 }
 .modal-dialog{
+    width:700px;
+    height:800px;
     position: absolute;
     left: 50%;
     top: 50%;
-    margin-left: -330px;
-    margin-top: -260px;
+    margin-left: -350px;
+    margin-top: -400px;
 }
-.modal-body{height:430px;padding-top:0px;}
-.info-box{width:440px;height:400px;float:left;overflow: hidden;overflow-y: scroll;}
+.modal-body{height:780px;padding-top:0px;}
+.info-box{width:480px;height:780px;float:left;overflow: hidden;overflow-y: scroll;}
 .info-content{border-top:1px solid #ccc;padding-top:10px;}
-.avater-box{width:120px;height:400px;float:left;}
+.avater-box{width:180px;height:400px;float:left;}
 CSS;
 AppAsset::addCss($this, '/front/js/zoomify/zoomify.min.css');
 $this->registerJs($js);

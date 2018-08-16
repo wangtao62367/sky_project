@@ -65,13 +65,20 @@ class User extends BaseModel implements IdentityInterface
     public function validUserName()
     {
         if(!$this->hasErrors()){
-            $this->_user = self::find()->where(['or',['account'=>$this->userName],['email'=>$this->userName],['phone'=>$this->userName]])->one();
+            $this->_user = self::find()->where(['or',['account'=>$this->userName],['email'=>$this->userName],['phone'=>$this->userName]])
+                        ->andWhere(['isDelete' => 0])->one();
             if(empty($this->_user)){
                 $this->addError('userName','用户名或密码错误');
                 return false;
             }
+            
             if(!Yii::$app->getSecurity()->validatePassword($this->userPwd, $this->_user->userPwd)){
                 $this->addError('userName','用户名或密码错误');
+                return false;
+            }
+            
+            if((bool)$this->_user->isFrozen){
+                $this->addError('userName','当前用户已冻结');
                 return false;
             }
         }

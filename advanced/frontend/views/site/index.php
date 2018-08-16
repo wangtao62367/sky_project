@@ -145,7 +145,7 @@ $this->title = "首页_".$params['webCfgs']['siteName'];
 					<img alt="" src="<?php echo $val['avater'];?>" width="75px" height="115px">
 				</div>
 				<div class="mmst-desc" style="">
-					<p class="mmst-name" style="margin-top: 30px;margin-bottom: 10px;font-size: 20px;color: #191919;font-weight: 600;"><?php echo $val['name'];?></p>
+					<p class="mmst-name" style="margin-top: 24px;margin-bottom: 10px;font-size: 20px;color: #191919;font-weight: 600;"><?php echo $val['name'];?></p>
 					<p class="mmst-job" style="font-weight:600;font-size:16px"> <?php echo $val['teach'];?></p>
 				</div>
 				</a>
