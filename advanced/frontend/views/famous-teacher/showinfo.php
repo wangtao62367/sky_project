@@ -17,7 +17,7 @@ use frontend\assets\AppAsset;
             		</div>
             	</div>
             	<div class="avater-box">
-            		<img alt="" src="<?php echo $info->avater;?>" width="190px" height="219px" style="margin-top: 20px;margin-left:6px;"/>
+            		<img alt="" src="<?php echo $info->avater;?>" width="160px" height="219px" style="margin-top: 20px;margin-left:20px;"/>
             	</div>
 				
             </div>
@@ -52,7 +52,7 @@ $css = <<<CSS
 }
 .modal-body{height:780px;padding-top:0px;}
 .info-box{width:480px;height:780px;float:left;overflow: hidden;overflow-y: scroll;}
-.info-content{border-top:1px solid #ccc;padding-top:10px;}
+.info-content{border-top:1px solid #ccc;padding:6px;}
 .avater-box{width:180px;height:400px;float:left;}
 CSS;
 AppAsset::addCss($this, '/front/js/zoomify/zoomify.min.css');
