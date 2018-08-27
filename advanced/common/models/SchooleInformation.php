@@ -13,7 +13,7 @@ class SchooleInformation extends BaseModel
     
     public static $typeDesc = [
         CategoryType::FZLC => '发展历程',
-        CategoryType::SYFC => '社院风采',
+        CategoryType::SYFC => '亲切关怀',
         CategoryType::SZQK => '师资情况',
         CategoryType::XYJJ => '学院简介',
         CategoryType::XYDZ => '学院地址',
