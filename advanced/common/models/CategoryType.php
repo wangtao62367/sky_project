@@ -46,6 +46,11 @@ class CategoryType
     const XYDZ = 'xydz';
     //学员风采
     const XYFC = 'xyfc';  //人物
+    
+    //亲切关怀
+    const QQGH = 'qqgh';
+    //国务委员会
+    const GWWYH = 'gwwyh';
     //*****************新闻活动*************************
     //统战新闻
     const TZXW = 'tzxw';

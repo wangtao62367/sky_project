@@ -182,10 +182,12 @@ class Article extends BaseModel
     			self::tableName().'.createTime',
     			self::tableName().'.modifyTime',
     			self::tableName().'.remarks',
+    	        self::tableName().'.isRecommen',
+    	        self::tableName().'.titleImg'
     	])
     	->with('categorys')
     	->where([self::tableName().'.isDelete'=>0])
-    	->orderBy('ishot desc,sorts asc,publishTime desc');
+    	->orderBy('createTime desc'); //ishot desc,sorts asc,publishTime desc 又修改为按创建时间排序2018-08-27 16:25:00
     	return $query;
     }
     
@@ -202,9 +204,14 @@ class Article extends BaseModel
             $query = $query->andWhere(['in','categoryId',$search['categoryIds']]);
         }
         
-        if(is_numeric($search['isPublish'])){
+        if(isset($search['isPublish']) && is_numeric($search['isPublish'])){
             $query = $query->andWhere('isPublish = :isPublish',[':isPublish'=>$search['isPublish']]);
         }
+        
+        if(isset($search['isRecommen']) && is_numeric($search['isRecommen'])){
+            $query = $query->andWhere('isRecommen = :isRecommen',[':isRecommen'=>$search['isRecommen']]);
+        }
+        
         if(!empty($search['imgProvider'])){
             $query = $query->andWhere(['like','imgProvider',$search['imgProvider']]);
         }

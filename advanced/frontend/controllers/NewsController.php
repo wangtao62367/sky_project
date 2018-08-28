@@ -86,7 +86,8 @@ class NewsController extends CommonController
         //发展历程 | 社院风采 | 学院简介 | 学院地址 | 组织机构 | 智库简介（智库中心）
         if ($currentCate->cateCode == CategoryType::FZLC || $currentCate->cateCode == CategoryType::SYFC ||
             $currentCate->cateCode == CategoryType::XYJJ || $currentCate->cateCode == CategoryType::XYDZ || 
-            $currentCate->cateCode == CategoryType::ZZJG || $currentCate->cateCode == CategoryType::ZKZX){
+            $currentCate->cateCode == CategoryType::ZZJG || $currentCate->cateCode == CategoryType::ZKZX || 
+            $currentCate->cateCode == CategoryType::QQGH || $currentCate->cateCode == CategoryType::GWWYH){
                 
                 $info = SchooleInformation::findOne(['type'=>$currentCate->cateCode]);
                 
@@ -116,7 +117,8 @@ class NewsController extends CommonController
         //发展历程 | 社院风采 | 学院简介 | 学院地址 | 组织机构 | 智库简介（智库中心）
         if ($currentCate->cateCode == CategoryType::FZLC || $currentCate->cateCode == CategoryType::SYFC ||
             $currentCate->cateCode == CategoryType::XYJJ || $currentCate->cateCode == CategoryType::XYDZ ||
-            $currentCate->cateCode == CategoryType::ZZJG || $currentCate->cateCode == CategoryType::ZKZX){
+            $currentCate->cateCode == CategoryType::ZZJG || $currentCate->cateCode == CategoryType::ZKZX ||
+            $currentCate->cateCode == CategoryType::QQGH || $currentCate->cateCode == CategoryType::GWWYH){
                 
             $info = SchooleInformation::findOne(['type'=>$currentCate->cateCode]);
                 
