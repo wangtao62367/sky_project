@@ -8,6 +8,7 @@ use common\models\Article;
 use common\models\Category;
 use common\models\ArticleTag;
 use common\publics\ImageUpload;
+use common\models\ArticleRecommen;
 
 /**
  * @name 文章管理
@@ -165,6 +166,40 @@ class ArticleController extends CommonController
         $this->setResponseJson();
         $resutlt = Article::conllectDivContent($sourceLinke);
         return $resutlt;
+    }
+    
+    /**
+     * @desc 首页轮播推荐一
+     * @param int $id
+     * @return \yii\web\Response
+     */
+    public function actionRecommenOne(int $id)
+    {
+        ArticleRecommen::updateAll(['articleId' => $id],"code = 'one'");
+        
+        return $this->showSuccess('article/articles');
+    }
+    /**
+     * @desc 首页轮播推荐二
+     * @param int $id
+     * @return \yii\web\Response
+     */
+    public function actionRecommenTwo(int $id)
+    {
+        ArticleRecommen::updateAll(['articleId' => $id],"code = 'two'");
+        
+        return $this->showSuccess('article/articles');
+    }
+    /**
+     * @desc 首页轮播推荐三
+     * @param int $id
+     * @return \yii\web\Response
+     */
+    public function actionRecommenThree(int $id)
+    {
+        ArticleRecommen::updateAll(['articleId' => $id],"code = 'three'");
+        
+        return $this->showSuccess('article/articles');
     }
     
 }

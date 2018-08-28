@@ -34,22 +34,20 @@ $this->title = "首页_".$params['webCfgs']['siteName'];
 		</div>
 	</div>
 </div>
-
+<?php if(!empty($data['recommen'])):?>
 <div class="news-box2">
 	<div class="left news-img-box">
-		<?php if(!empty($data['recommen'])):?>
-		<a href="<?php echo Url::to(['news/detail','id'=> $data['recommen'][0]['id']])?>" title="<?php echo $data['recommen'][0]['title'];?>" ><img alt="<?php echo $data['recommen'][0]['title'];?>" src="<?php echo $data['recommen'][0]['titleImg'];?>" /></a>
-		<?php endif;?>
+		<a href="<?php echo Url::to(['news/detail','id'=> $data['recommen'][0]['article']['id']])?>" title="<?php echo $data['recommen'][0]['article']['title'];?>" ><img alt="<?php echo $data['recommen'][0]['article']['title'];?>" src="<?php echo $data['recommen'][0]['article']['titleImg'];?>" /></a>
 	</div>
 	<div class="left news-items">
 	<?php foreach ($data['recommen'] as $k=>$recommen):?>
 		
-		<div class="item <?php echo $k==0 ? 'selected' : '';?>" data-target-titleimg="<?php echo $recommen['titleImg'];?>" data-target-url="<?php echo Url::to(['news/detail','id'=> $recommen['id']])?>" data-target-title="<?php echo $recommen['title'];?>">
-			<img alt="" src="<?php echo $recommen['titleImg'];?>" style="display: none;">
-			<a href="<?php echo Url::to(['news/detail','id'=> $recommen['id']])?>" title="<?php echo $recommen['title'];?>" >
-			<h4 class="text-over"><?php echo $recommen['title'];?></h4>
+		<div class="item <?php echo $k==0 ? 'selected' : '';?>" data-target-titleimg="<?php echo $recommen['article']['titleImg'];?>" data-target-url="<?php echo Url::to(['news/detail','id'=> $recommen['article']['id']])?>" data-target-title="<?php echo $recommen['article']['title'];?>">
+			<img alt="" src="<?php echo $recommen['article']['titleImg'];?>" style="display: none;">
+			<a href="<?php echo Url::to(['news/detail','id'=> $recommen['article']['id']])?>" title="<?php echo $recommen['article']['title'];?>" >
+			<h4 class="text-over"><?php echo $recommen['article']['title'];?></h4>
 			<p>
-				<?php echo $recommen['summary'];?>
+				<?php echo $recommen['article']['summary'];?>
 			</p>
 			</a>
 		</div>
@@ -57,6 +55,7 @@ $this->title = "首页_".$params['webCfgs']['siteName'];
 	<?php endforeach;?>
 	</div>
 </div>
+<?php endif;?>
 
 <?php if(empty($params['webCfgs']['indexMainBanner1'])):?>
 	<img class="main-banner" src="/front/img/index/xiaoxun.jpg" />

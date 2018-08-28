@@ -187,7 +187,7 @@ class Article extends BaseModel
     	])
     	->with('categorys')
     	->where([self::tableName().'.isDelete'=>0])
-    	->orderBy('createTime desc'); //ishot desc,sorts asc,publishTime desc 又修改为按创建时间排序2018-08-27 16:25:00
+    	->orderBy('publishTime desc'); //2018-08-28 10:00:00后台新闻列表和前端新闻列表均按照发布时间进行排序，与其他因素无关。（取消现在的置顶、推荐、排序功能）；ishot desc,sorts asc,publishTime desc 又修改为按创建时间排序2018-08-27 16:25:00；
     	return $query;
     }
     
@@ -208,8 +208,12 @@ class Article extends BaseModel
             $query = $query->andWhere('isPublish = :isPublish',[':isPublish'=>$search['isPublish']]);
         }
         
-        if(isset($search['isRecommen']) && is_numeric($search['isRecommen'])){
-            $query = $query->andWhere('isRecommen = :isRecommen',[':isRecommen'=>$search['isRecommen']]);
+        if(isset($search['isTitleImg']) && is_numeric($search['isTitleImg'])){
+            if($search['isTitleImg'] == 0){
+                $query = $query->andWhere("titleImg = ''");
+            }else{
+                $query = $query->andWhere("titleImg <> ''");
+            }
         }
         
         if(!empty($search['imgProvider'])){

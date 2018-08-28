@@ -22,7 +22,7 @@ use common\models\CategoryType;
 		    <li><a href="<?php echo Url::to(['schoole/edit','type'=>CategoryType::FZLC])?>"><img src="/admin/images/i06.png"  width="65px"/></a><h2>发展历程</h2></li>
 		    <li><a href="<?php echo Url::to(['schoole/edit','type'=>CategoryType::ZZJG])?>"><img src="/admin/images/i06.png"/></a><h2>组织机构</h2></li> 
 		    <li><a href="<?php echo Url::to(['personage/manage','Personage[search][role]'=>'kzjs'])?>"><img src="/admin/images/i07.png" width="65px"/></a><h2>客座教授</h2></li>  
-		    <li><a href="<?php echo Url::to(['personage/manage','Personage[search][role]'=>'xrld'])?>"><img src="/admin/images/i07.png" width="65px"/></a><h2>现任领导</h2></li> 
+		    <li><a href="<?php echo Url::to(['schoole/edit','type'=>CategoryType::XRLD])?>"><img src="/admin/images/i06.png"/></a><h2>现任领导</h2></li> 
 		    <li><a href="<?php echo Url::to(['personage/manage','Personage[search][role]'=>'szqk'])?>"><img src="/admin/images/i07.png" width="65px"/></a><h2>师资情况</h2></li>  
 		    <li><a href="<?php echo Url::to(['personage/manage','Personage[search][role]'=>'xyfc'])?>"><img src="/admin/images/i07.png" width="65px"/></a><h2>学员风采</h2></li> 
 		    <li><a href="<?php echo Url::to(['schoole/edit','type'=>CategoryType::QQGH])?>"><img src="/admin/images/i06.png" width="65px"/></a><h2>亲切关怀</h2></li>  

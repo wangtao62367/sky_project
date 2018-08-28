@@ -52,6 +52,7 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
     	</div>
     </li>
     
+    <!-- 2018-08-28 修改： 后台新闻列表和前端新闻列表均按照发布时间进行排序，与其他因素无关。（取消现在的置顶、推荐、排序功能）
     <li>
     	<label>首页推荐<b>*</b></label>
     	<?php echo Html::activeRadioList($model, 'isRecommen', ['0'=>'否','1'=>'是'],['value'=>0]);?>
@@ -64,6 +65,8 @@ $url =Url::to([$controller->id.'/'.$controller->action->id, 'id' => $id]);
     </li>
     
     <li><label>排序<b>*</b></label><?php echo Html::activeInput('number',$model, 'sorts',['class'=>'dfinput'])?><i>数字越小排序越靠前</i></li>
+    
+     -->
     
     <li><label>是否发布<b>*</b></label>
     	<div class="vocation">

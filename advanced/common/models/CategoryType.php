@@ -35,7 +35,7 @@ class CategoryType
     //组织机构
     const ZZJG = 'zzjg';
     //现任领导
-    const XRLD = 'xrld';  //人物
+    const XRLD = 'xrld';  
     //客座教授
     const ZKJS = 'kzjs';  //人物
     //社院风采
@@ -49,7 +49,7 @@ class CategoryType
     
     //亲切关怀
     const QQGH = 'qqgh';
-    //国务委员会
+    //院务委员会
     const GWWYH = 'gwwyh';
     //*****************新闻活动*************************
     //统战新闻

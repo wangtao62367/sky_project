@@ -32,9 +32,9 @@ use backend\assets\AppAsset;
         </li>
         
         <li>
-            <label>是否推荐</label>  
+            <label>是否有主图</label>  
             <div class="vocation">
-                <?php echo Html::activeDropDownList($model, 'search[isRecommen]', ['0'=>'否','1'=>'是'],['prompt'=>'请选择','class'=>'sky-select'])?>
+                <?php echo Html::activeDropDownList($model, 'search[isTitleImg]', ['0'=>'无图','1'=>'有图'],['prompt'=>'请选择','class'=>'sky-select'])?>
             </div>
         </li>
         
@@ -59,6 +59,14 @@ use backend\assets\AppAsset;
     <?php echo Html::endForm();?>
 </div>
 
+<div class="warnning" style="margin-top: 15px">
+	<h4 class="title"><a href="javascript:;" class="closeTips"><i>-</i> 注意事项：</a></h4>
+	<ul>
+		<li>1、列表数据(包括前台新闻列表)统一按发布时间进行倒序排序</li>
+		<li>2、当前新闻文章已发布且已上传新闻主图，则可以设置为首页轮播推荐位(推荐一、推荐二、推荐三)；<i style="color: red">设置成功立即生效，直接替换上次对应推荐位的新闻 </i></li>
+	</ul>
+</div>
+
 <table class="tablelist">
 	<thead>
     	<tr>
@@ -73,9 +81,9 @@ use backend\assets\AppAsset;
             <th>是否发布</th>
             <th>发布时间</th>
             <th>是否有图片</th>
-            <th>是否推荐</th>
+            <!-- <th>是否推荐</th>
             <th>是否置顶</th>
-            <th>排序</th>
+            <th>排序</th> -->
             <th>院领导</th>
             <th>创建时间</th>
             <th>修改时间</th>
@@ -97,16 +105,23 @@ use backend\assets\AppAsset;
             <td><?php echo $val['readCount'];?></td>
             <td><?php echo $val['isPublish'] == 0 ?'未发布' : '已发布';?></td>
             <td><?php echo MyHelper::timestampToDate($val['publishTime']);?></td>
-            <td><?php echo !empty($val['titleImg']) ? '有' : '无' ;?> </td>
-            <td><?php echo $val['isRecommen'] == 1 ? '是' : '否' ;?> </td>
+            <td><?php echo !empty($val['titleImg']) ? '有图' : '无图' ;?> </td>
+            <!-- <td><?php echo $val['isRecommen'] == 1 ? '是' : '否' ;?> </td>
             <td><?php echo $val['ishot'] == 1 ? '是' : '否' ;?> </td>
-            <td><?php echo $val['sorts'] ;?> </td>
+            <td><?php echo $val['sorts'] ;?> </td> -->
             <td><?php echo $val['leader'] ;?> </td>
             <td><?php echo MyHelper::timestampToDate($val['createTime']);?></td>
             <td><?php echo MyHelper::timestampToDate($val['modifyTime']);?></td>
             <td class="handle-box">
             	<a href="<?php echo Url::to(['article/edit','id'=>$val['id']])?>" class="tablelink">编辑</a>    
              	<a href="<?php echo Url::to(['article/del','id'=>$val['id']])?>" class="tablelink"> 删除</a>
+             	
+             	<?php if(!empty($val['titleImg']) && $val['isPublish'] == 1):?>
+         			  <a href="<?php echo Url::to(['article/recommen-one','id'=>$val['id']])?>" class="tablelink">推荐一</a>     	
+             		  <a href="<?php echo Url::to(['article/recommen-two','id'=>$val['id']])?>" class="tablelink">推荐二</a> 
+             		  <a href="<?php echo Url::to(['article/recommen-three','id'=>$val['id']])?>" class="tablelink">推荐三</a> 
+             	<?php endif;?>
+         
             </td>
         </tr> 
         <?php endforeach;?>
