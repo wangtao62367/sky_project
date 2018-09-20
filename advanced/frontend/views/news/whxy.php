@@ -34,6 +34,9 @@ $this->title = '文化学院';
         	<?php endforeach;?>
 
         </ul>
+        <?php if(count($data['tzgs']) > 0):?>
+        <a class="more" href="<?php echo Url::to(['news/list-by-catecode','code'=>'tzgs']);?>" title="查看更多统战故事">&gt;&gt;更多</a>
+        <?php endif;?>
     </div>
     
     <div class="whxy-wxsh">
@@ -53,6 +56,9 @@ $this->title = '文化学院';
         	</li>
         	<?php endforeach;?>
         </ul>
+        <?php if(count($data['wxsh']) > 0):?>
+        <a class="more" href="<?php echo Url::to(['news/list-by-catecode','code'=>'wxsh']);?>" title="查看更多文学书画">&gt;&gt;更多</a>
+        <?php endif;?>
     </div>
 </div>
 <div class="whxy-news">
@@ -70,6 +76,9 @@ $this->title = '文化学院';
     <?php endif;?>
     <?php endforeach;?>
     </ul>
+    <?php if(count($data['whjl']) > 0):?>
+    <a class="more" href="<?php echo Url::to(['news/list-by-catecode','code'=>'whjl']);?>" title="查看更多文学交流">&gt;&gt;更多</a>
+    <?php endif;?>
     </div>
     <div class="whxy-whlt">
     <img class="title-img" alt="" src="/front/img/news/whxy_whlt.png">
@@ -85,9 +94,26 @@ $this->title = '文化学院';
     <?php endif;?>
     <?php endforeach;?>
     </ul>
+    <?php if(count($data['whlt']) > 0):?>
+    <a class="more" href="<?php echo Url::to(['news/list-by-catecode','code'=>'whlt']);?>" title="查看更多文化论坛">&gt;&gt;更多</a>
+    <?php endif;?>
     </div>
 </div>
 
 <?php 
 WhxyAsset::addCss($this, '/front/css/whxy.css');
+$css = <<<CSS
+.whxy-news .whxy-whjl, .whxy-news .whxy-whlt, .whxy-news .whxy-whgs, .whxy-news .whxy-wxsh {
+    position: relative;
+    overflow: visible;
+    height: 295px;
+}
+.more{
+    position:absolute;
+    right: 0;
+    bottom: 0;
+}
+.whxy-news a{color: #3B3B3B;}
+CSS;
+$this->registerCss($css);
 ?>
