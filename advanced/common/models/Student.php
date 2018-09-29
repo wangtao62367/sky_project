@@ -7,6 +7,7 @@ namespace common\models;
 
 
 use yii\db\ActiveQuery;
+use common\publics\MyHelper;
 
 class Student extends BaseModel
 {
@@ -44,6 +45,7 @@ class Student extends BaseModel
             $query = $this->filterSearch($this->search, $query);
         }
         $result = $this->query($query, $this->curPage, $this->pageSize);
+        //var_dump($result);
         return $result;
     }
     /**
@@ -109,9 +111,10 @@ class Student extends BaseModel
         if(isset($search['trueName']) && !empty($search['trueName'])){
             $query = $query->andWhere(['like',BmRecord::tableName().'.trueName',$search['trueName']]);
         }
-        /* if(isset($search['gradeClass']) && !empty($search['gradeClass'])){
-         $query = $query->andWhere(['like','gradeClass',$search['gradeClass']]);
-         } */
+        if(isset($search['gradeClass']) && !empty($search['gradeClass'])){
+            $query = $query->andWhere(['like',BmRecord::tableName().'.gradeClass',$search['gradeClass']]);
+        }
+        
         if(isset($search['sex']) && !empty($search['sex'])){
             $query = $query->andWhere(BmRecord::tableName().'.sex = :sex',[':sex'=>$search['sex']]);
         }
@@ -163,13 +166,13 @@ class Student extends BaseModel
         $objSheet->getDefaultStyle()->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER)->setVertical(\PHPExcel_Style_Alignment::VERTICAL_CENTER)->setWrapText(true);
         $objSheet->setTitle('学员列表');
         
-        $objSheet->setCellValue('A1','学号')->setCellValue('B1','姓名')->setCellValue('C1','所在班级')->setCellValue('D1','报名时间')->setCellValue('E1','联系电话')
-        ->setCellValue('F1','是否结业')->setCellValue('G1','优秀学员')->setCellValue('H1','性别')->setCellValue('I1','出生年月')
-        ->setCellValue('J1','民族')->setCellValue('K1','党派')->setCellValue('L1','级别')->setCellValue('M1','健康状况')
-        ->setCellValue('N1','文化程度')->setCellValue('O1','工作单位')->setCellValue('P1','职务或职称')->setCellValue('Q1','身份证号')->setCellValue('R1','市州');
+        $objSheet->setCellValue('A1','姓名')->setCellValue('B1','性别')->setCellValue('C1','名族')->setCellValue('D1','年龄')->setCellValue('E1','文化程度')
+        ->setCellValue('F1','政治面貌')->setCellValue('G1','工作单位及职务')->setCellValue('H1','电话号码')->setCellValue('I1','所在班级')
+        ->setCellValue('J1','学号')->setCellValue('K1','是否结业')->setCellValue('L1','优秀学员')->setCellValue('M1','报名时间')
+        ->setCellValue('N1','身份证号')->setCellValue('O1','市州');
         
         //设置填充的样式和背景色
-        $colTitle = $objSheet->getStyle('A1:R1');
+        $colTitle = $objSheet->getStyle('A1:O1');
         $colTitle->getFill()->setFillType(\PHPExcel_Style_Fill::FILL_SOLID);
         $colTitle->getFill()->getStartColor()->setARGB('b6cad2');
         $colTitle->getFont()->setBold(true);
@@ -182,41 +185,47 @@ class Student extends BaseModel
         $objSheet->freezePane('A2');
         
         //内容自适应
-        $objSheet->getColumnDimension('A')->setWidth(30);
-        $objSheet->getColumnDimension('B')->setWidth(20);
-        $objSheet->getColumnDimension('C')->setWidth(30);
-        $objSheet->getColumnDimension('D')->setWidth(20);
-        $objSheet->getColumnDimension('E')->setWidth(20);
-        $objSheet->getColumnDimension('F')->setWidth(10);
-        $objSheet->getColumnDimension('G')->setWidth(10);
-        $objSheet->getColumnDimension('H')->setWidth(10);
-        $objSheet->getColumnDimension('I')->setWidth(20);
-        $objSheet->getColumnDimension('J')->setWidth(10);
-        $objSheet->getColumnDimension('M')->setWidth(10);
-        $objSheet->getColumnDimension('O')->setWidth(10);
-        $objSheet->getColumnDimension('C')->setWidth(30);
-        $objSheet->getColumnDimension('K')->setWidth(30);
-        $objSheet->getColumnDimension('N')->setWidth(30);
-        $objSheet->getColumnDimension('O')->setWidth(50);
-        $objSheet->getColumnDimension('P')->setWidth(30);
-        $objSheet->getColumnDimension('Q')->setWidth(50);
-        $objSheet->getColumnDimension('R')->setWidth(30);
-        
+        $objSheet->getColumnDimension('A')->setWidth(25);
+        $objSheet->getColumnDimension('B')->setWidth(15);
+        $objSheet->getColumnDimension('C')->setWidth(20);
+        $objSheet->getColumnDimension('D')->setWidth(15);
+        $objSheet->getColumnDimension('E')->setWidth(15);
+        $objSheet->getColumnDimension('F')->setWidth(15);
+        $objSheet->getColumnDimension('G')->setWidth(50);
+        $objSheet->getColumnDimension('H')->setWidth(20);
+        $objSheet->getColumnDimension('I')->setWidth(30);
+        $objSheet->getColumnDimension('J')->setWidth(25);
+        $objSheet->getColumnDimension('K')->setWidth(8);
+        $objSheet->getColumnDimension('L')->setWidth(8);
+        $objSheet->getColumnDimension('M')->setWidth(25);
+        $objSheet->getColumnDimension('N')->setWidth(40);
+        $objSheet->getColumnDimension('O')->setWidth(20);
+
         $num = 2;
         foreach ($result as $val){
             $isEnd = strtotime($val['gradeclass']['closeClassTime'].' 23:59:59') < time() == 1 ? '是':'否';
             $isBest = $val['isBest'] == 1 ? '是':'否';
             $sex = $val['sex'] == 1 ? '男' : '女';
+            $age = MyHelper::getAge(strtotime($val['birthday']));
             $heath = BmRecord::$health_texts[$val['health']];
-            $objSheet->setCellValue('A'.$num,$val['studyNum'])->setCellValue('B'.$num,$val['trueName'])->setCellValue('C'.$num,$val['gradeClass'])->setCellValue('D'.$num,date('Y-m-d H:i:s',$val['bmCreateTime']))
-            ->setCellValue('E'.$num,$val['phone'])->setCellValue('F'.$num,$isEnd)->setCellValue('G'.$num,$isBest)->setCellValue('H'.$num,$sex)->setCellValue('I'.$num,$val['birthday'])
-            ->setCellValue('J'.$num,$val['nation'])->setCellValue('K'.$num,$val['political'])->setCellValue('L'.$num,$val['politicalGrade'])->setCellValue('M'.$num,$heath)
-            ->setCellValue('N'.$num,"".$val['eduDegree'])->setCellValue('O'.$num,$val['workplace'])->setCellValue('P'.$num,$val['workDuties'])->setCellValue('Q'.$num,$val['IDnumber'])
-            ->setCellValue('R'.$num,$val['citystate']);
+            $objSheet->setCellValue('A'.$num,$val['trueName'])
+            ->setCellValue('B'.$num,$sex)
+            ->setCellValue('C'.$num,$val['nation'])
+            ->setCellValue('D'.$num,$age)
+            ->setCellValue('E'.$num,$val['eduDegree'])
+            ->setCellValue('F'.$num,$val['political'])
+            ->setCellValue('G'.$num,$val['workplace'].' - '.$val['workDuties'])
+            ->setCellValue('H'.$num,$val['phone'])
+            ->setCellValue('I'.$num,$val['gradeClass'])
+            ->setCellValue('J'.$num,$val['studyNum'])
+            ->setCellValue('K'.$num,$isEnd)
+            ->setCellValue('L'.$num,$isBest)
+            ->setCellValue('M'.$num,date('Y-m-d H:i:s',$val['createTime']))
+            ->setCellValue('N'.$num,"".$val['IDnumber'])
+            ->setCellValue('O'.$num,$val['citystate']);
             
-            $objSheet->getStyle('A' . $num)->getNumberFormat()->setFormatCode("@");
-            $objSheet->getStyle('E' . $num)->getNumberFormat()->setFormatCode("@");
-            $objSheet->getStyle('Q' . $num)->getNumberFormat()->setFormatCode("@");
+            $objSheet->getStyle('J' . $num)->getNumberFormat()->setFormatCode("@");
+            $objSheet->getStyle('N' . $num)->getNumberFormat()->setFormatCode("@");
             $num ++;
         }
         
@@ -228,7 +237,7 @@ class Student extends BaseModel
     
     public function getBminfo()
     {
-        return $this->hasOne(BmRecord::className(), ['userId'=>'userId']);
+        return $this->hasOne(BmRecord::className(), ['userId'=>'userId','gradeClassId'=>'gradeClassId']);
     }
     
     public function getGradeclass()

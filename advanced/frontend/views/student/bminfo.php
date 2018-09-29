@@ -31,7 +31,7 @@ $this->title = '我要报名-查看报名信息';
     </div>
 
     <div class="text" >
-    	<div id="bminfoArea">
+    	<div id="bminfoArea" style="padding-top: 20px;">
     	<style>
             table {
                 border-collapse: collapse;
@@ -247,7 +247,11 @@ $this->title = '我要报名-查看报名信息';
     		
     	</div>	
     	<div style="width: 700px;margin:0 auto;text-align:center;margin-top:25px;margin-bottom:30px;">
-          <a href="javascript:;" class="print-btn">打印</a>
+    	  <?php if($info['verify'] > 0):?>
+          	<a href="javascript:;" class="print-btn">打印</a>
+          <?php else:?>
+          	<a href="<?php echo Url::to(['student/joinup','cid'=>$info['gradeClassId']]);?>" class="print-btn">重新申报</a>
+          <?php endif;?>
         </div>
     </div>
 </div>

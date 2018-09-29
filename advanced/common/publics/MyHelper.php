@@ -153,5 +153,32 @@ class MyHelper
     	return $opts[$index];  
     }
     
+    /**
+     * 计算年龄函数
+     * @param  $birthday 出生时间 uninx时间戳
+     * @param  $time 当前时间
+     **/
+    public static function getAge($birthday)
+    {
+         
+        $byear = date('Y',$birthday);
+        $bmonth = date('m',$birthday);
+        $bday  = date('d',$birthday);
+        
+        //格式化当前时间年月日
+        $tyear=date('Y');
+        $tmonth=date('m');
+        $tday=date('d');
+        
+        //开始计算年龄
+        $age=$tyear-$byear;
+        if($bmonth>$tmonth || $bmonth==$tmonth && $bday>$tday){
+            $age--;
+        }
+        return $age;
+        
+    }
+    
+    
    
 }

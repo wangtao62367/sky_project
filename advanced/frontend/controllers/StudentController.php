@@ -42,9 +42,10 @@ class StudentController extends CommonController
         }
         //查看当前班级已经报名的信息
         $userId = Yii::$app->user->id;
-        $bmRecords = BmRecord::find()->select('id,userId,verify')->where(['gradeClassId'=>$gradeClass->id])->asArray()->all();
-
-        if(!empty($bmRecords)){
+        //$bmRecords = BmRecord::find()->select('id,userId,verify')->where(['gradeClassId'=>$gradeClass->id])->asArray()->all();
+        //当前用户是否存在提交的报名信息，且审核未失败的
+        $existBm = BmRecord::find()->where(['gradeClassId'=>$gradeClass->id,'userId'=>$userId])->andWhere('verify > 0')->count();
+        if((bool)$existBm){
                //不限制班级人数
 //             $verifyCounts = array_count_values(array_column($bmRecords,"verify"));
 //             $sum = isset($verifyCounts[3]) ? $verifyCounts[3] : 0;
@@ -53,10 +54,12 @@ class StudentController extends CommonController
 //             	Yii::$app->session->setFlash('error','本班人数限额已满');
 //             }
             //判断是否已经报过名
-            $userIds = array_column($bmRecords,"userId");
-            if(in_array($userId, $userIds)){
-            	return $this->redirect(['user/center']);
-            }
+//             $userIds = array_column($bmRecords,"userId");
+//             if(in_array($userId, $userIds)){
+//             	return $this->redirect(['user/center']);
+//             }
+            
+            return $this->redirect(['user/center']);
         }
         $model = new BmRecord();
         $model->gradeClassId = $gradeClass->id;
