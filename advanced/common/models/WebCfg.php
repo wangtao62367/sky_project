@@ -27,6 +27,7 @@ class WebCfg extends BaseModel
         foreach ($webCfg as $val){
             $result[$val->name] = $val->value;
         }
+        
         return $result;
     }
     
@@ -125,6 +126,11 @@ class WebCfg extends BaseModel
                 self::updateAll(['value'=>$data['closeReasons']],['name'=>'closeReasons']);
             }
         }
+        
+        if(!empty($data['webStyle']) && $data['webStyle'] != $webCfgs['webStyle']){
+            self::updateAll(['value'=>$data['webStyle']],['name'=>'webStyle']);
+        }
+        
         if( !empty($_FILES) && isset($_FILES['files']) && !empty($_FILES['files']) ){
             $logoFile = $_FILES['files'];
             $oldFile = $webCfgs['logo'];

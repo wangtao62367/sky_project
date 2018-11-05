@@ -166,7 +166,7 @@ class Student extends BaseModel
         $objSheet->getDefaultStyle()->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER)->setVertical(\PHPExcel_Style_Alignment::VERTICAL_CENTER)->setWrapText(true);
         $objSheet->setTitle('学员列表');
         
-        $objSheet->setCellValue('A1','姓名')->setCellValue('B1','性别')->setCellValue('C1','名族')->setCellValue('D1','年龄')->setCellValue('E1','文化程度')
+        $objSheet->setCellValue('A1','姓名')->setCellValue('B1','性别')->setCellValue('C1','民族')->setCellValue('D1','年龄')->setCellValue('E1','文化程度')
         ->setCellValue('F1','政治面貌')->setCellValue('G1','工作单位及职务')->setCellValue('H1','电话号码')->setCellValue('I1','所在班级')
         ->setCellValue('J1','学号')->setCellValue('K1','是否结业')->setCellValue('L1','优秀学员')->setCellValue('M1','报名时间')
         ->setCellValue('N1','身份证号')->setCellValue('O1','市州');

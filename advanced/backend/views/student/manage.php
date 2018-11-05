@@ -81,7 +81,7 @@ use common\models\Student;
             <th>工作单位</th>
             <th>职称</th>
             <th>市州</th>
-            <th>党派</th>
+            <th>政治面貌</th>
             <th>报名时间</th>
             <th>优秀学员</th>
             <th>是否结业</th>

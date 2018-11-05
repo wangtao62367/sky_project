@@ -31,7 +31,7 @@ $this->title = '我要报名-查看报名信息';
     </div>
 
     <div class="text" >
-    	<div id="bminfoArea" style="padding-top: 20px;">
+    	<div id="bminfoArea" style="padding-top: 10px;">
     	<style>
             table {
                 border-collapse: collapse;
@@ -43,17 +43,17 @@ $this->title = '我要报名-查看报名信息';
                 border: 1px solid #333;
                 text-align:left;
                 padding-left:10px;
-                height:45px;
+                height:40px;
                 min-width:80px;
             }
-            table input,textarea{outline:none;border:none;padding:8px;box-sizing: border-box;min-width:200px;width:100%;height: 50px;}
+            table input,textarea{outline:none;border:none;padding:8px;box-sizing: border-box;min-width:200px;width:100%;height: 40px;}
             table .title{
                 font-weight:700;
                 text-align:center;
             }
             .avater-box{
-                width:120px;
-                height:120px;
+                width:160px;
+                height:240px;
                 margin:0 auto;
                 text-align:center;
                 line-height:120px;
@@ -63,7 +63,7 @@ $this->title = '我要报名-查看报名信息';
                 cursor: pointer;
             }
             
-            .bminfo .maxrow{height:100px;}
+            .bminfo .maxrow{height:60px;}
             .bminfo td .avater{display:block;margin: auto;border-radius: 5px;}
             td .verify-status{color:red;font-weight:700;}
         </style>
@@ -116,14 +116,14 @@ $this->title = '我要报名-查看报名信息';
 				
 				<td rowspan="3" style="padding-left:5px;padding-right:5px;">
 					<div class="avater-box" id="avater-upload">
-						<img width="120px" height="120px" src="<?php echo $info['avater'];?>" />
+						<img width="160px" height="240px" src="<?php echo $info['avater'];?>" />
 					</div>
 					<p class="form-error"></p>
 				</td>
 			</tr>
 			
 			<tr>
-				<td class="title">党派</td>
+				<td class="title">政治面貌</td>
 				<td>
 					<?php echo $info['political']?>
 				</td>
@@ -135,7 +135,7 @@ $this->title = '我要报名-查看报名信息';
 				
 				<td class="title">健康状况</td>
 				<td>
-					<?php echo BmRecord::$health_texts[$info['health']];?>
+					<?php echo $info['health'];?>
 				</td>
 			</tr>
 			

@@ -28,10 +28,10 @@ $url =Url::to(ArrayHelper::merge([$controller->id.'/'.$controller->action->id], 
 <style>
 table {border-collapse: collapse;width:700px;height:978px;margin:0 auto;}
 
-table, td, th {border: 1px solid #333;text-align:left;padding-left:10px;padding-top:5px;padding-bottom:5px;height:50px;min-width:80px;}
+table, td, th {border: 1px solid #333;text-align:left;padding-left:10px;padding-top:2px;padding-bottom:2px;height:40px;min-width:80px;}
 table input,textarea{outline:none;border:none;padding:8px;box-sizing: border-box;min-width:200px;width:100%;height: 50px;}
 table .title{font-weight:700;text-align:center;}
-.avater-box{width:120px;height:120px; margin:0 auto;text-align:center;line-height:120px;border:1px solid #333;border-style: dotted;border-radius: 5px;cursor: pointer;}
+.avater-box{width:160px;height:240px; margin:0 auto;text-align:center;line-height:120px;border:1px solid #333;border-style: dotted;border-radius: 5px;cursor: pointer;}
 
 table.studentInfo td.verifyForm{text-align: left}
 .verifyForm textarea{width: 700px;border: 1px solid #c5c59f;padding:2px;}
@@ -56,14 +56,14 @@ table.studentInfo td.verifyForm{text-align: left}
 				
 				<td rowspan="3">
 					<div class="avater-box" id="avater-upload">
-						<img width="120px" height="120px" src="<?php echo $info['avater'];?>" />
+						<img width="160px" height="240px" src="<?php echo $info['avater'];?>" />
 					</div>
 					<p class="form-error"></p>
 				</td>
 			</tr>
 			
 			<tr>
-				<td class="title">党派</td>
+				<td class="title">政治面貌</td>
 				<td>
 					<?php echo $info['political']?>
 				</td>
@@ -75,7 +75,7 @@ table.studentInfo td.verifyForm{text-align: left}
 				
 				<td class="title">健康状况</td>
 				<td>
-					<?php echo BmRecord::$health_texts[$info['health']];?>
+					<?php echo $info['health'];?>
 				</td>
 			</tr>
 			
@@ -228,10 +228,10 @@ AppAsset::addScript($this, '/admin/js/jquery.PrintArea.js');
 $css = <<<CSS
 table {border-collapse: collapse;width:890px;margin:0 auto;}
 
-table, td, th {border: 1px solid #333;text-align:left;padding-left:10px;padding-top:10px;padding-bottom:10px;height:60px;min-width:80px;}
+table, td, th {border: 1px solid #333;text-align:left;padding-left:10px;padding-top:2px;padding-bottom:2px;height:40px;min-width:80px;}
 table input,textarea{outline:none;border:none;padding:8px;box-sizing: border-box;min-width:200px;width:100%;height: 50px;}
 table .title{font-weight:700;text-align:center;}
-.avater-box{width:120px;height:120px; margin:0 auto;text-align:center;line-height:120px;border:1px solid #333;border-style: dotted;border-radius: 5px;cursor: pointer;}
+.avater-box{width:160px;height:240px; margin:0 auto;text-align:center;line-height:120px;border:1px solid #333;border-style: dotted;border-radius: 5px;cursor: pointer;}
 
 table.studentInfo td.verifyForm{text-align: left}
 .verifyForm textarea{width: 700px;border: 1px solid #c5c59f;padding:2px;}

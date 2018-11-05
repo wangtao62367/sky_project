@@ -19,7 +19,7 @@ $nations = Yii::$app->params['nations'];
 	<h2>注意事项：</h2>
 	<ul>
 		<li>1、请确认个人的报名信息正确并且真实有效</li>
-		<li>2、头像图片大小不能超过50KB，图片格式只能是 jpg、png或jpeg；建议图片大小为： 宽120像素 * 高120 像素</li>
+		<li>2、头像图片格式只能是 jpg、png或jpeg；建议图片大小为： 标准的2寸照片且不大于50KB</li>
 		<li>3、姓名中间请不要输入空格,填写后不能修改！<a>如姓名中含有生僻字或“·”，参见姓名中如何输入生僻字</a></li>
 	</ul>
 </div>
@@ -54,7 +54,7 @@ $nations = Yii::$app->params['nations'];
 			</tr>
 			
 			<tr>
-				<td class="title">党派</td>
+				<td class="title">政治面貌</td>
 				<td>
 					<?php echo Html::activeTextInput($model, 'political')?>
 				</td>
@@ -66,7 +66,7 @@ $nations = Yii::$app->params['nations'];
 				
 				<td class="title">健康状况</td>
 				<td>
-					<?php echo Html::activeDropDownList($model, 'health', ['1'=>'良好','2'=>'一般','3'=>'差'])?>
+					<?php echo Html::activeTextInput($model, 'health')?>
 				</td>
 			</tr>
 			
@@ -212,11 +212,11 @@ table.mytable td select{height:40px;width:90px}
     font-weight:700;
 }
 .avater-box{
-    width:120px;
-    height:120px;
+    width:160px;
+    height:240px;
     margin:0 auto;
     text-align:center;
-    line-height:120px;
+    line-height:240px;
     border:1px solid #333;
     border-style: dotted;
     border-radius: 5px;

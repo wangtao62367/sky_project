@@ -89,6 +89,11 @@ use backend\assets\AppAsset;
     </li>
     
     <li>
+    	<label>网站样式风格</label>
+    	<?php echo Html::radioList('webStyle',$webCfg['webStyle'],['default'=>'默认','black-and-white'=>'黑白'])?>
+    </li>
+    
+    <li>
     	<label>网站状态</label>
     	<?php echo Html::radioList('status',$webCfg['status'],['1'=>'开启','0'=>'关闭'])?>
     </li>
